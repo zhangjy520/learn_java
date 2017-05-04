@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="t.css"/>
+    <script src="jquery-1.7.2.js"></script>
+    <script src="html2canvas.js"></script>
+    <script type="text/javascript">
+        function test() {
+            html2canvas(document.querySelector("body"), {
+                onrendered: function (canvas) {
+                    var dataUrl = canvas.toDataURL('image/png');
+                    var formData = new FormData(); //模拟表单对象
+                    formData.append("imgData", convertBase64UrlToBlob(dataUrl)); //写入数据
+                    var xhr = new XMLHttpRequest(); //数据传输方法
+                    xhr.open("POST", "http://localhost:8080/pdf"); //配置传输方式及地址
+                    xhr.send(formData);
+                    xhr.onreadystatechange = function () { //回调函数
+                    };
+                }
+            });
+        }
+
+        function convertBase64UrlToBlob(urlData){
+            //去掉url的头，并转换为byte
+            var bytes=window.atob(urlData.split(',')[1]);
+            //处理异常,将ascii码小于0的转换为大于0
+            var ab = new ArrayBuffer(bytes.length);
+            var ia = new Uint8Array(ab);
+            for (var s = 0;s<bytes.length;s++){
+                ia[s] = bytes.charCodeAt(s);
+            }
+            return new Blob( [ab] , {type : 'image/png'});
+        }
+
+    </script>
+</head>
+<body style="margin: 0" onclick="test()">
+    <iframe id="test" style="width: 100%;" src="http://www.baidu.com" frameborder="0" scrolling="no" onload="this.height=100"></iframe>
+    <div style="width: 100%;height: 2000px">
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+        sdasda<br>
+    </div>
+</body>
+</html>
