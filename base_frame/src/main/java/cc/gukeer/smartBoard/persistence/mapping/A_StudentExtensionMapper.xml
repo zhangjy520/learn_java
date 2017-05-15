@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartBoard.persistence.dao.A_StudentExtensionMapper" >
+
+    <resultMap id="ExtensionBaseResultMap" type="cc.gukeer.smartBoard.persistence.entity.Student"
+               extends="cc.gukeer.smartBoard.persistence.dao.StudentMapper.BaseResultMap" >
+    </resultMap>
+
+    <select id="selectStudentByMac" resultMap="ExtensionBaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="cc.gukeer.smartBoard.persistence.dao.StudentMapper.Base_Column_List" />
+        from user_student
+        where zslb = #{mac,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>
