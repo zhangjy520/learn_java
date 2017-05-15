@@ -1,0 +1,20 @@
+package cn.gukeer.platform.persistence.dao;
+
+import cn.gukeer.platform.modelView.CourseClassView;
+import cn.gukeer.platform.persistence.entity.CourseClass;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * Created by LL on 2017/4/17.
+ */
+public interface A_CourseClassMapper {
+    int insertCourseClassBatch(List<CourseClass> courseClasses);
+
+    List<CourseClassView> findAllCourseTeacherBySchoolId(@Param("schoolId") String schoolId);
+
+    List<CourseClassView> findRefCourseClassByCycleIdCourseId(@Param("cycleId")String cycleId, @Param("courseId")String courseId);
+
+    void updateCourseClassByList(@Param("courseClassList")List<CourseClass> courseClassList);
+}

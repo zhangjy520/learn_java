@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_RefTeacherClassMapper">
+
+    <resultMap id="ExtensionBaseResultMap" type="cn.gukeer.platform.persistence.entity.TeacherClass"
+               extends="cn.gukeer.platform.persistence.dao.TeacherClassMapper.BaseResultMap">
+    </resultMap>
+
+    <select id="findMasterByClassIdListAndType" resultMap="ExtensionBaseResultMap" parameterType="java.util.List">
+        SELECT
+        *
+        FROM ref_teacher_class ref
+
+        WHERE ref.type =1
+        AND ref.cycle_id =#{cycleId}
+        AND ref.class_id IN
+        <foreach item="classId" index="index" collection="list" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </select>
+</mapper>

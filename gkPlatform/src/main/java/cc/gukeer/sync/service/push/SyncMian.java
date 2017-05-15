@@ -1,0 +1,255 @@
+package cc.gukeer.sync.service.push;
+
+import cc.gukeer.sync.dataDefinition.EventData;
+import cc.gukeer.sync.dataDefinition.EventType;
+import cc.gukeer.sync.persistence.dao.SyncBaseMapper;
+import cc.gukeer.sync.util.LineToCameUtil;
+import cc.gukeer.sync.util.PropertiesUtil;
+import cn.gukeer.common.utils.StringUtils;
+import cn.gukeer.common.utils.syncdata.MD5Util;
+import com.google.gson.*;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.poi.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessagePostProcessor;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.jms.*;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
+
+/**
+ * Created by lx on 2017/2/7.
+ */
+@Service
+public class SyncMian {
+    @Autowired
+    SyncBaseMapper syncBaseMapper;
+
+    //入口方法
+    //需要加事务
+    public Map<String, String> execute() {
+        //schema必须配置正确
+        Properties properties = PropertiesUtil.getProperties("/syncData.properties");
+        //数据库名称
+        String schema = properties.getProperty("sync.jdbc.schema");
+        //生成表前缀
+        String _tableNamePrefix = properties.getProperty("sync.mark.table.prefix");
+        //订阅该数据的系统的唯一标识
+        String _mark = properties.getProperty("sync.mark.plat.id");
+        String mark = _mark + ",";
+        String notLikeMark = "%" + _mark + ",%";
+        //同步表查询条件
+        String tableNamePrefix = _tableNamePrefix + "%";
+        List<String> tableNames = getTableNames(schema, tableNamePrefix);
+        for (String tableName : tableNames) {
+            //查询数据
+            List<Map<String, Object>> datas = getDatas(tableName, notLikeMark);
+            //获取数据的id集合
+            List<String> ids = new ArrayList<>();
+            for (Map<String, Object> data : datas) {
+                ids.add(data.get("id").toString());
+            }
+
+            if (datas.size() == 0) {
+                continue;
+            }
+            //序列化数据
+            Map<String, Object> datasJson = formatDatas(datas, tableName);
+
+            //推送数据
+            try {
+                if (!datasJson.get("insert").equals("false")) {
+                    pushdata(datasJson.get("insert"));
+                }
+                if (!datasJson.get("modify").equals("false")) {
+                    pushdata(datasJson.get("modify"));
+                }
+                if (!datasJson.get("delete").equals("false")) {
+                    pushdata(datasJson.get("delete"));
+                }
+            } catch (Exception e) {
+                //如果失败，则不标记同步过的数据，直接返回
+                break;
+            }
+            //标记已经同步过的数据
+            try {
+                identityDeletion(tableName, mark, ids, notLikeMark);
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+
+    //获取需要同步的表名
+    public List<String> getTableNames(String schema, String tableNamePrefix) {
+        List<String> tableNames = syncBaseMapper.getTableNames(schema, tableNamePrefix);
+        return tableNames;
+    }
+
+    //根据表名获取数据
+    public List<Map<String, Object>> getDatas(String tableName, String notLikeMark) {
+        List<Map<String, Object>> _datas = syncBaseMapper.getDatas(tableName, notLikeMark);
+        List<Map<String, Object>> datas = new ArrayList<>();
+        for (Map<String, Object> data : _datas) {
+            Map<String, Object> columnMap = new HashMap<>();
+            //一条数据的所有key值
+            Set<String> keySet = data.keySet();
+            Iterator<String> keyIterator = keySet.iterator();
+            while (keyIterator.hasNext()) {
+                String _column = keyIterator.next();
+                //列名转驼峰结构
+                String column = LineToCameUtil.underlineToCamel2(_column);
+                //过滤account为空的字段
+                if (tableName.equals("sync_teacher") || tableName.equals("sync_student") || tableName.equals("sync_patriarch")) {
+                    if (column.equals("account")) {
+                        if (StringUtils.isNotEmpty(data.get("account").toString())){
+                            columnMap.put("passAccount", "yes");
+                        }
+                    }
+                }
+                if (column.equals("syncDate")) {
+                    Timestamp _dataLong = (Timestamp) data.get(_column);
+                    Long dataLong = _dataLong.getTime();
+                    columnMap.put(column, dataLong + "");
+                } else {
+                    columnMap.put(column, data.get(_column));
+                }
+            }
+            if (tableName.equals("sync_teacher") || tableName.equals("sync_student") || tableName.equals("sync_patriarch")) {
+                if (columnMap.get("passAccount")!=null) {
+                        datas.add(columnMap);
+                }
+            } else {
+                datas.add(columnMap);
+            }
+        }
+        return datas;
+    }
+
+    //序列化数据
+    public Map<String, Object> formatDatas(List<Map<String, Object>> datas, String tableName) {
+        //封装插入数据
+        List<Map<String, Object>> insertDatas = new ArrayList<>();
+        //封装修改数据
+        List<Map<String, Object>> modifyDatas = new ArrayList<>();
+        //封装删除数据
+        List<Map<String, Object>> deleteDatas = new ArrayList<>();
+
+        //将datas按照事件拆分为三种不同的list
+        for (Map<String, Object> data : datas) {
+            if (data.get("event").equals(EventType.INSERT.name())) {
+                insertDatas.add(data);
+            }
+            if (data.get("event").equals(EventType.MODIFY.name())) {
+                modifyDatas.add(data);
+            }
+            if (data.get("event").equals(EventType.DELETE.name())) {
+                deleteDatas.add(data);
+            }
+        }
+        Map<String, Object> datasJson = new HashMap<>();
+        //封装插入数据
+        if (insertDatas.size() != 0) {
+            EventData insertEventData = new EventData();
+            insertEventData.setDataList(insertDatas);
+            insertEventData.setObjectKey(tableName);
+            insertEventData.setEvent(EventType.INSERT);
+            String insertDatasJson = eventDataToJson(insertEventData);
+            datasJson.put("insert", insertDatasJson);
+        } else {
+            datasJson.put("insert", "false");
+        }
+        //封装修改数据
+        if (modifyDatas.size() != 0) {
+            EventData modifyEventData = new EventData();
+            modifyEventData.setDataList(modifyDatas);
+            modifyEventData.setObjectKey(tableName);
+            modifyEventData.setEvent(EventType.MODIFY);
+            String modifyDatasJson = eventDataToJson(modifyEventData);
+            datasJson.put("modify", modifyDatasJson);
+        } else {
+            datasJson.put("modify", "false");
+        }
+
+        // 封装删除数据
+        if (deleteDatas.size() != 0) {
+            EventData deleteEventData = new EventData();
+            deleteEventData.setDataList(deleteDatas);
+            deleteEventData.setObjectKey(tableName);
+            deleteEventData.setEvent(EventType.DELETE);
+            String deleteDatasJson = eventDataToJson(deleteEventData);
+            datasJson.put("delete", deleteDatasJson);
+        } else {
+            datasJson.put("delete", "false");
+        }
+        return datasJson;
+    }
+
+    //转json
+    public String eventDataToJson(EventData eventData) {
+       /* Gson gson = new GsonBuilder().disableHtmlEscaping().create();*/
+        Gson gson = new Gson();
+        String datasJson = gson.toJson(eventData);
+        return datasJson;
+    }
+
+    //标记已经同步过的数据
+    public void identityDeletion(String tableName, String mark, List<String> ids, String notLikeMark) {
+        syncBaseMapper.identityDeletion(tableName, mark, ids, notLikeMark);
+    }
+
+    //转化时间
+    public String makeTime(Long time) {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat fmt = new SimpleDateFormat(format);
+        String timeString = fmt.format(time);
+        return timeString;
+    }
+
+    //推送数据
+    public String pushdata(Object messageContent) {
+        Properties prop = PropertiesUtil.getProperties("/syncData.properties");
+        String AGENT = prop.getProperty("agent");
+        String ACCESSKEY = prop.getProperty("accesskey");
+        String property = "userId:1";
+        Map<String, Object> generateSignParams = new HashMap<String, Object>();
+        generateSignParams.put("agent", AGENT);
+        generateSignParams.put("accesskey", ACCESSKEY);
+        generateSignParams.put("rand", RandomStringUtils.randomAlphanumeric(8));
+        generateSignParams.put("time", new Date().getTime());
+        generateSignParams.put("data", messageContent);
+
+        //生成签名
+        String sign = MD5Util.go(AGENT + ACCESSKEY + generateSignParams.get("rand").toString() + messageContent.toString() + generateSignParams.get("time").toString());
+        System.out.println("签名是+++++++++++" + sign);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("rand", generateSignParams.get("rand"));
+        params.put("sign", sign);
+        params.put("time", generateSignParams.get("time"));
+        params.put("property", property);
+        params.put("agent", generateSignParams.get("agent"));
+        params.put("datas", messageContent);
+        send(params);
+        return null;
+    }
+
+    @Resource(name = "jmsTemplate")
+    private JmsTemplate jmsTemplate;
+
+    public void send(final Map<String, Object> message) {
+        jmsTemplate.convertAndSend(message, new MessagePostProcessor() {
+            @Override
+            public Message postProcessMessage(Message message) throws JMSException {
+                message.setJMSDeliveryMode(DeliveryMode.PERSISTENT);
+                message.setJMSCorrelationID("gkpltaform");
+                return message;
+            }
+        });
+    }
+
+}

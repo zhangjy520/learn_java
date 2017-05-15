@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_GradeClassMapper">
+
+    <resultMap id="BaseResultMap" type="cn.gukeer.platform.persistence.entity.GradeClass"
+               extends="cn.gukeer.platform.persistence.dao.GradeClassMapper.BaseResultMap">
+    </resultMap>
+    <!--根据用户拥有的classId集合查询拥有的年级，班级信息-->
+    <select id="findGradeClassBySectionIdAndNj" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT * FROM
+        org_grade_class class
+        WHERE class.xd IN
+        <foreach collection="list" item="a_courseClassHour" index="index"  open="(" separator="," close=")">
+            (
+            #{a_courseClassHour.sectionId}
+            )
+        </foreach>
+
+    </select>
+</mapper>

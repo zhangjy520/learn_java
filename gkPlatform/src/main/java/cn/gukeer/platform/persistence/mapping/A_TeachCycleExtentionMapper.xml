@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_TeachCycleExtentionMapper">
+<!--D:\develop\PorjectAndCode\ProjectCodes\git\gkPlatform\src\main\java\cn\gukeer\platform\modelView\BZRView.java-->
+    <resultMap id="ExtensionBaseResultMap" type="cn.gukeer.platform.modelView.BanjiView">
+        <result column="bh" property="bh" jdbcType="INTEGER"/>
+        <result column="nj" property="nj" jdbcType="INTEGER"/>
+        <result column="cycle_id" property="cycleId" jdbcType="VARCHAR"/>
+        <result column="teacher_id" property="teacherId" jdbcType="VARCHAR"/>
+        <result column="class_id" property="classId" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        class.id,class.nj,class.bh,cycle.teachYear ，cycle.semester,rtc.type,t.id,t.name
+    </sql>
+    <select id="findTeacherByCycleIdAndClassId" resultMap="ExtensionBaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"></include>
+        from org_grade_class class ,org_teach_cycle cycle ,ref_teacehr_class rtc,user_teacher t
+        where class.class_id = rtc.class_id
+        and rtc.teacher_id = t.id
+        and rtc.cycle_id  = cycle.id
+        /*and rtc.cycle_id = #{schoolId,jdbcType=INTEGER}*/
+        <if test='classId != null and classId!="0" and classId !=""'>
+            and rtc.class_id = #{classId}
+        </if>
+        <if test='classId != null and classId!="0" and classId !=""'>
+            and rtc.class_id = #{teachCycleId}
+        </if>
+        /*and a.xsxm LIKE #{name,jdbcType=VARCHAR}
+        and a.del_flag = 0
+        and b.del_flag = 0*/
+    </select>
+</mapper>

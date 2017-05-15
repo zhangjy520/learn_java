@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_TeacherExtensionMapper">
+
+    <resultMap id="ExtensionBaseResultMap" type="cn.gukeer.platform.modelView.TeacherView"
+               extends="cn.gukeer.platform.persistence.dao.TeacherMapper.BaseResultMap"/>
+
+    <select id="selectTeacherViewByParam" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        t.`id`,
+        t.`school_id`,
+        s.`name` AS schoolName,
+        t.`name`,
+        t.`quan_pin` AS quanPin,
+        t.`gender`,
+        t.`identity`,
+        t.`account` AS account,
+        t.`is_manage` AS isManage,
+        t.`no`,
+        t.`phone`,
+        t.`mobile`,
+        t.`email`,
+        t.`bgsdh` as workPhone,
+        t.`start_work` AS startWork,
+        t.`create_by`,
+        t.`create_date`,
+        t.`update_by`,
+        t.`update_date`,
+        t.`remarks`,
+        t.`del_flag`
+        FROM user_teacher t,org_school s WHERE
+        t.`school_id`=s.`id` and t.del_flag=0
+        AND t.`school_id`=#{schoolId}
+        <if test="teacherId != null and teacherId!=-1">
+            AND t.`id`=#{teacherId}
+        </if>
+        <if test="teacherName != null and teacherName!=''">
+            AND t.`name` like #{teacherName}
+        </if>
+        ORDER BY t.`create_date` DESC
+    </select>
+
+
+    <update id="createAccount" parameterType="String">
+      UPDATE `user_teacher`
+        SET `account` = `quan_pin`
+        WHERE school_id = #{schoolId } AND account IS NULL
+    </update>
+
+    <select id="selectByClassId" resultMap="ExtensionBaseResultMap">
+        SELECT * from user_teacher t1
+        where t1.id in
+        (
+        select t2.teacher_id from ref_teacher_class t2
+        where t2.class_id = #{classId}
+        and t2.type = #{type}
+        )
+        and t1.del_flag = 0
+    </select>
+
+    <insert id="saveTeacherClass">
+        INSERT INTO ref_teacher_class
+        VALUES (#{teacherId},#{type},#{classId})
+    </insert>
+
+    <delete id="delTeacherClass">
+        DELETE from ref_teacher_class
+        where teacher_id = #{teacherId} and type = #{type} and class_id = #{classId};
+    </delete>
+
+
+    <insert id="insertTeacherBatch">
+        INSERT INTO `user_teacher`
+        (`id`,
+        `school_id`,
+        `department_id`,
+        `name`,
+        `quan_pin`,
+        `gender`,
+        `identity`,
+        `account`,
+        `is_manage`,
+        `role_id`,
+        `title_id`,
+        `no`,
+        `phone`,
+        `mobile`,
+        `email`,
+        `start_work`,
+        `head_url`,
+        `create_by`,
+        `create_date`,
+        `update_by`,
+        `update_date`,
+        `remarks`,
+        `high_time`,
+        `high_job`,
+        `zc`,
+        `pzxx`,
+        `address`,
+        `ggjsjb`,
+        `htkssj`,
+        `htjssj`,
+        `cym`,
+        `jtyb`,
+        `sfzrjs`,
+        `salary`,
+        `jg`,
+        `zzmm`,
+        `cjgzsj`,
+        `ysbysj`,
+        `rjxk`,
+        `sf`,
+        `wysp`,
+        `zgxz`,
+        `xwsl`,
+        `rjxkjb`,
+        `xq`,
+        `gwflf`,
+        `zgxl`,
+        `zgbyxx`,
+        `yzy`,
+        `pzsj`,
+        `lwxsj`,
+        `zzdh`,
+        `gzgw`,
+        `bgsdh`,
+        `sfhq`,
+        `sfbzr`,
+        `wyyz`,
+        `yxz`,
+        `zgxw`,
+        `zyjsgwfl`,
+        `szjb`,
+        `gzgwf`,
+        `del_flag`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.schoolId},#{item.departmentId},#{item.name},#{item.quanPin},#{item.gender},
+            #{item.identity},#{item.account},#{item.isManage},#{item.roleId},#{item.titleId},#{item.no},
+            #{item.phone},#{item.mobile},#{item.email},#{item.startWork},#{item.headUrl},#{item.createBy},
+            #{item.createDate},#{item.updateBy},#{item.updateDate},#{item.remarks},#{item.highTime},#{item.highJob},
+            #{item.zc},#{item.pzxx},#{item.address},#{item.ggjsjb},#{item.htkssj},#{item.htjssj},
+            #{item.cym},#{item.jtyb},#{item.sfzrjs},#{item.salary},#{item.jg},#{item.zzmm},
+            #{item.cjgzsj},#{item.ysbysj},#{item.rjxk},#{item.sf},#{item.wysp},#{item.zgxz},
+            #{item.xwsl},#{item.rjxkjb},#{item.xq},#{item.gwflf},#{item.zgxl},#{item.zgbyxx},
+            #{item.yzy},#{item.pzsj},#{item.lwxsj},#{item.zzdh},#{item.gzgw},#{item.bgsdh},
+            #{item.sfhq},#{item.sfbzr},#{item.wyyz},#{item.yxz},#{item.zgxw},#{item.zyjsgwfl},
+            #{item.szjb},#{item.gzgwf},#{item.delFlag}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectTeacherNameLike" resultMap="ExtensionBaseResultMap">
+        SELECT * FROM user_teacher t WHERE t.name LIKE #{teacherName} AND t.del_flag=0
+        <if test="schoolId != null and schoolId!=''">
+            AND school_id = #{schoolId}
+        </if>
+        ORDER BY t.`create_date` DESC
+    </select>
+
+    <select id="selectBatchTeachers" resultMap="ExtensionBaseResultMap" parameterType="java.util.List">
+        SELECT * FROM user_teacher
+        <if test="idList != null and idList.size() > 0">
+            WHERE 1=1
+            <if test="schoolId != null and schoolId!=''">
+                AND school_id = #{schoolId}
+            </if>
+            AND del_flag = 0 AND id IN
+            <foreach item="id" index="index" collection="idList" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="teacherListView" resultType="java.util.Map" parameterType="java.util.List">
+        SELECT * FROM v_teacher_school v WHERE v.`delFlag`=0
+        <if test="schoolId != null and schoolId!=''">
+            AND v.`schoolId` = #{schoolId}
+        </if>
+        <if test="currentSchoolId != null and currentSchoolId!=''">
+            AND v.`schoolId` &lt;&gt; #{currentSchoolId} AND v.`schoolParentId` = #{currentSchoolId}
+        </if>
+        AND NAME LIKE #{teacherName}
+    </select>
+
+    <select id="selectByByTYSC" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        t.`id`,
+        t.`school_id`,
+        s.`name` AS schoolName,
+        t.`name`,
+        t.`quan_pin` AS quanPin,
+        t.`gender`,
+        t.`identity`,
+        t.`account` AS account,
+        t.`is_manage` AS isManage,
+        t.`no`,
+        t.`phone`,
+        t.`mobile`,
+        t.`email`,
+        t.`bgsdh` as workPhone,
+        t.`start_work` AS startWork,
+        t.`create_by`,
+        t.`create_date`,
+        t.`update_by`,
+        t.`update_date`,
+        t.`remarks`,
+        t.`del_flag`
+        FROM user_teacher t,org_school s WHERE
+        t.`school_id`=s.`id` and t.del_flag=0
+        AND t.`school_id`=#{schoolId}
+        <if test="teacherId != null and teacherId!=-1">
+            AND t.`id`=#{teacherId}
+        </if>
+        <if test="teacherName != null and teacherName!=''">
+            AND t.`name` like #{teacherName}
+        </if>
+        ORDER BY t.`create_date` DESC
+    </select>
+
+    <select id="teacherReport" resultType="java.util.Map">
+        SELECT
+        SUM(CASE WHEN gender='1' THEN 1 ELSE 0 END) man,
+        SUM(CASE WHEN gender='2' THEN 1 ELSE 0 END) woman,
+        SUM(CASE WHEN zzmm='其他' OR zzmm IS NULL THEN 1 ELSE 0 END) zzmm1,
+        SUM(CASE WHEN zzmm='中共党员' THEN 1 ELSE 0 END) zzmm2,
+        SUM(CASE WHEN zzmm='共青团员' THEN 1 ELSE 0 END) zzmm3,
+        SUM(CASE WHEN zzmm='群众' THEN 1 ELSE 0 END) zzmm4,
+        SUM(CASE WHEN zgxl ='小学' OR zgxl IS NULL THEN 1 ELSE 0 END) xl1,
+        SUM(CASE WHEN zgxl ='初中' THEN 1 ELSE 0 END) xl2,
+        SUM(CASE WHEN zgxl ='中职/高中' THEN 1 ELSE 0 END) xl3,
+        SUM(CASE WHEN zgxl ='专科' THEN 1 ELSE 0 END) xl4,
+        SUM(CASE WHEN zgxl ='本科' THEN 1 ELSE 0 END) xl5,
+        SUM(CASE WHEN zgxl ='硕士研究生' THEN 1 ELSE 0 END) xl6,
+        SUM(CASE WHEN zgxl ='博士研究生' THEN 1 ELSE 0 END) xl7,
+        (SELECT COUNT(*) FROM user_teacher u1 WHERE u1.`school_id` = #{loginSchoolId})AS countp,
+        COUNT(*) countAll
+        FROM user_teacher u WHERE u.`school_id` IN
+        <foreach item="school" index="index" collection="allSchool" open="(" separator="," close=")">
+            #{school.id}
+        </foreach>
+    </select>
+
+    <!--&lt;!&ndash;查询所有班主任的方法&ndash;&gt;-->
+    <!--<select id="finaAllMasterByParam" resultMap="ExtensionBaseResultMap" parameterType="java.util.Map">-->
+        <!--SELECT c.`name`,t.`name`-->
+        <!--FROM org_grade_class c,ref_teacher_class ref,user_teacher t-->
+        <!--WHERE c.id = ref.class_id AND t.id = ref.teacher_id-->
+        <!--AND c.`id` = #{njId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId}-->
+    <!--</select>-->
+
+
+    <select id="findTeacherByName" resultMap="ExtensionBaseResultMap">
+        SELECT *
+        FROM user_teacher ut
+        WHERE ut.name LIKE  concat('%',#{name},'%')
+        AND ut.`school_id` = #{schoolId}
+    </select>
+</mapper>

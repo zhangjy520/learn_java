@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_MasterMapper">
+
+    <resultMap id="BaseResult" type="cn.gukeer.platform.modelView.BZRView">
+        <result column="cname" property="className" jdbcType="VARCHAR"/>
+        <result column="class_id" property="classId" jdbcType="VARCHAR"/>
+        <result column="tname" property="teacherName" jdbcType="VARCHAR"/>
+        <result column="teacher_id" property="teacherId" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="csname" property="xdName" jdbcType="VARCHAR"/>
+        <result column="no" property="teacherNo" jdbcType="VARCHAR"/>
+        <result column="nj" property="nj" jdbcType="INTEGER"/>
+        <result column="tname" property="courseTeacher" jdbcType="VARCHAR"/>
+        <result column="courseId" property="courseId" jdbcType="VARCHAR"/>
+        <result column="tcname" property="courseName" jdbcType="VARCHAR"/>
+        <result column="refId" property="courseClassId" jdbcType="VARCHAR"/>
+        <result column="csId" property="sectionId" jdbcType="VARCHAR"/>
+        <result column="cycleId" property="cycleId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有班主任的方法-->
+    <select id="getAllMasterByGradeClassIds" resultMap="BaseResult" parameterType="java.util.List">
+        SELECT c.`name` AS cname,c.id AS cid,t.id,t.`name` AS tname,ref.`class_id`,ref.`teacher_id`,ref.type,ref.cycle_id AS cycleId,cs.id AS
+        csId,cs.name AS csname
+        FROM
+        org_grade_class c LEFT JOIN org_class_section cs ON cs.`id`=c.`xd`,
+        ref_teacher_class ref ,user_teacher t
+        WHERE c.`id` =ref.class_id AND t.id = ref.teacher_id
+        AND  c.xd = #{xdId} AND c.nj = #{nj}
+        AND c.id IN
+        <foreach collection="classIdList" item="classId" index="index" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </select>
+
+
+    <select id="findClassNameByXdAndClassId" resultMap="BaseResult">
+       SELECT c.id,c.name as cname ,cs.name as csname
+       FROM org_grade_class c
+       LEFT JOIN org_class_section cs ON c.xd = cs.id
+        WHERE c.id=#{classId} AND cs.id=#{xd}
+    </select>
+
+    <!--老师的搜索功能查询-->
+    <select id="findteacherByNameAndSchoolICycleId" resultMap="BaseResult">
+         SELECT
+         c.`name` AS cname,c.id,c.nj,t.id,t.`name` AS tname,t.no,ref.`class_id`,ref.`teacher_id`,ref.type,cs.name AS csname
+        FROM
+        org_grade_class c LEFT JOIN org_class_section cs ON c.xd =cs.id AND cs.`school_id` = #{schoolId},
+        ref_teacher_class ref,user_teacher t
+        WHERE c.id = ref.class_id AND t.id = ref.teacher_id
+        AND ref.`cycle_id` = #{cycleId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId}
+        AND t.name LIKE #{name}
+    </select>
+
+    <select id="findAllCourseTeacherBycourseClassList" resultMap="BaseResult" parameterType="java.util.List">
+        SELECT
+        c.`name` AS cname,c.id,c.nj,c.xd,t.id,t.`name` AS tname,t.no,ref.`class_id`,ref.`teacher_id`,ref.id as
+        refId,ref.course_id AS courseId,cs.name as csname,tc.id,tc.name AS tcname
+        FROM
+        org_grade_class c LEFT JOIN org_class_section cs ON c.xd =cs.id,
+        teach_ref_course_class ref,user_teacher t,teach_course tc
+        WHERE c.id = ref.class_id AND t.id = ref.teacher_id
+        AND tc.id = ref.course_id
+        AND ref.course_id IN
+        <foreach collection="courseClassList" item="courseClass" index="index" open="(" separator="," close=")">
+            (#{courseClass.courseId})
+        </foreach>
+    </select>
+
+    <select id="findCourseTeacherByCycleIdAndSchoolIdAndName" resultMap="BaseResult"
+            parameterType="java.util.List">
+        SELECT
+          c.`name` AS cname,c.id,c.nj,c.xd,t.id,t.`name` AS tname,t.no,ref.`class_id`,ref.`teacher_id`,ref.id as
+    refId,ref.course_id AS courseId,cs.name as csname,tc.id,tc.name AS tcname
+        FROM
+        org_grade_class c LEFT JOIN org_class_section cs ON c.xd =cs.id AND cs.`school_id` = #{schoolId},
+    teach_ref_course_class ref,user_teacher t,teach_course tc
+        WHERE c.id = ref.class_id AND t.id = ref.teacher_id
+        AND c.`cycle_id` = #{cycleId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId} and tc.school_id=#{schoolId}
+        AND t.name LIKE #{name}
+
+    </select>
+
+    <insert id="insertBatchTeacherClass">
+        INSERT INTO `ref_teacher_class`
+        ( id,
+        cycle_id,
+        `class_id`,
+        `teacher_id`,
+        `type`
+        )
+        values
+        <foreach collection="correctTeacherClassList" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.cycleId},#{item.classId},#{item.teacherId},#{item.type}
+            )
+        </foreach>
+    </insert>
+
+    <!--修改班主任的-->
+    <update id="batchUpdateTeacherClass" parameterType="java.util.List">
+        UPDATE ref_teacher_class
+        /* SET teacher_id =*/
+        <foreach collection="TeacherClassList" item="TeacherClass" index="index-1" separator=",">
+            /*when #{TeacherClass.classId,jdbcType=VARCHAR} then #{TeacherClass.teacherId,jdbcType=VARCHAR}*/
+            <set>
+                teacher_id =${TeacherClass.teacherId}
+            </set>
+        </foreach>
+        WHERE class_id=${classId}
+
+    </update>
+
+
+    <select id="findAllCourseTeacherBycourseClassIdList" resultMap="BaseResult" parameterType="java.util.List">
+        SELECT
+        c.`name` AS cname,c.id,c.nj,c.xd,t.id,t.`name` AS tname,t.no,ref.`class_id`,ref.`teacher_id`,ref.id as
+        refId,ref.course_id AS courseId,cs.name as csname,tc.id,tc.name AS tcname
+        FROM
+        org_grade_class c LEFT JOIN org_class_section cs ON c.xd =cs.id,
+        teach_ref_course_class ref,user_teacher t,teach_course tc
+        WHERE c.id = ref.class_id AND t.id = ref.teacher_id
+        AND tc.id = ref.course_id
+        AND ref.course_id IN
+        <foreach collection="courseIdList" item="courseId" index="index" open="(" separator="," close=")">
+            (#{courseId})
+        </foreach>
+    </select>
+
+</mapper>

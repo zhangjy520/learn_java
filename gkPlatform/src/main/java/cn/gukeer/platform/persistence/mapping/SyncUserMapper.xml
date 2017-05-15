@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.SyncUserMapper" >
+  <resultMap id="BaseResultMap" type="cn.gukeer.platform.persistence.entity.sync.SyncUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ref_id" property="refId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+    <result column="login_flag" property="loginFlag" jdbcType="INTEGER" />
+    <result column="login_mark" property="loginMark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="event" property="event" jdbcType="VARCHAR" />
+    <result column="versions" property="versions" jdbcType="INTEGER" />
+    <result column="sync-date" property="syncDate" jdbcType="BIGINT" />
+    <result column="sync_del_flag" property="syncDelFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="findInsertSyncUser" resultMap="BaseResultMap" >
+   select * from sync_user where event='INSERT' AND sync_del_flag = 0;
+  </select>
+  
+  <select id="findModifySyncUser" resultMap="BaseResultMap" >
+   select * from sync_user where event='MODIFY' AND sync_del_flag = 0;
+  </select>
+  
+   <select id="findDeleteSyncUser" resultMap="BaseResultMap" >
+   select * from sync_user where event='DELETE' AND sync_del_flag = 0;
+  </select>
+  
+   <update id="deleteUsered"  >
+   update  sync_user set sync_del_flag = '1'  where sync_del_flag = 0 AND id in
+   <foreach collection="list" item="id" open="(" close=")" separator="," >
+   #{id}
+   </foreach>
+   ;
+  </update>
+  
+</mapper>

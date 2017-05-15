@@ -1,0 +1,240 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/headerXf.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>班主任管理</title>
+    <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
+</head>
+<style>
+    .stu-num-manage-menu > div {
+        display: inline-block;
+    }
+
+    .row {
+        margin: auto;
+        padding: 0 !important;
+    }
+
+    .search-box select {
+        height: 30px;
+    }
+
+    .searchh {
+        float: right;
+        margin-top: 30px;
+    }
+
+    .searchh button:after {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 8px;
+        left: 10px;
+        background: url(../../../assetsNew/images/icon-2.png) no-repeat -1px -65px
+    }
+
+    .searchh button {
+        float: right;
+        height: 30px;
+        background: #54ab37;
+        width: 35px;
+        position: relative;
+        border: 1px solid #54ab37;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px
+    }
+
+    .searchh input {
+        float: right;
+        height: 30px;
+        border: 1px solid #dadada;
+        border-right: 0;
+        width: 152px;
+        padding-left: 5px;
+        outline: 0
+    }
+
+    #generated {
+        padding-top: 20px;
+    }
+
+    .but {
+        padding-left: 15px;
+    }
+
+
+</style>
+<body>
+<%@ include file="../common/sonHead/teachTaskHead.jsp" %>
+<main class="container" id="zh-manage">
+    <div class="stu-num-manage-menu">
+        <div class="stu-num-manage-menu" style="display: inline-block">
+            学年：
+            <select name="cycleYear" style="height: 30px;" class="cycleYear">
+                <c:forEach items="${cycleList}" var="teachCycle" varStatus="status">
+                    <option name="cycleYear" <c:if test="${cycleYear eq teachCycle.cycleYear}">selected</c:if>
+                            value="${teachCycle.cycleYear}" class="cycleYear">${teachCycle.cycleYear}</option>
+                </c:forEach>
+            </select>
+            学期：
+            <select name="cycleSemester" style="height: 30px;" class="cycleSemester">
+                <option name="cycleSemester" class="cycleSemester1" value="1">第一学期
+                </option>
+                <option name="cycleSemester" class="cycleSemester2" value="2">第二学期
+                </option>
+            </select>
+        </div>
+        <div class="row searchh">
+            <input type="hidden" id="searchHidden" value="${teacherName}"/>
+            <button class="summitButton" onclick="searchTeacher()"></button>
+            <input class="searchInput" type="text" name="zhiGong" placeholder="请输入老师姓名"/>
+        </div>
+    </div>
+    <section id="generated" class="row">
+        <div class="row">
+            <table class="normal">
+                <thead>
+                <tr>
+                    <th width="5%">序号</th>
+                    <th>姓名</th>
+                    <th>教职工号</th>
+                    <th>安排详情</th>
+                    <th>所在学段</th>
+                    <th>所在年级</th>
+                    <th>所在班级</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${bzrViewList}" var="BZR" varStatus="status">
+                    <tr>
+                        <td>${status.count}</td>
+                        <td>${BZR.teacherName}</td>
+                        <td>${BZR.teacherNo}</td>
+                        <td>
+                            <c:if test="${BZR.type ==1}">
+                                班主任
+                            </c:if>
+                            <c:if test="${BZR.type ==2}">
+                                副班主任
+                            </c:if>
+                        </td>
+                        <td>${BZR.xdName}</td>
+                        <td>${BZR.nj}</td>
+                        <td>${BZR.className}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="fenye" style="padding: 0;">
+            <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
+                <div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>
+            </c:if>
+            <div class="fenY2" id="fenY2">
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+
+    $(function () {
+        if ('${cycleSemester}' == "1") {
+            $(".cycleSemester1").attr("selected", "selected");
+        }
+        if ('${cycleSemester}' == "2") {
+            $(".cycleSemester2").attr("selected", "selected");
+        }
+    })
+    $(function () {
+        $("select").change(function () {
+            var cycleYear = $(".cycleYear").find("option:selected").text();
+            var cycleSemester = $(".cycleSemester").find("option:selected").val();
+            window.location.href = "${ctx}/teach/task/master/search?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+        });
+        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
+        $(".fenY2").createPage({
+            pageCount:${pageInfo.pages},//总页数
+            current:${pageInfo.pageNum},//当前页面
+            backFn: function (p) {
+                var cycleSemester = $("select[name='cycleSemester']").val();
+                var cycleYear = $("select[name='cycleYear']").val();
+                window.location.href = "${ctx}/teach/task/master/search?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+            }
+        });
+        </c:if>
+        $(".headerCheck").on("click", function () {
+            if (this.checked == true) {
+                $("input[type='checkbox']").prop("checked", true);
+            } else {
+                $("input[type='checkbox']").prop("checked", false);
+            }
+        });
+        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
+        $(".gotoPage").click(function () {
+            var pageNum = $(".fenY2go").val();
+            if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
+                layer.msg("请输入正确的页码")
+            } else {
+                var cycleSemester = $("select[name='cycleSemester']").val();
+                var cycleYear = $("select[name='cycleYear']").val();
+                window.location.href = "${ctx}/teach/task/master/search?pageNum=" + $(".fenY2go").val() + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+            }
+        });
+        </c:if>
+    });
+    function reSetPass(id) {
+        $.post("${ctx}/renshi/account/password/update", {
+            id: id,
+            password: '${password}',
+        }, function (retJson) {
+
+        }, "json");
+        closeAlertDiv();
+        layer.msg('重置成功', {
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+        }, function () {
+            parent.location.reload();
+        });
+    }
+
+    function createSure() {
+        closeAlertDiv();
+        layer.msg('正在生成，请稍侯', {icon: 16, shade: 0.5, time: 100000000});//当生成完成这个对话框才被关掉
+
+        $.ajax({
+            type: "post",
+            url: "${ctx}/renshi/account/add",
+            data: {
+                nameRule: $("#nameRule").val(),
+                passRule: $("#passRule").val(),
+                password: '${password}',
+            },
+            dataType: "json",
+            success: function (data) {
+                //alert(data);
+            },
+            error: function (e) {
+                layer.msg('生成完毕', {
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    parent.location.reload();
+                });
+            }
+        });
+    }
+
+    function searchTeacher() {
+        var cycleSemester = $("select[name='cycleSemester']").val();
+        var cycleYear = $("select[name='cycleYear']").val();
+        var name = $("input[name='zhiGong']").val();
+        window.location.href = "${ctx}/teach/task/master/search?name=" + encodeURI(encodeURI(name)) + "&&cycleSemester=" + cycleSemester + "&&cycleYear=" + cycleYear;
+    }
+</script>
+</body>
+</html>

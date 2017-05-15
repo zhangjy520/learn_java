@@ -1,0 +1,150 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../../common/common.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>班级教室编辑</title>
+    <link rel="stylesheet" type="text/css" href="${ctxStatic}/css/jquery.autocomplete.css"/>
+    <script type="text/javascript" src="${ctxStaticNew}/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="${ctxStaticNew}/js/layer/layer.js"></script>
+    <script type="text/javascript" src="${ctxStaticNew}/js/openDialog.js"></script>
+    <script src="${ctxStaticNew}/js/alertPopShow.js"></script>
+    <script type="text/javascript" src="${ctxStaticNew}/js/jquery.autocomplete.js"></script>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft YaHei", Arial, STXihei, '华文细黑', 'Microsoft YaHei', SimSun, '宋体', Heiti, '黑体', sans-serif;
+    }
+
+    span {
+        display: inline-block;
+    }
+
+    .popup-main {
+        background: #fff;
+        padding: 35px 0px 10px 25px;
+        font-size: 13px !important;
+        color: #525252 !important;
+    }
+
+    table td {
+        font-size: 13px;
+        /*text-align: right;*/
+        padding: 10px 0;
+    }
+
+    table td span:first-child {
+        width: 88px;
+        text-align: right;
+    }
+
+    table td span:last-child {
+        width: 150px;
+        height: 28px;
+        line-height: 28px;
+        margin-left: 12px;
+        padding-left: 10px;
+    }
+
+    table td input[type="text"], table td select {
+        width: 150px;
+        height: 28px;
+        line-height: 28px;
+        margin-left: 12px;
+        padding-left: 10px;
+        outline: none;
+        border: 1px solid #dadada;
+        border-radius: 2px;
+        color: #333;
+    }
+</style>
+<body>
+<div>
+    <table>
+        <input type="hidden" value="${refId}" class="refId">
+        <tr>
+            <td><span>年级班级:${refClassRoomView.sectionName}${refClassRoomView.nj}年级${refClassRoomView.banji}</span></td>
+        </tr>
+        <tr>
+            <td><span>校区:</span>
+                <select name="schoolType" class="schoolType">
+                    <c:forEach items="${schoolTypeList}" var="schoolType" varStatus="status">
+                        <option  <c:if test="${schoolTypeId==schoolType.id}">selected</c:if> value="${schoolType.id}">${schoolType.name}</option>
+                    </c:forEach>
+                </select></td>
+        </tr>
+        <tr>
+            <td><span>教学楼:</span>
+                <select name="schoolType" class="schoolType">
+                    <c:forEach items="${buildingList}" var="building" varStatus="status">
+                        <option  value="${building.teachBuilding}">${building.teachBuilding}</option>
+                    </c:forEach>
+                </select></td>
+        </tr>
+        <tr>
+            <td><span>教室号:</span>
+                <select name="schoolType" class="roomNum">
+                    <c:forEach items="${roomNumList}" var="classRoom" varStatus="status">
+                        <option  <c:if test="${roomId==classRoom.roomId}">selected</c:if> value="${classRoom.roomId}">${classRoom.roomNum}</option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <button onclick="confirmSave()">确定</button>
+</div>
+</body>
+<script>
+    $(function () {
+        $("select").change(function () {
+            var refId = $(".refId").val();
+            var schoolTypeId =$(".schoolType").find("option:selected").val();
+            var teachBuildingName =$(".teachBuildingName").find("option:selected").val();
+            var roomId =$(".roomNum").find("option:selected").val();
+
+            window.location.href = "${ctx}/teach/task/ref/class/room/edit/pop?&&roomId="+roomId+"&&refId="+refId+"&&schoolTypeId="+schoolTypeId+"&teachBuildingName="+teachBuildingName+"&";
+        });
+    })
+    function confirmSave() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
+        var refId = $(".refId").val();
+        var schoolTypeId =$(".schoolType").find("option:selected").val();
+        var teachBuildingName =$(".teachBuildingName").find("option:selected").val();
+        var roomId =$(".roomNum").find("option:selected").val();
+        $.post("${ctx}/teach/task/ref/class/room/edit", {
+            refId: refId,
+            schoolTypeId:schoolTypeId,
+            teachBuildingName: teachBuildingName,
+            roomId: roomId,
+            refId:refId
+        }, function (data) {
+            if (data.code == 0) {
+                webToast(data.msg, "top", 5000);
+                setTimeout(function () {
+                    parent.location.reload();
+                }, 5000);
+                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                setTimeout(function () {
+                    top.layer.close(index)
+                }, 5000);
+                return true;
+            } else {
+                webToast(data.msg, "top", 5000);
+                setTimeout(function () {
+                    parent.location.reload();
+                }, 5000);
+                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                setTimeout(function () {
+                    top.layer.close()
+                }, 5000);
+                return false;
+            }
+        });
+    }
+</script>
+</html>
+

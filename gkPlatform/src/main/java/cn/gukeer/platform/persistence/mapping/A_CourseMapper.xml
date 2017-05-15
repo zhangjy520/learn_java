@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_CourseMapper">
+
+    <insert id="batchInsertCourse">
+        INSERT INTO `teach_course`
+        (`id`,
+        `school_id`,
+        `name`,
+        `cycle_id`,
+        `short_name`,
+        `course_type`,
+        `room_type`,
+        `score`,
+        `pass_score`,
+        `del_flag`
+        )
+        values
+        <foreach collection="courseList" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.schoolId},#{item.name},#{item.cycleId},#{item.shortName},#{item.courseType},#{item.roomType},#{item.score},#{item.passScore},#{item.delFlag}
+            )
+        </foreach>
+    </insert>
+</mapper>
