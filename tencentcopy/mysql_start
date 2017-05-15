@@ -1,0 +1,1 @@
+sudo docker run --name zjy_mysql_3306  -v /home/smart_ring/data/db-conf:/etc/mysql/ -v /home/smart_ring/data/db-data:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123 -d mysql:latest

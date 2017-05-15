@@ -1,0 +1,1 @@
+sudo docker run -it -d --name tencent -p 10060:8080 -v /etc/localtime:/etc/localtime -v /home/tencentcopy/account/account.txt:/home/tencentcopy/account/account.txt  -v /home/tencentcopy/program/webapp:/usr/local/tomcat/webapps/tencent -v /home/tencentcopy/data/logs/tomcat:/usr/local/tomcat/logs tomcat:latest
