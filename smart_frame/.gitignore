@@ -1,0 +1,14 @@
+/target/
+/classes/
+/.idea/
+/.settings/
+target/
+.idea/
+*.iml
+.settings/
+.metadata/
+.classpath
+.project
+/src/main/resources/db.properties
+gkOpen.iml
+.gitgnore
