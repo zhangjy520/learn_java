@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.datahub.persistence.dao.A_DetailObjPushObjMapper">
+    <select id="selectResult" resultType="java.util.Map">
+       SELECT  ref_queue_obj.plat_app_id AS PlatAppId,detail_obj.id,push_obj.obj_table_name AS ObjTableName,detail_obj.name
+																					FROM ref_queue_obj
+																					INNER JOIN  detail_obj ON ref_queue_obj.obj_id = detail_obj.id
+																					INNER  JOIN push_obj ON  detail_obj.push_obj_id=push_obj.id
+   </select>
+    <select id="selectQueue" resultType="java.util.Map">
+    SELECT  detail_obj.id,push_obj.obj_table_name AS ObjTableName,detail_obj.name
+																					FROM detail_obj
+																					INNER  JOIN push_obj ON  detail_obj.push_obj_id=push_obj.id
+    </select>
+
+    <select id="selectPlatApp" resultType="java.util.Map">
+        SELECT r.*,a.`name` AS appName,p.`name` AS platName FROM ref_platform_app r
+         LEFT JOIN open_app a ON r.`app_id` = a.`id` LEFT JOIN open_platform p ON p.`id` = r.`platform_id`
+    </select>
+
+
+</mapper>

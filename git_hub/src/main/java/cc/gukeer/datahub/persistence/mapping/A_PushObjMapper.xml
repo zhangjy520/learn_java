@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.datahub.persistence.dao.A_PushObjMapper">
+    <select id="getTableName" resultType="java.util.Map">
+    SELECT detail_obj.id AS id,
+		  	push_obj.obj_table_name AS tableName,
+				detail_obj.`name` AS  ObjectName
+			FROM detail_obj LEFT JOIN push_obj
+			ON detail_obj.push_obj_id = push_obj.id
+  </select>
+
+
+    <select id="selectFiled" resultType="java.util.Map" parameterType="java.lang.String">
+        select COLUMN_NAME AS filed from information_schema.COLUMNS where table_name = #{name} AND table_schema = #{schema}
+    </select>
+
+    <select id="selectZiDuan" resultType="java.util.List" parameterType="java.lang.String">
+
+
+    SELECT detail_obj.id AS detailId,
+    detail_obj.push_obj_id AS pushId,
+    detail_obj.`name` AS detailName,
+    detail_obj_column.belong AS tableName,
+    detail_obj_column.`name` AS columnName
+    from detail_obj INNER JOIN detail_obj_column on detail_obj_column.detail_obj_id = detail_obj.id and detail_obj.id =#{name}
+
+    </select>
+
+
+</mapper>
