@@ -1,0 +1,131 @@
+.clearfix:after{
+  content:'';
+  display:block;
+  clear:both;
+}
+.lf{float:left;}
+.rl{float:right;}
+body{background:#F7F7F7 !important;}
+
+#production1{
+  text-align: center;
+  padding-top:100px;
+  padding-bottom:87px;
+  >h1{
+    text-align: center;
+    font-size:50px;
+    margin:0;
+  }
+  >section{
+    width:1200px;
+    margin:0 auto;
+    >div{
+      margin-top:50px;
+      width:50%;
+      dt{width:230px;height:228px;margin-right:-230px;}
+      dd{
+        margin-left:251px;
+        ul{
+          li{
+            margin-right:40px;
+            margin-bottom:30px;
+            p{
+              width:95px;
+              height:67px;
+              background:url(../images/seveice_img.png) no-repeat;
+            }
+            span{width:95px;color:#555;text-align: center;}
+            &:hover{
+              span{color:#118AF5;}
+            }
+          }
+        }
+      }
+    }
+    .pro-2{padding-left:78px;}
+  }
+}
+#production2{
+  background:rgba(203,247,185,.05);
+  text-align: center;
+  >h1{
+    text-align: center;
+    padding-top:100px;
+    margin:0;
+    margin-bottom:60px;
+    font-size:50px;
+  }
+  >div{
+    height:368px;
+    background: url(../images/steps1.jpg) no-repeat 0 170px;
+    >div{
+      width:1060px;
+      margin:0 auto;
+    }
+    button{
+      padding:0 55px;
+      line-height:57px;
+      background:#54ab37;
+      color:#fff;
+      border:1px solid #54ab37;
+      outline: none;
+      border-radius:4px;font-size:26px;
+      margin-top:50px;
+    }
+  }
+
+}
+
+#production1 .pro-1 dd li {
+  &:nth-child(1) p{
+    background-position: 0 0;
+    &:hover {
+      background-position: 0 -67px;
+    }
+  }
+  &:nth-child(2) p{
+    background-position: -96px 0;
+    &:hover {
+      background-position: -96px -67px;
+    }
+  }
+  &:nth-child(3) p{
+    background-position: -192px 0;
+    &:hover {
+      background-position: -192px -67px;
+    }
+  }
+  &:nth-child(4) p{
+    background-position: -288px 0;
+    &:hover {
+      background-position: -288px -67px;
+    }
+  }
+}
+#production1 .pro-2 dd li{
+  &:nth-child(1) p{
+    background-position:-384px 0;
+    &:hover{background-position:-384px -67px;}
+  }
+  &:nth-child(2) p{
+    background-position:-480px 0;
+    &:hover{background-position:-480px -67px;}
+  }
+  &:nth-child(3) p{
+    background-position:-576px 0;
+    &:hover{background-position:-576px -67px;}
+  }
+  &:nth-child(4) p{
+    background-position:-672px 0;
+    &:hover{background-position:-672px -67px;}
+  }
+}
+
+
+
+
+
+
+
+
+

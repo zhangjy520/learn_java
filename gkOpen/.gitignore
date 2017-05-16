@@ -1,0 +1,7 @@
+/target/
+/classes/
+/.idea/
+/.settings/
+/src/main/resources/db.properties
+gkOpen.iml
+.gitgnore

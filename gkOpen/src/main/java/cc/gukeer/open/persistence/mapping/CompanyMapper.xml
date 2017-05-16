@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.open.persistence.entity.Company" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="business_name" property="businessName" jdbcType="VARCHAR" />
+    <result column="licence_num" property="licenceNum" jdbcType="VARCHAR" />
+    <result column="licence_site" property="licenceSite" jdbcType="VARCHAR" />
+    <result column="corporate_name" property="corporateName" jdbcType="VARCHAR" />
+    <result column="corporate_identity" property="corporateIdentity" jdbcType="VARCHAR" />
+    <result column="capital" property="capital" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="company_phone" property="companyPhone" jdbcType="VARCHAR" />
+    <result column="developer_name" property="developerName" jdbcType="VARCHAR" />
+    <result column="developer_phone" property="developerPhone" jdbcType="VARCHAR" />
+    <result column="accessories_id" property="accessoriesId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, business_name, licence_num, licence_site, corporate_name, corporate_identity, 
+    capital, address, company_phone, developer_name, developer_phone, accessories_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.open.persistence.entity.CompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from open_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from open_company
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from open_company
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.open.persistence.entity.CompanyExample" >
+    delete from open_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.open.persistence.entity.Company" >
+    insert into open_company (id, business_name, licence_num, 
+      licence_site, corporate_name, corporate_identity, 
+      capital, address, company_phone, 
+      developer_name, developer_phone, accessories_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{businessName,jdbcType=VARCHAR}, #{licenceNum,jdbcType=VARCHAR}, 
+      #{licenceSite,jdbcType=VARCHAR}, #{corporateName,jdbcType=VARCHAR}, #{corporateIdentity,jdbcType=VARCHAR}, 
+      #{capital,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{companyPhone,jdbcType=VARCHAR}, 
+      #{developerName,jdbcType=VARCHAR}, #{developerPhone,jdbcType=VARCHAR}, #{accessoriesId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.open.persistence.entity.Company" >
+    insert into open_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="businessName != null" >
+        business_name,
+      </if>
+      <if test="licenceNum != null" >
+        licence_num,
+      </if>
+      <if test="licenceSite != null" >
+        licence_site,
+      </if>
+      <if test="corporateName != null" >
+        corporate_name,
+      </if>
+      <if test="corporateIdentity != null" >
+        corporate_identity,
+      </if>
+      <if test="capital != null" >
+        capital,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="companyPhone != null" >
+        company_phone,
+      </if>
+      <if test="developerName != null" >
+        developer_name,
+      </if>
+      <if test="developerPhone != null" >
+        developer_phone,
+      </if>
+      <if test="accessoriesId != null" >
+        accessories_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null" >
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceNum != null" >
+        #{licenceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceSite != null" >
+        #{licenceSite,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateName != null" >
+        #{corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateIdentity != null" >
+        #{corporateIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="capital != null" >
+        #{capital,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null" >
+        #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="developerName != null" >
+        #{developerName,jdbcType=VARCHAR},
+      </if>
+      <if test="developerPhone != null" >
+        #{developerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoriesId != null" >
+        #{accessoriesId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update open_company
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessName != null" >
+        business_name = #{record.businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenceNum != null" >
+        licence_num = #{record.licenceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenceSite != null" >
+        licence_site = #{record.licenceSite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corporateName != null" >
+        corporate_name = #{record.corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corporateIdentity != null" >
+        corporate_identity = #{record.corporateIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capital != null" >
+        capital = #{record.capital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPhone != null" >
+        company_phone = #{record.companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.developerName != null" >
+        developer_name = #{record.developerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.developerPhone != null" >
+        developer_phone = #{record.developerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessoriesId != null" >
+        accessories_id = #{record.accessoriesId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update open_company
+    set id = #{record.id,jdbcType=VARCHAR},
+      business_name = #{record.businessName,jdbcType=VARCHAR},
+      licence_num = #{record.licenceNum,jdbcType=VARCHAR},
+      licence_site = #{record.licenceSite,jdbcType=VARCHAR},
+      corporate_name = #{record.corporateName,jdbcType=VARCHAR},
+      corporate_identity = #{record.corporateIdentity,jdbcType=VARCHAR},
+      capital = #{record.capital,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      company_phone = #{record.companyPhone,jdbcType=VARCHAR},
+      developer_name = #{record.developerName,jdbcType=VARCHAR},
+      developer_phone = #{record.developerPhone,jdbcType=VARCHAR},
+      accessories_id = #{record.accessoriesId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.open.persistence.entity.Company" >
+    update open_company
+    <set >
+      <if test="businessName != null" >
+        business_name = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceNum != null" >
+        licence_num = #{licenceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceSite != null" >
+        licence_site = #{licenceSite,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateName != null" >
+        corporate_name = #{corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateIdentity != null" >
+        corporate_identity = #{corporateIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="capital != null" >
+        capital = #{capital,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null" >
+        company_phone = #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="developerName != null" >
+        developer_name = #{developerName,jdbcType=VARCHAR},
+      </if>
+      <if test="developerPhone != null" >
+        developer_phone = #{developerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoriesId != null" >
+        accessories_id = #{accessoriesId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.open.persistence.entity.Company" >
+    update open_company
+    set business_name = #{businessName,jdbcType=VARCHAR},
+      licence_num = #{licenceNum,jdbcType=VARCHAR},
+      licence_site = #{licenceSite,jdbcType=VARCHAR},
+      corporate_name = #{corporateName,jdbcType=VARCHAR},
+      corporate_identity = #{corporateIdentity,jdbcType=VARCHAR},
+      capital = #{capital,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      company_phone = #{companyPhone,jdbcType=VARCHAR},
+      developer_name = #{developerName,jdbcType=VARCHAR},
+      developer_phone = #{developerPhone,jdbcType=VARCHAR},
+      accessories_id = #{accessoriesId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

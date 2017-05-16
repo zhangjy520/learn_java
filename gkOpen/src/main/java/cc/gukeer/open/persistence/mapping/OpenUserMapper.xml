@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.OpenUserMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.open.persistence.entity.OpenUser" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="ref_id" property="refId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="login_flag" property="loginFlag" jdbcType="INTEGER" />
+    <result column="login_mark" property="loginMark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="agreement_num" property="agreementNum" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="register_status" property="registerStatus" jdbcType="INTEGER" />
+    <result column="current_time_sendEmail" property="currentTimeSendemail" jdbcType="BIGINT" />
+    <result column="random" property="random" jdbcType="VARCHAR" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="DATE" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="personal_id" property="personalId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, username, password, status, ref_id, user_type, login_flag, login_mark, create_by, 
+    create_date, update_by, update_date, remarks, agreement_num, del_flag, register_status, 
+    current_time_sendEmail, random, last_login_time, company_id, personal_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.open.persistence.entity.OpenUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from open_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from open_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from open_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.open.persistence.entity.OpenUserExample" >
+    delete from open_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.open.persistence.entity.OpenUser" >
+    insert into open_user (id, username, password, 
+      status, ref_id, user_type, 
+      login_flag, login_mark, create_by, 
+      create_date, update_by, update_date, 
+      remarks, agreement_num, del_flag, 
+      register_status, current_time_sendEmail, random, 
+      last_login_time, company_id, personal_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{refId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, 
+      #{loginFlag,jdbcType=INTEGER}, #{loginMark,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=BIGINT}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=BIGINT}, 
+      #{remarks,jdbcType=VARCHAR}, #{agreementNum,jdbcType=INTEGER}, #{delFlag,jdbcType=INTEGER}, 
+      #{registerStatus,jdbcType=INTEGER}, #{currentTimeSendemail,jdbcType=BIGINT}, #{random,jdbcType=VARCHAR}, 
+      #{lastLoginTime,jdbcType=DATE}, #{companyId,jdbcType=VARCHAR}, #{personalId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.open.persistence.entity.OpenUser" >
+    insert into open_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="refId != null" >
+        ref_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="loginFlag != null" >
+        login_flag,
+      </if>
+      <if test="loginMark != null" >
+        login_mark,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="agreementNum != null" >
+        agreement_num,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="registerStatus != null" >
+        register_status,
+      </if>
+      <if test="currentTimeSendemail != null" >
+        current_time_sendEmail,
+      </if>
+      <if test="random != null" >
+        random,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="personalId != null" >
+        personal_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="refId != null" >
+        #{refId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="loginFlag != null" >
+        #{loginFlag,jdbcType=INTEGER},
+      </if>
+      <if test="loginMark != null" >
+        #{loginMark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementNum != null" >
+        #{agreementNum,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="registerStatus != null" >
+        #{registerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="currentTimeSendemail != null" >
+        #{currentTimeSendemail,jdbcType=BIGINT},
+      </if>
+      <if test="random != null" >
+        #{random,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=DATE},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="personalId != null" >
+        #{personalId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update open_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.refId != null" >
+        ref_id = #{record.refId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginFlag != null" >
+        login_flag = #{record.loginFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginMark != null" >
+        login_mark = #{record.loginMark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementNum != null" >
+        agreement_num = #{record.agreementNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.registerStatus != null" >
+        register_status = #{record.registerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentTimeSendemail != null" >
+        current_time_sendEmail = #{record.currentTimeSendemail,jdbcType=BIGINT},
+      </if>
+      <if test="record.random != null" >
+        random = #{record.random,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        last_login_time = #{record.lastLoginTime,jdbcType=DATE},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personalId != null" >
+        personal_id = #{record.personalId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update open_user
+    set id = #{record.id,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      ref_id = #{record.refId,jdbcType=INTEGER},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      login_flag = #{record.loginFlag,jdbcType=INTEGER},
+      login_mark = #{record.loginMark,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=BIGINT},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=BIGINT},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      agreement_num = #{record.agreementNum,jdbcType=INTEGER},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      register_status = #{record.registerStatus,jdbcType=INTEGER},
+      current_time_sendEmail = #{record.currentTimeSendemail,jdbcType=BIGINT},
+      random = #{record.random,jdbcType=VARCHAR},
+      last_login_time = #{record.lastLoginTime,jdbcType=DATE},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      personal_id = #{record.personalId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.open.persistence.entity.OpenUser" >
+    update open_user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="refId != null" >
+        ref_id = #{refId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="loginFlag != null" >
+        login_flag = #{loginFlag,jdbcType=INTEGER},
+      </if>
+      <if test="loginMark != null" >
+        login_mark = #{loginMark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementNum != null" >
+        agreement_num = #{agreementNum,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="registerStatus != null" >
+        register_status = #{registerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="currentTimeSendemail != null" >
+        current_time_sendEmail = #{currentTimeSendemail,jdbcType=BIGINT},
+      </if>
+      <if test="random != null" >
+        random = #{random,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=DATE},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="personalId != null" >
+        personal_id = #{personalId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.open.persistence.entity.OpenUser" >
+    update open_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      ref_id = #{refId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=INTEGER},
+      login_flag = #{loginFlag,jdbcType=INTEGER},
+      login_mark = #{loginMark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=BIGINT},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      agreement_num = #{agreementNum,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      register_status = #{registerStatus,jdbcType=INTEGER},
+      current_time_sendEmail = #{currentTimeSendemail,jdbcType=BIGINT},
+      random = #{random,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=DATE},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      personal_id = #{personalId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

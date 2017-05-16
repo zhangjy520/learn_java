@@ -1,0 +1,456 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #fff !important;
+  font-family: "Microsoft YaHei", Arial, STXihei, '����ϸ��', 'Microsoft YaHei', SimSun, '����', Heiti, '����', sans-serif;
+}
+ul {
+  list-style: none;
+}
+.clear:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+header {
+  width: 1170px;
+  margin: 0 auto;
+  padding: 13px 0;
+  border-bottom: 1px solid #ddd;
+}
+header h3 {
+  float: left;
+  font-size: 24px;
+  color: #54ab37;
+  font-weight: 500;
+    margin-top: 5px;
+}
+header ul {
+  float: right;
+
+}
+header ul li {
+  padding: 0 18px;
+  font-size: 13px;
+  color: #333;
+  line-height: 39px;
+  border-radius: 20px;
+  float: left;
+  cursor: pointer;
+}
+header ul li.active {
+  color: #54ab37;
+  border: 1px solid #54ab37;
+}
+#main-tab {
+  width: 1170px;
+  margin: 0 auto;
+}
+#main-tab > ul.clear {
+  border-bottom: 1px solid #ddd;
+  margin-top: 30px;
+}
+#main-tab > ul.clear li {
+  float: left;
+  line-height: 42px;
+  /*padding: 0 20px;*/
+  font-size: 16px;
+  color: #777;
+  cursor: pointer;
+  background: #fff;
+}
+#main-tab > ul.clear li.active {
+  color: #54ab37;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-top: 2px solid #54ab37;
+  margin-bottom: -1px;
+}
+#main-tab > div p {
+  margin-top: 40px;
+  font-size: 16px;
+  color: #666;
+}
+#main-tab > div p label {
+  margin-right: 30px;
+}
+#main-tab > div table {
+  border-collapse: collapse;
+  font-size: 13px;
+  width: 100%;
+  margin-top: 20px;
+    color: #666;
+}
+#main-tab > div table td {
+  border: 1px solid #E9E9E9;
+  padding: 8px 10px;
+  line-height: 26px;
+}
+#main-tab > div table th {
+  text-align: left;
+  color: #525252;
+  font-weight: 500;
+  background: #F6F6F6;
+    border: 1px solid #E9E9E9;
+    padding: 8px 10px;
+    line-height: 26px;
+}
+#main-tab > div table td:last-child span {
+  display: inline-block;
+  padding-left: 20px;
+  margin-right: 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+#main-tab > div table td:last-child span.c1 {
+  color: #54ab37;
+  background: url(../img/ico1.png) no-repeat left center;
+}
+#main-tab > div table td:last-child span.c2 {
+  color: #1ab39c;
+  background: url(../img/ico3.png) no-repeat left center;
+  /*display: none;*/
+}
+#main-tab > div table td:last-child span.c3 {
+  color: #43B4EF;
+  background: url(../img/icon4.png) no-repeat left center;
+  /*display: none;*/
+}
+#main-tab > div table td:last-child span.c4 {
+  color: #FD373F;
+  background: url(../img/icon2.png) no-repeat left center;
+  /*display: none;*/
+}
+#main-tab > div table td:last-child span.c5 {
+  color: #FD373F;
+  background: url(../img/icon5.png) no-repeat left center;
+  /*display: none;*/
+}
+#main-tab > div table td:last-child span.app1 {
+  color: #43B4EF;
+  background: url(../img/icon4.png) no-repeat left center;
+}
+#main-tab > div table td:last-child span.app2 {
+  color: #1ab39c;
+  background: url(../img/icon7.png) no-repeat left center;
+}
+#main-tab > div table td:last-child span.app3 {
+  color: #ffaf25;
+  background: url(../img/icon6.png) no-repeat left center;
+}
+#main-tab > div table td:last-child span.app4 {
+  color: #FD373F;
+  background: url(../img/icon5.png) no-repeat left center;
+}
+#main-tab > div table td:last-child span.app5 {
+  color: #54ab37;
+  background: url(../img/icon8.png) no-repeat left center;
+}
+#main-tab > div table td:last-child span.app6 {
+  color: #FD373F;
+  background: url(../img/icon9.png) no-repeat left center;
+}
+#main-tab > div footer {
+  margin-top: 23px;
+}
+#main-tab > div footer p {
+  float: left;
+  color: #999;
+  font-size: 12px;
+  margin: 0;
+  height: 26px;
+  line-height: 26px;
+}
+#main-tab > div footer .fenY,
+#main-tab > div footer .fenY1 {
+  float: right;
+}
+#main-tab > div#check2 {
+  display: none;
+}
+#check-main {
+  width: 1170px;
+  margin: 0 auto;
+}
+#check-main > h3 {
+  font-weight: 500;
+  font-size: 18px;
+  color: #333;
+  margin: 35px 0;
+  padding-left: 10px;
+  border-left: 2px solid #1ab39c;
+}
+#check-main footer {
+  border-top: 1px solid #ccc;
+  padding-top: 35px;
+  text-align: center;
+  margin-bottom: 80px;
+}
+#check-main footer button {
+  outline: none;
+  cursor: pointer;
+  width: 120px;
+  height: 44px;
+  color: #fff;
+  border-radius: 4px;
+  margin: 0 30px;
+  font-size: 15px;
+}
+#check-main footer button.check-btn1 {
+  border: 1px solid #a0adaa;
+  background: #a0adaa;
+}
+#check-main footer button.check-btn2 {
+  border: 1px solid #fd4b4d;
+  background: #fd4b4d;
+}
+#check-main footer button.check-btn3 {
+  border: 1px solid #19be9d;
+  background: #19be9d;
+}
+#check-main .massages > li:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#check-main .massages > li {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+#check-main .massages > li > aside {
+  float: left;
+  margin-left: 13px;
+  min-width: 60px;
+  margin-right: 30px;
+}
+#check-main .massages > li > aside > span {
+  float: right;
+  color: #888;
+}
+#check-main .massages > li > div {
+  float: left;
+  max-width: 1060px;
+}
+#check-main .massages > li > div > a {
+  color: #19be9d;
+  text-decoration: none;
+}
+#check-main .massages > li > div > a:hover {
+  text-decoration: underline;
+}
+#check-main .massages > li > div > span {
+  color: #525252;
+}
+#check-main .massages > li > div > p {
+  width: 68px;
+  height: 68px;
+}
+#check-main .massages > li > div > p img {
+  width: 100%;
+}
+#check-main .massages > li > div > ul {
+  overflow: hidden;
+}
+#check-main .massages > li > div > ul li {
+  float: left;
+  width: 80px;
+  height: 80px;
+  border: 1px solid #cecece;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+#check-main .massages > li > div > ul li img {
+  width: 100%;
+  height:100%;
+}
+#pf-state {
+  width: 1170px;
+  margin: 0 auto;
+}
+#pf-state .publish {
+  margin-top: 30px;
+}
+#pf-state .publish button {
+  border: 1px solid #19BE9D;
+  color: #fff;
+  font-size: 14px;
+  background: #19be9d;
+  height: 28px;
+  padding: 0 15px;
+  border-radius: 3px;
+}
+#pf-state section {
+  margin-top: 32px;
+}
+#pf-state section ul li {
+  font-size: 13px;
+  overflow: hidden;
+  line-height: 35px;
+  margin-top: 5px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+#pf-state section ul li p {
+  float: left;
+}
+#pf-state section ul li aside {
+  float: right;
+}
+#pf-state section ul li aside i {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: url(../img/clock.png) no-repeat 0 0;
+}
+#pf-state section ul li aside span {
+  color: #999;
+  margin-left: 5px;
+}
+#pf-state section ul .read p {
+  color: #999;
+}
+#pf-state section ul .unread p {
+  color: #525252;
+}
+
+/*//审核管理 */
+#check-detail{
+  width:1170px;
+  margin:0 auto;
+  border:1px solid #ddd;
+  height:720px;
+  border-radius:10px;
+  /*overflow:hidden;*/
+  margin-top:30px;
+}
+#check-detail:after{display:table;content:'';clear:both;}
+#aside{
+  padding:48px 40px;
+  border-right:1px solid #ddd;
+  float:left;
+  width:285px;
+  height:100%;
+}
+#check-detail #aside li{cursor:pointer;font-size:16px;color:#525252;margin-bottom:25px;}
+#check-detail #aside li.active{color:#54ab37}
+#check-detail-content{
+  float:left;
+  width:865px;
+  padding:48px 0;
+}
+#check-detail-content .massages.massages1{overflow: hidden}
+#check-detail-content .massages.massages1 li{float:left;width:50%;}
+#check-detail-content .massages>li{
+  margin-bottom:27px;
+  font-size:15px;
+  color:#888;
+}
+#check-detail-content .massages li aside{
+  display:inline-block;
+  width:120px;
+  text-align: right;
+  vertical-align: top;
+}
+#check-detail-content .massages li div{
+  display: inline-block;
+  color:#525252;
+  padding-left:20px;
+    width: 260px;
+}
+#check-detail-content .massages li div span{
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+#check-detail-content .massages li div li{display:inline-block;}
+#check-detail-content .gallery{width:695px;}
+#check-detail-content .gallery li{width:100px;height:100px;margin-right:12px;margin-bottom:10px;border:1px solid #ddd;}
+#check-detail-content .gallery li img{width:100%;height: 100%;}
+#check-detail-content .massages li div a{color:#54ab37}
+
+#check-detail-content #content2,#check-detail-content #content3{display:none;}
+
+#check-detail+footer{
+  width:1170px;
+  text-align: center;
+  margin:36px auto;
+  margin-bottom:80px;
+}
+#check-detail+footer button {
+  outline: none;
+  cursor: pointer;
+  width: 120px;
+  height: 44px;
+  color: #fff;
+  border-radius: 4px;
+  margin: 0 30px;
+  font-size: 14px;
+}
+#check-detail+footer button.check-btn1 {
+  border: 1px solid #54ab37;
+  background: #54ab37;
+}
+#check-detail+footer button.check-btn2 {
+  border: 1px solid #fd4b4d;
+  background: #fd4b4d;
+}
+#check-detail+footer button.check-btn3 {
+  border: 1px solid #19be9d;
+  background: #19be9d;
+}
+#pf-state .operation {
+  /*margin-top: 30px;*/
+}
+#pf-state .operation button {
+  border: 1px solid #19BE9D;
+  color: #fff;
+  font-size: 14px;
+  background: #54ab37;
+  height: 28px;
+  padding: 0 15px;
+  border-radius: 3px;
+  outline:none;
+  cursor: pointer;
+}
+#pf-state .operation button.delete{margin-left:15px;border:1px solid #FD2E37;background:#FD2E37}
+#pf-state section {
+  margin-top: 20px;
+}
+#pf-state section table {
+  font-size: 13px;
+  line-height: 26px;
+  /*margin-top: 5px;*/
+  border-collapse: collapse;
+  width:100%;
+}
+#pf-state section table th{text-align:left;background:#F6F6F6 !important;padding:8px 10px;border:1px solid #ddd;font-weight: 500;color:#666;}
+#pf-state section table td {
+  border:1px solid #ddd;
+  color:#525252;
+  padding:8px 10px;
+}
+#pf-state section table td p{
+  padding-left:20px;
+  background: url(../img/clock.png) no-repeat left center;
+}
+#pf-state section table td.read a{color:#999;}
+#pf-state section table td span.deleteSingle{
+  color:#FD2E37;
+  cursor: pointer;
+  padding-left:18px;
+  background:url(../img/icon2.png) no-repeat left center;
+}
+#check2 table span.detail{
+  padding-left:18px;
+  background:url(../img/icon1.png) no-repeat left center;
+  color:#1ab39c;;
+}
+
+footer span,footer input, footer button{
+    cursor: pointer;
+}

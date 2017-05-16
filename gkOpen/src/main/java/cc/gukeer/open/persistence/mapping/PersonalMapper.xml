@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.PersonalMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.open.persistence.entity.Personal" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="identity_card" property="identityCard" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="contacts_phone" property="contactsPhone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="works_href" property="worksHref" jdbcType="VARCHAR" />
+    <result column="accessories_id" property="accessoriesId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, identity_card, company_name, contacts_phone, address, works_href, accessories_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.open.persistence.entity.PersonalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from open_personal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from open_personal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from open_personal
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.open.persistence.entity.PersonalExample" >
+    delete from open_personal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.open.persistence.entity.Personal" >
+    insert into open_personal (id, name, identity_card, 
+      company_name, contacts_phone, address, 
+      works_href, accessories_id)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{contactsPhone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{worksHref,jdbcType=VARCHAR}, #{accessoriesId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.open.persistence.entity.Personal" >
+    insert into open_personal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="identityCard != null" >
+        identity_card,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="contactsPhone != null" >
+        contacts_phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="worksHref != null" >
+        works_href,
+      </if>
+      <if test="accessoriesId != null" >
+        accessories_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsPhone != null" >
+        #{contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="worksHref != null" >
+        #{worksHref,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoriesId != null" >
+        #{accessoriesId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update open_personal
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityCard != null" >
+        identity_card = #{record.identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyName != null" >
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsPhone != null" >
+        contacts_phone = #{record.contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.worksHref != null" >
+        works_href = #{record.worksHref,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessoriesId != null" >
+        accessories_id = #{record.accessoriesId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update open_personal
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      identity_card = #{record.identityCard,jdbcType=VARCHAR},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      contacts_phone = #{record.contactsPhone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      works_href = #{record.worksHref,jdbcType=VARCHAR},
+      accessories_id = #{record.accessoriesId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.open.persistence.entity.Personal" >
+    update open_personal
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsPhone != null" >
+        contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="worksHref != null" >
+        works_href = #{worksHref,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoriesId != null" >
+        accessories_id = #{accessoriesId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.open.persistence.entity.Personal" >
+    update open_personal
+    set name = #{name,jdbcType=VARCHAR},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      works_href = #{worksHref,jdbcType=VARCHAR},
+      accessories_id = #{accessoriesId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

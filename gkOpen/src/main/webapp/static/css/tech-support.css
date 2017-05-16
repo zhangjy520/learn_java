@@ -1,0 +1,248 @@
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.lf {
+  float: left;
+}
+.rl {
+  float: right;
+}
+main.container {
+  padding: 0;
+  min-width: 1200px;
+  margin-bottom: 50px;
+}
+main.container > header {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin: 34px 0 46px 0 ;
+}
+main.container > header h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+main.container > header h2 span {
+  font-size: 14px;
+  color: #333;
+  margin-left: 30px;
+  font-weight: normal;
+}
+main.container > header > div {
+  margin-top: 28px;
+}
+main.container > header > div aside.lf button {
+  padding: 0 25px;
+  height: 36px;
+  border: 1px solid #54ab37;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-right: 18px;
+}
+main.container > header > div aside.lf button.q-btn {
+  color: #fff;
+  background: #54ab37;
+}
+main.container > header > div aside.lf button.a-btn {
+  color: #54ab37;
+  background: rgba(84, 171, 55, 0.2);
+}
+main.container > header > div aside.lf button.a-btn:hover {
+  background: #54ab37;
+  color: #fff;
+}
+main.container > header > div div.rl input {
+  height: 35px;
+  width: 280px;
+  padding: 8px 5px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  border-right: none;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  outline: none;
+}
+main.container > header > div div.rl button {
+  height: 35px;
+  border: 1px solid #54ab37;
+  background: #54ab37;
+  width: 45px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  position: relative;
+  outline: none;
+}
+main.container > header > div div.rl button:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 25px;
+  height: 24px;
+  background: url(../images/data_search1.png) no-repeat center center;
+  top: 6px;
+  left: 10px;
+}
+main.container > section {
+  margin-top: 40px;
+  background: #fff;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  min-height: 800px;
+  background: #fff;
+  margin-bottom: 35px;
+  overflow: hidden;
+}
+main.container > section aside {
+  border-right: 1px solid #ddd;
+  padding: 35px 0 0 30px;
+  min-height: 800px;
+}
+main.container  section h1{
+  font-size: 20px !important;
+  color: #333 !important;
+  border-bottom: 1px solid #ddd !important;
+  padding-bottom: 20px !important;
+}
+main.container > section aside h2 {
+  font-size: 24px;
+  color: #333;
+  padding-left: 10px;
+}
+main.container > section aside .normal-question {
+  padding-left: 15px;
+  font-size: 13px;
+}
+main.container > section aside ul li {
+  margin: 15px 0;
+}
+main.container > section aside .normal-question li a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #525252;
+  line-height: 25px;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s;
+}
+main.container > section aside .document-grade-1{
+  font-size: 15px;
+}
+main.container > section aside .document-grade-1 > li > a {
+  color: #333;
+  text-decoration: none;
+  width: 100%;
+  font-size: 16px;
+}
+main.container > section aside .normal-question li a:hover,
+main.container > section aside .normal-question li a.active {
+  padding-left: 5px;
+  color: #54ab37;
+}
+main.container > section > div {
+  /*padding: 25px 40px;*/
+  padding: 5px 30px;
+  /*min-height: 800px;*/
+}
+main.container > section > div h3 {
+  font-size: 22px;
+  margin: 0;
+  padding-bottom: 8px;
+  color: #54ab37;
+  border-bottom: 1px solid #ddd;
+}
+main.container > section > div > div {
+  /*padding: 10px 0;*/
+}
+main.container > section > div > div ul li {
+  padding: 0 10px;
+  border-bottom:1px solid #ddd;
+}
+/*main.container > section > div > div ul li:nth-child(2n-1) {*/
+  /*background: rgba(84, 171, 55, 0.09);*/
+/*}*/
+main.container > section > div > div ul li a {
+  text-decoration: none;
+  color: #525252;
+  display:block;
+}
+main.container > section > div > div ul li a span {
+  line-height: 45px;
+}
+main.container > section > div > div ul li a:hover span.lf {
+  color: #54ab37;
+}
+main.container > section > div > div ul li a span.rl{
+  color:#919191;
+  font-size:12px;
+  padding-left:20px;
+  background:url(../images/clock.png) no-repeat left center;
+}
+main.container > section #normal-q2,
+main.container > section #normal-q3,
+main.container > section #normal-q4,
+main.container > section #normal-q5{
+  display: none;
+}
+main.container > section #normal-q1 footer div,
+main.container > section #normal-q2 footer div,
+main.container > section #normal-q3 footer div,
+main.container > section #normal-q4 footer div,
+main.container > section #normal-q5 footer div{
+  float:right;
+  margin-top:-5px;
+}
+main.container > section #normal-q1 footer p,
+main.container > section #normal-q2 footer p,
+main.container > section #normal-q3 footer p,
+main.container > section #normal-q4 footer p,
+main.container > section #normal-q5 footer p{
+  float:left;
+  font-size:13px;
+  color:#666;
+}
+/*技术支持详情*/
+#tech-detail{
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  min-height: 800px;
+  background: #fff;
+  margin-bottom: 35px;
+  overflow: hidden;
+  padding:30px 45px;
+}
+#tech-detail>div{padding:0;}
+#tech-detail .tech-detail-back a{
+  font-size:14px;
+  color:#54ab37;
+  display:inline-block;
+  padding-left:16px;
+  background:url(../images/back.png) no-repeat left center;
+}
+#tech-detail .tech-detail-article{
+  padding:0;
+}
+#tech-detail .tech-detail-article h5{
+  padding-left:55px;
+  font-size: 18px;
+}
+#tech-detail .tech-detail-article p{
+  font-size:14px;
+  color:#525252;
+  text-indent: 2em;
+  line-height: 30px;
+  padding:0 28px;
+}
+#tech-detail .tech-detail-article h3{
+  font-size:24px;
+  color:#333;
+  margin:37px 0;
+  border:none;
+  text-align: center;
+}
