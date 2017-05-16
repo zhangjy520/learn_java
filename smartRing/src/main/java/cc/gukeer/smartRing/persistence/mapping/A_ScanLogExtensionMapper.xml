@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_ScanLogExtensionMapper">
+
+    <resultMap id="ExtensionScanLogBaseResultMap" type="cc.gukeer.smartRing.persistence.entity.ScanLog"
+               extends="cc.gukeer.smartRing.persistence.dao.ScanLogMapper.BaseResultMap">
+
+    </resultMap>
+
+    <sql id="Extension_Base_Column_List" >
+        id, mac, ring_num, student_id, student_name, station_mac, station_name, ring_signal,
+        type, status, last_update, cycle, remarks
+    </sql>
+
+    <!-- device ring extension-->
+    <select id="selectScanLogOrderByDate" resultMap="ExtensionScanLogBaseResultMap"
+            parameterType="cc.gukeer.smartRing.persistence.entity.ScanLog">
+        select
+        <include refid="Extension_Base_Column_List"/>
+        from scan_log a
+        WHERE a.mac = #{mac,jdbcType=VARCHAR}
+        ORDER BY a.last_update DESC limit 1;
+    </select>
+
+</mapper>

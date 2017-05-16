@@ -1,0 +1,120 @@
+.sh-lack {
+  color: #ffaf25 !important;
+}
+.sh-lose {
+  color: #FC3963 !important;
+}
+.sh-leisure {
+  color: #19be9d !important;
+}
+.sh-operation1 {
+  background: #19be9d;
+}
+.sh-operation2 {
+  background: #FC3963;
+}
+#account-msg > p {
+  border-bottom: 1px solid #ddd;
+}
+#account-msg section {
+  padding: 30px 60px;
+}
+#account-msg section div {
+  font-size: 13px;
+  margin-bottom: 30px;
+}
+#account-msg section div span:first-child {
+  width: 130px;
+  color: #999;
+}
+#account-msg section div span:last-child {
+  margin-left: 20px;
+  color: #676767;
+}
+#my-news > p {
+  border-bottom: 1px solid #ddd;
+}
+#my-news > p span {
+  font-size: 12px;
+  color: #999;
+  margin-left: 10px;
+}
+#my-news section {
+  padding: 23px 80px;
+}
+#my-news section > ul > li {
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  padding: 15px;
+  position: relative;
+  min-height: 125px;
+}
+#my-news section > ul > li > div {
+  margin-bottom: 20px;
+}
+#my-news section > ul > li > div h3 {
+  font-size: 15px;
+  color: #555;
+  font-weight: normal;
+  margin-right: 10px;
+}
+#my-news section > ul > li > div p {
+  font-size: 12px;
+  color: #999;
+  line-height: 20px;
+}
+#my-news section > ul > li > ul {
+  margin-bottom: 10px;
+}
+#my-news section > ul > li > ul li {
+  float: left;
+  margin-right: 30px;
+  font-size: 13px;
+  color: #676767;
+  margin-bottom: 10px;
+}
+#my-news section > ul > li > .detail {
+  font-size: 13px;
+  cursor: pointer;
+}
+#my-news section > ul > li > i {
+  position: absolute;
+  width: 36px;
+  height: 33px;
+  background: #F7F9FA;
+  border: 1px solid #ddd;
+  border-right: none;
+  left: -37px;
+  top: -1px;
+}
+#my-news section > ul > li > i:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url(../images/icon.png) no-repeat 0 0;
+  left: 8px;
+  top: 6px;
+}
+#my-news section > ul > li > i.read:after {
+  background-position: -22px 1px;
+}
+#my-news section > ul > li > span {
+  position: absolute;
+  color: #676767;
+  font-size: 13px;
+  top: 40px;
+  left: -42px;
+}
+#my-news section > ul > li > aside {
+  font-size: 13px;
+  color: #676767;
+  margin-bottom: 20px;
+}
+#my-news section > ul > li > aside p {
+  margin-right: 80px;
+  font-size: 13px;
+}
+#my-news section > ul > li > aside p span {
+  margin-right: 15px;
+}

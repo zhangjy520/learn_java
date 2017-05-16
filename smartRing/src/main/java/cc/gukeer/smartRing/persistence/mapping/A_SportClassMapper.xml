@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_SportClassMapper" >
+
+	<!--有用-->
+	<!--<select id="selectByClassName" resultType="map" parameterType="String" >-->
+		<!--SELECT GROUP_CONCAT(nj) AS multiNj,GROUP_CONCAT(sectionName) AS multiSection,sport_class_id,teacherName,sectionName,sport_class_name,item_name FROM v_sport_class WHERE school_id=#{schoolId}-->
+		<!--GROUP BY sport_class_id order by sport_class_id-->
+	<!--</select>-->
+
+	<select id="selectByClassName" resultType="map" parameterType="String" >
+	SELECT any_value(GROUP_CONCAT(nj)) AS multiNj,any_value(GROUP_CONCAT(sectionName)) AS multiSection,sport_class_id,any_value(teacherName) AS teacherName,
+	any_value(sectionName) AS sectionName,any_value(sport_class_name) AS sport_class_name,any_value(item_name) AS item_name,any_value(sort) AS sort FROM v_sport_class WHERE school_id=#{schoolId}
+	GROUP BY sport_class_id ORDER BY sort desc
+	</select>
+	<!--<select id="selectAddClassName" resultType="map" parameterType="String" >-->
+		<!--select DISTINCT sport_class_id,teacher.name teacherName,item.item_name,section.name sectionName,grade.nj,sport.sport_class_name,sport.xd,sport.nj,item.item_id-->
+		<!--from sport_class as sport-->
+		<!--left join user_teacher as teacher on sport.techer_id = teacher.id-->
+		<!--left join sport_items as item on 1=1-->
+		<!--left join org_class_section as section on sport.xd = section.id-->
+		<!--left join org_grade_class as grade on sport.nj = grade.nj-->
+		<!--where sport.school_id=#{schoolId} group by grade.xd,grade.nj-->
+	<!--</select>-->
+
+	<!--<select id="selectMinId" resultType="map" >-->
+		<!--SELECT id,MIN(id) FROM sport_class-->
+		<!--GROUP BY sport_class_id,xd,nj-->
+		<!--HAVING COUNT(1) > 1-->
+	<!--</select>-->
+
+	<delete id="deleteBatch" parameterType="java.lang.String">
+		DELETE FROM sport_class
+		WHERE id in
+		<foreach collection="listId" item="item" index="index" separator="," open="(" close=")">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+	<!--有用-->
+	<!--<select id="selectByClassId" resultType="map" parameterType="String" >-->
+		<!--SELECT GROUP_CONCAT(nj) AS multiNj,GROUP_CONCAT(sectionName) AS multiSection,GROUP_CONCAT(sectionId) AS multiSectionId,sport_class_id,teacherName,sectionName,sport_class_name,item_name,school_id ,sport_item_id FROM v_sport_class where sport_class_id=#{sportClassId} and school_id=#{schoolId}-->
+		<!--GROUP BY sport_class_id-->
+	<!--</select>-->
+
+	<select id="selectByClassId" resultType="map" parameterType="String" >
+	SELECT any_value(GROUP_CONCAT(nj)) AS multiNj,any_value(GROUP_CONCAT(sectionName)) AS multiSection,any_value(GROUP_CONCAT(sectionId)) AS multiSectionId,
+	sport_class_id,any_value(teacherName) teacherName,any_value(sectionName) sectionName,any_value(sport_class_name) sport_class_name,any_value(item_name) item_name,any_value(school_id) school_id ,any_value(sport_item_id) sport_item_id
+	 FROM v_sport_class WHERE sport_class_id=#{sportClassId} and school_id=#{schoolId}
+	GROUP BY sport_class_id
+	</select>
+
+	<select id="getMaxScort" resultType="map" parameterType="String" >
+		select max(sort) sort from sport_class where school_id=#{schoolId}
+	</select>
+
+</mapper>

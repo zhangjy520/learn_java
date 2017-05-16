@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_StudentMapper" >
+<select id="selectStudent" resultType="map" >
+  select student.xd,student.nj,section.name,student.xsxb,student.xsxm,student.xh
+  from user_student student LEFT JOIN  org_class_section section ON student.xd = section.id
+  where student.school_id=#{schoolId}
+</select>
+
+
+<select id="selectStudentByCondition" resultType="java.util.Map" parameterType="java.util.Map">
+  select * from v_student_classinfo WHERE school_id =#{schoolId}
+  <if test="nj !=null and nj !=''">
+    and nj = #{nj}
+  </if>
+  <if test="xd != null and xd !=''">
+    and xd =#{xd}
+  </if>
+  <if test="classId !=null and classId !=''">
+    and class_id = #{classId}
+  </if>
+  <if test="xsxb != null and xsxb !=''">
+    and xsxb =#{xsxb}
+  </if>
+  <if test="xsxm !=null and xsxm !=''">
+    and xsxm like #{xsxm}
+  </if>
+</select>
+<!--有用-->
+<!--<select id="getAllStudent" resultType="map" parameterType="String">-->
+  <!--select v.`xd` xd,v.`indexName` indexName,v.`xsxm` xsxm,v.`nj` nj,v.`className` className ,v.`xsxb` xsxb  from v_student_ring_classinfo v where school_id=#{schoolId} GROUP BY indexName-->
+<!--</select>-->
+  <select id="getAllStudent" resultType="map" parameterType="String">
+    SELECT any_value(xd),indexName,any_value(xsxm),any_value(nj),any_value(className) ,any_value(xsxb)  FROM v_student_ring_classinfo v where school_id=#{schoolId} GROUP BY indexName
+  </select>
+
+ <select id="getClassStudent" resultType="map">
+   select * from ref_class_student AS  refStudent left join user_student AS  userStudent on refStudent.student_id = userStudent.xh where refStudent.sport_class_id=#{sportClassId}
+ </select>
+
+</mapper>

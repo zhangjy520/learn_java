@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_SportTestMapper">
+
+    <!--<select id="getScoreAndStu" statementType="CALLABLE" resultType="java.util.Map">
+       <![CDATA[
+
+
+
+
+           {call f_score_stu(
+              #{expire,mode=IN,jdbcType=INTEGER},
+              #{schoolId,mode=IN,jdbcType=INTEGER}
+           )}
+
+
+
+
+        ]]>
+    </select>-->
+
+    <!--根据个人信息，选择对应的映射规则,做差取绝对值-->
+    <select id="chooseRuleByInfo" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT * FROM score_mapping_rule WHERE
+        item_id = #{itemId} AND
+        <if test="schoolId != null and schoolId!=''">
+            school_id = #{schoolId} AND
+        </if>
+        xd = #{xd} AND
+        nj = #{nj} AND
+        rule_type = #{ruleType} AND
+        gender = #{gender} AND del_flag = 0
+        ORDER BY ABS(mark - #{mark}) LIMIT 1
+    </select>
+
+    <!--成绩查看，修改-->
+    <select id="getScoreByCriteria" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT * FROM v_score_stuinfo v WHERE v.`scoreType` = #{scoreType} AND v.`schoolId` = #{schoolId}
+        <if test="expire != null and expire!=''">
+            AND v.`expire` = #{expire}
+        </if>
+        <if test="classId != null and classId.size() > 0">
+            AND v.`classId` IN
+            <foreach item="classid" index="index" collection="classId" open="(" separator="," close=")">
+                #{classid}
+            </foreach>
+        </if>
+        <if test="stuNameOrNo == null or stuNameOrNo ==''">
+            <if test="itemName != null and itemName!=''">
+                AND v.`itemName` LIKE #{itemName}
+            </if>
+            <if test="itemId != null and itemId!=''">
+                AND v.`itemId` = #{itemId}
+            </if>
+            <if test="gender != null and gender!=0">
+                AND v.`gender` = #{gender}
+            </if>
+            <if test="testCount != null and testCount!=''">
+                AND v.`testCount` = #{testCount}
+            </if>
+            <if test="testTime != null and testTime!=''">
+                AND v.`testTime` = #{testTime}
+            </if>
+            <if test="xdId != null and xdId!=''">
+                AND v.`xd` = #{xdId}
+            </if>
+            <if test="njId != null and njId!=''">
+                AND v.`nj` = #{njId}
+            </if>
+            <if test="oneClass != null and oneClass!=''">
+                AND v.`classId` = #{oneClass}
+            </if>
+        </if>
+        <if test="stuNameOrNo != null and stuNameOrNo!=''">
+            AND (v.`xsxm` LIKE #{stuNameOrNo} OR v.`stuNum` LIKE #{stuNameOrNo})
+        </if>
+        ORDER BY stuNum,testTime,itemName
+    </select>
+
+    <!--查询所有的测试次序-->
+    <select id="getAllTestCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT
+          ref.`test_id`
+        FROM
+          ref_student_score ref
+        WHERE ref.`school_id` = #{schoolId} AND ref.`score_type` = 0
+        GROUP BY ref.`test_id`
+    </select>
+
+    <!--查询映射表中所有的年级-->
+    <select id="getAllNj" resultType="java.lang.String" parameterType="java.lang.String">
+       SELECT grade_name,nj FROM score_mapping_rule WHERE rule_type = 0 AND school_id = #{schoolId} GROUP BY grade_name,nj order by nj
+    </select>
+
+    <!--根据用户拥有的classId集合查询拥有的年级，班级信息-->
+    <select id="getSchoolClass" resultType="java.util.Map" parameterType="java.util.List">
+        SELECT * FROM v_section_class v WHERE v.`schoolId` = #{schoolId}
+        <if test="classId != null and classId.size() > 0">
+            AND v.`classId` IN
+            <foreach item="classid" index="index" collection="classId" open="(" separator="," close=")">
+                #{classid}
+            </foreach>
+        </if>
+        ORDER by className
+    </select>
+
+    <!--根据年级名字,班级查询对应的xd,nj-->
+    <select id="getClassDetail" resultType="java.util.Map" parameterType="java.util.List">
+        SELECT
+        *
+        FROM
+        v_section_class
+        WHERE
+        schoolId = #{schoolId}
+        <if test="indexName != null and indexName!=''">
+            AND indexName = #{indexName}
+        </if>
+    </select>
+
+    <!--教学建议，最新分数：平均成绩，平均分数
+        percent1:优秀，正常率
+        percent2:良好，超重
+        percent3:及格，肥胖
+        percent4:不及格，低体重
+        any_value(testTime) as testTime,
+    -->
+    <select id="getAvg" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        MAX(testTime) as testTime,
+        itemId,
+        itemName,
+        itemUnit,
+        TRUNCATE(AVG(mark),0) AS mark,
+        TRUNCATE(AVG(stuScore),2) AS score,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '优秀' OR stuLevel ='正常'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent1,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '良好' OR stuLevel = '超重'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent2,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '及格' OR stuLevel = '肥胖'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent3,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '不及格' OR stuLevel = '低体重'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent4
+        FROM
+        v_score_stuinfo
+        /* WHERE expire = 0*/
+        WHERE 1=1
+        AND scoreType = #{scoreType}
+        AND schoolId = #{schoolId}
+        <if test="gender != null and gender!=0 and gender!=-1">
+            AND gender = #{gender}
+        </if>
+        <if test="classId != null and classId!=0 and classId!= -1 ">
+            AND classId = #{classId}
+        </if>
+        <if test="xdId != null and xdId!=0 and xdId!=-1">
+            AND xd =#{xdId} AND nj = #{njId}
+        </if>
+        GROUP BY itemId, itemName, itemUnit
+    </select>
+
+    <!--通过xd，nj，查询项目列表-->
+    <select id="getItems" resultType="java.util.Map">
+
+        SELECT itemName,itemId,itemUnit FROM v_score_stuinfo WHERE
+        scoreType = #{scoreType}
+        AND itemType = 0
+        <if test="xdId != null and xdId!=0 and xdId!=-1">
+            AND xd =#{xdId} AND nj = #{njId}
+        </if>
+        AND schoolId =#{schoolId}
+        GROUP BY itemId, itemName, itemUnit
+    </select>
+
+    <!--查询成绩不及格的学生列表-->
+    <select id="getFailStuList" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        v_score_stuinfo
+        WHERE expire = 0
+        AND scoreType = 0
+        AND stuLevel = #{stuLevel}
+        AND schoolId = #{schoolId}
+        <if test="gender != null and gender!=0 and gender!=-1">
+            AND gender = #{gender}
+        </if>
+        <if test="itemId != null and itemId!=''">
+            AND itemId = #{itemId}
+        </if>
+        <if test="classId != null and classId!=0 and classId!= -1 ">
+            AND classId = #{classId}
+        </if>
+        <if test="xdId != null and xdId!=0 and xdId!=-1">
+            AND xd =#{xdId} AND nj = #{njId}
+        </if>
+        ORDER BY itemName,classId
+    </select>
+
+
+    <!--成绩统计变化曲线-->
+    <select id="getScoreLine" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        testCount,
+        itemUnit,
+        MAX(mark+"") as maxMark,
+        MIN(mark+"") as minMark,
+        MAX(stuScore+"") as maxScore,
+        MIN(stuScore+"") as minScore,
+        TRUNCATE(AVG(mark), 0) AS mark,
+        TRUNCATE(AVG(stuScore), 2) AS score,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = "优秀"
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS yxl,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = "良好"
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS lhl,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = "不及格"
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS bjgl,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel IN ("及格")
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS jg,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel IN ("优秀", "良好", "及格")
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS jgl
+        FROM
+        v_score_stuinfo
+        WHERE schoolId = #{schoolId} AND scoreType = 0
+        <if test="xdId != null and xdId!=0 and xdId!=-1">
+            AND xd =#{xdId} AND nj = #{njId}
+        </if>
+        <if test="itemId != null and itemId!=''">
+            AND itemId = #{itemId}
+        </if>
+        <if test="gender != null and gender!=0 and gender!= -1 ">
+            AND gender = #{gender}
+        </if>
+        <if test="classId != null and classId!=0 and classId!= -1 ">
+            AND classId = #{classId}
+        </if>
+        GROUP BY testCount,itemUnit
+    </select>
+
+    <select id="getScoreByPrimary" resultType="java.util.Map" parameterType="java.lang.String">
+       SELECT * FROM v_score_stuinfo WHERE prim = #{testSeq}
+    </select>
+
+    <!--首页功能-->
+    <!--运动时间+入睡时间+睡眠时长+运动时长+入睡时间+睡眠时长-->
+    <select id="getGlobalDaily" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        info_date,
+        TRUNCATE(AVG(sport_time), 2) AS sportTime,
+        TRUNCATE(AVG(walk_day), 2) AS walkAll,
+        TRUNCATE(AVG(distance_day), 2) AS distance,
+        TRUNCATE(AVG(calories_day), 2) AS calories,
+        TRUNCATE(AVG(asleep_time), 2) AS asleepTime,
+        TRUNCATE(
+        AVG(
+        deep_sleep + shallow_sleep + conscious_sleep
+        ),
+        2
+        ) AS sleepLong,
+        TRUNCATE(AVG(sleep_quality), 2) AS sleepQuality,
+        TRUNCATE(AVG(jog_day), 2) AS jog,
+        TRUNCATE(AVG(run_day), 2) AS run,
+        TRUNCATE(AVG(deep_sleep), 2) AS deepSleep,
+        TRUNCATE(AVG(shallow_sleep), 2) AS shallowSleep,
+        TRUNCATE(AVG(conscious_sleep), 2) AS consciousSleep,
+        TRUNCATE(AVG(awake_time), 2) AS awakeTime,
+        TRUNCATE(AVG(step_day), 2) AS stepAll,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN sport_time &gt; (SELECT sport_standard FROM healthy_standard s WHERE v.xd = s.xd AND v.nj = s.nj AND
+        v.`school_id` = s.school_id)
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS ydsc,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN asleep_time &lt; (SELECT asleep_standard FROM healthy_standard s WHERE v.xd = s.xd AND v.nj = s.nj AND
+        v.`school_id` = s.school_id)
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS rssj,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN deep_sleep + shallow_sleep + conscious_sleep &gt; (SELECT sleep_standard FROM healthy_standard s WHERE v.xd
+        = s.xd AND v.nj = s.nj AND v.`school_id` = s.school_id)
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS smsc
+        FROM
+        <if test="whichDay == 0">
+            v_latest_student_ring_message v
+        </if>
+        <if test="whichDay == 1">
+            v_before_latest_student_ring_message v
+        </if>
+        WHERE 1 = 1
+        <if test="classId != null and classId.size() > 0">
+            AND class_id IN
+            <foreach item="classid" index="index" collection="classId" open="(" separator="," close=")">
+                #{classid}
+            </foreach>
+        </if>
+        AND school_id = #{schoolId}
+        AND del_flag = 0
+        GROUP BY info_date
+    </select>
+
+    <select id="getGlobalSport" resultType="java.util.Map">
+        SELECT
+        nj,
+        njName,
+        itemName,
+        itemUnit,
+        TRUNCATE(AVG(mark), 0) AS avgMark,
+        TRUNCATE(MIN(mark+""), 2) AS minMark,
+        TRUNCATE(MAX(mark+""), 2) AS MaxMark,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel IN ("优秀", "良好", "及格")
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS jgl,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel ="优秀"
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS yxl
+        FROM
+        v_score_stuinfo
+        WHERE 1 = 1
+        <if test="classId != null and classId.size() > 0">
+            AND classId IN
+            <foreach item="classid" index="index" collection="classId" open="(" separator="," close=")">
+                #{classid}
+            </foreach>
+        </if>
+        AND schoolId =#{schoolId} AND scoreType = 0 AND expire = 0
+        GROUP BY itemName,itemUnit,nj,njName
+    </select>
+
+    <select id="getTeacherIdentify" resultType="java.util.Map">
+     SELECT
+          o.`xd`,
+          o.`nj`,
+          s.`asleep_standard` as asleepStandard,
+          s.`sleep_standard` as sleepStandard,
+          s.`sport_standard` as sportStandard
+        FROM
+          org_grade_class o
+          LEFT JOIN healthy_standard s
+            ON o.`xd` = s.xd
+            AND o.`nj` = s.nj
+            AND o.`school_id` = s.`school_id`
+            AND o.`school_id` = #{schoolId}
+        WHERE o.`id` IN
+          (SELECT
+            class_id
+          FROM
+            ref_teacher_class
+          WHERE teacher_id = #{teacherId})
+        GROUP BY o.`xd`,
+          o.`nj`,
+          s.`asleep_standard`,
+          s.`sleep_standard`,
+          s.`sport_standard`
+    </select>
+
+    <insert id="batchInsertScore" parameterType="java.util.List">
+        INSERT INTO `ref_student_score`
+        (`test_seq`,
+        `student_num`,
+        `item_id`,
+        `item_name`,
+        `student_score`,
+        `student_mark`,
+        `student_level`,
+        `school_id`,
+        `create_date`,
+        `create_by`,
+        `score_type`,
+        `test_date`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.testSeq},#{item.studentNum},#{item.itemId},#{item.itemName},#{item.studentScore},#{item.studentMark},
+            #{item.studentLevel},#{item.schoolId},#{item.createDate},#{item.createBy},#{item.scoreType},#{item.testDate})
+        </foreach>
+
+    </insert>
+
+    <!--批量获取视图信息-->
+    <select id="getBatchInfo" resultType="java.util.Map">
+        SELECT * FROM v_score_stuinfo WHERE prim IN
+        <foreach item="pri" index="index" collection="prims" open="(" separator="," close=")">
+            #{pri}
+        </foreach>
+    </select>
+
+    <!--批量更新学生成绩-->
+    <update id="batchUpdateScore" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update `ref_student_score`
+            <set>
+                `student_score` = #{item.studentScore},
+                `student_level` = #{item.studentLevel}
+            </set>
+            where test_seq = #{item.testSeq}
+        </foreach>
+    </update>
+
+    <select id="batchStuInfo" resultType="java.util.Map" parameterType="java.util.List">
+        SELECT sectionName,indexName,class_id AS classId,className,xh,xd,nj,xsxb AS gender FROM v_student_classinfo
+        WHERE xh IN
+        <foreach item="stuScoreRef" index="index" collection="stuScoreRefList" open="(" separator="," close=")">
+            #{stuScoreRef.studentNum}
+        </foreach>
+    </select>
+
+    <insert id="batchMapRuleSave" parameterType="java.util.List">
+        INSERT INTO `smart_ring`.`score_mapping_rule`
+        (`rule_id`,
+        `item_id`,
+        `item_name`,
+        `school_id`,
+        `xd`,
+        `nj`,
+        `grade_name`,
+        `gender`,
+        `mark`,
+        `score`,
+        `level`,
+        `create_time`,
+        `create_by`,
+        `update_time`,
+        `update_by`,
+        `rule_type`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.ruleId},
+            #{item.itemId},
+            #{item.itemName},
+            #{item.schoolId},
+            #{item.xd},
+            #{item.nj},
+            #{item.gradeName},
+            #{item.gender},
+            #{item.mark},
+            #{item.score},
+            #{item.level},
+            #{item.createTime},
+            #{item.createBy},
+            #{item.updateTime},
+            #{item.updateBy},
+            #{item.ruleType})
+        </foreach>
+
+    </insert>
+
+</mapper>

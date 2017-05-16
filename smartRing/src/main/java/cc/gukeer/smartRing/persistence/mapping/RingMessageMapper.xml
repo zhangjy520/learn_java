@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.RingMessageMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.smartRing.persistence.entity.RingMessage" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ring_mac" property="ringMac" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="station_mac" property="stationMac" jdbcType="VARCHAR" />
+    <result column="location_name" property="locationName" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="info_date" property="infoDate" jdbcType="BIGINT" />
+    <result column="calories_day" property="caloriesDay" jdbcType="INTEGER" />
+    <result column="distance_day" property="distanceDay" jdbcType="INTEGER" />
+    <result column="jog_day" property="jogDay" jdbcType="INTEGER" />
+    <result column="run_day" property="runDay" jdbcType="INTEGER" />
+    <result column="deep_sleep" property="deepSleep" jdbcType="INTEGER" />
+    <result column="shallow_sleep" property="shallowSleep" jdbcType="INTEGER" />
+    <result column="conscious_sleep" property="consciousSleep" jdbcType="INTEGER" />
+    <result column="awake_time" property="awakeTime" jdbcType="INTEGER" />
+    <result column="sleep_quality" property="sleepQuality" jdbcType="REAL" />
+    <result column="asleep_time" property="asleepTime" jdbcType="BIGINT" />
+    <result column="sport_time" property="sportTime" jdbcType="INTEGER" />
+    <result column="step_day" property="stepDay" jdbcType="INTEGER" />
+    <result column="walk_day" property="walkDay" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="last_update" property="lastUpdate" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, ring_mac, student_id, student_name, station_mac, location_name, balance, level, 
+    version, info_date, calories_day, distance_day, jog_day, run_day, deep_sleep, shallow_sleep, 
+    conscious_sleep, awake_time, sleep_quality, asleep_time, sport_time, step_day, walk_day, 
+    del_flag, create_date, last_update
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.smartRing.persistence.entity.RingMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ring_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ring_message
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ring_message
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.smartRing.persistence.entity.RingMessageExample" >
+    delete from ring_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.smartRing.persistence.entity.RingMessage" >
+    insert into ring_message (id, ring_mac, student_id, 
+      student_name, station_mac, location_name, 
+      balance, level, version, 
+      info_date, calories_day, distance_day, 
+      jog_day, run_day, deep_sleep, 
+      shallow_sleep, conscious_sleep, awake_time, 
+      sleep_quality, asleep_time, sport_time, 
+      step_day, walk_day, del_flag, 
+      create_date, last_update)
+    values (#{id,jdbcType=VARCHAR}, #{ringMac,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, 
+      #{studentName,jdbcType=VARCHAR}, #{stationMac,jdbcType=VARCHAR}, #{locationName,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, 
+      #{infoDate,jdbcType=BIGINT}, #{caloriesDay,jdbcType=INTEGER}, #{distanceDay,jdbcType=INTEGER}, 
+      #{jogDay,jdbcType=INTEGER}, #{runDay,jdbcType=INTEGER}, #{deepSleep,jdbcType=INTEGER}, 
+      #{shallowSleep,jdbcType=INTEGER}, #{consciousSleep,jdbcType=INTEGER}, #{awakeTime,jdbcType=INTEGER}, 
+      #{sleepQuality,jdbcType=REAL}, #{asleepTime,jdbcType=BIGINT}, #{sportTime,jdbcType=INTEGER}, 
+      #{stepDay,jdbcType=INTEGER}, #{walkDay,jdbcType=INTEGER}, #{delFlag,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=BIGINT}, #{lastUpdate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.smartRing.persistence.entity.RingMessage" >
+    insert into ring_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ringMac != null" >
+        ring_mac,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="stationMac != null" >
+        station_mac,
+      </if>
+      <if test="locationName != null" >
+        location_name,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="infoDate != null" >
+        info_date,
+      </if>
+      <if test="caloriesDay != null" >
+        calories_day,
+      </if>
+      <if test="distanceDay != null" >
+        distance_day,
+      </if>
+      <if test="jogDay != null" >
+        jog_day,
+      </if>
+      <if test="runDay != null" >
+        run_day,
+      </if>
+      <if test="deepSleep != null" >
+        deep_sleep,
+      </if>
+      <if test="shallowSleep != null" >
+        shallow_sleep,
+      </if>
+      <if test="consciousSleep != null" >
+        conscious_sleep,
+      </if>
+      <if test="awakeTime != null" >
+        awake_time,
+      </if>
+      <if test="sleepQuality != null" >
+        sleep_quality,
+      </if>
+      <if test="asleepTime != null" >
+        asleep_time,
+      </if>
+      <if test="sportTime != null" >
+        sport_time,
+      </if>
+      <if test="stepDay != null" >
+        step_day,
+      </if>
+      <if test="walkDay != null" >
+        walk_day,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="lastUpdate != null" >
+        last_update,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ringMac != null" >
+        #{ringMac,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationMac != null" >
+        #{stationMac,jdbcType=VARCHAR},
+      </if>
+      <if test="locationName != null" >
+        #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="infoDate != null" >
+        #{infoDate,jdbcType=BIGINT},
+      </if>
+      <if test="caloriesDay != null" >
+        #{caloriesDay,jdbcType=INTEGER},
+      </if>
+      <if test="distanceDay != null" >
+        #{distanceDay,jdbcType=INTEGER},
+      </if>
+      <if test="jogDay != null" >
+        #{jogDay,jdbcType=INTEGER},
+      </if>
+      <if test="runDay != null" >
+        #{runDay,jdbcType=INTEGER},
+      </if>
+      <if test="deepSleep != null" >
+        #{deepSleep,jdbcType=INTEGER},
+      </if>
+      <if test="shallowSleep != null" >
+        #{shallowSleep,jdbcType=INTEGER},
+      </if>
+      <if test="consciousSleep != null" >
+        #{consciousSleep,jdbcType=INTEGER},
+      </if>
+      <if test="awakeTime != null" >
+        #{awakeTime,jdbcType=INTEGER},
+      </if>
+      <if test="sleepQuality != null" >
+        #{sleepQuality,jdbcType=REAL},
+      </if>
+      <if test="asleepTime != null" >
+        #{asleepTime,jdbcType=BIGINT},
+      </if>
+      <if test="sportTime != null" >
+        #{sportTime,jdbcType=INTEGER},
+      </if>
+      <if test="stepDay != null" >
+        #{stepDay,jdbcType=INTEGER},
+      </if>
+      <if test="walkDay != null" >
+        #{walkDay,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ring_message
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ringMac != null" >
+        ring_mac = #{record.ringMac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentName != null" >
+        student_name = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationMac != null" >
+        station_mac = #{record.stationMac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locationName != null" >
+        location_name = #{record.locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.balance != null" >
+        balance = #{record.balance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.infoDate != null" >
+        info_date = #{record.infoDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.caloriesDay != null" >
+        calories_day = #{record.caloriesDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.distanceDay != null" >
+        distance_day = #{record.distanceDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.jogDay != null" >
+        jog_day = #{record.jogDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.runDay != null" >
+        run_day = #{record.runDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.deepSleep != null" >
+        deep_sleep = #{record.deepSleep,jdbcType=INTEGER},
+      </if>
+      <if test="record.shallowSleep != null" >
+        shallow_sleep = #{record.shallowSleep,jdbcType=INTEGER},
+      </if>
+      <if test="record.consciousSleep != null" >
+        conscious_sleep = #{record.consciousSleep,jdbcType=INTEGER},
+      </if>
+      <if test="record.awakeTime != null" >
+        awake_time = #{record.awakeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.sleepQuality != null" >
+        sleep_quality = #{record.sleepQuality,jdbcType=REAL},
+      </if>
+      <if test="record.asleepTime != null" >
+        asleep_time = #{record.asleepTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.sportTime != null" >
+        sport_time = #{record.sportTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepDay != null" >
+        step_day = #{record.stepDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.walkDay != null" >
+        walk_day = #{record.walkDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastUpdate != null" >
+        last_update = #{record.lastUpdate,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ring_message
+    set id = #{record.id,jdbcType=VARCHAR},
+      ring_mac = #{record.ringMac,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=VARCHAR},
+      student_name = #{record.studentName,jdbcType=VARCHAR},
+      station_mac = #{record.stationMac,jdbcType=VARCHAR},
+      location_name = #{record.locationName,jdbcType=VARCHAR},
+      balance = #{record.balance,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      info_date = #{record.infoDate,jdbcType=BIGINT},
+      calories_day = #{record.caloriesDay,jdbcType=INTEGER},
+      distance_day = #{record.distanceDay,jdbcType=INTEGER},
+      jog_day = #{record.jogDay,jdbcType=INTEGER},
+      run_day = #{record.runDay,jdbcType=INTEGER},
+      deep_sleep = #{record.deepSleep,jdbcType=INTEGER},
+      shallow_sleep = #{record.shallowSleep,jdbcType=INTEGER},
+      conscious_sleep = #{record.consciousSleep,jdbcType=INTEGER},
+      awake_time = #{record.awakeTime,jdbcType=INTEGER},
+      sleep_quality = #{record.sleepQuality,jdbcType=REAL},
+      asleep_time = #{record.asleepTime,jdbcType=BIGINT},
+      sport_time = #{record.sportTime,jdbcType=INTEGER},
+      step_day = #{record.stepDay,jdbcType=INTEGER},
+      walk_day = #{record.walkDay,jdbcType=INTEGER},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=BIGINT},
+      last_update = #{record.lastUpdate,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.smartRing.persistence.entity.RingMessage" >
+    update ring_message
+    <set >
+      <if test="ringMac != null" >
+        ring_mac = #{ringMac,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationMac != null" >
+        station_mac = #{stationMac,jdbcType=VARCHAR},
+      </if>
+      <if test="locationName != null" >
+        location_name = #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="infoDate != null" >
+        info_date = #{infoDate,jdbcType=BIGINT},
+      </if>
+      <if test="caloriesDay != null" >
+        calories_day = #{caloriesDay,jdbcType=INTEGER},
+      </if>
+      <if test="distanceDay != null" >
+        distance_day = #{distanceDay,jdbcType=INTEGER},
+      </if>
+      <if test="jogDay != null" >
+        jog_day = #{jogDay,jdbcType=INTEGER},
+      </if>
+      <if test="runDay != null" >
+        run_day = #{runDay,jdbcType=INTEGER},
+      </if>
+      <if test="deepSleep != null" >
+        deep_sleep = #{deepSleep,jdbcType=INTEGER},
+      </if>
+      <if test="shallowSleep != null" >
+        shallow_sleep = #{shallowSleep,jdbcType=INTEGER},
+      </if>
+      <if test="consciousSleep != null" >
+        conscious_sleep = #{consciousSleep,jdbcType=INTEGER},
+      </if>
+      <if test="awakeTime != null" >
+        awake_time = #{awakeTime,jdbcType=INTEGER},
+      </if>
+      <if test="sleepQuality != null" >
+        sleep_quality = #{sleepQuality,jdbcType=REAL},
+      </if>
+      <if test="asleepTime != null" >
+        asleep_time = #{asleepTime,jdbcType=BIGINT},
+      </if>
+      <if test="sportTime != null" >
+        sport_time = #{sportTime,jdbcType=INTEGER},
+      </if>
+      <if test="stepDay != null" >
+        step_day = #{stepDay,jdbcType=INTEGER},
+      </if>
+      <if test="walkDay != null" >
+        walk_day = #{walkDay,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdate != null" >
+        last_update = #{lastUpdate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.smartRing.persistence.entity.RingMessage" >
+    update ring_message
+    set ring_mac = #{ringMac,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=VARCHAR},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      station_mac = #{stationMac,jdbcType=VARCHAR},
+      location_name = #{locationName,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      info_date = #{infoDate,jdbcType=BIGINT},
+      calories_day = #{caloriesDay,jdbcType=INTEGER},
+      distance_day = #{distanceDay,jdbcType=INTEGER},
+      jog_day = #{jogDay,jdbcType=INTEGER},
+      run_day = #{runDay,jdbcType=INTEGER},
+      deep_sleep = #{deepSleep,jdbcType=INTEGER},
+      shallow_sleep = #{shallowSleep,jdbcType=INTEGER},
+      conscious_sleep = #{consciousSleep,jdbcType=INTEGER},
+      awake_time = #{awakeTime,jdbcType=INTEGER},
+      sleep_quality = #{sleepQuality,jdbcType=REAL},
+      asleep_time = #{asleepTime,jdbcType=BIGINT},
+      sport_time = #{sportTime,jdbcType=INTEGER},
+      step_day = #{stepDay,jdbcType=INTEGER},
+      walk_day = #{walkDay,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=BIGINT},
+      last_update = #{lastUpdate,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

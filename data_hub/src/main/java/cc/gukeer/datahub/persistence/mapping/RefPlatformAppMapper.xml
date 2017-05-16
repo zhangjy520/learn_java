@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.datahub.persistence.dao.RefPlatformAppMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.datahub.persistence.entity.RefPlatformApp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="platform_id" property="platformId" jdbcType="VARCHAR" />
+    <result column="queues" property="queues" jdbcType="VARCHAR" />
+    <result column="app_status" property="appStatus" jdbcType="INTEGER" />
+    <result column="opt_status" property="optStatus" jdbcType="INTEGER" />
+    <result column="data_status" property="dataStatus" jdbcType="INTEGER" />
+    <result column="sync_status" property="syncStatus" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, app_id, platform_id, queues, app_status, opt_status, data_status, sync_status, 
+    create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformAppExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ref_platform_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ref_platform_app
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ref_platform_app
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformAppExample" >
+    delete from ref_platform_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformApp" >
+    insert into ref_platform_app (id, app_id, platform_id, 
+      queues, app_status, opt_status, 
+      data_status, sync_status, create_time, 
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{platformId,jdbcType=VARCHAR}, 
+      #{queues,jdbcType=VARCHAR}, #{appStatus,jdbcType=INTEGER}, #{optStatus,jdbcType=INTEGER}, 
+      #{dataStatus,jdbcType=INTEGER}, #{syncStatus,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformApp" >
+    insert into ref_platform_app
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="platformId != null" >
+        platform_id,
+      </if>
+      <if test="queues != null" >
+        queues,
+      </if>
+      <if test="appStatus != null" >
+        app_status,
+      </if>
+      <if test="optStatus != null" >
+        opt_status,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="syncStatus != null" >
+        sync_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="platformId != null" >
+        #{platformId,jdbcType=VARCHAR},
+      </if>
+      <if test="queues != null" >
+        #{queues,jdbcType=VARCHAR},
+      </if>
+      <if test="appStatus != null" >
+        #{appStatus,jdbcType=INTEGER},
+      </if>
+      <if test="optStatus != null" >
+        #{optStatus,jdbcType=INTEGER},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=INTEGER},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformAppExample" resultType="java.lang.Integer" >
+    select count(*) from ref_platform_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ref_platform_app
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null" >
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformId != null" >
+        platform_id = #{record.platformId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.queues != null" >
+        queues = #{record.queues,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appStatus != null" >
+        app_status = #{record.appStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.optStatus != null" >
+        opt_status = #{record.optStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataStatus != null" >
+        data_status = #{record.dataStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.syncStatus != null" >
+        sync_status = #{record.syncStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ref_platform_app
+    set id = #{record.id,jdbcType=VARCHAR},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      platform_id = #{record.platformId,jdbcType=VARCHAR},
+      queues = #{record.queues,jdbcType=VARCHAR},
+      app_status = #{record.appStatus,jdbcType=INTEGER},
+      opt_status = #{record.optStatus,jdbcType=INTEGER},
+      data_status = #{record.dataStatus,jdbcType=INTEGER},
+      sync_status = #{record.syncStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformApp" >
+    update ref_platform_app
+    <set >
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="platformId != null" >
+        platform_id = #{platformId,jdbcType=VARCHAR},
+      </if>
+      <if test="queues != null" >
+        queues = #{queues,jdbcType=VARCHAR},
+      </if>
+      <if test="appStatus != null" >
+        app_status = #{appStatus,jdbcType=INTEGER},
+      </if>
+      <if test="optStatus != null" >
+        opt_status = #{optStatus,jdbcType=INTEGER},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=INTEGER},
+      </if>
+      <if test="syncStatus != null" >
+        sync_status = #{syncStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.datahub.persistence.entity.RefPlatformApp" >
+    update ref_platform_app
+    set app_id = #{appId,jdbcType=VARCHAR},
+      platform_id = #{platformId,jdbcType=VARCHAR},
+      queues = #{queues,jdbcType=VARCHAR},
+      app_status = #{appStatus,jdbcType=INTEGER},
+      opt_status = #{optStatus,jdbcType=INTEGER},
+      data_status = #{dataStatus,jdbcType=INTEGER},
+      sync_status = #{syncStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

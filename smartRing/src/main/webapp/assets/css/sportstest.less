@@ -1,0 +1,275 @@
+//成绩统计
+//.items-selector{
+//  font-size:13px;
+//  color:#999;
+//  ul.clear{
+//    color:#676767;
+//    margin-left:5px;
+//    margin-bottom:25px;
+//    li{
+//      float:left;
+//      margin-left:25px;
+//      cursor: pointer;
+//      &.active{color:#19BE9D;}
+//    }
+//  }
+//}
+.grade-tendency,.latest-grade{
+  margin-top:25px;
+  >div{
+    width:739px;
+    font-size:13px;color:#999;
+    margin-bottom:24px;
+    padding:0 13px;
+    ul{
+      margin-left:196px;
+      font-size:14px;
+      color:#555;
+      li{
+        float:left;
+        margin-left:80px;
+        position:relative;
+        &:after{
+          content:'';
+          position:absolute;
+          width:20px;
+          height:3px;
+          left:-34px;
+          top:8px;
+        }
+        &:first-child:after{background:#19BE9D;}
+        &:nth-child(2):after{background:#FFAF25;}
+        &:last-child:after{background:#5093E7;}
+      }
+    }
+  }
+  >main{
+    padding-top:45px;
+    width:300px;
+    text-align: center;
+    font-size: 18px;
+    color:#676767;
+    div.clear{border-bottom:1px solid #ddd;margin-bottom:50px;padding:20px 0 15px 0;}
+    aside.lf{
+      color:#676767;
+      font-size:13px;
+      line-height: 24px;
+    }
+    aside.rl{
+      //font-size: 18px;
+      //color:#676767;
+
+      i{
+        position:absolute;
+        width:13px;
+        height:16px;
+        background:url(../images/tendency-u.png) no-repeat center center;
+        top:3px;
+        right:0;
+      }
+    }
+  }
+}
+.grade-tendency{margin-bottom:80px;}
+//教学建议
+.test-grade{
+  margin-top:25px;
+  >div{
+    height:300px;
+    overflow-y:scroll;
+  }
+  table{
+    width:380px;
+    td{width:33.33%;}
+  }
+}
+.lacking-grade{
+  margin-top:25px;
+  margin-bottom:80px;
+  p{
+    border-bottom:1px solid #ddd;
+    select{
+      width:202px;
+      height:28px;
+      border:1px solid #ddd;
+      border-radius: 3px;
+      color:#333;
+    }
+  }
+  >div{
+    padding:23px 25px;
+    table th{
+      width:16.66%;
+    }
+  }
+}
+//体育测试
+#sportstest{
+  >section{
+    width:558px;
+    margin-bottom:25px;
+    >main ul{
+      margin:68px 33px 0 0;
+      li{
+        font-size:13px;
+        color:#333;
+        position:relative;
+        margin-bottom:20px;
+        &:before{
+          content:'';
+          position:absolute;
+          width:12px;
+          height:5px;
+          left:-19px;
+          top:6px;
+        }
+        &:nth-child(1):before{background:#FF7F50;}
+        &:nth-child(2):before{background:#87CEFA;}
+        &:nth-child(3):before{background:#DA70D6;}
+        &:nth-child(4):before{background:#32CD32;}
+      }
+    }
+    >main div{
+      margin-left:53px;
+    }
+    >div{
+      padding:30px 30px 10px 30px;
+      td{text-align:center;width:33.33%}
+    }
+  }
+}
+
+//成绩管理
+#gradeManage{
+  .sh-tabs {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    background: #E7EAEC;
+    font-size: 15px;
+    display: inline-block;
+    padding: 5px 5px 0 5px;
+    li {
+      float: left;
+    }
+    li a {
+      padding: 0 15px;
+      line-height: 36px;
+      color: #676767;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      &.active {
+        background: #fff;
+      }
+    }
+  }
+  >div{
+    border-top:none;
+    margin-top:-4px;
+  }
+  #test1,#test3{
+    margin-bottom:80px;
+    header{
+      margin:20px 0 0 0;
+      aside{
+        span{font-size:13px;color:#676767;margin-right:6px;}
+        select{
+          outline:none;
+          width:120px;
+          height:28px;
+          border:1px solid #ddd;border-radius:3px;
+          font-size:13px;color:#525252;
+          margin-right:20px;
+        }
+      }
+    }
+    section{
+      button{float:right;border:1px solid #19BE9D;color:#fff;font-size:13px;padding:0 15px;margin-left:13px;background: #19BE9D;border-radius:3px;height:28px;}
+      .search{position:relative;margin:0;}
+      .search:after{content:'';top:6px;right:7px;position:absolute;width:16px;height:16px;background: url(../images/icon.png) no-repeat -1px -50px;}
+      input{
+        height:28px;
+        font-size:12px;
+        color:#999;padding-left:5px;
+        border:1px solid #ddd;
+        border-radius:3px;
+        width:200px;
+      }
+    }
+    >div{
+      margin-top:12px;
+      padding-top:15px;
+      border-top:1px solid #ddd;
+      table td span{
+        line-height:23px;
+        padding:0 8px;
+        border-radius:3px;
+        font-size:12px;
+        margin-right:10px;
+        color:#fff;
+        cursor: pointer;
+      }
+    }
+    footer{padding:0;}
+  }
+  #test2{
+    margin-bottom:80px;
+    display:none;
+    padding:50px 85px;
+    div{
+      font-size:13px;
+      position:relative;
+      margin-bottom:20px;
+      span{
+        color:#676767;
+        margin-right:20px;
+      }
+      input{
+        border:1px solid #ddd;
+        width:200px;
+        height:28px;
+        border-radius: 3px;
+      }
+      select{
+        border:1px solid #ddd;
+        width:200px;
+        height:28px;
+        border-radius: 3px;
+      }
+      i{
+        position:absolute;
+        width:20px;
+        height:20px;
+        background:url(../images/help.png) no-repeat center center;
+        left:285px;
+        top:4px;
+        cursor: pointer;
+      }
+    }
+    footer{
+      margin-top:50px;
+      button{
+        height:28px;
+        padding:0 15px;
+        border-radius:3px;
+        color:#fff;
+        margin-right:25px;
+        &:first-child{border:1px solid #19BE9D;background:#19BE9D}
+        &:last-child{border:1px solid #c3d0cd;background:#c3d0cd}
+      }
+    }
+  }
+  #test3{
+    display:none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+

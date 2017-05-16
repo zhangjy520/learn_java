@@ -1,0 +1,140 @@
+#index-main {
+  width: 1140px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+}
+#index-main .module-bg {
+  border-top: 4px solid #e7eaec;
+  padding: 16px 23px;
+  background: #fff;
+}
+#index-main .module-bg > p {
+  font-weight: 500;
+  color: #676767;
+  font-size: 15px;
+  margin-bottom: 23px;
+}
+#index-main > section {
+  margin:0 auto;
+  margin-bottom: 25px;
+}
+#index-main #i-1-line > div {
+  width: 363px;
+}
+#index-main #i-1-line > div h3 {
+  font-size: 30px;
+  font-weight: 500;
+  color: #676767;
+}
+#index-main #i-1-line > div span {
+  float: right;
+  height: 21px;
+  padding-right: 18px;
+}
+#index-main #i-1-line > div span.duration-up {
+  color: #19BE9D;
+  background: url(../images/tendency-u.png) no-repeat right center;
+}
+#index-main #i-1-line > div span.duration-down {
+  color: #FC315C;
+  background: url(../images/tendency-d.png) no-repeat right center;
+}
+#index-main #i-1-line > div span.duration-m {
+  background: url(../images/tendency-m.png) no-repeat right center;
+}
+#index-main #i-2-line > div {
+  width: 363px;
+}
+#index-main #i-2-line > div footer {
+  padding: 0 50px;
+  font-size: 12px;
+  margin: 20px 0 10px 0;
+}
+#index-main #i-2-line > div footer span {
+  color: #676767;
+  padding-left: 16px;
+  position: relative;
+}
+#index-main #i-2-line > div footer span.lf:before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  background: #D4D2D2;
+  left: -6px;
+  top: 2px;
+}
+#index-main #i-2-line > div footer span.rl:before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  background: #FFAF25;
+  left: -6px;
+  top: 2px;
+}
+#index-main #i-2-line > div > div {
+  margin-left: 52px;
+}
+#index-main #i-2-line > div:nth-child(2) span.rl:before {
+  background: #19BE9D;
+}
+#index-main #i-2-line > div:nth-child(3) span.rl:before {
+  background: #CD6DE9;
+}
+#index-main #i-3-line > div > span,
+#index-main #i-4-line > div > span,
+#index-main #i-5-line > div > span {
+  display: block;
+  font-size: 13px;
+  color: #999;
+  margin: 0 0 8px 18px;
+}
+#index-main #i-3-line main,
+#index-main #i-4-line main,
+#index-main #i-5-line main {
+  width: 300px;
+}
+#index-main #i-3-line main .clear,
+#index-main #i-4-line main .clear,
+#index-main #i-5-line main .clear {
+  margin-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+#index-main #i-3-line main .clear aside h3,
+#index-main #i-4-line main .clear aside h3,
+#index-main #i-5-line main .clear aside h3 {
+  font-size: 26px;
+  color: #676767;
+  font-weight: 500;
+}
+#index-main #i-3-line main .clear aside span,
+#index-main #i-4-line main .clear aside span,
+#index-main #i-5-line main .clear aside span {
+  font-size: 12px;
+  color: #999;
+}
+#index-main #i-3-line main .clear aside i,
+#index-main #i-4-line main .clear aside i,
+#index-main #i-5-line main .clear aside i {
+  display: inline-block;
+  width: 20px;
+  height: 16px;
+}
+#index-main #i-3-line main .clear aside .pull-u,
+#index-main #i-4-line main .clear aside .pull-u,
+#index-main #i-5-line main .clear aside .pull-u {
+  background: url(../images/tendency-u.png) no-repeat center center;
+}
+#index-main #i-3-line main .clear aside .pull-d,
+#index-main #i-4-line main .clear aside .pull-d,
+#index-main #i-5-line main .clear aside .pull-d {
+  background: url(../images/tendency-d.png) no-repeat center center;
+}
+#index-main #i-3-line main .clear aside .pull-m,
+#index-main #i-4-line main .clear aside .pull-m,
+#index-main #i-5-line main .clear aside .pull-m {
+  background: url(../images/tendency-m.png) no-repeat center center;
+}

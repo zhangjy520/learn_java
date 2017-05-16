@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_MessageExtensionMapper">
+
+    <resultMap id="ExtensionBaseResultMap" type="cc.gukeer.smartRing.persistence.entity.extension.MessageView"
+               extends="cc.gukeer.smartRing.persistence.dao.RingMessageMapper.BaseResultMap">
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="StandardMap" type="cc.gukeer.smartRing.persistence.entity.extension.StandardView"
+               extends="cc.gukeer.smartRing.persistence.dao.HealthyStandardMapper.BaseResultMap">
+        <result column="xdName" property="xdName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="LogMap" type="cc.gukeer.smartRing.persistence.entity.extension.LogDetailView"
+               extends="cc.gukeer.smartRing.persistence.dao.ScanLogMapper.BaseResultMap">
+        <result column="areaName" property="areaName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="StatisticsMap" type="cc.gukeer.smartRing.persistence.entity.extension.Statistics">
+        <result column="stuNum" property="stuNum" jdbcType="INTEGER"/>
+        <result column="totalNum" property="totalNum" jdbcType="INTEGER"/>
+        <result column="avgSport" property="avgSport" jdbcType="DOUBLE"/>
+        <result column="avgSleep" property="avgSleep" jdbcType="DOUBLE"/>
+        <result column="avgAsleepTime" property="avgAsleepTime" jdbcType="INTEGER"/>
+        <result column="avgDeepSleep" property="avgDeepSleep" jdbcType="DOUBLE"/>
+        <result column="avgSleepQuality" property="avgSleepQuality" jdbcType="DOUBLE"/>
+        <result column="avgCalories" property="avgCalories" jdbcType="DOUBLE"/>
+        <result column="avgDistance" property="avgDistance" jdbcType="DOUBLE"/>
+        <result column="infoDate" property="infoDate" jdbcType="INTEGER"/>
+        <result column="avgWalkDay" property="avgWalkDay" jdbcType="INTEGER"/>
+        <result column="moreThanSportTime" property="moreThanSportTime" jdbcType="DOUBLE"/>
+        <result column="moreThanSleepTime" property="moreThanSleepTime" jdbcType="DOUBLE"/>
+        <result column="moreThanAsleepTime" property="moreThanAsleepTime" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <!--尝试修改-->
+    <!--圆饼图数据-->
+    <select id="messagePieChart" resultType="java.util.Map">
+        select avg(r.sport_time) as sportTime,
+        any_value(h.sport_standard) as sportStandard,
+        AVG(r.asleep_time) asleep,
+        any_value(h.asleep_standard) as asleepStandard,
+        AVG(r.deep_sleep+r.shallow_sleep+r.conscious_sleep) as sleep,
+        any_value(h.sleep_standard) as sleepStandard
+        from ring_message r
+        INNER JOIN user_student s on r.student_id = s.id and s.del_flag=0
+        INNER JOIN healthy_standard h on s.xd = h.xd and s.nj = h.nj and h.del_flag=0
+        INNER JOIN org_grade_class c on s.class_id = c.id and c.del_flag=0
+        <if test="xd != null">
+            AND c.xd = #{xd}
+        </if>
+        <if test="nj != null">
+            AND c.nj = #{nj}
+        </if>
+        <if test="classId != null">
+            AND c.id = #{classId}
+        </if>
+        INNER JOIN ref_teacher_class ON c.id = ref_teacher_class.class_id AND ref_teacher_class.teacher_id = #{teacherId}
+        where r.del_flag=0
+        <if test="fromDate != null">
+            AND r.info_date &gt;= #{fromDate}
+        </if>
+        <if test="toDate != null">
+            AND r.info_date &lt;= #{toDate}
+        </if>
+        GROUP BY s.id
+
+    </select>
+
+    <select id="findMessageByTeacherId" resultMap="ExtensionBaseResultMap">
+        SELECT any_value(org_grade_class.id) AS classId,ring_message.student_id AS studentId,any_value(user_student.xsxm) AS studentName,
+        any_value(org_grade_class.xd) AS xd, any_value(org_grade_class.nj) AS nj,any_value(healthy_standard.sport_standard) AS sportStandard,
+        any_value(healthy_standard.sleep_standard) AS sleepStandard,
+        any_value(healthy_standard.asleep_standard) AS asleepStandard,
+        SUM(ring_message.sport_time) AS totalTime,
+        COUNT(*) AS total,
+        SUM(ring_message.sport_time)/COUNT(*) AS avgTime,
+        SUM(ring_message.calories_day)/COUNT(*) AS avgCal
+        FROM ring_message
+        INNER JOIN user_student ON ring_message.student_id = user_student.id AND user_student.del_flag = 0
+        INNER JOIN org_grade_class ON user_student.class_id = org_grade_class.id
+        AND org_grade_class.del_flag = 0
+               <if test="xd != null">
+               AND org_grade_class.xd = #{xd}
+               </if>
+               <if test="nj != null">
+               AND org_grade_class.nj = #{nj}
+               </if>
+               <if test="classId != null">
+               AND org_grade_class.id = #{classId}
+               </if>
+        INNER JOIN ref_teacher_class ON org_grade_class.id = ref_teacher_class.class_id
+               AND ref_teacher_class.teacher_id = #{teacherId}
+        INNER JOIN healthy_standard ON healthy_standard.xd = org_grade_class.xd AND healthy_standard.nj =
+        org_grade_class.nj AND healthy_standard.del_flag = 0
+        WHERE ring_message.del_flag = 0
+              <if test="fromDate != null">
+              AND ring_message.info_date &gt;= #{fromDate}
+               </if>
+               <if test="toDate != null">
+               AND ring_message.info_date &lt;= #{toDate}
+               </if>
+--         AND ring_message.sport_time &lt; healthy_standard.sport_standard
+        GROUP BY ring_message.student_id
+        HAVING avgTime &lt; sportStandard
+    </select>
+
+
+    <!--<select id="findMessageByTeacherId" resultMap="ExtensionBaseResultMap">-->
+        <!--select org_grade_class.id AS classId,ring_message.student_id AS studentId,user_student.xsxm AS studentName,-->
+        <!--org_grade_class.xd AS xd, org_grade_class.nj AS nj,healthy_standard.sport_standard AS-->
+        <!--sportStandard,-->
+        <!--healthy_standard.sleep_standard as sleepStandard,-->
+        <!--healthy_standard.asleep_standard as asleepStandard,-->
+        <!--SUM(ring_message.sport_time) as totalTime,-->
+        <!--count(*) as total,-->
+        <!--SUM(ring_message.sport_time)/count(*) as avgTime,-->
+        <!--SUM(ring_message.calories_day)/count(*) as avgCal-->
+        <!--FROM ring_message-->
+        <!--INNER JOIN user_student on ring_message.student_id = user_student.id AND user_student.del_flag = 0-->
+        <!--INNER JOIN org_grade_class on user_student.class_id = org_grade_class.id-->
+        <!--AND org_grade_class.del_flag = 0-->
+        <!--<if test="xd != null">-->
+            <!--AND org_grade_class.xd = #{xd}-->
+        <!--</if>-->
+        <!--<if test="nj != null">-->
+            <!--AND org_grade_class.nj = #{nj}-->
+        <!--</if>-->
+        <!--<if test="classId != null">-->
+            <!--AND org_grade_class.id = #{classId}-->
+        <!--</if>-->
+        <!--INNER JOIN ref_teacher_class on org_grade_class.id = ref_teacher_class.class_id AND ref_teacher_class.teacher_id-->
+        <!--= #{teacherId}-->
+        <!--INNER JOIN healthy_standard ON healthy_standard.xd = org_grade_class.xd AND healthy_standard.nj =-->
+        <!--org_grade_class.nj AND healthy_standard.del_flag = 0-->
+        <!--WHERE ring_message.del_flag = 0-->
+        <!--<if test="fromDate != null">-->
+            <!--AND ring_message.info_date &gt;= #{fromDate}-->
+        <!--</if>-->
+        <!--<if test="toDate != null">-->
+            <!--AND ring_message.info_date &lt;= #{toDate}-->
+        <!--</if>-->
+        <!--AND ring_message.sport_time &lt; healthy_standard.sport_standard-->
+        <!--GROUP BY ring_message.student_id-->
+        <!--HAVING avgTime &lt; sportStandard-->
+    <!--</select>-->
+
+    <select id="findMessageSleepByTeacherId" resultMap="ExtensionBaseResultMap">
+        select any_value(org_grade_class.id) AS classId,ring_message.student_id AS studentId,any_value(user_student.xsxm) AS studentName,
+        any_value(org_grade_class.xd) AS xd, any_value(org_grade_class.nj) AS nj,any_value(healthy_standard.sport_standard) AS
+        sportStandard,
+        any_value(healthy_standard.sleep_standard) as sleepStandard,
+        any_value(healthy_standard.asleep_standard) as asleepStandard,
+        count(*) as total,
+        SUM((ring_message.deep_sleep + ring_message.conscious_sleep + ring_message.shallow_sleep))/count(*) as avgSleepTime,
+        SUM(ring_message.asleep_time)/count(*) as avgAsleepTime,
+        SUM(ring_message.sleep_quality)/count(*) as avgSleepQuality
+        FROM ring_message
+        INNER JOIN user_student on ring_message.student_id = user_student.id AND user_student.del_flag = 0
+        INNER JOIN org_grade_class on user_student.class_id = org_grade_class.id
+        AND org_grade_class.del_flag = 0
+        <if test="xd != null">
+            AND org_grade_class.xd = #{xd}
+        </if>
+        <if test="nj != null">
+            AND org_grade_class.nj = #{nj}
+        </if>
+        <if test="classId != null">
+            AND org_grade_class.id = #{classId}
+        </if>
+        INNER JOIN ref_teacher_class on org_grade_class.id = ref_teacher_class.class_id AND ref_teacher_class.teacher_id
+        = #{teacherId}
+        INNER JOIN healthy_standard ON healthy_standard.xd = org_grade_class.xd AND healthy_standard.nj =
+        org_grade_class.nj AND healthy_standard.del_flag = 0
+        WHERE ring_message.del_flag = 0
+        <if test="fromDate != null">
+            AND ring_message.info_date &gt;= #{fromDate}
+        </if>
+        <if test="toDate != null">
+            AND ring_message.info_date &lt;= #{toDate}
+        </if>
+--         AND ring_message.sport_time &lt; healthy_standard.sport_standard
+        GROUP BY ring_message.student_id
+        HAVING avgSleepTime &lt; sleepStandard OR avgAsleepTime &gt; asleepStandard
+    </select>
+
+
+    <!--<select id="findMessageSleepByTeacherId" resultMap="ExtensionBaseResultMap">-->
+        <!--select org_grade_class.id AS classId,ring_message.student_id AS studentId,user_student.xsxm AS studentName,-->
+        <!--org_grade_class.xd AS xd, org_grade_class.nj AS nj,healthy_standard.sport_standard AS-->
+        <!--sportStandard,-->
+        <!--healthy_standard.sleep_standard as sleepStandard,-->
+        <!--healthy_standard.asleep_standard as asleepStandard,-->
+        <!--count(*) as total,-->
+        <!--SUM((ring_message.deep_sleep + ring_message.conscious_sleep + ring_message.shallow_sleep))/count(*) as avgSleepTime,-->
+        <!--SUM(ring_message.asleep_time)/count(*) as avgAsleepTime,-->
+        <!--SUM(ring_message.sleep_quality)/count(*) as avgSleepQuality-->
+        <!--FROM ring_message-->
+        <!--INNER JOIN user_student on ring_message.student_id = user_student.id AND user_student.del_flag = 0-->
+        <!--INNER JOIN org_grade_class on user_student.class_id = org_grade_class.id-->
+        <!--AND org_grade_class.del_flag = 0-->
+        <!--<if test="xd != null">-->
+            <!--AND org_grade_class.xd = #{xd}-->
+        <!--</if>-->
+        <!--<if test="nj != null">-->
+            <!--AND org_grade_class.nj = #{nj}-->
+        <!--</if>-->
+        <!--<if test="classId != null">-->
+            <!--AND org_grade_class.id = #{classId}-->
+        <!--</if>-->
+        <!--INNER JOIN ref_teacher_class on org_grade_class.id = ref_teacher_class.class_id AND ref_teacher_class.teacher_id-->
+        <!--= #{teacherId}-->
+        <!--INNER JOIN healthy_standard ON healthy_standard.xd = org_grade_class.xd AND healthy_standard.nj =-->
+        <!--org_grade_class.nj AND healthy_standard.del_flag = 0-->
+        <!--WHERE ring_message.del_flag = 0-->
+        <!--<if test="fromDate != null">-->
+            <!--AND ring_message.info_date &gt;= #{fromDate}-->
+        <!--</if>-->
+        <!--<if test="toDate != null">-->
+            <!--AND ring_message.info_date &lt;= #{toDate}-->
+        <!--</if>-->
+        <!--AND ring_message.sport_time &lt; healthy_standard.sport_standard-->
+        <!--GROUP BY ring_message.student_id-->
+        <!--HAVING avgSleepTime &lt; sleepStandard OR avgAsleepTime &lt; asleepStandard-->
+    <!--</select>-->
+
+    <select id="findStatisticsByTeacherId" resultMap="StatisticsMap">
+        SELECT
+        COUNT(DISTINCT(user_student.id)) AS stuNum,
+        count(1) AS totalNum,
+        AVG(ring_message.sport_time) AS avgSport,
+        (
+        SUM(ring_message.deep_sleep) + SUM(ring_message.shallow_sleep) + SUM(
+        ring_message.conscious_sleep
+        )
+        ) / COUNT(1) AS avgSleep,
+        AVG(ring_message.asleep_time) AS avgAsleepTime,
+        AVG(ring_message.sleep_quality) AS avgSleepQuality,
+        AVG(ring_message.deep_sleep) AS avgDeepSleep,
+        AVG(ring_message.calories_day) AS avgCalories,
+        AVG(ring_message.distance_day) AS avgDistance,
+        AVG(ring_message.walk_day) AS avgWalkDay
+--         COUNT(
+--         CASE
+--         WHEN ring_message.sport_time &gt;= healthy_standard.sport_standard THEN
+--         1
+--         ELSE
+--         NULL
+--         END
+--         ) / count(1) * 100 AS moreThanSportTime,
+--         COUNT(
+--         CASE
+--         WHEN (
+--         ring_message.deep_sleep + ring_message.shallow_sleep + ring_message.conscious_sleep
+--         ) &gt;= healthy_standard.sleep_standard THEN
+--         1
+--         ELSE
+--         NULL
+--         END
+--         ) / count(1) * 100 AS moreThanSleepTime,
+--         COUNT(
+--         CASE
+--         WHEN ring_message.asleep_time &gt;= healthy_standard.asleep_standard THEN
+--         1
+--         ELSE
+--         NULL
+--         END
+--         ) / count(1)*100 AS moreThanAsleepTime
+        FROM
+        ring_message
+        INNER JOIN user_student ON ring_message.student_id = user_student.id
+        AND user_student.del_flag = 0
+        INNER JOIN org_grade_class ON user_student.class_id = org_grade_class.id
+        AND org_grade_class.del_flag = 0
+        <if test="xd != null">
+            AND org_grade_class.xd = #{xd}
+        </if>
+        <if test="nj != null">
+            AND org_grade_class.nj = #{nj}
+        </if>
+        <if test="classId != null">
+            AND org_grade_class.id = #{classId}
+        </if>
+        INNER JOIN ref_teacher_class ON org_grade_class.id = ref_teacher_class.class_id
+        AND ref_teacher_class.teacher_id = #{teacherId}
+        INNER JOIN healthy_standard ON healthy_standard.xd = org_grade_class.xd AND healthy_standard.nj =
+        org_grade_class.nj AND healthy_standard.del_flag = 0
+        WHERE
+        ring_message.del_flag = 0
+        <if test="fromDate != null">
+            AND ring_message.info_date &gt;= #{fromDate}
+        </if>
+        <if test="toDate != null">
+            AND ring_message.info_date &lt;= #{toDate}
+        </if>
+    </select>
+
+    <select id="findDayStatisticsByTeacherId" resultMap="StatisticsMap">
+        SELECT
+        AVG(ring_message.sport_time) AS avgSport,
+        AVG(
+        ring_message.deep_sleep + ring_message.shallow_sleep + ring_message.conscious_sleep
+        ) AS avgSleep,
+        AVG(ring_message.asleep_time) AS avgAsleepTime,
+        ring_message.info_date AS infoDate
+        FROM
+        ring_message
+        INNER JOIN user_student ON ring_message.student_id = user_student.id
+        AND user_student.del_flag = 0
+        INNER JOIN org_grade_class ON user_student.class_id = org_grade_class.id
+        AND org_grade_class.del_flag = 0
+        <if test="xd != null">
+            AND org_grade_class.xd = #{xd}
+        </if>
+        <if test="nj != null">
+            AND org_grade_class.nj = #{nj}
+        </if>
+        <if test="classId != null">
+            AND org_grade_class.id = #{classId}
+        </if>
+        INNER JOIN ref_teacher_class ON org_grade_class.id = ref_teacher_class.class_id
+        AND ref_teacher_class.teacher_id = #{teacherId}
+        WHERE
+        ring_message.del_flag = 0
+        <if test="fromDate != null">
+            AND ring_message.info_date &gt;= #{fromDate}
+        </if>
+        <if test="toDate != null">
+            AND ring_message.info_date &lt;= #{toDate}
+        </if>
+        GROUP BY
+        info_date
+        ORDER BY
+        info_date
+    </select>
+
+
+    <select id="findStandardByTeacherId" resultMap="StandardMap">
+        SELECT DISTINCT healthy_standard.*,org_class_section.`name` AS xdName
+        FROM healthy_standard
+        INNER JOIN org_grade_class  ON healthy_standard.xd = org_grade_class.xd AND healthy_standard.nj = org_grade_class.nj  AND org_grade_class.del_flag = 0
+        INNER JOIN org_class_section ON org_grade_class.xd = org_class_section.id AND org_class_section.del_flag = 0
+        INNER JOIN ref_teacher_class  ON org_grade_class.id = ref_teacher_class.class_id AND ref_teacher_class.teacher_id = #{teacherId}
+    </select>
+    <select id="CountStuNumByStation" resultType="java.util.HashMap">
+        SELECT
+        any_value(station_area.area_name) AS areaName,
+        COUNT(
+        DISTINCT scan_log.student_id
+        ) AS num,
+        MAX(scan_log.last_update) AS updateTime
+        FROM
+        station_area
+        LEFT JOIN device_station ON station_area.id = device_station.area_id AND station_area.del_flag = 0 AND
+        device_station.`status` = 0
+        LEFT JOIN scan_log ON scan_log.station_mac = device_station.station_mac
+        <if test="lastUpdate != null">
+            AND scan_log.last_update >= #{lastUpdate}
+        </if>
+        AND scan_log.last_update = (
+        SELECT
+        MAX(scan_log.last_update)
+        FROM
+        scan_log
+        WHERE
+        scan_log.station_mac = device_station.station_mac
+        )
+        GROUP BY
+        station_area.id
+    </select>
+    <!--<select id="CountStuNumByStation" resultType="java.util.HashMap">-->
+        <!--SELECT-->
+        <!--station_area.area_name AS areaName,-->
+        <!--COUNT(-->
+        <!--DISTINCT scan_log.student_id-->
+        <!--) AS num,-->
+        <!--MAX(scan_log.last_update) AS updateTime-->
+        <!--FROM-->
+        <!--station_area-->
+        <!--LEFT JOIN device_station ON station_area.id = device_station.area_id AND station_area.del_flag = 0 AND-->
+        <!--device_station.`status` = 0-->
+        <!--LEFT JOIN scan_log ON scan_log.station_mac = device_station.station_mac-->
+        <!--<if test="lastUpdate != null">-->
+            <!--AND scan_log.last_update >= #{lastUpdate}-->
+        <!--</if>-->
+        <!--AND scan_log.last_update = (-->
+        <!--SELECT-->
+        <!--MAX(scan_log.last_update)-->
+        <!--FROM-->
+        <!--scan_log-->
+        <!--WHERE-->
+        <!--scan_log.station_mac = device_station.station_mac-->
+        <!--)-->
+        <!--GROUP BY-->
+        <!--station_area.id-->
+    <!--</select>-->
+
+    <!--<select id="CountStuNumByStu" resultType="java.util.HashMap">-->
+        <!--SELECT-->
+        <!--COUNT(1) AS num,-->
+        <!--station_area.area_name AS areaName,-->
+        <!--MAX(scan_log.last_update) AS updateTime-->
+        <!--FROM-->
+        <!--user_student-->
+        <!--LEFT JOIN scan_log ON scan_log.student_id = user_student.id-->
+        <!--LEFT JOIN device_station ON scan_log.station_mac = device_station.station_mac-->
+        <!--AND device_station.del_flag = 0-->
+        <!--AND device_station.`status` = 0-->
+        <!--LEFT JOIN station_area ON station_area.id = device_station.area_id-->
+        <!--AND station_area.del_flag = 0-->
+        <!--WHERE-->
+        <!--user_student.del_flag = 0-->
+        <!--<if test="lastUpdate != null">-->
+            <!--AND scan_log.last_update >= #{lastUpdate}-->
+        <!--</if>-->
+        <!--AND scan_log.last_update = (-->
+        <!--SELECT-->
+        <!--MAX(scan_log.last_update)-->
+        <!--FROM-->
+        <!--scan_log INNER JOIN device_station ON scan_log.station_mac = device_station.station_mac-->
+        <!--)-->
+        <!--GROUP BY-->
+        <!--station_area.id-->
+    <!--</select>-->
+    <select id="CountStuNumByStu" resultType="java.util.HashMap">
+        SELECT
+        COUNT(1) AS num,
+        any_value(station_area.area_name) AS areaName,
+        MAX(scan_log.last_update) AS updateTime
+        FROM
+        user_student
+        LEFT JOIN scan_log ON scan_log.student_id = user_student.id
+        LEFT JOIN device_station ON scan_log.station_mac = device_station.station_mac
+        AND device_station.del_flag = 0
+        AND device_station.`status` = 0
+        LEFT JOIN station_area ON station_area.id = device_station.area_id
+        AND station_area.del_flag = 0
+        WHERE
+        user_student.del_flag = 0
+        <if test="lastUpdate != null">
+            AND scan_log.last_update >= #{lastUpdate}
+        </if>
+        AND scan_log.last_update = (
+        SELECT
+        MAX(scan_log.last_update)
+        FROM
+        scan_log INNER JOIN device_station ON scan_log.station_mac = device_station.station_mac
+        )
+        GROUP BY
+        station_area.id
+    </select>
+
+
+
+    <select id="StuNowPosition" resultType="java.util.HashMap">
+        SELECT
+        user_student.id AS studentId,
+        user_student.xsxm AS studentName,
+        user_student.xh AS xh,
+        org_class_section.`name` as xdName,
+        org_grade_class.nj AS nj,
+        org_grade_class.`name` AS className,
+        station_area.area_name AS areaName
+        FROM
+        user_student
+        LEFT JOIN org_grade_class ON user_student.class_id = org_grade_class.id AND org_grade_class.del_flag = 0
+        LEFT JOIN org_class_section ON org_class_section.id = org_grade_class.xd AND org_class_section.del_flag = 0
+        LEFT JOIN scan_log ON scan_log.student_id = user_student.id
+        LEFT JOIN device_station ON scan_log.station_mac = device_station.station_mac
+        AND device_station.del_flag = 0
+        AND device_station.`status` = 0
+        LEFT JOIN station_area ON station_area.id = device_station.area_id
+        AND station_area.del_flag = 0
+        WHERE
+        user_student.del_flag = 0
+        AND user_student.xsxm LIKE #{name}
+        <if test="lastUpdate != null">
+            AND scan_log.last_update >= #{lastUpdate}
+        </if>
+        AND scan_log.last_update = (
+        SELECT
+        MAX(scan_log.last_update)
+        FROM
+        scan_log INNER JOIN device_station ON scan_log.station_mac = device_station.station_mac
+        )
+        ORDER BY user_student.xh
+    </select>
+    <!--第二次修改-->
+    <select id="avgTimeInArea" resultType="java.util.HashMap">
+    SELECT
+    station_area.id AS areaId,
+    any_value(station_area.area_name) AS areaName,
+    any_value(scan_log.last_update) AS updateTime,
+    COUNT(scan_log.last_update) AS times,
+    COUNT(DISTINCT scan_log.student_id) as stuNum,
+    SUM(scan_log.cycle) AS total,
+    SUM(scan_log.cycle)/COUNT(DISTINCT scan_log.student_id) AS avgTime
+    FROM
+    station_area
+    LEFT JOIN device_station ON station_area.id = device_station.area_id AND station_area.del_flag = 0 AND
+    device_station.del_flag = 0 AND device_station.`status` = 0
+    LEFT JOIN scan_log ON scan_log.station_mac = device_station.station_mac AND scan_log.last_update &gt;=
+    #{fromDate} AND scan_log.last_update &lt;= #{toDate}
+    LEFT JOIN user_student ON user_student.id = scan_log.student_id AND user_student.del_flag=0
+    INNER JOIN org_grade_class ON org_grade_class.id = user_student.class_id AND org_grade_class.del_flag=0
+    <if test="xd != null">
+    AND org_grade_class.xd = #{xd}
+    </if>
+    <if test="nj != null and xd != null">
+    AND org_grade_class.nj = #{nj}
+    </if>
+    <if test="classId != null and xd != null">
+    AND org_grade_class.id = #{classId}
+    </if>
+    GROUP BY station_area.id
+    </select>
+    <!--第一次修改-->
+    <!--<select id="avgTimeInArea" resultType="java.util.HashMap">-->
+        <!--SELECT-->
+        <!--station_area.id AS areaId,-->
+        <!--any_value(station_area.area_name) AS areaName,-->
+        <!--any_value(scan_log.last_update) AS updateTime,-->
+        <!--COUNT(scan_log.last_update) AS times,-->
+        <!--COUNT(DISTINCT scan_log.student_id) as stuNum,-->
+        <!--SUM(scan_log.cycle) AS total,-->
+        <!--SUM(scan_log.cycle)/COUNT(DISTINCT scan_log.student_id) AS avgTime-->
+        <!--FROM-->
+        <!--station_area-->
+        <!--LEFT JOIN device_station ON station_area.id = device_station.area_id AND station_area.del_flag = 0 AND-->
+        <!--device_station.del_flag = 0 AND device_station.`status` = 0-->
+        <!--LEFT JOIN scan_log ON scan_log.station_mac = device_station.station_mac AND scan_log.last_update &gt;=-->
+        <!--#{fromDate} AND scan_log.last_update &lt;= #{toDate}-->
+        <!--LEFT JOIN user_student ON user_student.id = scan_log.student_id AND user_student.del_flag=0-->
+        <!--LEFT JOIN org_grade_class ON org_grade_class.id = user_student.class_id AND org_grade_class.del_flag=0-->
+        <!--<if test="xd != null">-->
+            <!--WHERE org_grade_class.xd = #{xd}-->
+        <!--</if>-->
+        <!--<if test="nj != null and xd != null">-->
+            <!--AND org_grade_class.nj = #{nj}-->
+        <!--</if>-->
+        <!--<if test="classId != null and xd != null">-->
+            <!--AND org_grade_class.id = #{classId}-->
+        <!--</if>-->
+        <!--GROUP BY station_area.id-->
+    <!--</select>-->
+
+    <!--<select id="avgTimeInArea" resultType="java.util.HashMap">-->
+        <!--SELECT-->
+        <!--station_area.id AS areaId,-->
+        <!--station_area.area_name AS areaName,-->
+        <!--scan_log.last_update AS updateTime,-->
+        <!--COUNT(scan_log.last_update) AS times,-->
+        <!--COUNT(DISTINCT scan_log.student_id) as stuNum,-->
+        <!--SUM(scan_log.cycle) AS total,-->
+        <!--SUM(scan_log.cycle)/COUNT(DISTINCT scan_log.student_id) AS avgTime-->
+        <!--FROM-->
+        <!--station_area-->
+        <!--LEFT JOIN device_station ON station_area.id = device_station.area_id AND station_area.del_flag = 0 AND-->
+        <!--device_station.del_flag = 0 AND device_station.`status` = 0-->
+        <!--LEFT JOIN scan_log ON scan_log.station_mac = device_station.station_mac AND scan_log.last_update &gt;=-->
+        <!--#{fromDate} AND scan_log.last_update &lt;= #{toDate}-->
+        <!--LEFT JOIN user_student ON user_student.id = scan_log.student_id AND user_student.del_flag=0-->
+        <!--LEFT JOIN org_grade_class ON org_grade_class.id = user_student.class_id AND org_grade_class.del_flag=0-->
+        <!--<if test="xd != null">-->
+            <!--WHERE org_grade_class.xd = #{xd}-->
+        <!--</if>-->
+        <!--<if test="nj != null and xd != null">-->
+            <!--AND org_grade_class.nj = #{nj}-->
+        <!--</if>-->
+        <!--<if test="classId != null and xd != null">-->
+            <!--AND org_grade_class.id = #{classId}-->
+        <!--</if>-->
+        <!--GROUP BY station_area.id-->
+    <!--</select>-->
+
+    <select id="personalDetail" resultMap="LogMap">
+        SELECT scan_log.*,station_area.area_name AS areaName FROM scan_log
+        LEFT JOIN device_station ON device_station.station_mac = scan_log.station_mac
+        LEFT JOIN station_area ON station_area.id = device_station.area_id
+        WHERE scan_log.student_id = #{studentId}
+        and scan_log.last_update &gt;= #{fromDate}
+        and scan_log.last_update &lt;= #{toDate}
+        ORDER BY scan_log.last_update
+    </select>
+</mapper>

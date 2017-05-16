@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_GradeClassMapper" >
+
+  <select id="checkXdAndNj" resultType="map" parameterType="String">
+    select xd,nj from org_grade_class where school_id=#{schoolId} group by xd,nj;
+  </select>
+  <select id="checkXdAndNjAndName" resultType="map" parameterType="String">
+    select grade.xd,grade.nj,section.id id,section.name name
+    from org_grade_class grade
+    left join org_class_section section
+    on grade.xd = section.id
+    where grade.school_id=#{schoolId}
+    group by grade.xd,grade.nj;
+  </select>
+  <select id="checkName" resultType="map" parameterType="String">
+    select * from v_student_ring_classinfo where school_id = #{schoolId}
+  </select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.attendance.persistence.dao.A_FeedBackMapper" >
+<!--<select id="selectFeedBack" resultType="cc.gukeer.attendance.persistence.entity.FeedBack">-->
+  <!--SELECT id,apply_name AS applyName,title,context,user_id AS userId,system_operate AS systemOperate,software_version as softwareVersion,-->
+				<!--vsersion ,unit_type AS unitType,phone,feedback_time AS feedBackTime,`status`,email from feedback-->
+<!--</select>-->
+    <select id="selectFeedBack" resultType="map">
+        SELECT feedback.id,apply_name AS applyName,title,context,user_id AS userId,open_user.username,open_personal.`name`,system_operate AS systemOperate,software_version as softwareVersion,
+        vsersion ,unit_type AS unitType,feedback_time AS feedBackTime,feedback.`status`,email AS contact
+        from feedback
+        LEFT JOIN open_user ON feedback.user_id = open_user.id
+        LEFT JOIN open_personal ON open_user.personal_id = open_personal.id
+    </select>
+</mapper>

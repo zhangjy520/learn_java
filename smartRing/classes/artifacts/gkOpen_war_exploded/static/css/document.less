@@ -1,0 +1,483 @@
+//开放文档的内容
+.container{padding:0;}
+main.container{padding-top:28px;min-width:900px !important;}
+#document-content{
+  border:1px solid #ddd;
+  border-radius:15px;
+  min-height:800px;
+  background:#fff;
+  margin-bottom:35px;
+  overflow:hidden;
+  aside.col-xs-3{
+    padding:35px 0 0 30px;
+    min-height:800px;
+    .document-grade-1 {
+      font-size:15px;
+      li{
+        a{color:#525252;text-decoration: none;display:inline-block;line-height: 39px;width:100%;}
+        .document-grade-2{
+          display:none;
+          padding-left:15px;
+          font-size:13px;
+          a{
+            color:#777;text-decoration: none;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+            transition: all .3s;
+            &:hover,&.active{
+              color:#54ab37;
+              padding-left:5px;
+            }
+          }
+        }
+      }
+    }
+  }
+  section.col-xs-9{
+    border-left:1px solid #ddd;
+    padding:5px 30px;
+    min-height:900px;
+    >h1{font-size:26px;color:#333;border-bottom:1px solid #ddd;padding-bottom:20px;}
+    >div{
+      margin-bottom:50px;
+      h4{color:#333;font-size:16px;margin:15px 0 20px 0;font-weight: bold;}
+      h5{color:#333;font-size:16px;margin:15px 0 20px 0;font-weight: bold;}
+      h3{color:#333;font-size:18px;margin:20px 0 10px 0;font-weight: bold;}
+      h2{font-size:16px;color:#666;margin-bottom:20px;}
+      p{font-size:16px;line-height:25px;margin-bottom:20px;text-indent: 2em;color:#666;}
+      div{font-size:16px;line-height:25px;color:#666;margin-bottom:10px;}
+      >span{margin-top:45px;font-size: 16px;color:#666;margin-bottom:10px;}
+      table{
+        width:100%;
+        color:#666;font-size:15px;line-height: 25px;white-space: pre-wrap;
+        tr:first-child{background:#FBFBFB;}
+        tr,td,th{padding:10px;border:1px solid #E9E9E9;}
+      }
+    }
+
+  }
+}
+//end 开放文档内容
+
+
+//注册开放平台页面
+
+//注册流程
+#register-process{
+  margin-bottom:50px;
+  >h3{
+    color:#999;
+    border-bottom:1px solid #DDDDDD;
+    padding-bottom:10px;
+  }
+  >div{
+    height:103px;
+    margin:0 100px;
+    margin-top:55px;
+    border-bottom:1px solid #ddd;
+    span{
+      text-align:center;
+      line-height:95px;
+      font-size:17px;
+      color:#444;
+      position:relative;
+      &:before{
+        position:absolute;
+        content:'';
+        width:44px;
+        height:44px;
+        background:url(../images/icons.png) no-repeat;
+      }
+
+    }
+    span:first-child{
+      &:before{
+        top:25px;
+        left:55px;
+        background-position: 0 0;
+      }
+      &:after{
+        position:absolute;
+        content:'';
+        width:60px;
+        height:35px;
+        background:url(../images/icons.png) no-repeat 0 -114px;
+        top:31px;
+        right:-12px;
+      }
+    }
+    span:nth-child(2){
+      &:before{
+        top:25px;
+        left:74px;
+        background-position: -46px -46px;
+      }
+      &:after{
+        position:absolute;
+        content:'';
+        width:60px;
+        height:35px;
+        background:url(../images/icons.png) no-repeat 0 -114px;
+        top:31px;
+        right:2px;
+      }
+    }
+    span:nth-child(3){
+      padding-right:0;
+      &:before{
+        top:25px;
+        left:55px;
+        background-position: -92px -46px;
+      }
+    }
+  }
+}
+//注册表单
+#register-form{
+  padding-left:88px;
+  >div{
+    >span{font-size:18px;color:#525252;width:114px;text-align: right;margin-right:45px;}
+    input[type=text],input[type=password]{border-radius:3px;width:65%;height:50px;border:2px solid #ddd;padding-left:5px;outline:none;}
+    input[type=text]:focus,input[type=password]:focus{border-color:#54ab37;}
+    width:78%;
+    margin:0 auto;
+    margin-bottom:65px;
+
+  }
+  //邮箱注册
+  .register-email{
+    position:relative;
+    i{
+      position:absolute;
+      font-size:14px;
+      color:#bbb;
+      left:163px;
+      bottom:-22px;
+      font-style:normal;
+    }
+  }
+  //设置密码
+  .register-pwd{
+    position:relative;
+    i{
+      position:absolute;
+      font-size:14px;
+      color:#bbb;
+      left:163px;
+      bottom:-22px;
+      font-style:normal;
+    }
+  }
+  //开发者类型
+  .register-type{
+
+    padding-top:37px;
+    label{
+      margin-right:30px;font-size:17px;font-weight: normal;
+      position:relative;
+      padding-left:25px;
+      cursor: pointer;
+      &:before{
+        position:absolute;
+        content:'';
+        width:20px;
+        height:20px;
+        left:0;
+        top:2px;
+        background: url(../images/icons.png) no-repeat -22px -92px;
+      }
+      &.radio-checked:before{background-position:0 -92px;}
+    }
+
+
+  }
+  //开发协议
+  .register-agreement{
+    padding-left:163px;
+    margin-bottom:40px;
+    label{font-weight: normal;a{text-decoration: none;}}
+    input[type=checkbox]{position:relative;top:2px;}
+  }
+  //提交按钮
+  .register-next-step{
+    text-align:center;
+    //border-bottom: 1px solid #ddd;
+    padding-bottom:20px;
+    button{
+      width:170px;
+      height:45px;
+      border:1px solid #54ab37;
+      background: #54ab37;
+      font-size:20px;
+      color:#fff;
+      border-radius:3px;
+      outline: none;
+    }
+  }
+}
+
+//end 注册开放平台页面
+
+//验证邮箱
+#email-checking{
+  padding-top:37px;
+  >h3,>h4,>p,>div{text-align: center;}
+  >h3{margin-top:0;}
+  h4{
+    margin:15px 0;
+    color:#54ab37;
+  }
+  p{
+    font-size:14px;
+    color:#333;
+  }
+  >div{
+    margin-top:40px;
+    button{
+      width: 170px;
+      height: 45px;
+      border: 1px solid #54ab37;
+      background: #54ab37;
+      font-size: 20px;
+      color: #fff;
+      border-radius: 3px;
+      outline: none;
+    }
+  }
+  footer{
+    padding-left:26px;
+    width:45%;
+    margin:0 auto;
+    margin-top:80px;
+    p{
+      a{
+        text-decoration: none;
+        color:#54ab37;
+      }
+    }
+  }
+}
+//end 验证邮箱
+
+//完善资料
+#complete-data{
+  border:1px solid #ddd;
+  border-top:none;
+  padding:0 35px;
+  margin-bottom:30px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  .register-msg{
+    border-bottom:1px solid #ddd;
+    font-size:18px;
+    padding:30px 0 0 80px;
+    p{
+      margin-bottom:28px;
+      span{text-align: right;margin-right:35px;coor:#525252;}
+      span:first-child{width:170px;}
+      span:last-child{font-size:18px;}
+    }
+  }
+  .company-msg,.legal-person-msg,.personal-msg{
+    padding-left:80px;
+    border-bottom:1px solid #ddd;
+    >h3{margin:40px 0;font-size:22px;}
+    >div{
+      margin-bottom:65px;
+      position:relative;
+      span{color:#525252;width:180px;text-align: right;margin-right:23px;font-size:18px;}
+      input[type=text]{width:59%;height:50px;padding-left:5px;border:2px solid #ddd;border-radius:3px;
+        outline: none;}
+      input[type=text]:focus{border-color:#54ab37;}
+      button{margin-left:13px;width:158px;height:50px;
+        border:2px solid #54ab37;outline: none;color:#54ab37;background:#fff;
+        font-size:18px;border-radius:3px;position:relative;}
+      select{border:2px solid #ddd;width:18%;margin-right:13px;height:50px;font-size:18px;margin-bottom: 10px;border-radius:3px;}
+      &.license{
+        margin-bottom:107px;
+        span{vertical-align: top;}
+        >p{position:relative;background:#FBFBFB;display: inline-block;width:150px;height:100px;border:1px solid #ddd;}
+        >p:before{position:absolute;content:'';width:31px;height:30px;background:url(../images/add1.png) no-repeat center center;top:35px;left:59px;}
+        button{
+          vertical-align:top;margin-left:13px;width:158px;height:54px;
+          border:2px solid #54ab37;outline: none;color:#54ab37;background:#fff;
+          font-size:18px;border-radius:3px;position:relative;
+        }
+        div{
+          position:absolute;
+          top:70px;
+          right:318px;
+          p{font-size:13px;color:#aaa;}
+        }
+      }
+      &.company-phone{
+        &:after{
+          content:'包括区号、电话、分机号，以"-"隔开，例如：020-xxxxxxx';
+          font-size:14px;
+          color:#aaa;
+          position:absolute;
+          top:51px;
+          left:208px;
+        }
+      }
+      &.registered-capital{
+        &:after{
+          position:absolute;
+          content:'单位：万元';
+          font-size:14px;
+          color:#aaa;
+          bottom:-21px;
+          left:208px;
+        }
+      }
+      &.legal-person-name{&:after{
+        content:'如果名字包含分隔号"."，请勿忽略。';
+        position:absolute;
+        font-size:14px;
+        color:#aaa;
+        bottom:-21px;
+        left:208px;
+      }}
+      &.ID-card{
+        &:before{
+          position:absolute;
+          content:'请填写正确的身份证号码，这将有利于您的申请快速通过审核，';
+          font-size:14px;
+          color:#aaa;
+          bottom:-21px;
+          left:208px;
+        }
+        &:after{
+          position:absolute;
+          content:'该信息将在某些操作时验证您的身份信息。';
+          font-size:14px;
+          color:#aaa;
+          bottom:-40px;
+          left:208px;
+        }
+      }
+      &.developer-name{
+        &:after{
+          content:'如果名字包含分隔号"."，请勿忽略。';
+          position:absolute;
+          font-size:14px;
+          color:#aaa;
+          bottom:-21px;
+          left:208px;
+        }
+      }
+      &.security-code{
+        input[type=text]{width:180px;}
+        &:after{
+          content:'验证码为6位数字';
+          position:absolute;
+          font-size:14px;
+          color:#aaa;
+          bottom:-21px;
+          left:208px;
+        }
+      }
+    }
+  }
+  .submit{
+    margin:40px 0;
+    text-align:center;
+    button{
+      width:158px;height:50px;
+      border:2px solid #54ab37;outline: none;color:#fff;background:#54ab37;
+      font-size:18px;border-radius:3px;position:relative;
+    }
+  }
+}
+//end 完善资料
+
+
+
+@media screen and (max-width:1200px){
+  #register-process{
+    margin-bottom:50px;
+    >h3{
+      color:#999;
+      border-bottom:1px solid #DDDDDD;
+      padding-bottom:10px;
+    }
+    >div{
+      height:103px;
+      margin:0 100px;
+      margin-top:55px;
+      border-bottom:1px solid #ddd;
+      span{
+        text-align:center;
+        line-height:95px;
+        font-size:17px;
+        color:#444;
+        position:relative;
+        &:before{
+          position:absolute;
+          content:'';
+          width:44px;
+          height:44px;
+          background:url(../images/icons.png) no-repeat;
+        }
+
+      }
+      span:first-child{
+        &:before{
+          top:25px;
+          left:16px;
+          background-position: 0 0;
+        }
+        &:after{
+          position:absolute;
+          content:'';
+          width:60px;
+          height:35px;
+          background:url(../images/icons.png) no-repeat 0 -114px;
+          top:31px;
+          right:-12px;
+        }
+      }
+      span:nth-child(2){
+        &:before{
+          top:25px;
+          left:33px;
+          background-position: -46px -46px;
+        }
+        &:after{
+          position:absolute;
+          content:'';
+          width:60px;
+          height:35px;
+          background:url(../images/icons.png) no-repeat 0 -114px;
+          top:31px;
+          right:2px;
+        }
+      }
+      span:nth-child(3){
+        padding-right:0;
+        &:before{
+          top:25px;
+          left:18px;
+          background-position: -92px -46px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

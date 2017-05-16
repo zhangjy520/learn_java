@@ -1,0 +1,125 @@
+.position section {
+  margin: 50px 36px 50px 120px;
+  height: 256px;
+  width: 300px;
+  overflow-y: scroll;
+}
+.position section table td {
+  border-bottom: none;
+}
+.position section table th:last-child,
+.position section table td:last-child {
+  text-align: right;
+}
+.position.module-bg-full {
+  margin-top: 25px;
+  margin-bottom: 80px;
+}
+.position.module-bg-full > p {
+  border-bottom: 1px solid #ddd;
+}
+.position.module-bg-full > p:after {
+  /*display: none;*/
+}
+/*.position.module-bg-full > p input {*/
+  /*border: 1px solid #ddd;*/
+  /*border-radius: 3px;*/
+/*}*/
+.position.module-bg-full > div {
+  padding: 23px 25px;
+  padding-bottom: 0;
+}
+.position.module-bg-full > span {
+  position: relative;
+}
+.position1 header {
+  padding: 0 25px;
+}
+.position1 section {
+  padding: 0 25px;
+  border-top: 1px solid #ddd;
+  margin-top: 30px;
+}
+.position1 section>div {
+  margin: 50px 120px;
+  width: 300px;
+  /*height: 340px;*/
+  /*overflow-y: scroll;*/
+}
+.position1 section div table td {
+  border-bottom: none;
+}
+.position1 section div table th {
+  width: 33.33%;
+}
+.position1 section div table th:last-child,
+.position1 section div table td:last-child {
+  text-align: right;
+}
+.position1 section div table th:nth-child(2),
+.position1 section div table td:nth-child(2) {
+  text-align: center;
+}
+.position2 header {
+  padding: 0 25px;
+}
+.position2 section {
+  padding: 0 25px;
+}
+.position2 section > p {
+  margin-top: 20px;
+}
+.position2 section > p span {
+  font-size: 14px;
+  color: #676767;
+  margin-right: 100px;
+}
+.position2 section > div {
+  margin-top: 80px;
+  border-top: 3px solid #E7EAEC;
+  position: relative;
+  height: 100px;
+}
+.position2 section > div span {
+  padding-top: 52px;
+  font-size: 13px;
+  color: #676767;
+  text-align: center;
+  line-height: 21px;
+  position: absolute;
+  top: -26px;
+}
+.position2 section > div span.checking-in-1 {
+  left: 0;
+}
+.position2 section > div span.checking-in-2 {
+  left: 350px;
+}
+.position2 section > div span.checking-in-3 {
+  left: 550px;
+}
+.position2 section > div span.checking-in-4 {
+  left: 992px;
+}
+.position2 section > div .checking-in-1,
+.position2 section > div .checking-in-3 {
+  background: url(../images/goto.png) no-repeat top center;
+}
+.position2 section > div .checking-in-2,
+.position2 section > div .checking-in-4 {
+  background: url(../images/leave.png) no-repeat top center;
+}
+.position2 section table {
+  border: 1px solid #ddd;
+  background: #F6F6F6;
+}
+.position2 section footer {
+  padding: 0;
+}
+.position3 > p {
+  border-bottom: 1px solid #ddd;
+}
+.position3 > div {
+  padding: 23px 25px;
+  padding-bottom: 0;
+}

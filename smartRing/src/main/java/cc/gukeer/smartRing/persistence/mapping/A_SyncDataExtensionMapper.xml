@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_SyncDataExtensionMapper">
+
+    <!--org_class_section-->
+    <insert id="batchInsertClassSection">
+        INSERT INTO `org_class_section`
+        (`id`,
+        `school_id`,
+        `name`,
+        `short_name`,
+        `limit_age`,
+        `section_year`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.syncId},#{item.schoolId},#{item.name},#{item.shortName},
+            #{item.limitAge},#{item.sectionYear},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="batchDeleteClassSection">
+        delete from `org_class_section`
+        where id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.syncId}
+        </foreach>
+    </delete>
+
+
+    <!--org_grade_class-->
+    <insert id="batchInsertGradeClass">
+        INSERT INTO `org_grade_class`
+        (`id`,
+        `school_id`,
+        `name`,
+        `xd`,
+        `nj`,
+        `bh`,
+        `bjlx`,
+        `xq`,
+        `rxnd`,
+        `master_id`,
+        `master_name`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.syncId},#{item.schoolId},#{item.name},#{item.xd}, #{item.nj},
+            #{item.bh},#{item.bjlx},#{item.xq},#{item.rxnd},#{item.masterId},
+            #{item.masterName},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="batchDeleteGradeClass">
+        delete from `org_grade_class`
+        where id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.syncId}
+        </foreach>
+    </delete>
+
+
+    <!--ref_teacher_class-->
+    <insert id="batchInsertTeacherClass">
+        INSERT INTO `ref_teacher_class`
+        (`teacher_id`,
+        `class_id`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.teacherId},#{item.classId}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--user_teacher-->
+    <insert id="batchInsertTeacher">
+        INSERT INTO `user_teacher`
+        (`id`,
+        `school_id`,
+        `department_id`,
+        `name`,
+        `gender`,
+        `identity`,
+        `is_manage`,
+        `title_id`,
+        `no`,
+        `phone`,
+        `mobile`,
+        `email`,
+        `start_work`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.syncId},#{item.schoolId},#{item.departmentId},#{item.name},#{item.gender},
+            #{item.identity},#{item.isManage},#{item.titleId},#{item.no},
+            #{item.phone},#{item.mobile},#{item.email},#{item.startWork},
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="batchDeleteTeacher">
+        delete from `user_teacher`
+        where id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.syncId}
+        </foreach>
+    </delete>
+
+
+    <!--user_student-->
+    <insert id="batchInsertStudent">
+        INSERT INTO `user_student`
+        (`id`,
+        `school_id`,
+        `class_id`,
+        `xsxm`,
+        `xszp`,
+        `phone`,
+        `csrq`,
+        `rxrq`,
+        `xsxb`,
+        `xssg`,
+        `xh`,
+        `xjh`,
+        `qgxjh`,
+        `jyid`,
+        `syd`,
+        `yxzjlx`,
+        `yxzjh`,
+        `jbs`,
+        `sfsbt`,
+        `sbtxh`,
+        `xslb`,
+        `gb`,
+        `mz`,
+        `jg`,
+        `zzmm`,
+        `zslb`,
+        `lydq`,
+        `hkszd`,
+        `xjzd`,
+        `hkxz`,
+        `status`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.syncId},#{item.schoolId},#{item.classId},#{item.xsxm},#{item.xszp},
+            #{item.phone},#{item.csrq},#{item.rxrq},#{item.xsxb},
+            #{item.xssg},#{item.xh},#{item.xjh},#{item.qgxjh},
+            #{item.jyid},#{item.syd},#{item.yxzjlx},#{item.yxzjh},
+            #{item.jbs},#{item.sfsbt},#{item.sbtxh},#{item.xslb},
+            #{item.gb},#{item.mz},#{item.jg},#{item.zzmm},
+            #{item.zslb},#{item.lydq},#{item.hkszd},#{item.xjzd},
+            #{item.hkxz},#{item.status},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="batchDeleteStudent">
+        delete from `user_student`
+        where id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.syncId}
+        </foreach>
+    </delete>
+
+
+    <!--org_class_section-->
+    <insert id="batchInsertUser">
+        INSERT INTO `sys_user`
+        (`id`,
+        `school_id`,
+        `username`,
+        `password`,
+        `ref_id`,
+        `user_type`,
+        `photo_url`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.syncId},#{item.schoolId},#{item.username},#{item.password},
+            #{item.refId},#{item.userType},#{item.photoUrl},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="batchDeleteUser">
+        delete from `sys_user`
+        where id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.syncId}
+        </foreach>
+    </delete>
+
+</mapper>

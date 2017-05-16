@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.A_OpenUserExtensionMapper" >
+
+    <resultMap id="BaseResultMap" type="cc.gukeer.open.modelView.UserBaseInfoView" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="user_type" property="userType" jdbcType="VARCHAR" />
+        <result column="contacts_phone" property="personalPhone" jdbcType="VARCHAR" />
+        <result column="companyPhone" property="companyPhone" jdbcType="VARCHAR" />
+        <result column="business_name" property="companyName" jdbcType="VARCHAR" />
+        <result column="status" property="checkType" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        u.id,p.name, u.status, p.contacts_phone, c.developer_phone AS companyPhone, u.create_date,u.username,
+        u.user_type, c.business_name
+    </sql>
+
+    <select id="findUserBaseInfoByStatus" resultMap="BaseResultMap" parameterType="INTEGER">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM open_user u LEFT JOIN open_personal p ON u.personal_id = p.id
+        LEFT JOIN open_company c ON u.company_id = c.id
+        WHERE u.status!=0
+        AND u.user_type != 2 AND u.del_flag != 1
+        <if test="_parameter == 1">
+            AND u.status = 1  OR u.status = 5
+        </if>
+        <if test="_parameter == 2">
+            AND u.status = 2
+        </if>
+        <if test="_parameter == 3">
+            AND u.status = 3
+        </if>
+        <if test="_parameter == 4">
+            AND u.status = 4
+        </if>
+        <if test="_parameter == 5">
+            AND u.status = 5
+        </if>
+        <if test="_parameter == null">
+
+        </if>
+        ORDER BY u.create_date DESC
+    </select>
+</mapper>

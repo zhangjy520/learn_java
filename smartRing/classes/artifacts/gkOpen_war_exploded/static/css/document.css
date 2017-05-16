@@ -1,0 +1,1004 @@
+.container {
+  padding: 0;
+}
+main.container {
+  padding-top: 28px;
+  min-width: 900px !important;
+}
+#document-content {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  min-height: 800px;
+  background: #fff;
+  margin-bottom: 35px;
+  overflow: hidden;
+}
+#document-content aside.col-xs-3 {
+  padding: 35px 0 0 30px;
+  min-height: 800px;
+}
+#document-content aside.col-xs-3 .document-grade-1 {
+  font-size: 16px;
+}
+#document-content aside.col-xs-3 .document-grade-1 li a {
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 40px;
+  width: 100%;
+}
+#document-content aside.col-xs-3 .document-grade-1 li .document-grade-2 {
+  display: none;
+  padding-left: 15px;
+  font-size: 14px;
+}
+#document-content aside.col-xs-3 .document-grade-1 li .document-grade-2 a {
+  color: #525252;
+  text-decoration: none;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s;
+}
+#document-content aside.col-xs-3 .document-grade-1 li .document-grade-2 a:hover,
+#document-content aside.col-xs-3 .document-grade-1 li .document-grade-2 a.active {
+  color: #54ab37;
+  padding-left: 5px;
+}
+#document-content section.col-xs-9 {
+  border-left: 1px solid #ddd;
+  padding: 0 30px;
+  min-height: 900px;
+}
+#document-content section.col-xs-9 > h1 {
+  font-size: 20px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  height: 74px;
+  line-height: 74px;
+  margin: auto;
+}
+#document-content section.col-xs-9 > div {
+  margin-bottom: 30px;
+}
+#document-content section.col-xs-9 > div h4 {
+  color: #333;
+  font-size: 16px;
+  margin: 25px 0 25px 0;
+}
+#document-content section.col-xs-9 > div h5 {
+  color: #525252;
+  font-size: 14px;
+  margin-bottom: auto;
+  line-height: 25px;
+}
+#document-content section.col-xs-9 > div h3 {
+  color: #333;
+  font-size: 16px;
+  margin: 20px 0 10px 0;
+}
+#document-content section.col-xs-9 > div h2 {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+#document-content section.col-xs-9 > div p {
+  font-size: 14px;
+  line-height: 26px;
+  margin: 0 0px 0 30px;
+  color: #666;
+}
+#document-content section.col-xs-9 > div ul {
+    color: #666;
+    margin-left: 30px;
+    list-style: disc;
+}
+#document-content section.col-xs-9 > div ul li{
+    line-height: 26px;
+}
+#document-content section.col-xs-9 > div div {
+  font-size: 14px;
+  /*line-height: 25px;*/
+  color: #666;
+  margin-bottom: 10px;
+}
+#document-content section.col-xs-9 > div > span {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 10px 30px;
+}
+#document-content section.col-xs-9 > div table {
+  width: 95%;
+  color: #666;
+  font-size: 14px;
+  line-height: 26px;
+  white-space: pre-wrap;
+  margin: 0 0 40px 0;
+}
+#document-content section.col-xs-9 > div table tr:first-child {
+  background: #FBFBFB;
+    text-align: left;
+}
+#document-content section.col-xs-9 > div table tr,
+#document-content section.col-xs-9 > div table td,
+#document-content section.col-xs-9 > div table th {
+  padding: 8px 10px;
+  border: 1px solid #E9E9E9;
+}
+#register-process {
+  margin-bottom: 50px;
+}
+#register-process > h3 {
+  color: #999;
+  border-bottom: 1px solid #DDDDDD;
+  padding-bottom: 10px;
+}
+#register-process > div {
+  height: 103px;
+  margin: 0 100px;
+  margin-top: 55px;
+  border-bottom: 1px solid #ddd;
+}
+#register-process > div span {
+  text-align: center;
+  line-height: 95px;
+  font-size: 17px;
+  color: #444;
+  position: relative;
+}
+#register-process > div span:before {
+  position: absolute;
+  content: '';
+  width: 44px;
+  height: 44px;
+  background: url(../images/icons.png) no-repeat;
+}
+#register-process > div span:first-child:before {
+  top: 25px;
+  left: 55px;
+  background-position: 0 0;
+}
+#register-process > div span:first-child:after {
+  position: absolute;
+  content: '';
+  width: 60px;
+  height: 35px;
+  background: url(../images/icons.png) no-repeat 0 -114px;
+  top: 31px;
+  right: -12px;
+}
+#register-process > div span:nth-child(2):before {
+  top: 25px;
+  left: 74px;
+  background-position: -46px -46px;
+}
+#register-process > div span:nth-child(2):after {
+  position: absolute;
+  content: '';
+  width: 60px;
+  height: 35px;
+  background: url(../images/icons.png) no-repeat 0 -114px;
+  top: 31px;
+  right: 2px;
+}
+#register-process > div span:nth-child(3) {
+  padding-right: 0;
+}
+#register-process > div span:nth-child(3):before {
+  top: 25px;
+  left: 55px;
+  background-position: -92px -46px;
+}
+#register-form {
+  padding-left: 88px;
+}
+#register-form > div {
+  width: 78%;
+  margin: 0 auto;
+  margin-bottom: 65px;
+}
+#register-form > div > span {
+  font-size: 18px;
+  color: #525252;
+  width: 114px;
+  text-align: right;
+  margin-right: 45px;
+}
+#register-form > div input[type=text],
+#register-form > div input[type=password] {
+  border-radius: 3px;
+  width: 65%;
+  height: 50px;
+  border: 2px solid #ddd;
+  padding-left: 5px;
+  outline: none;
+}
+#register-form > div input[type=text]:focus,
+#register-form > div input[type=password]:focus {
+  border-color: #54ab37;
+}
+#register-form .register-email {
+  position: relative;
+}
+#register-form .register-email i {
+  position: absolute;
+  font-size: 14px;
+  color: #bbb;
+  left: 163px;
+  bottom: -22px;
+  font-style: normal;
+}
+#register-form .register-pwd {
+  position: relative;
+}
+#register-form .register-pwd i {
+  position: absolute;
+  font-size: 14px;
+  color: #bbb;
+  left: 163px;
+  bottom: -22px;
+  font-style: normal;
+}
+#register-form .register-type {
+  padding-top: 37px;
+}
+#register-form .register-type label {
+  margin-right: 30px;
+  font-size: 17px;
+  font-weight: normal;
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+}
+#register-form .register-type label:before {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 2px;
+  background: url(../images/icons.png) no-repeat -22px -92px;
+}
+#register-form .register-type label.radio-checked:before {
+  background-position: 0 -92px;
+}
+#register-form .register-agreement {
+  padding-left: 163px;
+  margin-bottom: 40px;
+}
+#register-form .register-agreement label {
+  font-weight: normal;
+}
+#register-form .register-agreement label a {
+  text-decoration: none;
+}
+#register-form .register-agreement input[type=checkbox] {
+  position: relative;
+  top: 2px;
+}
+#register-form .register-next-step {
+  text-align: center;
+  padding-bottom: 20px;
+}
+#register-form .register-next-step button {
+  width: 170px;
+  height: 45px;
+  border: 1px solid #54ab37;
+  background: #54ab37;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 3px;
+  outline: none;
+}
+#email-checking {
+  padding-top: 37px;
+}
+#email-checking > h3,
+#email-checking > h4,
+#email-checking > p,
+#email-checking > div {
+  text-align: center;
+}
+#email-checking > h3 {
+  margin-top: 0;
+}
+#email-checking h4 {
+  margin: 15px 0;
+  color: #54ab37;
+}
+#email-checking p {
+  font-size: 14px;
+  color: #333;
+}
+#email-checking > div {
+  margin-top: 40px;
+}
+#email-checking > div button {
+  width: 170px;
+  height: 45px;
+  border: 1px solid #54ab37;
+  background: #54ab37;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 3px;
+  outline: none;
+}
+#email-checking footer {
+  padding-left: 26px;
+  width: 45%;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+#email-checking footer p a {
+  text-decoration: none;
+  color: #54ab37;
+}
+#complete-data {
+  border: 1px solid #ddd;
+  border-top: none;
+  padding: 0 35px;
+  margin-bottom: 30px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+#complete-data .register-msg {
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  padding: 30px 0 0 80px;
+}
+#complete-data .register-msg p {
+  margin-bottom: 28px;
+}
+#complete-data .register-msg p span {
+  text-align: right;
+  margin-right: 35px;
+  coor: #525252;
+}
+#complete-data .register-msg p span:first-child {
+  width: 170px;
+}
+#complete-data .register-msg p span:last-child {
+  font-size: 18px;
+}
+#complete-data .company-msg,
+#complete-data .legal-person-msg,
+#complete-data .personal-msg {
+  padding-left: 80px;
+  border-bottom: 1px solid #ddd;
+}
+#complete-data .company-msg > h3,
+#complete-data .legal-person-msg > h3,
+#complete-data .personal-msg > h3 {
+  margin: 40px 0;
+  font-size: 22px;
+}
+#complete-data .company-msg > div,
+#complete-data .legal-person-msg > div,
+#complete-data .personal-msg > div {
+  margin-bottom: 65px;
+  position: relative;
+}
+#complete-data .company-msg > div span,
+#complete-data .legal-person-msg > div span,
+#complete-data .personal-msg > div span {
+  color: #525252;
+  width: 180px;
+  text-align: right;
+  margin-right: 23px;
+  font-size: 18px;
+}
+#complete-data .company-msg > div input[type=text],
+#complete-data .legal-person-msg > div input[type=text],
+#complete-data .personal-msg > div input[type=text] {
+  width: 59%;
+  height: 50px;
+  padding-left: 5px;
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  outline: none;
+}
+#complete-data .company-msg > div input[type=text]:focus,
+#complete-data .legal-person-msg > div input[type=text]:focus,
+#complete-data .personal-msg > div input[type=text]:focus {
+  border-color: #54ab37;
+}
+#complete-data .company-msg > div button,
+#complete-data .legal-person-msg > div button,
+#complete-data .personal-msg > div button {
+  margin-left: 13px;
+  width: 158px;
+  height: 50px;
+  border: 2px solid #54ab37;
+  outline: none;
+  color: #54ab37;
+  background: #fff;
+  font-size: 18px;
+  border-radius: 3px;
+  position: relative;
+}
+#complete-data .company-msg > div select,
+#complete-data .legal-person-msg > div select,
+#complete-data .personal-msg > div select {
+  border: 2px solid #ddd;
+  width: 18%;
+  margin-right: 13px;
+  height: 50px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+}
+#complete-data .company-msg > div.license,
+#complete-data .legal-person-msg > div.license,
+#complete-data .personal-msg > div.license {
+  margin-bottom: 107px;
+}
+#complete-data .company-msg > div.license span,
+#complete-data .legal-person-msg > div.license span,
+#complete-data .personal-msg > div.license span {
+  vertical-align: top;
+}
+#complete-data .company-msg > div.license > p,
+#complete-data .legal-person-msg > div.license > p,
+#complete-data .personal-msg > div.license > p {
+  position: relative;
+  background: #FBFBFB;
+  display: inline-block;
+  width: 150px;
+  height: 100px;
+  border: 1px solid #ddd;
+}
+#complete-data .company-msg > div.license > p:before,
+#complete-data .legal-person-msg > div.license > p:before,
+#complete-data .personal-msg > div.license > p:before {
+  position: absolute;
+  content: '';
+  width: 31px;
+  height: 30px;
+  background: url(../images/add1.png) no-repeat center center;
+  top: 35px;
+  left: 59px;
+}
+#complete-data .company-msg > div.license button,
+#complete-data .legal-person-msg > div.license button,
+#complete-data .personal-msg > div.license button {
+  vertical-align: top;
+  margin-left: 13px;
+  width: 158px;
+  height: 54px;
+  border: 2px solid #54ab37;
+  outline: none;
+  color: #54ab37;
+  background: #fff;
+  font-size: 18px;
+  border-radius: 3px;
+  position: relative;
+}
+#complete-data .company-msg > div.license div,
+#complete-data .legal-person-msg > div.license div,
+#complete-data .personal-msg > div.license div {
+  position: absolute;
+  top: 70px;
+  right: 318px;
+}
+#complete-data .company-msg > div.license div p,
+#complete-data .legal-person-msg > div.license div p,
+#complete-data .personal-msg > div.license div p {
+  font-size: 13px;
+  color: #aaa;
+}
+#complete-data .company-msg > div.company-phone:after,
+#complete-data .legal-person-msg > div.company-phone:after,
+#complete-data .personal-msg > div.company-phone:after {
+  content: '包括区号、电话、分机号，以"-"隔开，例如：020-xxxxxxx';
+  font-size: 14px;
+  color: #aaa;
+  position: absolute;
+  top: 51px;
+  left: 208px;
+}
+#complete-data .company-msg > div.registered-capital:after,
+#complete-data .legal-person-msg > div.registered-capital:after,
+#complete-data .personal-msg > div.registered-capital:after {
+  position: absolute;
+  content: '单位：万元';
+  font-size: 14px;
+  color: #aaa;
+  bottom: -21px;
+  left: 208px;
+}
+#complete-data .company-msg > div.legal-person-name:after,
+#complete-data .legal-person-msg > div.legal-person-name:after,
+#complete-data .personal-msg > div.legal-person-name:after {
+  content: '如果名字包含分隔号"."，请勿忽略。';
+  position: absolute;
+  font-size: 14px;
+  color: #aaa;
+  bottom: -21px;
+  left: 208px;
+}
+#complete-data .company-msg > div.ID-card:before,
+#complete-data .legal-person-msg > div.ID-card:before,
+#complete-data .personal-msg > div.ID-card:before {
+  position: absolute;
+  content: '请填写正确的身份证号码，这将有利于您的申请快速通过审核，';
+  font-size: 14px;
+  color: #aaa;
+  bottom: -21px;
+  left: 208px;
+}
+#complete-data .company-msg > div.ID-card:after,
+#complete-data .legal-person-msg > div.ID-card:after,
+#complete-data .personal-msg > div.ID-card:after {
+  position: absolute;
+  content: '该信息将在某些操作时验证您的身份信息。';
+  font-size: 14px;
+  color: #aaa;
+  bottom: -40px;
+  left: 208px;
+}
+#complete-data .company-msg > div.developer-name:after,
+#complete-data .legal-person-msg > div.developer-name:after,
+#complete-data .personal-msg > div.developer-name:after {
+  content: '如果名字包含分隔号"."，请勿忽略。';
+  position: absolute;
+  font-size: 14px;
+  color: #aaa;
+  bottom: -21px;
+  left: 208px;
+}
+#complete-data .company-msg > div.security-code input[type=text],
+#complete-data .legal-person-msg > div.security-code input[type=text],
+#complete-data .personal-msg > div.security-code input[type=text] {
+  width: 180px;
+}
+/*#complete-data .company-msg > div.security-code:after,*/
+/*#complete-data .legal-person-msg > div.security-code:after,*/
+/*#complete-data .personal-msg > div.security-code:after {
+  content: '验证码为6位数字';
+  position: absolute;
+  font-size: 14px;
+  color: #aaa;
+  bottom: -21px;
+  left: 208px;
+}*/
+#complete-data .submit {
+  margin: 40px 0;
+  text-align: center;
+}
+#complete-data .submit button {
+  width: 158px;
+  height: 50px;
+  border: 2px solid #54ab37;
+  outline: none;
+  color: #fff;
+  background: #54ab37;
+  font-size: 18px;
+  border-radius: 3px;
+  position: relative;
+}
+#app1 #check1 footer {
+  text-indent: 0em !important;
+  margin-top: 15px;
+}
+#app1 #check1 footer p {
+  color: #999;
+  font-size: 12px;
+  text-indent: 0em;
+  float: left;
+}
+#app1 #check1 footer div {
+  float: right;
+}
+#app1 #check1 > p {
+  margin-top: 40px;
+  font-size: 16px;
+  color: #666;
+  text-indent: 0 !important;
+}
+#app1 #check1 p label {
+  margin-right: 30px;
+  font-weight: normal;
+  display: inline;
+}
+#app1 #check1 table {
+  border-collapse: collapse;
+  font-size: 13px;
+  width: 100%;
+  margin-top: 20px;
+  white-space: normal;
+}
+#app1 #check1 table th {
+  font-weight: normal;
+}
+#app1 #check1 table td:last-child span {
+  padding-left: 20px;
+  margin-right: 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+#app1 #check1 table .app1 {
+  color: #43B4EF;
+  background: url(../img/icon4.png) no-repeat left center;
+}
+#app1 #check1 table .app2 {
+  color: #54ab37;
+  background: url(../img/icon7.png) no-repeat left center;
+}
+#app1 #check1 table .app3 {
+  color: #FD373F;
+  background: url(../img/icon2.png) no-repeat left center;
+}
+#app2 {
+  padding-top: 25px;
+}
+#app2 > p {
+  font-size: 15px;
+  color: #FF2C36;
+}
+#app2 > h3 {
+  margin: 35px 0;
+  font-size: 18px;
+  color: #333;
+  padding-left: 8px;
+  border-left: 2px solid #61B146;
+}
+#app2 > ul:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+#app2 > ul > li {
+  padding-left: 9px;
+  margin-bottom: 32px;
+  float: left;
+}
+#app2 > ul > li:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+#app2 > ul > li > div {
+  width: 400px;
+}
+#app2 > ul > li > span {
+  width: 88px;
+  font-size: 14px;
+  color: #525252;
+  float: left;
+  margin-right: 15px;
+  text-align: right;
+}
+#app2 > ul > li > aside {
+  font-size: 14px;
+  color: #525252;
+  float: left;
+}
+#app2 > ul > li > input,
+#app2 > ul > li > select{
+  float: left;
+  padding-left: 5px;
+  height: 37px;
+  width: 400px;
+  border: 2px solid #E1E1E1;  border-radius: 3px;
+    outline: none;
+}
+#app2 > ul > li > textarea{
+    border: 2px solid #E1E1E1;
+    border-radius: 3px;
+    outline: none;
+}
+#app2 > ul > li > input:focus{
+    border-radius: 3px;
+}
+
+#app2 > ul > li i {
+  font-style: normal;
+  font-size: 13px;
+  color: #999;
+  display: inline-block;
+}
+#app2 > ul > li > i {
+  float: left;
+  max-width: 270px;
+  margin-left: 8px;
+}
+#app2 > ul > li > textarea {
+  float: left;
+}
+#app2 > ul > li > div {
+  float: left;
+}
+#app2 > ul > li > div label {
+  font-weight: normal;
+  font-size: 14px;
+  margin-right: 10px;
+}
+#app2 > ul > li > div label input[type=radio] {
+  margin: 0;
+  position: relative;
+  top: 2px;
+  margin-right: 5px;
+}
+#app2 > ul > li > div ul {
+  max-width: 700px;
+}
+#app2 > ul > li > div ul:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+#app2 > ul > li > div ul li {
+  float: left;
+  margin-right: 20px;
+}
+#app2 > ul > li > div ul li p {
+  width: 90px;
+  height: 90px;
+  border: 1px solid #ddd;
+  position: relative;
+}
+#app2 > ul > li > div ul li p:after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: url(../img/close-icon.png) no-repeat 0 0;
+  top: -7px;
+  right: -7px;
+  cursor: pointer;
+}
+#app2 > ul > li > div ul li p img {
+  width: 100%;
+}
+#app2 > ul > li > div ul li a {
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  background: #FEFEF8;
+  border: 1px solid #ddd;
+  position: relative;
+  cursor: pointer;
+}
+#app2 > ul > li > div ul li a:after {
+  content: '上传';
+  color: #525252;
+  position: absolute;
+  display: inline-block;
+  padding-left: 20px;
+  top: 34px;
+  left: 18px;
+  background: url(../img/upload.png) no-repeat left center;
+}
+#app2 > footer {
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+#app2 > footer button {
+  height: 40px;
+  width: 112px;
+  border: 1px solid #54AB37;
+  border-radius: 3px;
+  margin: 25px 20px;
+  outline: none;
+  background: #54ab37;
+  color: #fff;
+}
+#app2 > footer .submit {
+  color: #fff;
+  background: #54AB37;
+}
+#app2 > footer .unsubmit {
+  color: #54AB37;
+  background: #fff;
+}
+#check-main {
+  width: 100%;
+  margin: 0 auto;
+}
+#check-main > h3 {
+  font-weight: 500;
+  font-size: 18px;
+  color: #333;
+  margin: 35px 0;
+  padding-left: 10px;
+  border-left: 2px solid #54ab37;
+}
+#check-main footer {
+  border-top: 1px solid #ccc;
+  padding-top: 35px;
+  text-align: center;
+  margin-bottom: 80px;
+}
+#check-main footer button {
+  outline: none;
+  cursor: pointer;
+  width: 120px;
+  height: 44px;
+  color: #fff;
+  border-radius: 4px;
+  margin: 0 30px;
+  font-size: 15px;
+}
+#check-main .massages > li:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#check-main .massages > li {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+#check-main .massages > li > aside {
+  float: left;
+  margin-left: 13px;
+  min-width: 60px;
+  margin-right: 30px;
+}
+#check-main .massages > li > aside > span {
+  float: right;
+  color: #525252;
+}
+#check-main .massages > li > div {
+  float: left;
+  max-width: 538px;
+}
+#check-main .massages > li > div > a {
+  color: #54ab37;
+  text-decoration: none;
+}
+#check-main .massages > li > div > a:hover {
+  text-decoration: underline;
+}
+#check-main .massages > li > div > span {
+  color: #525252;
+}
+#check-main .massages > li > div > p {
+  width: 500px;
+    word-break: break-all;
+}
+#check-main .massages > li > div > p img {
+  width: 100%;
+  height: 100%;
+}
+#check-main .massages > li > div > ul {
+  overflow: hidden;
+}
+#check-main .massages > li > div > ul li {
+  float: left;
+  width: 80px;
+  height: 80px;
+  border: 1px solid #cecece;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+#check-main .massages > li > div > ul li img {
+  width: 100%;
+}
+.news-center {
+  margin-top: 32px;
+}
+.news-center ul li {
+  font-size: 13px;
+  overflow: hidden;
+  line-height: 35px;
+  margin-top: 5px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+.news-center ul li a {
+  float: left;
+  text-decoration: none;
+}
+.news-center ul li aside {
+  float: right;
+}
+.news-center ul li aside i {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: url(../img/clock.png) no-repeat 0 0;
+}
+.news-center ul li aside span {
+  color: #999;
+  margin-left: 5px;
+}
+.news-center ul .read a {
+  color: #999;
+}
+.news-center ul .unread a {
+  color: #525252;
+}
+.news-center-detail h2 {
+  font-size: 18px;
+  color: #333;
+}
+.news-center-detail ul {
+  margin-top: 28px;
+  font-size: 16px;
+}
+.news-center-detail ul li {
+  margin-bottom: 15px;
+}
+.news-center-detail ul li span {
+  width: 100px;
+  color: #888;
+  text-align: justify;
+  text-align-last: justify;
+}
+.news-center-detail ul li label {
+  color: #525252;
+  font-weight: normal;
+  margin-left: 50px;
+}
+@media screen and (max-width: 1200px) {
+  #register-process {
+    margin-bottom: 50px;
+  }
+  #register-process > h3 {
+    color: #999;
+    border-bottom: 1px solid #DDDDDD;
+    padding-bottom: 10px;
+  }
+  #register-process > div {
+    height: 103px;
+    margin: 0 100px;
+    margin-top: 55px;
+    border-bottom: 1px solid #ddd;
+  }
+  #register-process > div span {
+    text-align: center;
+    line-height: 95px;
+    font-size: 17px;
+    color: #444;
+    position: relative;
+  }
+  #register-process > div span:before {
+    position: absolute;
+    content: '';
+    width: 44px;
+    height: 44px;
+    background: url(../images/icons.png) no-repeat;
+  }
+  #register-process > div span:first-child:before {
+    top: 25px;
+    left: 16px;
+    background-position: 0 0;
+  }
+  #register-process > div span:first-child:after {
+    position: absolute;
+    content: '';
+    width: 60px;
+    height: 35px;
+    background: url(../images/icons.png) no-repeat 0 -114px;
+    top: 31px;
+    right: -12px;
+  }
+  #register-process > div span:nth-child(2):before {
+    top: 25px;
+    left: 33px;
+    background-position: -46px -46px;
+  }
+  #register-process > div span:nth-child(2):after {
+    position: absolute;
+    content: '';
+    width: 60px;
+    height: 35px;
+    background: url(../images/icons.png) no-repeat 0 -114px;
+    top: 31px;
+    right: 2px;
+  }
+  #register-process > div span:nth-child(3) {
+    padding-right: 0;
+  }
+  #register-process > div span:nth-child(3):before {
+    top: 25px;
+    left: 18px;
+    background-position: -92px -46px;
+  }
+  #app2 > ul > li > i {
+    display: none;
+  }
+}

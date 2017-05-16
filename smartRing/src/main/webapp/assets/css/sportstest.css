@@ -1,0 +1,344 @@
+.grade-tendency,
+.latest-grade {
+  margin-top: 25px;
+}
+.grade-tendency > div,
+.latest-grade > div {
+  width: 739px;
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 24px;
+  padding: 0 13px;
+}
+.grade-tendency > div ul,
+.latest-grade > div ul {
+  margin-left: 196px;
+  font-size: 14px;
+  color: #555;
+}
+.grade-tendency > div ul li,
+.latest-grade > div ul li {
+  float: left;
+  margin-left: 80px;
+  position: relative;
+}
+.grade-tendency > div ul li:after,
+.latest-grade > div ul li:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 3px;
+  left: -34px;
+  top: 8px;
+}
+.grade-tendency > div ul li:first-child:after,
+.latest-grade > div ul li:first-child:after {
+  background: #19BE9D;
+}
+.grade-tendency > div ul li:nth-child(2):after,
+.latest-grade > div ul li:nth-child(2):after {
+  background: #FFAF25;
+}
+.grade-tendency > div ul li:last-child:after,
+.latest-grade > div ul li:last-child:after {
+  background: #5093E7;
+}
+.grade-tendency > main,
+.latest-grade > main {
+  padding-top: 45px;
+  width: 300px;
+  text-align: center;
+  font-size: 18px;
+  color: #676767;
+}
+.grade-tendency > main div.clear,
+.latest-grade > main div.clear {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding: 20px 0 15px 0;
+}
+.grade-tendency > main aside.lf,
+.latest-grade > main aside.lf {
+  color: #676767;
+  font-size: 13px;
+  line-height: 24px;
+}
+.grade-tendency > main aside.rl i.pull-u,
+.latest-grade > main aside.rl i {
+  position: absolute;
+  width: 13px;
+  height: 16px;
+  background: url(../images/tendency-u.png) no-repeat center center;
+  top: 3px;
+  right: 0;
+}
+.grade-tendency > main aside.rl i.pull-d{
+  position: absolute;
+  width: 13px;
+  height: 16px;
+  top: 3px;
+  right: 0;
+  background: url(../images/tendency-d.png) no-repeat center center;
+}
+.grade-tendency {
+  margin-bottom: 80px;
+}
+.test-grade {
+  margin-top: 25px;
+}
+.test-grade > div {
+  height: 300px;
+  overflow-y: scroll;
+}
+.test-grade table {
+  width: 380px;
+}
+.test-grade table td {
+  width: 33.33%;
+}
+.lacking-grade {
+  margin-top: 25px;
+  margin-bottom: 80px;
+}
+.lacking-grade p {
+  border-bottom: 1px solid #ddd;
+}
+.lacking-grade p select {
+  width: 202px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  color: #333;
+}
+.lacking-grade > div {
+  padding: 23px 25px;
+}
+.lacking-grade > div table th {
+  width: 16.66%;
+}
+#sportstest > section {
+  width: 558px;
+  margin-bottom: 25px;
+}
+#sportstest > section > main ul {
+  margin: 68px 33px 0 0;
+}
+#sportstest > section > main ul li {
+  font-size: 13px;
+  color: #333;
+  position: relative;
+  margin-bottom: 20px;
+}
+#sportstest > section > main ul li:before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 5px;
+  left: -19px;
+  top: 6px;
+}
+#sportstest > section > main ul li:nth-child(1):before {
+  background: #FF7F50;
+}
+#sportstest > section > main ul li:nth-child(2):before {
+  background: #87CEFA;
+}
+#sportstest > section > main ul li:nth-child(3):before {
+  background: #DA70D6;
+}
+#sportstest > section > main ul li:nth-child(4):before {
+  background: #32CD32;
+}
+#sportstest > section > main div {
+  margin-left: 53px;
+}
+#sportstest > section > div {
+  padding: 30px 30px 10px 30px;
+}
+#sportstest > section > div td {
+  text-align: center;
+  width: 33.33%;
+}
+#gradeManage .sh-tabs {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  background: #E7EAEC;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px 5px 0 5px;
+}
+#gradeManage .sh-tabs li {
+  float: left;
+}
+#gradeManage .sh-tabs li a {
+  padding: 0 15px;
+  line-height: 36px;
+  color: #676767;
+  cursor: pointer;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+#gradeManage .sh-tabs li a.active {
+  background: #fff;
+}
+#gradeManage > div {
+  border-top: none;
+  margin-top: -4px;
+}
+#gradeManage #test1,
+#gradeManage #test3 {
+  margin-bottom: 80px;
+}
+#gradeManage #test1 header,
+#gradeManage #test3 header {
+  margin: 20px 0 0 0;
+}
+#gradeManage #test1 header aside span,
+#gradeManage #test3 header aside span {
+  font-size: 13px;
+  color: #676767;
+  margin-right: 6px;
+}
+#gradeManage #test1 header aside select,
+#gradeManage #test3 header aside select {
+  outline: none;
+  width: 120px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #525252;
+  margin-right: 20px;
+}
+#gradeManage #test1 section button,
+#gradeManage #test3 section button {
+  float: right;
+  border: 1px solid #19BE9D;
+  color: #fff;
+  font-size: 13px;
+  padding: 0 15px;
+  margin-left: 13px;
+  background: #19BE9D;
+  border-radius: 0 3px 3px 0;
+  height: 28px;
+}
+#gradeManage #test1 section .search,
+#gradeManage #test3 section .search {
+  position: relative;
+  margin: 0;
+}
+#gradeManage #test1 section .search:after,
+#gradeManage #test3 section .search:after {
+  content: '';
+  top: 6px;
+  right: 7px;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: url(../images/icon.png) no-repeat -1px -50px;
+}
+#gradeManage #test1 section input,
+#gradeManage #test3 section input {
+  height: 28px;
+  font-size: 12px;
+  color: #999;
+  padding-left: 5px;
+  border: 1px solid #ddd;
+  border-right:none;
+  border-radius: 3px;
+
+  width: 200px;
+}
+#gradeManage #test1 > div,
+#gradeManage #test3 > div,
+#test4 > div {
+  margin-top: 12px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+#gradeManage #test1 > div table td span,
+#gradeManage #test3 > div table td span {
+  line-height: 23px;
+  padding: 0 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-right: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+#gradeManage #test1 footer,
+#gradeManage #test3 footer {
+  padding: 0;
+}
+#gradeManage #test2 {
+  margin-bottom: 80px;
+  display: none;
+  padding: 50px 85px;
+}
+#gradeManage #test2 p {
+  font-size: 13px;
+  position: relative;
+  margin-bottom: 20px;
+}
+#gradeManage #test2 p:after{
+  top:5px;
+}
+#gradeManage #test2 p span {
+  color: #676767;
+  margin-right: 10px;
+}
+#gradeManage #test2 p input {
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 28px;
+  border-radius: 3px;
+}
+#gradeManage #test2 p select {
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 28px;
+  border-radius: 3px;
+}
+/*#gradeManage #test2 p i {*/
+  /*position: absolute;*/
+  /*width: 20px;*/
+  /*height: 20px;*/
+  /*background: url(../images/help.png) no-repeat center center;*/
+  /*left: 285px;*/
+  /*top: 4px;*/
+  /*cursor: pointer;*/
+/*}*/
+#gradeManage #test2 footer {
+  margin-top: 50px;
+}
+#gradeManage #test2 footer button {
+  height: 28px;
+  padding: 0 15px;
+  border-radius: 3px;
+  color: #fff;
+  margin-right: 25px;
+}
+#gradeManage #test2 footer button:first-child {
+  border: 1px solid #19BE9D;
+  background: #19BE9D;
+}
+#gradeManage #test2 footer button:last-child {
+  border: 1px solid #c3d0cd;
+  background: #c3d0cd;
+}
+#gradeManage #test3 {
+  display: none;
+}
+
+.changeadd{
+  border: 1px solid #19BE9D;
+  color: #fff;
+  font-size: 13px;
+  padding: 0 15px;
+  margin-left: 13px;
+  background: #19BE9D;
+  border-radius: 0 3px 3px 0;
+  height: 28px;
+  line-height: 28px;
+  cursor: pointer;
+}

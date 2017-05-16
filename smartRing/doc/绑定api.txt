@@ -1,0 +1,39 @@
+baseurl:http://xxxxx:xx/ring
+
+1. 扫描查询接口
+url: /manage/bound/{mac}
+method:GET
+params:
+schoolId: 学校ID
+classId: 班级ID
+
+response:
+{
+  "code": 0,
+  "msg": "ok",
+  "data": {
+    "studentId": "10",
+    "studentName": "李四5",
+    "grade": "初中",
+    "nj", "1",
+    "class": "class_name",
+    "mac": "ajsdflasd"
+  }
+}
+
+2. 确定绑定接口
+url:  /manage/bound
+method:POST
+params:
+studentId: 学生ID
+mac: 手环mac
+
+response:
+{
+  "code": 0,
+  "msg": "ok",
+  "data": null
+}
+
+
+

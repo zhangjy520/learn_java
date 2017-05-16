@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_MenuExtensionMapper" >
+
+    <resultMap id="ExtensionBaseResultMap" type="cc.gukeer.smartRing.modelView.MenuView"
+               extends="cc.gukeer.smartRing.persistence.dao.MenuMapper.BaseResultMap" >
+        <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectMenusByRoleId" resultMap="ExtensionBaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="cc.gukeer.smartRing.persistence.dao.MenuMapper.Base_Column_List" />, role_id
+        from ref_role_menu ref, sys_menu menu
+        WHERE ref.role_id=#{roleId} AND ref.menu_id = menu.id
+    </select>
+
+    <!--通过用户id查询用户信息-->
+    <select id="getUserInfo" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT
+        u.`id`,
+        u.`username` AS account,
+        u.`name` AS xm,
+        u.`ref_id`,
+        r.`id` AS roleId,
+        r.`name` AS roleName,
+        r.`permission_range` AS permission
+        FROM
+        sys_user u,
+        sys_role r
+        WHERE r.`id` IN
+        (SELECT
+        role_id
+        FROM
+        ref_user_role
+        WHERE user_id = u.`id`)
+        AND u.`school_id` = r.`school_id` AND u.`id` = #{userId}
+    </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_RefClassStudentMapper">
+  <insert id="addStudentBatch" parameterType="List">
+    insert into ref_class_student (sport_class_id, student_id,sort)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.sportClassId,jdbcType=VARCHAR},#{item.studentId,jdbcType=VARCHAR},#{item.sort,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+
+  <select id="getAllstudent" parameterType="String" resultType="map">
+    SELECT DISTINCT v.`xh` xh,v.`indexName` indexName,v.`xsxm` xsxm,v.`className` classNmae FROM ref_class_student ref
+	LEFT JOIN v_student_classinfo v ON ref.`student_id`=v.`xh`
+	WHERE v.`school_id`=#{schoolId} AND ref.`sport_class_id`=#{sportClassId};
+  </select>
+
+  <select id="getClassCount" resultType="map">
+    SELECT sport_class_id,COUNT(sport_class_id) AS classCount,any_value(sort) AS sort FROM ref_class_student ref GROUP BY sport_class_id ORDER BY sort DESC
+  </select>
+</mapper>

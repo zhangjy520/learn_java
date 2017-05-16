@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.syncdata.persistence.dao.A_ChangeStatePatriarchMapper" >
+  <!--批量处理-->
+  <insert id="insertBatch" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStatePatriarch" >
+    insert into change_state_user_patriarch (id, sync_id,school_id, name,
+    student_id, work, work_at,
+    phone, gender, sfjhr,account,
+    sfyqsh, patriarch_flag, update_date,
+    event, source, sync_del_flag,
+    sync_date)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+      #{item.studentId,jdbcType=VARCHAR}, #{item.work,jdbcType=VARCHAR}, #{item.workAt,jdbcType=VARCHAR},
+      #{item.phone,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER}, #{item.sfjhr,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
+      #{item.sfyqsh,jdbcType=INTEGER}, #{item.patriarchFlag,jdbcType=INTEGER}, #{item.updateDate,jdbcType=BIGINT},
+      #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
+      #{item.syncDate,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+
+  <select id="selectBySyncId" resultType="cc.gukeer.syncdata.persistence.entity.ChangeStatePatriarch" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStatePatriarch" >
+    select * from change_state_user_patriarch
+             where sync_id = #{syncId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectMinId" resultType="map" parameterType="java.lang.Long" >
+    SELECT id,MIN(sync_date) FROM change_state_user_patriarch
+    where
+    <if test="source != null" >
+      source = #{source,jdbcType=VARCHAR} and
+    </if>
+
+    <if test="syncDate != null" >
+      sync_date > #{syncDate,jdbcType=BIGINT}
+    </if>
+    GROUP BY sync_id
+    HAVING COUNT(1) > 1
+  </select>
+
+  <!--<delete id="deleteBatch" parameterType="java.lang.String" >
+    delete from change_state_user_patriarch
+    where id in
+    <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+      #{item,jdbcType=VARCHAR}
+    </foreach>
+  </delete>-->
+  <delete id="deleteBatch" parameterType="java.lang.String" >
+    DELETE FROM change_state_user_patriarch
+    WHERE id not in
+    <foreach collection="listId" item="item" index="index" separator="," open="(" close=")">
+      #{item,jdbcType=VARCHAR}
+    </foreach>
+    AND sync_id in
+    <foreach collection="listSyncId" item="item2" index="index" separator="," open="(" close=")">
+      #{item2,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
+
+  <select id="checkBysyncId" resultType="String" parameterType="String" >
+    SELECT id FROM change_state_user_patriarch
+    GROUP BY sync_id
+    HAVING COUNT(id)>1
+  </select>
+
+  <select id="selectSyncId" resultType="String" parameterType="String" >
+    SELECT sync_id FROM change_state_user_patriarch
+    GROUP BY sync_id
+    HAVING COUNT(id)>1
+  </select>
+  <select id="checkById" resultType="Integer" parameterType="String" >
+    select count(id) from change_state_user_patriarch where sync_id=#{0} AND source = #{1}
+  </select>
+
+
+
+</mapper>

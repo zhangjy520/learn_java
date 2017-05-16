@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.AccessoriesMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.open.persistence.entity.Accessories" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="identity_photo" property="identityPhoto" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="licence_scan" property="licenceScan" jdbcType="VARCHAR" />
+    <result column="works_scan" property="worksScan" jdbcType="VARCHAR" />
+    <result column="qualification" property="qualification" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, identity_photo, logo, licence_scan, works_scan, qualification
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.open.persistence.entity.AccessoriesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from open_accessories
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from open_accessories
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from open_accessories
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.open.persistence.entity.AccessoriesExample" >
+    delete from open_accessories
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.open.persistence.entity.Accessories" >
+    insert into open_accessories (id, identity_photo, logo, 
+      licence_scan, works_scan, qualification
+      )
+    values (#{id,jdbcType=VARCHAR}, #{identityPhoto,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{licenceScan,jdbcType=VARCHAR}, #{worksScan,jdbcType=VARCHAR}, #{qualification,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.open.persistence.entity.Accessories" >
+    insert into open_accessories
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="identityPhoto != null" >
+        identity_photo,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="licenceScan != null" >
+        licence_scan,
+      </if>
+      <if test="worksScan != null" >
+        works_scan,
+      </if>
+      <if test="qualification != null" >
+        qualification,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="identityPhoto != null" >
+        #{identityPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceScan != null" >
+        #{licenceScan,jdbcType=VARCHAR},
+      </if>
+      <if test="worksScan != null" >
+        #{worksScan,jdbcType=VARCHAR},
+      </if>
+      <if test="qualification != null" >
+        #{qualification,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update open_accessories
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityPhoto != null" >
+        identity_photo = #{record.identityPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null" >
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenceScan != null" >
+        licence_scan = #{record.licenceScan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.worksScan != null" >
+        works_scan = #{record.worksScan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qualification != null" >
+        qualification = #{record.qualification,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update open_accessories
+    set id = #{record.id,jdbcType=VARCHAR},
+      identity_photo = #{record.identityPhoto,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      licence_scan = #{record.licenceScan,jdbcType=VARCHAR},
+      works_scan = #{record.worksScan,jdbcType=VARCHAR},
+      qualification = #{record.qualification,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.open.persistence.entity.Accessories" >
+    update open_accessories
+    <set >
+      <if test="identityPhoto != null" >
+        identity_photo = #{identityPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceScan != null" >
+        licence_scan = #{licenceScan,jdbcType=VARCHAR},
+      </if>
+      <if test="worksScan != null" >
+        works_scan = #{worksScan,jdbcType=VARCHAR},
+      </if>
+      <if test="qualification != null" >
+        qualification = #{qualification,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.open.persistence.entity.Accessories" >
+    update open_accessories
+    set identity_photo = #{identityPhoto,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      licence_scan = #{licenceScan,jdbcType=VARCHAR},
+      works_scan = #{worksScan,jdbcType=VARCHAR},
+      qualification = #{qualification,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

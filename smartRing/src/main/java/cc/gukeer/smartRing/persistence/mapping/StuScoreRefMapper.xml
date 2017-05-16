@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.StuScoreRefMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.smartRing.persistence.entity.StuScoreRef" >
+    <id column="test_seq" property="testSeq" jdbcType="VARCHAR" />
+    <result column="test_id" property="testId" jdbcType="INTEGER" />
+    <result column="student_num" property="studentNum" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="student_score" property="studentScore" jdbcType="VARCHAR" />
+    <result column="student_mark" property="studentMark" jdbcType="VARCHAR" />
+    <result column="student_level" property="studentLevel" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="expire" property="expire" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="score_type" property="scoreType" jdbcType="INTEGER" />
+    <result column="test_date" property="testDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    test_seq, test_id, student_num, item_id, item_name, student_score, student_mark, 
+    student_level, school_id, create_date, create_by, update_date, update_by, expire, 
+    del_flag, score_type, test_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.smartRing.persistence.entity.StuScoreRefExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ref_student_score
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ref_student_score
+    where test_seq = #{testSeq,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ref_student_score
+    where test_seq = #{testSeq,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.smartRing.persistence.entity.StuScoreRefExample" >
+    delete from ref_student_score
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.smartRing.persistence.entity.StuScoreRef" >
+    insert into ref_student_score (test_seq, test_id, student_num, 
+      item_id, item_name, student_score, 
+      student_mark, student_level, school_id, 
+      create_date, create_by, update_date, 
+      update_by, expire, del_flag, 
+      score_type, test_date)
+    values (#{testSeq,jdbcType=VARCHAR}, #{testId,jdbcType=INTEGER}, #{studentNum,jdbcType=INTEGER}, 
+      #{itemId,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{studentScore,jdbcType=VARCHAR}, 
+      #{studentMark,jdbcType=VARCHAR}, #{studentLevel,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{expire,jdbcType=INTEGER}, #{delFlag,jdbcType=INTEGER}, 
+      #{scoreType,jdbcType=INTEGER}, #{testDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.smartRing.persistence.entity.StuScoreRef" >
+    insert into ref_student_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="testSeq != null" >
+        test_seq,
+      </if>
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="studentNum != null" >
+        student_num,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="studentScore != null" >
+        student_score,
+      </if>
+      <if test="studentMark != null" >
+        student_mark,
+      </if>
+      <if test="studentLevel != null" >
+        student_level,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="expire != null" >
+        expire,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="scoreType != null" >
+        score_type,
+      </if>
+      <if test="testDate != null" >
+        test_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="testSeq != null" >
+        #{testSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="testId != null" >
+        #{testId,jdbcType=INTEGER},
+      </if>
+      <if test="studentNum != null" >
+        #{studentNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentScore != null" >
+        #{studentScore,jdbcType=VARCHAR},
+      </if>
+      <if test="studentMark != null" >
+        #{studentMark,jdbcType=VARCHAR},
+      </if>
+      <if test="studentLevel != null" >
+        #{studentLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="expire != null" >
+        #{expire,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="scoreType != null" >
+        #{scoreType,jdbcType=INTEGER},
+      </if>
+      <if test="testDate != null" >
+        #{testDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ref_student_score
+    <set >
+      <if test="record.testSeq != null" >
+        test_seq = #{record.testSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testId != null" >
+        test_id = #{record.testId,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentNum != null" >
+        student_num = #{record.studentNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentScore != null" >
+        student_score = #{record.studentScore,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentMark != null" >
+        student_mark = #{record.studentMark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentLevel != null" >
+        student_level = #{record.studentLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expire != null" >
+        expire = #{record.expire,jdbcType=INTEGER},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.scoreType != null" >
+        score_type = #{record.scoreType,jdbcType=INTEGER},
+      </if>
+      <if test="record.testDate != null" >
+        test_date = #{record.testDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ref_student_score
+    set test_seq = #{record.testSeq,jdbcType=VARCHAR},
+      test_id = #{record.testId,jdbcType=INTEGER},
+      student_num = #{record.studentNum,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=VARCHAR},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      student_score = #{record.studentScore,jdbcType=VARCHAR},
+      student_mark = #{record.studentMark,jdbcType=VARCHAR},
+      student_level = #{record.studentLevel,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      expire = #{record.expire,jdbcType=INTEGER},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      score_type = #{record.scoreType,jdbcType=INTEGER},
+      test_date = #{record.testDate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.smartRing.persistence.entity.StuScoreRef" >
+    update ref_student_score
+    <set >
+      <if test="testId != null" >
+        test_id = #{testId,jdbcType=INTEGER},
+      </if>
+      <if test="studentNum != null" >
+        student_num = #{studentNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentScore != null" >
+        student_score = #{studentScore,jdbcType=VARCHAR},
+      </if>
+      <if test="studentMark != null" >
+        student_mark = #{studentMark,jdbcType=VARCHAR},
+      </if>
+      <if test="studentLevel != null" >
+        student_level = #{studentLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="expire != null" >
+        expire = #{expire,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="scoreType != null" >
+        score_type = #{scoreType,jdbcType=INTEGER},
+      </if>
+      <if test="testDate != null" >
+        test_date = #{testDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where test_seq = #{testSeq,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.smartRing.persistence.entity.StuScoreRef" >
+    update ref_student_score
+    set test_id = #{testId,jdbcType=INTEGER},
+      student_num = #{studentNum,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      student_score = #{studentScore,jdbcType=VARCHAR},
+      student_mark = #{studentMark,jdbcType=VARCHAR},
+      student_level = #{studentLevel,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      expire = #{expire,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      score_type = #{scoreType,jdbcType=INTEGER},
+      test_date = #{testDate,jdbcType=VARCHAR}
+    where test_seq = #{testSeq,jdbcType=VARCHAR}
+  </update>
+</mapper>

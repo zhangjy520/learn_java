@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.syncdata.persistence.dao.ChangeStateStudentMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.syncdata.persistence.entity.ChangeStateStudent" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sync_id" property="syncId" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="xsxm" property="xsxm" jdbcType="VARCHAR" />
+    <result column="xszp" property="xszp" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="csrq" property="csrq" jdbcType="BIGINT" />
+    <result column="rxrq" property="rxrq" jdbcType="BIGINT" />
+    <result column="xsxb" property="xsxb" jdbcType="INTEGER" />
+    <result column="xssg" property="xssg" jdbcType="VARCHAR" />
+    <result column="xh" property="xh" jdbcType="VARCHAR" />
+    <result column="xjh" property="xjh" jdbcType="VARCHAR" />
+    <result column="qgxjh" property="qgxjh" jdbcType="VARCHAR" />
+    <result column="jyid" property="jyid" jdbcType="VARCHAR" />
+    <result column="syd" property="syd" jdbcType="VARCHAR" />
+    <result column="yxzjlx" property="yxzjlx" jdbcType="INTEGER" />
+    <result column="yxzjh" property="yxzjh" jdbcType="VARCHAR" />
+    <result column="jbs" property="jbs" jdbcType="VARCHAR" />
+    <result column="sfsbt" property="sfsbt" jdbcType="INTEGER" />
+    <result column="sbtxh" property="sbtxh" jdbcType="INTEGER" />
+    <result column="xslb" property="xslb" jdbcType="INTEGER" />
+    <result column="gb" property="gb" jdbcType="VARCHAR" />
+    <result column="mz" property="mz" jdbcType="VARCHAR" />
+    <result column="jg" property="jg" jdbcType="VARCHAR" />
+    <result column="zzmm" property="zzmm" jdbcType="INTEGER" />
+    <result column="zslb" property="zslb" jdbcType="INTEGER" />
+    <result column="lydq" property="lydq" jdbcType="VARCHAR" />
+    <result column="hkszd" property="hkszd" jdbcType="VARCHAR" />
+    <result column="xjzd" property="xjzd" jdbcType="VARCHAR" />
+    <result column="hkxz" property="hkxz" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+    <result column="event" property="event" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="sync_del_flag" property="syncDelFlag" jdbcType="VARCHAR" />
+    <result column="sync_date" property="syncDate" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sync_id, school_id, class_id, xsxm, xszp, phone, csrq, rxrq, xsxb, xssg, xh, 
+    xjh, qgxjh, jyid, syd, yxzjlx, yxzjh, jbs, sfsbt, sbtxh, xslb, gb, mz, jg, zzmm, 
+    zslb, lydq, hkszd, xjzd, hkxz, status, update_date, event, source, sync_del_flag, 
+    sync_date, account
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from change_state_user_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from change_state_user_student
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from change_state_user_student
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudentExample" >
+    delete from change_state_user_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudent" >
+    insert into change_state_user_student (id, sync_id, school_id, 
+      class_id, xsxm, xszp, 
+      phone, csrq, rxrq, xsxb, 
+      xssg, xh, xjh, qgxjh, 
+      jyid, syd, yxzjlx, 
+      yxzjh, jbs, sfsbt, 
+      sbtxh, xslb, gb, mz, 
+      jg, zzmm, zslb, lydq, 
+      hkszd, xjzd, hkxz, 
+      status, update_date, event, 
+      source, sync_del_flag, sync_date, 
+      account)
+    values (#{id,jdbcType=VARCHAR}, #{syncId,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, 
+      #{classId,jdbcType=VARCHAR}, #{xsxm,jdbcType=VARCHAR}, #{xszp,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{csrq,jdbcType=BIGINT}, #{rxrq,jdbcType=BIGINT}, #{xsxb,jdbcType=INTEGER}, 
+      #{xssg,jdbcType=VARCHAR}, #{xh,jdbcType=VARCHAR}, #{xjh,jdbcType=VARCHAR}, #{qgxjh,jdbcType=VARCHAR}, 
+      #{jyid,jdbcType=VARCHAR}, #{syd,jdbcType=VARCHAR}, #{yxzjlx,jdbcType=INTEGER}, 
+      #{yxzjh,jdbcType=VARCHAR}, #{jbs,jdbcType=VARCHAR}, #{sfsbt,jdbcType=INTEGER}, 
+      #{sbtxh,jdbcType=INTEGER}, #{xslb,jdbcType=INTEGER}, #{gb,jdbcType=VARCHAR}, #{mz,jdbcType=VARCHAR}, 
+      #{jg,jdbcType=VARCHAR}, #{zzmm,jdbcType=INTEGER}, #{zslb,jdbcType=INTEGER}, #{lydq,jdbcType=VARCHAR}, 
+      #{hkszd,jdbcType=VARCHAR}, #{xjzd,jdbcType=VARCHAR}, #{hkxz,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{updateDate,jdbcType=BIGINT}, #{event,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{syncDelFlag,jdbcType=VARCHAR}, #{syncDate,jdbcType=BIGINT}, 
+      #{account,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudent" >
+    insert into change_state_user_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="syncId != null" >
+        sync_id,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="xsxm != null" >
+        xsxm,
+      </if>
+      <if test="xszp != null" >
+        xszp,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="csrq != null" >
+        csrq,
+      </if>
+      <if test="rxrq != null" >
+        rxrq,
+      </if>
+      <if test="xsxb != null" >
+        xsxb,
+      </if>
+      <if test="xssg != null" >
+        xssg,
+      </if>
+      <if test="xh != null" >
+        xh,
+      </if>
+      <if test="xjh != null" >
+        xjh,
+      </if>
+      <if test="qgxjh != null" >
+        qgxjh,
+      </if>
+      <if test="jyid != null" >
+        jyid,
+      </if>
+      <if test="syd != null" >
+        syd,
+      </if>
+      <if test="yxzjlx != null" >
+        yxzjlx,
+      </if>
+      <if test="yxzjh != null" >
+        yxzjh,
+      </if>
+      <if test="jbs != null" >
+        jbs,
+      </if>
+      <if test="sfsbt != null" >
+        sfsbt,
+      </if>
+      <if test="sbtxh != null" >
+        sbtxh,
+      </if>
+      <if test="xslb != null" >
+        xslb,
+      </if>
+      <if test="gb != null" >
+        gb,
+      </if>
+      <if test="mz != null" >
+        mz,
+      </if>
+      <if test="jg != null" >
+        jg,
+      </if>
+      <if test="zzmm != null" >
+        zzmm,
+      </if>
+      <if test="zslb != null" >
+        zslb,
+      </if>
+      <if test="lydq != null" >
+        lydq,
+      </if>
+      <if test="hkszd != null" >
+        hkszd,
+      </if>
+      <if test="xjzd != null" >
+        xjzd,
+      </if>
+      <if test="hkxz != null" >
+        hkxz,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="event != null" >
+        event,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="syncDelFlag != null" >
+        sync_del_flag,
+      </if>
+      <if test="syncDate != null" >
+        sync_date,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="syncId != null" >
+        #{syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="xsxm != null" >
+        #{xsxm,jdbcType=VARCHAR},
+      </if>
+      <if test="xszp != null" >
+        #{xszp,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        #{csrq,jdbcType=BIGINT},
+      </if>
+      <if test="rxrq != null" >
+        #{rxrq,jdbcType=BIGINT},
+      </if>
+      <if test="xsxb != null" >
+        #{xsxb,jdbcType=INTEGER},
+      </if>
+      <if test="xssg != null" >
+        #{xssg,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null" >
+        #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="xjh != null" >
+        #{xjh,jdbcType=VARCHAR},
+      </if>
+      <if test="qgxjh != null" >
+        #{qgxjh,jdbcType=VARCHAR},
+      </if>
+      <if test="jyid != null" >
+        #{jyid,jdbcType=VARCHAR},
+      </if>
+      <if test="syd != null" >
+        #{syd,jdbcType=VARCHAR},
+      </if>
+      <if test="yxzjlx != null" >
+        #{yxzjlx,jdbcType=INTEGER},
+      </if>
+      <if test="yxzjh != null" >
+        #{yxzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="jbs != null" >
+        #{jbs,jdbcType=VARCHAR},
+      </if>
+      <if test="sfsbt != null" >
+        #{sfsbt,jdbcType=INTEGER},
+      </if>
+      <if test="sbtxh != null" >
+        #{sbtxh,jdbcType=INTEGER},
+      </if>
+      <if test="xslb != null" >
+        #{xslb,jdbcType=INTEGER},
+      </if>
+      <if test="gb != null" >
+        #{gb,jdbcType=VARCHAR},
+      </if>
+      <if test="mz != null" >
+        #{mz,jdbcType=VARCHAR},
+      </if>
+      <if test="jg != null" >
+        #{jg,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmm != null" >
+        #{zzmm,jdbcType=INTEGER},
+      </if>
+      <if test="zslb != null" >
+        #{zslb,jdbcType=INTEGER},
+      </if>
+      <if test="lydq != null" >
+        #{lydq,jdbcType=VARCHAR},
+      </if>
+      <if test="hkszd != null" >
+        #{hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="xjzd != null" >
+        #{xjzd,jdbcType=VARCHAR},
+      </if>
+      <if test="hkxz != null" >
+        #{hkxz,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="event != null" >
+        #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDelFlag != null" >
+        #{syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDate != null" >
+        #{syncDate,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudentExample" resultType="java.lang.Integer" >
+    select count(*) from change_state_user_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update change_state_user_student
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncId != null" >
+        sync_id = #{record.syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null" >
+        class_id = #{record.classId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xsxm != null" >
+        xsxm = #{record.xsxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xszp != null" >
+        xszp = #{record.xszp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csrq != null" >
+        csrq = #{record.csrq,jdbcType=BIGINT},
+      </if>
+      <if test="record.rxrq != null" >
+        rxrq = #{record.rxrq,jdbcType=BIGINT},
+      </if>
+      <if test="record.xsxb != null" >
+        xsxb = #{record.xsxb,jdbcType=INTEGER},
+      </if>
+      <if test="record.xssg != null" >
+        xssg = #{record.xssg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xh != null" >
+        xh = #{record.xh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xjh != null" >
+        xjh = #{record.xjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qgxjh != null" >
+        qgxjh = #{record.qgxjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jyid != null" >
+        jyid = #{record.jyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syd != null" >
+        syd = #{record.syd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yxzjlx != null" >
+        yxzjlx = #{record.yxzjlx,jdbcType=INTEGER},
+      </if>
+      <if test="record.yxzjh != null" >
+        yxzjh = #{record.yxzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jbs != null" >
+        jbs = #{record.jbs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfsbt != null" >
+        sfsbt = #{record.sfsbt,jdbcType=INTEGER},
+      </if>
+      <if test="record.sbtxh != null" >
+        sbtxh = #{record.sbtxh,jdbcType=INTEGER},
+      </if>
+      <if test="record.xslb != null" >
+        xslb = #{record.xslb,jdbcType=INTEGER},
+      </if>
+      <if test="record.gb != null" >
+        gb = #{record.gb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mz != null" >
+        mz = #{record.mz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jg != null" >
+        jg = #{record.jg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzmm != null" >
+        zzmm = #{record.zzmm,jdbcType=INTEGER},
+      </if>
+      <if test="record.zslb != null" >
+        zslb = #{record.zslb,jdbcType=INTEGER},
+      </if>
+      <if test="record.lydq != null" >
+        lydq = #{record.lydq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hkszd != null" >
+        hkszd = #{record.hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xjzd != null" >
+        xjzd = #{record.xjzd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hkxz != null" >
+        hkxz = #{record.hkxz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.event != null" >
+        event = #{record.event,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncDelFlag != null" >
+        sync_del_flag = #{record.syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncDate != null" >
+        sync_date = #{record.syncDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update change_state_user_student
+    set id = #{record.id,jdbcType=VARCHAR},
+      sync_id = #{record.syncId,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=VARCHAR},
+      class_id = #{record.classId,jdbcType=VARCHAR},
+      xsxm = #{record.xsxm,jdbcType=VARCHAR},
+      xszp = #{record.xszp,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      csrq = #{record.csrq,jdbcType=BIGINT},
+      rxrq = #{record.rxrq,jdbcType=BIGINT},
+      xsxb = #{record.xsxb,jdbcType=INTEGER},
+      xssg = #{record.xssg,jdbcType=VARCHAR},
+      xh = #{record.xh,jdbcType=VARCHAR},
+      xjh = #{record.xjh,jdbcType=VARCHAR},
+      qgxjh = #{record.qgxjh,jdbcType=VARCHAR},
+      jyid = #{record.jyid,jdbcType=VARCHAR},
+      syd = #{record.syd,jdbcType=VARCHAR},
+      yxzjlx = #{record.yxzjlx,jdbcType=INTEGER},
+      yxzjh = #{record.yxzjh,jdbcType=VARCHAR},
+      jbs = #{record.jbs,jdbcType=VARCHAR},
+      sfsbt = #{record.sfsbt,jdbcType=INTEGER},
+      sbtxh = #{record.sbtxh,jdbcType=INTEGER},
+      xslb = #{record.xslb,jdbcType=INTEGER},
+      gb = #{record.gb,jdbcType=VARCHAR},
+      mz = #{record.mz,jdbcType=VARCHAR},
+      jg = #{record.jg,jdbcType=VARCHAR},
+      zzmm = #{record.zzmm,jdbcType=INTEGER},
+      zslb = #{record.zslb,jdbcType=INTEGER},
+      lydq = #{record.lydq,jdbcType=VARCHAR},
+      hkszd = #{record.hkszd,jdbcType=VARCHAR},
+      xjzd = #{record.xjzd,jdbcType=VARCHAR},
+      hkxz = #{record.hkxz,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      update_date = #{record.updateDate,jdbcType=BIGINT},
+      event = #{record.event,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      sync_del_flag = #{record.syncDelFlag,jdbcType=VARCHAR},
+      sync_date = #{record.syncDate,jdbcType=BIGINT},
+      account = #{record.account,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudent" >
+    update change_state_user_student
+    <set >
+      <if test="syncId != null" >
+        sync_id = #{syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="xsxm != null" >
+        xsxm = #{xsxm,jdbcType=VARCHAR},
+      </if>
+      <if test="xszp != null" >
+        xszp = #{xszp,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        csrq = #{csrq,jdbcType=BIGINT},
+      </if>
+      <if test="rxrq != null" >
+        rxrq = #{rxrq,jdbcType=BIGINT},
+      </if>
+      <if test="xsxb != null" >
+        xsxb = #{xsxb,jdbcType=INTEGER},
+      </if>
+      <if test="xssg != null" >
+        xssg = #{xssg,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null" >
+        xh = #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="xjh != null" >
+        xjh = #{xjh,jdbcType=VARCHAR},
+      </if>
+      <if test="qgxjh != null" >
+        qgxjh = #{qgxjh,jdbcType=VARCHAR},
+      </if>
+      <if test="jyid != null" >
+        jyid = #{jyid,jdbcType=VARCHAR},
+      </if>
+      <if test="syd != null" >
+        syd = #{syd,jdbcType=VARCHAR},
+      </if>
+      <if test="yxzjlx != null" >
+        yxzjlx = #{yxzjlx,jdbcType=INTEGER},
+      </if>
+      <if test="yxzjh != null" >
+        yxzjh = #{yxzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="jbs != null" >
+        jbs = #{jbs,jdbcType=VARCHAR},
+      </if>
+      <if test="sfsbt != null" >
+        sfsbt = #{sfsbt,jdbcType=INTEGER},
+      </if>
+      <if test="sbtxh != null" >
+        sbtxh = #{sbtxh,jdbcType=INTEGER},
+      </if>
+      <if test="xslb != null" >
+        xslb = #{xslb,jdbcType=INTEGER},
+      </if>
+      <if test="gb != null" >
+        gb = #{gb,jdbcType=VARCHAR},
+      </if>
+      <if test="mz != null" >
+        mz = #{mz,jdbcType=VARCHAR},
+      </if>
+      <if test="jg != null" >
+        jg = #{jg,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmm != null" >
+        zzmm = #{zzmm,jdbcType=INTEGER},
+      </if>
+      <if test="zslb != null" >
+        zslb = #{zslb,jdbcType=INTEGER},
+      </if>
+      <if test="lydq != null" >
+        lydq = #{lydq,jdbcType=VARCHAR},
+      </if>
+      <if test="hkszd != null" >
+        hkszd = #{hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="xjzd != null" >
+        xjzd = #{xjzd,jdbcType=VARCHAR},
+      </if>
+      <if test="hkxz != null" >
+        hkxz = #{hkxz,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="event != null" >
+        event = #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDelFlag != null" >
+        sync_del_flag = #{syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDate != null" >
+        sync_date = #{syncDate,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStudent" >
+    update change_state_user_student
+    set sync_id = #{syncId,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=VARCHAR},
+      xsxm = #{xsxm,jdbcType=VARCHAR},
+      xszp = #{xszp,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      csrq = #{csrq,jdbcType=BIGINT},
+      rxrq = #{rxrq,jdbcType=BIGINT},
+      xsxb = #{xsxb,jdbcType=INTEGER},
+      xssg = #{xssg,jdbcType=VARCHAR},
+      xh = #{xh,jdbcType=VARCHAR},
+      xjh = #{xjh,jdbcType=VARCHAR},
+      qgxjh = #{qgxjh,jdbcType=VARCHAR},
+      jyid = #{jyid,jdbcType=VARCHAR},
+      syd = #{syd,jdbcType=VARCHAR},
+      yxzjlx = #{yxzjlx,jdbcType=INTEGER},
+      yxzjh = #{yxzjh,jdbcType=VARCHAR},
+      jbs = #{jbs,jdbcType=VARCHAR},
+      sfsbt = #{sfsbt,jdbcType=INTEGER},
+      sbtxh = #{sbtxh,jdbcType=INTEGER},
+      xslb = #{xslb,jdbcType=INTEGER},
+      gb = #{gb,jdbcType=VARCHAR},
+      mz = #{mz,jdbcType=VARCHAR},
+      jg = #{jg,jdbcType=VARCHAR},
+      zzmm = #{zzmm,jdbcType=INTEGER},
+      zslb = #{zslb,jdbcType=INTEGER},
+      lydq = #{lydq,jdbcType=VARCHAR},
+      hkszd = #{hkszd,jdbcType=VARCHAR},
+      xjzd = #{xjzd,jdbcType=VARCHAR},
+      hkxz = #{hkxz,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=BIGINT},
+      event = #{event,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      sync_del_flag = #{syncDelFlag,jdbcType=VARCHAR},
+      sync_date = #{syncDate,jdbcType=BIGINT},
+      account = #{account,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

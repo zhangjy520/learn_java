@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.SportClassMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.smartRing.persistence.entity.SportClass" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sport_class_id" property="sportClassId" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="sport_class_name" property="sportClassName" jdbcType="VARCHAR" />
+    <result column="xd" property="xd" jdbcType="VARCHAR" />
+    <result column="nj" property="nj" jdbcType="INTEGER" />
+    <result column="sport_item_id" property="sportItemId" jdbcType="VARCHAR" />
+    <result column="techer_id" property="techerId" jdbcType="VARCHAR" />
+    <result column="sport_class_time" property="sportClassTime" jdbcType="BIGINT" />
+    <result column="sport_class_place" property="sportClassPlace" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sport_class_id, school_id, sport_class_name, xd, nj, sport_item_id, techer_id, 
+    sport_class_time, sport_class_place, del_flag, create_by, create_date, update_by, 
+    update_date, sort
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.smartRing.persistence.entity.SportClassExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sport_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sport_class
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sport_class
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.smartRing.persistence.entity.SportClassExample" >
+    delete from sport_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.smartRing.persistence.entity.SportClass" >
+    insert into sport_class (id, sport_class_id, school_id, 
+      sport_class_name, xd, nj, 
+      sport_item_id, techer_id, sport_class_time, 
+      sport_class_place, del_flag, create_by, 
+      create_date, update_by, update_date, 
+      sort)
+    values (#{id,jdbcType=VARCHAR}, #{sportClassId,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, 
+      #{sportClassName,jdbcType=VARCHAR}, #{xd,jdbcType=VARCHAR}, #{nj,jdbcType=INTEGER}, 
+      #{sportItemId,jdbcType=VARCHAR}, #{techerId,jdbcType=VARCHAR}, #{sportClassTime,jdbcType=BIGINT}, 
+      #{sportClassPlace,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=BIGINT}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=BIGINT}, 
+      #{sort,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.smartRing.persistence.entity.SportClass" >
+    insert into sport_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sportClassId != null" >
+        sport_class_id,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="sportClassName != null" >
+        sport_class_name,
+      </if>
+      <if test="xd != null" >
+        xd,
+      </if>
+      <if test="nj != null" >
+        nj,
+      </if>
+      <if test="sportItemId != null" >
+        sport_item_id,
+      </if>
+      <if test="techerId != null" >
+        techer_id,
+      </if>
+      <if test="sportClassTime != null" >
+        sport_class_time,
+      </if>
+      <if test="sportClassPlace != null" >
+        sport_class_place,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sportClassId != null" >
+        #{sportClassId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="sportClassName != null" >
+        #{sportClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="xd != null" >
+        #{xd,jdbcType=VARCHAR},
+      </if>
+      <if test="nj != null" >
+        #{nj,jdbcType=INTEGER},
+      </if>
+      <if test="sportItemId != null" >
+        #{sportItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="techerId != null" >
+        #{techerId,jdbcType=VARCHAR},
+      </if>
+      <if test="sportClassTime != null" >
+        #{sportClassTime,jdbcType=BIGINT},
+      </if>
+      <if test="sportClassPlace != null" >
+        #{sportClassPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sport_class
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sportClassId != null" >
+        sport_class_id = #{record.sportClassId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sportClassName != null" >
+        sport_class_name = #{record.sportClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xd != null" >
+        xd = #{record.xd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nj != null" >
+        nj = #{record.nj,jdbcType=INTEGER},
+      </if>
+      <if test="record.sportItemId != null" >
+        sport_item_id = #{record.sportItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.techerId != null" >
+        techer_id = #{record.techerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sportClassTime != null" >
+        sport_class_time = #{record.sportClassTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.sportClassPlace != null" >
+        sport_class_place = #{record.sportClassPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sport_class
+    set id = #{record.id,jdbcType=VARCHAR},
+      sport_class_id = #{record.sportClassId,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=VARCHAR},
+      sport_class_name = #{record.sportClassName,jdbcType=VARCHAR},
+      xd = #{record.xd,jdbcType=VARCHAR},
+      nj = #{record.nj,jdbcType=INTEGER},
+      sport_item_id = #{record.sportItemId,jdbcType=VARCHAR},
+      techer_id = #{record.techerId,jdbcType=VARCHAR},
+      sport_class_time = #{record.sportClassTime,jdbcType=BIGINT},
+      sport_class_place = #{record.sportClassPlace,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=BIGINT},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=BIGINT},
+      sort = #{record.sort,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.smartRing.persistence.entity.SportClass" >
+    update sport_class
+    <set >
+      <if test="sportClassId != null" >
+        sport_class_id = #{sportClassId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="sportClassName != null" >
+        sport_class_name = #{sportClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="xd != null" >
+        xd = #{xd,jdbcType=VARCHAR},
+      </if>
+      <if test="nj != null" >
+        nj = #{nj,jdbcType=INTEGER},
+      </if>
+      <if test="sportItemId != null" >
+        sport_item_id = #{sportItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="techerId != null" >
+        techer_id = #{techerId,jdbcType=VARCHAR},
+      </if>
+      <if test="sportClassTime != null" >
+        sport_class_time = #{sportClassTime,jdbcType=BIGINT},
+      </if>
+      <if test="sportClassPlace != null" >
+        sport_class_place = #{sportClassPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.smartRing.persistence.entity.SportClass" >
+    update sport_class
+    set sport_class_id = #{sportClassId,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=VARCHAR},
+      sport_class_name = #{sportClassName,jdbcType=VARCHAR},
+      xd = #{xd,jdbcType=VARCHAR},
+      nj = #{nj,jdbcType=INTEGER},
+      sport_item_id = #{sportItemId,jdbcType=VARCHAR},
+      techer_id = #{techerId,jdbcType=VARCHAR},
+      sport_class_time = #{sportClassTime,jdbcType=BIGINT},
+      sport_class_place = #{sportClassPlace,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=BIGINT},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

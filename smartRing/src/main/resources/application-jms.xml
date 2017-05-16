@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath*:sync.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+    <property name="connectionFactory">
+        <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+            <property name="brokerURL" value="${sync.address}"/>
+            <property name="useAsyncSend" value="true"/>
+            <property name="userName" value="${sync.username}"/>
+            <property name="password" value="${sync.password}"/>
+        </bean>
+    </property>
+    <property name="maxConnections" value="100"></property>
+</bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="ConnectionFactory"/>
+        <property name="defaultDestination" ref="Destination"/>
+        <property name="sessionAcknowledgeMode" value="1"/>
+        <property name="pubSubDomain" value="false"/>
+        <property name="sessionTransacted" value="true"/>
+    </bean>
+
+    <bean id="Destination" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- 设置消息队列的名字 -->
+        <constructor-arg>
+            <value>${queue.name}</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="ConnectionFactory" />
+        <property name="destination" ref="Destination" />
+        <property name="sessionTransacted" value="true"/>
+        <property name="messageListener">
+        <bean id="queueMessageListener" class="cc.gukeer.smartRing.service.impl.QueueMessageListenerServiceImpl" />
+        </property>
+    </bean>
+
+</beans>

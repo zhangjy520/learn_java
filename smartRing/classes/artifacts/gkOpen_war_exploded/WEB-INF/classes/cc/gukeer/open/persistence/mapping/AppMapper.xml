@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.AppMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.open.persistence.entity.App" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="INTEGER" />
+    <result column="target_user" property="targetUser" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="is_free" property="isFree" jdbcType="INTEGER" />
+    <result column="app_screenshot" property="appScreenshot" jdbcType="VARCHAR" />
+    <result column="app_abstruct" property="appAbstruct" jdbcType="VARCHAR" />
+    <result column="app_url" property="appUrl" jdbcType="VARCHAR" />
+    <result column="demo_account" property="demoAccount" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="app_secret" property="appSecret" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="check_status" property="checkStatus" jdbcType="INTEGER" />
+    <result column="app_rank" property="appRank" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+    <result column="client_Id" property="clientId" jdbcType="VARCHAR" />
+    <result column="client_secret" property="clientSecret" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, logo, category, target_user, version, is_free, app_screenshot, app_abstruct, 
+    app_url, demo_account, user_id, app_secret, del_flag, check_status, app_rank, create_date, 
+    update_date, client_Id, client_secret
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.open.persistence.entity.AppExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from open_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from open_app
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from open_app
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.open.persistence.entity.AppExample" >
+    delete from open_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.open.persistence.entity.App" >
+    insert into open_app (id, name, logo, 
+      category, target_user, version, 
+      is_free, app_screenshot, app_abstruct, 
+      app_url, demo_account, user_id, 
+      app_secret, del_flag, check_status, 
+      app_rank, create_date, update_date, 
+      client_Id, client_secret)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{category,jdbcType=INTEGER}, #{targetUser,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{isFree,jdbcType=INTEGER}, #{appScreenshot,jdbcType=VARCHAR}, #{appAbstruct,jdbcType=VARCHAR}, 
+      #{appUrl,jdbcType=VARCHAR}, #{demoAccount,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{appSecret,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{checkStatus,jdbcType=INTEGER}, 
+      #{appRank,jdbcType=INTEGER}, #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT}, 
+      #{clientId,jdbcType=VARCHAR}, #{clientSecret,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.open.persistence.entity.App" >
+    insert into open_app
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="targetUser != null" >
+        target_user,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="isFree != null" >
+        is_free,
+      </if>
+      <if test="appScreenshot != null" >
+        app_screenshot,
+      </if>
+      <if test="appAbstruct != null" >
+        app_abstruct,
+      </if>
+      <if test="appUrl != null" >
+        app_url,
+      </if>
+      <if test="demoAccount != null" >
+        demo_account,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="appSecret != null" >
+        app_secret,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="checkStatus != null" >
+        check_status,
+      </if>
+      <if test="appRank != null" >
+        app_rank,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="clientId != null" >
+        client_Id,
+      </if>
+      <if test="clientSecret != null" >
+        client_secret,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="targetUser != null" >
+        #{targetUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="isFree != null" >
+        #{isFree,jdbcType=INTEGER},
+      </if>
+      <if test="appScreenshot != null" >
+        #{appScreenshot,jdbcType=VARCHAR},
+      </if>
+      <if test="appAbstruct != null" >
+        #{appAbstruct,jdbcType=VARCHAR},
+      </if>
+      <if test="appUrl != null" >
+        #{appUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="demoAccount != null" >
+        #{demoAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null" >
+        #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null" >
+        #{checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="appRank != null" >
+        #{appRank,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSecret != null" >
+        #{clientSecret,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cc.gukeer.open.persistence.entity.AppExample" resultType="java.lang.Integer" >
+    select count(*) from open_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update open_app
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null" >
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.category != null" >
+        category = #{record.category,jdbcType=INTEGER},
+      </if>
+      <if test="record.targetUser != null" >
+        target_user = #{record.targetUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isFree != null" >
+        is_free = #{record.isFree,jdbcType=INTEGER},
+      </if>
+      <if test="record.appScreenshot != null" >
+        app_screenshot = #{record.appScreenshot,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appAbstruct != null" >
+        app_abstruct = #{record.appAbstruct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appUrl != null" >
+        app_url = #{record.appUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.demoAccount != null" >
+        demo_account = #{record.demoAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appSecret != null" >
+        app_secret = #{record.appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkStatus != null" >
+        check_status = #{record.checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.appRank != null" >
+        app_rank = #{record.appRank,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.clientId != null" >
+        client_Id = #{record.clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientSecret != null" >
+        client_secret = #{record.clientSecret,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update open_app
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      category = #{record.category,jdbcType=INTEGER},
+      target_user = #{record.targetUser,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      is_free = #{record.isFree,jdbcType=INTEGER},
+      app_screenshot = #{record.appScreenshot,jdbcType=VARCHAR},
+      app_abstruct = #{record.appAbstruct,jdbcType=VARCHAR},
+      app_url = #{record.appUrl,jdbcType=VARCHAR},
+      demo_account = #{record.demoAccount,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      app_secret = #{record.appSecret,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      check_status = #{record.checkStatus,jdbcType=INTEGER},
+      app_rank = #{record.appRank,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=BIGINT},
+      update_date = #{record.updateDate,jdbcType=BIGINT},
+      client_Id = #{record.clientId,jdbcType=VARCHAR},
+      client_secret = #{record.clientSecret,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.open.persistence.entity.App" >
+    update open_app
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="targetUser != null" >
+        target_user = #{targetUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="isFree != null" >
+        is_free = #{isFree,jdbcType=INTEGER},
+      </if>
+      <if test="appScreenshot != null" >
+        app_screenshot = #{appScreenshot,jdbcType=VARCHAR},
+      </if>
+      <if test="appAbstruct != null" >
+        app_abstruct = #{appAbstruct,jdbcType=VARCHAR},
+      </if>
+      <if test="appUrl != null" >
+        app_url = #{appUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="demoAccount != null" >
+        demo_account = #{demoAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null" >
+        app_secret = #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null" >
+        check_status = #{checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="appRank != null" >
+        app_rank = #{appRank,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null" >
+        client_Id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSecret != null" >
+        client_secret = #{clientSecret,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.open.persistence.entity.App" >
+    update open_app
+    set name = #{name,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      category = #{category,jdbcType=INTEGER},
+      target_user = #{targetUser,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      is_free = #{isFree,jdbcType=INTEGER},
+      app_screenshot = #{appScreenshot,jdbcType=VARCHAR},
+      app_abstruct = #{appAbstruct,jdbcType=VARCHAR},
+      app_url = #{appUrl,jdbcType=VARCHAR},
+      demo_account = #{demoAccount,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      app_secret = #{appSecret,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      check_status = #{checkStatus,jdbcType=INTEGER},
+      app_rank = #{appRank,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=BIGINT},
+      client_Id = #{clientId,jdbcType=VARCHAR},
+      client_secret = #{clientSecret,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

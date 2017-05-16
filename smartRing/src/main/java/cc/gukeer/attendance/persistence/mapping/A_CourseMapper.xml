@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.attendance.persistence.dao.A_CourseMapper" >
+  <!--获得本段时间该上课的学生-->
+  <select id="getStudentClass" resultType="map" parameterType="Long">
+    SELECT DISTINCT course.id AS courseId,course.course_name,user_teacher.`name`,user_student.xsxm,course.class_place,user_student.id,device_station.station_mac,device_station.remarks from course
+    INNER JOIN user_teacher ON course.teacherId = user_teacher.id
+    INNER JOIN device_station ON course.class_place = device_station.station_mac
+    INNER JOIN ref_course_student ON course.course_id = ref_course_student.course_id
+    INNER JOIN user_student ON user_student.id = ref_course_student.student_id
+--     WHERE course.class_begin=20161217140000 and course.class_end =20161217145000
+    WHERE course.class_begin=#{bTime} and course.class_end =#{eTime}
+  </select>
+  <!--获得上课的日志-->
+    <!--有问题-->
+  <select id="getStudentClassLog" resultType="map" parameterType="String">
+    SELECT  course.id AS courseId,course.course_name AS courseName,user_teacher.`name` AS teacherName,user_student.xsxm AS studentName,course.class_place AS classPlaceId,user_student.id AS studentId,device_station.station_mac AS stationMac,device_station.remarks AS stationRemark,scan_log.last_update AS logUpdata FROM course
+    INNER JOIN ref_course_student ON course.course_id = ref_course_student.course_id
+    INNER JOIN user_student ON user_student.id = ref_course_student.student_id
+    INNER  JOIN user_teacher ON course.teacherId = user_teacher.id
+    INNER JOIN scan_log ON scan_log.`student_id` = user_student.id
+    INNER JOIN device_station ON scan_log.station_mac = device_station.station_mac
+--     WHERE course.class_begin&gt;=20161217140000 AND course.class_end  &lt;=20161217145000 and scan_log.last_update &gt;=20161217140000 and scan_log.last_update &lt;=20161217145000 AND user_student.id=#{studentId}
+    WHERE course.class_begin&gt;=#{bTime} AND course.class_end  &lt;=#{eTime} and scan_log.last_update &gt;=#{timeBegin} and scan_log.last_update &lt;=#{timeEnd} AND user_student.id=#{studentId}
+</select>
+  <!--获得本周上课的时间-->
+  <select id="getClassTime" resultType="map" parameterType="String">
+     SELECT DISTINCT course.id AS courseId,course.course_name,user_teacher.`name`,course.class_place,device_station.station_mac,device_station.remarks,course.class_begin,course.class_end
+      from course
+      INNER JOIN user_teacher ON course.teacherId = user_teacher.id
+      INNER JOIN device_station ON course.class_place = device_station.station_mac
+      INNER JOIN ref_course_student ON course.course_id = ref_course_student.course_id
+      INNER JOIN user_student ON user_student.id = ref_course_student.student_id
+      WHERE user_teacher.school_id=2 and user_teacher.id=6 and course.class_begin=20161217140000 and course.class_end =20161217145000
+      GROUP BY course.class_begin,course.class_end,course.course_name,user_teacher.`name`,course.class_place,device_station.station_mac,device_station.remarks
+  </select>
+    <!--统计一周班级的学生信息-->
+    <select id="getClassStatisticsData" resultType="map">
+        select course.id,course_ids,course.course_name,course.class_begin as classBegin,course.class_end AS classEnd ,count(student_id) AS countStudentId,sum(
+        CASE
+        WHEN ref_courses_student.status = 0
+        THEN 1
+        ELSE 0
+        END
+        ) AS kuangke,
+        sum(
+        CASE
+        WHEN ref_courses_student.status = 1
+        THEN 1
+        ELSE 0
+        END
+        ) AS late,
+        sum(
+        CASE
+        WHEN ref_courses_student.status = 2
+        THEN 1
+        ELSE 0
+        END
+        ) AS leaveEarly,
+        sum(
+        CASE
+        WHEN ref_courses_student.status = 3
+        THEN 1
+        ELSE 0
+        END
+        ) AS lateAndLeave   from ref_courses_student
+        INNER JOIN course ON course.id = ref_courses_student.course_ids
+        INNER JOIN user_teacher ON course.teacherId = user_teacher.id and user_teacher.id = #{teacherId}
+        where course.class_begin >#{moday} AND course.class_end &lt;#{saturday}
+        group by course_ids,course.course_name,course.class_begin,course.class_end
+    </select>
+    <!--统计一节课的信息-->
+    <select id="getSingleClassStatistics" resultType="map" parameterType="String">
+        select course.id,course_ids,course.course_name,course.class_begin as classBegin,course.class_end AS classEnd ,count(student_id) AS countStudentId,sum(
+        CASE
+        WHEN ref_courses_student.status = 0
+        THEN 1
+        ELSE 0
+        END
+        ) AS kuangke,
+        sum(
+        CASE
+        WHEN ref_courses_student.status = 1
+        THEN 1
+        ELSE 0
+        END
+        ) AS late,
+        sum(
+        CASE
+        WHEN ref_courses_student.status = 2
+        THEN 1
+        ELSE 0
+        END
+        ) AS leaveEarly,
+        sum(
+        CASE
+        WHEN ref_courses_student.status = 3
+        THEN 1
+        ELSE 0
+        END
+        ) AS lateAndLeave   from ref_courses_student
+        INNER JOIN course ON course.id = ref_courses_student.course_ids
+        INNER JOIN user_teacher ON course.teacherId = user_teacher.id and user_teacher.id = #{teacherId}
+        where course.id = #{courseId}
+        group by course_ids,course.course_name,course.class_begin,course.class_end
+    </select>
+    <!--查看每个学生的该节课的信息-->
+    <select id="getClassStudentInfomation" resultType="map" parameterType="String">
+--         select course_ids,course.course_name,course.class_begin as classBegin,course.class_end AS classEnd,user_student.xsxm,ref_courses_student.`status`,user_student.xh,ref_courses_student.remarks
+--         from ref_courses_student
+--         INNER JOIN course ON course.id = ref_courses_student.course_ids
+--         INNER JOIN user_teacher ON course.teacherId = user_teacher.id and user_teacher.id = 6
+--         INNER JOIN user_student ON user_student.id = ref_courses_student.student_id
+--         where course.class_begin >20161216000000 AND course.class_end &lt;20161218000000
+        SELECT DISTINCT user_student.id AS studentId,user_student.xsxm,user_student.xh,ref_courses_student.course_ids,ref_courses_student.`status`,ref_courses_student.remarks FROM user_student
+				 INNER JOIN ref_courses_student ON user_student.id = ref_courses_student.student_id
+				 INNER JOIN course ON course.id = ref_courses_student.course_ids
+				 INNER JOIN ref_course_student ON ref_course_student.course_id = course.course_id
+				 WHERE course.teacherId =#{teacherId} AND course.id=#{courseId} ORDER BY status
+    </select>
+    <!--查看某节课的某个学生的具体信息-->
+    <select id="getStudentInfomation" resultType="map" parameterType="String">
+        SELECT DISTINCT user_student.id,user_student.xsxm,user_student.xh,ref_courses_student.course_ids,ref_courses_student.`status`,ref_courses_student.remarks FROM user_student
+        INNER JOIN ref_courses_student ON user_student.id = ref_courses_student.student_id
+        INNER JOIN course ON course.id = ref_courses_student.course_ids
+        INNER JOIN ref_course_student ON ref_course_student.course_id = course.course_id
+        WHERE course.teacherId = #{teacherId} AND course.id=#{courseId} AND user_student.id = #{studentId}
+    </select>
+    <!--获得本学期的时间-->
+    <select id="getStudentTime" resultType="map">
+       SELECT class_begin AS classBegin,course.class_end AS classEnd from course GROUP BY class_begin,class_end
+    </select>
+  <!--班主任sql：查找班主任班级管理的学生-->
+  <select id="">
+    SELECT DISTINCT course.id AS courseId,course.course_name,user_teacher.`name`,user_student.xsxm,course.class_place,user_student.id FROM course
+    INNER JOIN ref_course_student ON course.course_id = ref_course_student.course_id
+    INNER JOIN user_student ON user_student.id = ref_course_student.student_id
+    INNER JOIN user_teacher ON course.teacherId = user_teacher.id
+    -- 		INNER JOIN scan_log ON scan_log.`student_id` = user_student.id
+    -- 		INNER JOIN device_station ON course.class_place = device_station.station_mac
+    INNER JOIN ref_teacher_class ON ref_teacher_class.teacher_id = user_teacher.id and user_student.class_id = ref_teacher_class.class_id
+    WHERE user_teacher.school_id=2 AND user_teacher.id=6
+    AND course.class_begin>=20161216080000 AND course.class_end  &lt;=20161216085000 AND user_student.id=1
+  </select>
+</mapper>

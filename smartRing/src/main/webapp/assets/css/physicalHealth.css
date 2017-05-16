@@ -1,0 +1,243 @@
+.phy-grade-tendency {
+  margin-bottom: 80px;
+  margin-top: 25px;
+}
+.phy-grade-tendency > p {
+  border-bottom: 1px solid #ddd;
+}
+.phy-grade-tendency > p:after {
+  left: 114px;
+  top: 1px;
+}
+.phy-grade-tendency > p select {
+  width: 200px;
+  height: 28px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+.phy-grade-tendency > .phy-tendency > span {
+  font-size: 13px;
+  color: #999;
+  margin: 20px 0 20px 45px;
+}
+.phy-grade-tendency .intro-table {
+  padding: 20px 25px;
+}
+.phy-grade-tendency .intro-table table {
+  border: 1px solid #ddd;
+  background: #F7F7F7;
+}
+.physicalHealth2 header {
+  margin: 20px 0 ;
+}
+.physicalHealth2 header aside span {
+  font-size: 13px;
+  color: #676767;
+  margin-right: 6px;
+}
+.physicalHealth2 header aside select {
+  outline: none;
+  width: 112px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #525252;
+  margin-right: 15px;
+}
+.physicalHealth2 section {
+  position: relative;
+}
+.physicalHealth2 section button {
+  float: right;
+  border: 1px solid #19BE9D;
+  color: #fff;
+  font-size: 13px;
+  padding: 0 15px;
+  margin-left: 13px;
+  background: #19BE9D;
+  border-radius: 3px;
+  height: 28px;
+}
+.physicalHealth2 > div {
+  margin-top: 25px;
+}
+.physicalHealth2 > div table td span {
+  line-height: 23px;
+  padding: 0 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-right: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+.physicalHealth2 footer {
+  padding: 0;
+}
+.physicalHealth3 > section {
+  margin-bottom: 25px;
+}
+.physicalHealth3 .ph-section > p {
+  border-bottom: 1px solid #ddd;
+}
+.physicalHealth3 .ph-section > p:after {
+  left: 84px;
+  top: 1px;
+}
+.physicalHealth3 .ph-section > p select {
+  width: 120px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  outline: none;
+}
+.physicalHealth3 .ph-section > div {
+  padding: 23px 25px;
+}
+.physicalHealth3 footer {
+  padding: 0;
+}
+#physicalDetail .sh-tabs {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  background: #E7EAEC;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px 5px 0 5px;
+}
+#physicalDetail .sh-tabs li {
+  float: left;
+}
+#physicalDetail .sh-tabs li a {
+  padding: 0 15px;
+  line-height: 36px;
+  color: #676767;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+#physicalDetail .sh-tabs li a.active {
+  background: #fff;
+}
+#physicalDetail > section {
+  border-top: none;
+  /*margin-top: -4px;*/
+}
+#physicalDetail #detail1 div {
+  margin: 30px 0;
+  font-size: 13px;
+}
+#physicalDetail #detail1 div span {
+  margin-right: 10px;
+  color: #999;
+  width: 52px;
+}
+#physicalDetail #detail1 div label {
+  display: inline-block;
+  min-width: 150px;
+  color: #676767;
+}
+#physicalDetail #detail2,
+#physicalDetail #detail3,
+#physicalDetail #detail4 {
+  display: none;
+  margin-bottom: 80px;
+}
+#physicalDetail #detail2 .items-selector,
+#physicalDetail #detail3 .items-selector,
+#physicalDetail #detail4 .items-selector {
+  border-bottom: 1px solid #ddd;
+}
+#physicalDetail #detail2 .items-selector .select-items,
+#physicalDetail #detail3 .items-selector .select-items,
+#physicalDetail #detail4 .items-selector .select-items {
+  margin-bottom: 16px;
+}
+#physicalDetail #detail2 p:after,
+#physicalDetail #detail3 p:after,
+#physicalDetail #detail4 p:after {
+  top: 17px;
+}
+#physicalDetail #detail2 > div > p,
+#physicalDetail #detail3 > div > p,
+#physicalDetail #detail4 > div > p {
+  padding: 15px 25px;
+}
+#physicalDetail #detail2 > div > p select,
+#physicalDetail #detail3 > div > p select,
+#physicalDetail #detail4 > div > p select {
+  width: 200px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+#physicalDetail #detail2 > div > span,
+#physicalDetail #detail3 > div > span,
+#physicalDetail #detail4 > div > span {
+  font-size: 12px;
+  color: #999;
+  margin: 0 0 10px 40px;
+}
+#physicalDetail #detail2 footer,
+#physicalDetail #detail3 footer,
+#physicalDetail #detail4 footer {
+  padding: 23px 25px;
+}
+#physicalDetail #detail2 footer table,
+#physicalDetail #detail3 footer table,
+#physicalDetail #detail4 footer table {
+  border: 1px solid #ddd;
+  background: #F7F7F7;
+}
+#physicalDetail #detail2 .detail2-2 > ul,
+#physicalDetail #detail3 .detail2-2 > ul,
+#physicalDetail #detail4 .detail2-2 > ul {
+  padding: 0 25px;
+  margin-bottom: 20px;
+}
+#physicalDetail #detail2 .detail2-2 > ul li,
+#physicalDetail #detail3 .detail2-2 > ul li,
+#physicalDetail #detail4 .detail2-2 > ul li {
+  float: left;
+  font-size: 13px;
+  color: #676767;
+  width: 25%;
+  line-height: 40px;
+}
+#ph-index {
+  margin-top: 25px;
+  padding-bottom: 0;
+}
+#ph-index > p {
+  border-bottom: 1px solid #ddd;
+}
+#ph-index > section {
+  padding: 23px 25px;
+}
+#ph-index > .column-chart {
+  margin-top: 45px;
+}
+#ph-index > .column-chart span {
+  font-size: 12px;
+  color: #999;
+  margin: 0 0 15px 48px;
+}
+#ph-index .pie-chart {
+  margin-top: 50px;
+}
+#ph-index .pie-chart ul {
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+#ph-index .pie-chart ul li {
+  float: left;
+  width: 33.33%;
+  height: 350px;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#ph-index .pie-chart ul li h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 30px 0 ;
+  text-align: center;
+}

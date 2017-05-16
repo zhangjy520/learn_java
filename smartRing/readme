@@ -1,0 +1,168 @@
+maven project, empty project template.
+spring mvc
+spring data jpa
+mysql
+
+
+登陆管理员账户：
+    账号：root
+    密码：000000
+
+
+1. createDatabase.sql 为数据库初始创建脚本;
+2. migrations 下面的 *.sql 为数据库迁移记录脚本;
+
+执行脚本:
+1. 确保数据库已经建立，并且编译项目;
+2. 修改 db.properties 中 jdbc.schema、jdbc.driver、jdbc.url、jdbc.username、jdbc.password、jdbc.script
+3. 执行 cc.gukeer.common.db.DBMigrate main 方法即可将数据库版本同步.
+
+数据库地址配置文件 ：db.properties
+    db.properties   数据库属性配置文件
+
+                jdbc.schema  //schema
+                jdbc.script   //数据库脚本文件路径 执行 DBMigrate.java main方法，可以将未同步的数据库脚本执行到指定 schema的数据库
+                jdbc.driver  //数据库驱动
+                jdbc.url   //数据库链接地址
+                jdbc.username  //用户名
+                jdbc.password  //密码
+                drive.class.path  //数据库jar驱动地址，使用mybatis-generator需要链接数据库，此为驱动jar包路径
+                target.project   //target
+                model.package   // mybatis-generator 生成的entity类路径
+                dao.package    // mybatis-generator 生成的dao类路径
+                xml.mapper.package    // mybatis-generator 生成的mapper路径
+                vfsroot.windows   //文件上传windows路径
+                vfsroot.linux  //文件上传 服务器路径
+                develop_path   //项目部署域名后缀
+
+-----------------------------------------------------------r--------------------------------------------------------------------------------------------
+mybatis-generator使用步骤：
+    1 ：在mybatis-generator.xml后面添加 如下节点
+
+            <table schema="db.properties里面配置的jdbc.schema" tableName="数据库表名" domainObjectName="实体类别名"
+                       enableCountByExample="false"
+                       enableUpdateByExample="true"
+                       enableDeleteByExample="true"
+                       enableSelectByExample="true"
+                       selectByExampleQueryId="true">
+                    <property name="useActualColumnNames" value="false"/>
+                </table>
+     2 : 菜单栏：   view --> Tool Windows --> Maven Projects --> 当前项目 Plugins --> mybatis-generator --> 双击即可生成 dao,entity,mapper,mapperxml等文件
+
+------------------------------------------------------------r------------------------------------------------------------------------------------------
+
+数据库增量更新步骤：
+    1 : 在 db.properties配置的 jdbc.script 下
+    新建文件  Version__sql_name.sql文件，拷贝需要执行的sql语句
+    （sql文件命名规则：新建sql文件比已存在的sql文件版本要高。例如存在v1.0.0__sql1.sql,新建文件名得是 v1.0.1__sql2.sql）
+    2 : 运行 DBMigrate.java main方法，脚本文件会执行到数据库。
+
+------------------------------------------------------------r------------------------------------------------------------------------------------------
+
+   所有单表的增删改查，不包括批量操作，使用自动生成的类即可完成，不必自己写sql
+   demo:
+        StudentExample example = new StudentExample();
+        StudentExample.Criteria criteria = example.createCriteria();
+                criteria. //等价于  where 1=1
+                andSchoolIdEqualTo("1"). //等价于  and schoolId = 1
+                andSchoolIdBetween("1","2"). //等价于  and schoolId between 1 and 2
+                andSchoolIdIn(new ArrayList<String>()).  //等价于  and schoolId in (list)
+                andSchoolIdIsNull().andSchoolIdLike("%12%")  //等价于  and schoolId like "%12%"
+
+        Student student = new Student();
+
+        studentMapper.deleteByExample(example);  // delete from student where 以上条件
+        studentMapper.insert(student);  // insert  所有字段 into student
+        studentMapper.insertSelective(student);  //insert  不为空字段 into student
+        studentMapper.selectByExample(example);  //select * from student where 以上条件
+        studentMapper.updateByExample(example);  //update student set 所有字段  where 以上条件
+        studentMapper.updateByExampleSelective(student,example)  //update student set 不为空字段 where 以上条件
+        studentMapper.updateByPrimaryKeySelective(student); //update 不为空字段 where 主键 = student.主键
+        studentMapper.updateByPrimaryKey(student)  //update 所有字段  where 主键 = student.主键
+
+------------------------------------------------------------r------------------------------------------------------------------------------------------
+关于权限配置（shiro）
+    application-shiro.xml为核心配置文件，cn.gukeer.common.shiro.ShiroAuthRealm为权限Realm类
+权限涉及表：sys_user,sys_role,ref_user_role，sys_menu,ref_role_menu
+
+    1 配置 sys_menu的 permission字段，必须遵循：***:***:***  的格式
+    具体配置请参照：http://jinnianshilongnian.iteye.com/blog/2018936   http://jinnianshilongnian.iteye.com/blog/2029717
+
+------------------------------------------------------------r------------------------------------------------------------------------------------------
+
+        涉及到多表操作，需要自己写xml的时候， 请参考命名规范   A_****ExtensionMapper.xml  不可手动更改生成的xml中的代码！
+------------------------------------------------------------r------------------------------------------------------------------------------------------
+
+数据库配置====
+	<!-- 默认链接 -->
+    <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.className}"/>
+        <property name="password" value="${db.password}"/>
+    </bean> -->
+
+    <!-- bonecp connection pool -->
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+   		<property name="driverClass" value="${db.className}" />
+        <property name="jdbcUrl" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+
+        <!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+        <property name="idleConnectionTestPeriodInSeconds" value="120" />
+        <!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+        <property name="idleMaxAgeInSeconds" value="60" />
+        <!-- 每个分区最大的连接数 -->
+        <property name="maxConnectionsPerPartition" value="10" />
+        <!-- 每个分区最小的连接数 -->
+        <property name="minConnectionsPerPartition" value="1" />
+     	<!-- 分区数 ，默认值2，最小1，推荐3-4，视应用而定 -->
+        <property name="partitionCount" value="2" />
+        <!-- 每次去拿数据库连接的时候一次性要拿几个,默认值：2 -->
+        <property name="acquireIncrement" value="1" />
+       	<!-- 缓存prepared statements的大小，默认值：0 -->
+        <property name="statementsCacheSize" value="20" />
+    </bean>
+    
+    <!-- alibaba druid -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	    <!-- 基本属性 url、user、password -->
+	    <property name="url">
+	    	<value>jdbc:mysql://localhost:3306/emtpyWebTest?useUnicode=true&amp;characterEncoding=utf-8</value>
+	    </property>
+	    <property name="username">
+	    	<value>root</value>
+	    </property>
+	    <property name="password">
+	    	<value>Jose1123</value>
+	    </property>
+	
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <property name="initialSize" value="1" />
+	    <property name="minIdle" value="1" /> 
+	    <property name="maxActive" value="20" />
+	
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <property name="maxWait" value="60000" />
+	
+	   <!--  配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+	
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <property name="minEvictableIdleTimeMillis" value="300000" />
+	
+	    <property name="validationQuery" value="SELECT 'x'" />
+	    <property name="testWhileIdle" value="true" />
+	    <property name="testOnBorrow" value="false" />
+	    <property name="testOnReturn" value="false" />
+	
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <property name="poolPreparedStatements" value="true" />
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	
+	    <!-- 配置监控统计拦截的filters -->
+	    <property name="filters" value="stat" />
+	</bean>
+
+

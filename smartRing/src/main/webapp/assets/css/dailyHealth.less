@@ -1,0 +1,204 @@
+//日常管理
+#daily-manage{
+
+  width:1140px;margin:0 auto;
+  >p{border-bottom:1px solid #ddd;}
+  >div{margin-top:30px;button{padding:8px 15px;color:#fff;background:#19BE9D;font-size:14px;border:1px solid #19be9d;border-radius:2px;}
+  }
+  >section{
+    border-bottom:1px solid #ddd;
+    font-size:13px;
+    color:#676767;
+    padding:30px 20px;
+    width:96%;
+    margin:0 auto;
+    >div{
+      margin-bottom:50px;
+      span{min-width:80px;text-align:right;margin-right:13px;}
+
+      .lf{
+        input{height:30px;width:115px;margin-right:5px;}
+      }
+      .rl{
+        input{height:30px;width:320px;}
+      }
+    }
+    .class{color:#4c4e4f;text-align: left;}
+  }
+  margin-bottom:80px;
+}
+
+#choose-time{
+  width:1140px;margin:15px auto;
+  span{margin-right:16px;font-size:13px;color:#676767;&.active{color:#19be9d;}}
+  input{height:30px;}
+}
+//运动统计，睡眠统计
+#exercise-statistic,#sleep-statistic{
+  >section{margin-bottom:25px;}
+  .yundongliang{
+    width:558px;height:500px;
+    table{
+      width:100%;
+      border-collapse: collapse;
+      border:1px solid #ddd;
+      background:#F6F6F6;
+      font-size: 12px;
+      td{
+        border:1px solid #ddd;
+        width:50%;
+        ul{
+          overflow:hidden;
+          li{
+            float:left;width:33.33%;height:30px;line-height: 30px;
+            text-align: center;padding:0 10px;
+            span{width:100%;}
+            i{float:right;display:inline-block;width:20px;height:16px;position:relative;top:8px;left:3px;}
+            i.pull-u{background:url(../images/tendency-u.png) no-repeat center center}
+            i.pull-d{background:url(../images/tendency-d.png) no-repeat center center}
+            i.pull-m{background:url(../images/tendency-m.png) no-repeat center center}
+          }
+        }
+      }
+    }
+  }
+  .yundongsj,.shuimiansj{
+    width:558px;height:500px;
+    >div{margin:0 auto;}
+    >footer{
+      margin-top:20px;
+      padding:0 100px;
+      span{padding-left:16px;font-size:12px;position:relative;}
+      span:before{position:absolute;content:'';width:13px;height:13px;left:-5px;
+      top:3px;}
+      span.lf:before{background:#D4D2D2;}
+      span.rl:before{background:#FFAF25;}
+    }
+  }
+  .tendency-duration,.tendency-asleep,.tendency-sleep{
+    width:100%;
+    span{
+      font-size:12px;color:#999;margin:0 0 10px 15px;
+    }
+  }
+  .lack-exercise{
+    width:100%;
+    >div{padding:0 25px;margin-top:15px;}
+    table th{width:25%;}
+  }
+  .lack-data{
+    width:100%;
+    >div{padding:0 25px;margin-top:15px;}
+    table th{width:33.33%;}
+    margin-bottom:50px;
+  }
+}
+//睡眠统计
+#sleep-statistic{
+  .shuimiansj{
+    aside{
+      margin:30px 0;
+      width:50%;
+      >footer{
+        margin-top:50px;
+        padding:0 30px;
+        span{padding-left:16px;font-size:12px;position:relative;}
+        span:before{position:absolute;content:'';width:13px;height:13px;left:-5px;
+          top:3px;}
+        span.lf:before{background:#D4D2D2;}
+        span.rl:before{background:#19BE9D;}
+      }
+    }
+    aside.rl{
+      span.lf:before{background:#D4D2D2;}
+      span.rl:before{background:#CF6EEB;}
+    }
+  }
+  .lack-exercise{
+    table th{width:16.66%;}
+  }
+}
+//日常健康首页
+#dailyHealth{
+  section{margin-bottom:25px;}
+  #i-1-line{
+    >div{width:363px;}
+    >div h3{
+      font-size:30px;
+      font-weight:500;
+      color:#676767;
+    }
+    >div span{
+      float:right;
+      height:21px;
+      padding-right:18px;
+      &.duration-up{color:#19BE9D;background:url(../images/tendency-u.png) no-repeat right center;}
+      &.duration-down{color:#FC315C;background:url(../images/tendency-d.png) no-repeat right center;}
+      &.duration-m{background:url(../images/tendency-m.png) no-repeat right center;}
+    }
+  }
+  #i-2-line{
+    >div{
+      width:363px;
+      footer{
+        padding:0 50px;
+        font-size:12px;
+        margin:20px 0 10px 0;
+        span{
+          color:#676767;
+          padding-left:16px;
+          position:relative;
+          &.lf:before{
+            content:'';
+            position:absolute;
+            width:13px;
+            height:13px;
+            background:#D4D2D2;
+            left:-6px;
+            top:2px;
+          }
+          &.rl:before{
+            content:'';
+            position:absolute;
+            width:13px;
+            height:13px;
+            background:#FFAF25;
+            left:-6px;
+            top:2px;
+          }
+        }
+      }
+    }
+    >div>div{
+      margin-left:52px;
+    }
+    >div:nth-child(2){
+      span{
+        &.rl:before{
+          background:#19BE9D;
+        }
+      }
+    }
+    >div:nth-child(3){
+      span{
+        &.rl:before{
+          background:#CD6DE9;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

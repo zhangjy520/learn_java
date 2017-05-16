@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
+
+    <!-- 定时器配置 lazy-init='false'-->
+     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" autowire="no">
+         <property name="triggers">
+             <list>
+                 <ref bean="CourseService"/>
+             </list>
+         </property>
+     </bean>
+
+    <bean id="timerScan" class="cc.gukeer.attendance.service.impl.TimerScan" />
+
+    <bean id="CourseService" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                <property name="targetObject">
+                    <ref bean="timerScan" />
+                </property>
+                <property name="targetMethod">
+                    <value>timerList</value>
+                </property>
+
+            </bean>
+        </property>
+        <property name="cronExpression">
+            <value>0 */1 * * * ?</value><!-- 每天的每分钟 -->
+        </property>
+    </bean>
+
+
+</beans>

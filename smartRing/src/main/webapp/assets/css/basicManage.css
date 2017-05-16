@@ -1,0 +1,232 @@
+.sh-tab-item {
+  padding: 23px 0;
+  background: #fff;
+  position: relative;
+  /*top: -4px;*/
+}
+.table td:last-child span {
+  margin-right: 10px;
+  color: #fff;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 3px;
+  line-height: 20px;
+}
+.sh-operation {
+  background: #FFAF25;
+}
+.sh-release {
+  background: #19be9d !important;
+}
+.sh-confirm {
+  background: #FC2F5B !important;
+}
+.sh-lack {
+  color: #ffaf25 !important;
+}
+.sh-lose {
+  color: #FC3963 !important;
+}
+.sh-leisure {
+  color: #19be9d !important;
+}
+.sh-operation1 {
+  background: #19be9d;
+}
+.sh-operation2 {
+  background: #FC3963;
+}
+#sh-lose .sh-tabs {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  background: #E7EAEC;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px 5px 0 5px;
+}
+#sh-lose .sh-tabs li {
+  float: left;
+}
+#sh-lose .sh-tabs li a {
+  padding: 0 15px;
+  line-height: 36px;
+  color: #676767;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+#sh-lose .sh-tabs li a.active {
+  background: #fff;
+}
+#sh-lose .sh-tab-item p.clear button.research {
+  height: 30px;
+  width: 32px;
+  position: relative;
+  border: 1px solid #19BE9D;
+  border-left: none;
+  background: #19be9d;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+#sh-lose .sh-tab-item p.clear button.research:before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 7px;
+  width: 16px;
+  height: 16px;
+  background: url(../images/icon.png) no-repeat -1px -50px;
+}
+#sh-lose .sh-tab-item p.clear input {
+  height: 30px;
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  border-right:none;
+}
+#sh-lose-1 > div {
+  padding: 0 23px;
+}
+#sh-lose-1 > div p {
+  margin-bottom: 20px;
+}
+#sh-lose-1 > div p span.rl {
+  position: relative;
+}
+#sh-lose-2 > div {
+  padding: 0 23px;
+}
+#sh-lose-2 > div p {
+  margin-bottom: 20px;
+}
+#sh-lose-3 > p {
+  padding: 0 25px;
+}
+#sh-lose-3 div {
+  font-size: 13px;
+  color: #676767;
+  margin-top: 30px;
+  padding-left: 100px;
+}
+#sh-lose-3 div span {
+  width: 80px;
+}
+#sh-lose-3 div input[type=text] {
+  height: 28px;
+  width: 230px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+#sh-lose-3 div.sh-type label {
+  padding-left: 20px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 56px;
+}
+#sh-lose-3 div.sh-type label:before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 0;
+  top: 2px;
+  background: url(../images/icon.png) no-repeat -15px -34px;
+}
+#sh-lose-3 div.sh-type label.checked:before {
+  background-position: 0 -34px;
+}
+#sh-lose-3 div button {
+  margin: 20px 0 15px 0;
+}
+#sh-lose-4 > div {
+  padding: 0 23px;
+}
+#sh-lose-4 > div table th {
+  width: 14.28%;
+}
+#sh-lose-4 > div p {
+  margin-bottom: 20px;
+}
+#sh-lose-4,
+#sh-lose-2,
+#sh-lose-3 {
+  display: none;
+}
+#temporary-sh .sh-state,
+#stack-sh .sh-state,
+#base-station .sh-state,
+#roll-manage .sh-state,
+#user-manage1 .sh-state,
+#user-manage2 .sh-state {
+  font-size: 14px;
+  color: #999;
+  padding: 15px 25px;
+  border-top: 1px solid #eee;
+}
+#temporary-sh .sh-use-state,
+#stack-sh .sh-use-state,
+#base-station .sh-use-state,
+#roll-manage .sh-use-state,
+#user-manage1 .sh-use-state,
+#user-manage2 .sh-use-state {
+  padding: 0 25px;
+}
+#user-manage1 > p > span {
+  position: relative;
+}
+#roll-manage .table,
+#user-manage1 .table,
+#user-manage2 .table {
+  margin-top: 20px;
+}
+#temporary-sh table th {
+  width: 33.33%;
+}
+#stack-sh table th
+/*#base-station table th*/ {
+  width: 25%;
+}
+#stack-sh table td:last-child span {
+  padding: 0;
+}
+#roll-manage p {
+  border-bottom: 1px solid #eee;
+}
+#user-manage1 > p input,
+#user-manage2 > p input {
+  margin-top: -3px;
+}
+#user-manage1 > p button,
+#user-manage2 > p button {
+  margin-left: 15px;
+}
+#user-manage1 > p button.research,
+#user-manage2 > p button.research {
+  margin-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#user-manage2 table th {
+  width: 12.5%;
+}
+#jgManage {
+  padding: 0;
+  min-height: 400px;
+}
+#jgManage aside.lf {
+  padding: 23px 25px;
+  width: 240px;
+}
+#jgManage section {
+  width: 900px;
+  border: none;
+  border-left: 1px solid #ddd;
+  padding: 23px 25px;
+  padding-bottom: 50px;
+}
+#jgManage section > p button {
+  margin-left: 15px;
+}
+#jgManage section table th {
+  width: 33.33%;
+}

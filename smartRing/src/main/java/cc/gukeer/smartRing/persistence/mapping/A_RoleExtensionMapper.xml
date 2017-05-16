@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_RoleExtensionMapper">
+
+    <resultMap id="ExtensionBaseResultMap" type="cc.gukeer.smartRing.modelView.RoleView"
+               extends="cc.gukeer.smartRing.persistence.dao.RoleMapper.BaseResultMap">
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="ExtensionMap" type="cc.gukeer.smartRing.persistence.entity.extension.ExtensionTeacher"
+               extends="cc.gukeer.smartRing.persistence.dao.RoleMapper.BaseResultMap">
+        <result column="rolename" property="roleName" jdbcType="VARCHAR"/>
+        <result column="rid" property="rid" jdbcType="INTEGER"/>
+        <result column="userid" property="userId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="roleViewMap" type="cc.gukeer.smartRing.persistence.entity.extension.RoleView"
+               extends="cc.gukeer.smartRing.persistence.dao.RoleMapper.BaseResultMap">
+
+    </resultMap>
+
+    <select id="selectRoleViewByUserId" resultMap="ExtensionBaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="cc.gukeer.smartRing.persistence.dao.RoleMapper.Base_Column_List"/>, user_id
+        from ref_user_role ref, sys_role role
+        WHERE ref.user_id=#{userId} AND ref.role_id = role.id
+    </select>
+
+    <insert id="insertRoleBackId" parameterType="cc.gukeer.smartRing.persistence.entity.Role">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="schoolId != null">
+                school_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="enname != null">
+                enname,
+            </if>
+            <if test="permissionRange != null">
+                permission_range,
+            </if>
+            <if test="roleIdentify != null">
+                role_identify,
+            </if>
+            <if test="roleType != null">
+                role_type,
+            </if>
+            <if test="useable != null">
+                useable,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="enname != null">
+                #{enname,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionRange != null">
+                #{permissionRange,jdbcType=INTEGER},
+            </if>
+            <if test="roleIdentify != null">
+                #{roleIdentify,jdbcType=VARCHAR},
+            </if>
+            <if test="roleType != null">
+                #{roleType,jdbcType=INTEGER},
+            </if>
+            <if test="useable != null">
+                #{useable,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=BIGINT},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findTeacherUser" resultMap="ExtensionMap">
+        select t1.*, t2.`name` as rolename,t2.id as rid,t4.id as userid
+        from user_teacher t1
+        INNER JOIN sys_user t4 on t1.id = t4.ref_id
+        INNER JOIN ref_user_role t3 on t4.id = t3.user_id
+        INNER JOIN sys_role t2 on t3.role_id = t2.id
+        and t2.school_id = #{schoolId}
+        and(t1.name like #{search,jdbcType=VARCHAR}
+        or t1.no like #{search,jdbcType=VARCHAR})
+    </select>
+
+
+    <select id="findRoleViewBySchoolId" resultMap="roleViewMap">
+        SELECT *
+        FROM sys_role t WHERE t.school_id = #{schoolId} and t.del_flag = 0
+    </select>
+</mapper>

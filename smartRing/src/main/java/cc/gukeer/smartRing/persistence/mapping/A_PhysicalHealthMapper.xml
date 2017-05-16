@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.smartRing.persistence.dao.A_PhysicalHealthMapper">
+
+    <!--得到体质健康映射规则的时间列表-->
+    <select id="getTimeList" resultType="java.lang.String">
+        SELECT
+          test_date AS testDate
+        FROM
+          ref_student_score
+        WHERE score_type = 1 and school_id =#{schoolId}
+        GROUP BY test_date
+    </select>
+
+    <!--得到体质健康成绩的年级列表-->
+    <select id="getTzNjList" resultType="java.util.Map">
+        SELECT
+          grade_name as gradeName
+        FROM
+          score_mapping_rule
+        WHERE rule_type = 1
+        GROUP BY grade_name
+        ORDER BY grade_name
+    </select>
+
+    <!--体质健康成绩变化趋势-->
+    <select id="scoreChangeLine" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        itemUnit,
+        MAX(mark+"") AS maxMark,
+        MIN(mark+"") AS minMark,
+        MAX(stuScore+"") AS maxScore,
+        MIN(stuScore+"") AS minScore,
+        TRUNCATE(AVG(mark), 2) AS mark,
+        TRUNCATE(AVG(stuScore), 2) AS score,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '优秀' OR stuLevel ='正常'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent1,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '良好' OR stuLevel = '超重'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent2,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '及格' OR stuLevel = '肥胖'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent3,
+        TRUNCATE(
+        100 * SUM(
+        CASE
+        WHEN stuLevel = '不及格' OR stuLevel = '低体重'
+        THEN 1
+        ELSE 0
+        END
+        ) / COUNT(*),
+        2
+        ) AS percent4,
+        testTime
+        FROM
+        v_score_stuinfo
+        WHERE schoolId = #{schoolId} AND scoreType = 1
+        <if test="xdId != null and xdId!=0 and xdId!=-1">
+            AND xd =#{xdId} AND nj = #{njId}
+        </if>
+        <if test="itemId != null and itemId!=''">
+            AND itemId = #{itemId}
+        </if>
+        <if test="gender != null and gender!=0 and gender!= -1 ">
+            AND gender = #{gender}
+        </if>
+        <if test="classId != null and classId!=0 and classId!= -1 ">
+            AND classId = #{classId}
+        </if>
+        GROUP BY testTime,itemUnit
+    </select>
+
+    <!--根据学号查询学生信息-->
+    <select id="getStuInfo" resultType="java.util.Map">
+        SELECT * FROM v_student_classinfo WHERE xh =#{stuNum} AND school_id = #{schoolId}
+    </select>
+
+
+   <!-- SELECT
+    *
+    FROM
+    v_score_stuinfo
+    WHERE stuNum = #{stuNum}
+    AND expire = 0
+    AND scoreType = #{scoreType}
+    AND schoolId = #{schoolId}-->
+    <!--通过学号查询各项目最新测试成绩-->
+    <select id="getStuAllLatestScore" resultType="java.util.Map">
+      SELECT
+          *
+        FROM
+          v_score_stuinfo
+        WHERE scoreType = #{scoreType}
+          AND schoolId = #{schoolId}
+
+        <if test="scoreType == 0">
+          AND expire = 0
+        </if>
+         <if test="scoreType == 1">
+            AND testTime IN
+            (SELECT
+            MAX(testTime)
+            FROM
+            v_score_stuinfo
+            GROUP BY itemName)
+          </if>
+
+          AND stuNum = #{stuNum}
+          GROUP BY itemName
+        ORDER BY xsxm,
+          itemName,
+          testTime
+    </select>
+
+    <!--通过学号查询项目历史成绩-->
+    <select id="getStuItemScore" resultType="java.util.Map">
+        SELECT
+        *
+        FROM
+        v_score_stuinfo
+        WHERE stuNum = #{stuNum}
+        <if test="itemId != null and itemId!=''">
+            AND itemId = #{itemId}
+        </if>
+        AND scoreType = #{scoreType}
+        AND schoolId = #{schoolId}
+        ORDER BY
+        <if test="scoreType == 0 ">
+            testCount + ""
+        </if>
+        <if test="scoreType ==1 ">
+            testTime + ""
+        </if>
+    </select>
+
+    <select id="getDailyHealthy" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        stuId,
+        school_id,
+        class_id,
+        xsxm,
+        xh,
+        xsxb,
+        className,
+        indexName,
+        sectionName,
+        sectionShortName,
+        xd,
+        nj,
+        TRUNCATE(AVG(calories_day), 2) AS calories,
+        TRUNCATE(AVG(distance_day), 2) AS distance,
+        TRUNCATE(AVG(jog_day), 2) AS jog,
+        TRUNCATE(AVG(run_day), 2) AS run,
+        TRUNCATE(AVG(deep_sleep), 2) AS deepSleep,
+        TRUNCATE(AVG(shallow_sleep), 2) AS shallowSleep,
+        TRUNCATE(AVG(conscious_sleep), 2) AS consciousSleep,
+        TRUNCATE(AVG(awake_time), 2) AS awakeTime,
+        TRUNCATE(AVG(sleep_quality), 2) AS sleepQuality,
+        TRUNCATE(AVG(asleep_time), 2) AS asleepTime,
+        TRUNCATE(AVG(sport_time), 2) AS sportTime,
+        TRUNCATE(AVG(step_day), 2) AS stepAll,
+        TRUNCATE(AVG(walk_day), 2) AS walkAll,
+        TRUNCATE(AVG(deep_sleep+shallow_sleep+conscious_sleep), 2) AS sleepLong
+        FROM
+        v_student_ring_classinfo
+        WHERE del_flag = 0
+        <if test="classId != null and classId.size() > 0">
+            AND class_id IN
+            <foreach item="classid" index="index" collection="classId" open="(" separator="," close=")">
+                #{classid}
+            </foreach>
+        </if>
+        <if test="schoolId != null and schoolId!=''">
+            AND school_id = #{schoolId}
+        </if>
+        <if test="stuNameOrNo == null or stuNameOrNo ==''">
+            <if test="xdId != null and xdId!=''">
+                AND xd =#{xdId}
+                AND nj = #{njId}
+            </if>
+            <if test="oneClass != null and oneClass!=''">
+                AND class_id =#{oneClass}
+            </if>
+        </if>
+        <if test="stuNameOrNo != null and stuNameOrNo!=''">
+            AND (xsxm LIKE #{stuNameOrNo} OR xh LIKE #{stuNameOrNo})
+        </if>
+        GROUP BY stuId,
+        school_id,
+        class_id,
+        xsxm,
+        xh,
+        xsxb,
+        className,
+        indexName,
+        sectionName,
+        sectionShortName,
+        xd,
+        nj
+    </select>
+
+    <select id="getStuDailyHealthy" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT
+        <if test="dataType == 1">
+            TRUNCATE(AVG(sport_time), 2) AS sportTime,
+            TRUNCATE(AVG(walk_day), 2) AS walkAll,
+            TRUNCATE(AVG(distance_day), 2) AS distance,
+            TRUNCATE(AVG(calories_day), 2) AS calories,
+            TRUNCATE(AVG(asleep_time), 2) AS asleepTime,
+            TRUNCATE(AVG(deep_sleep+shallow_sleep+conscious_sleep), 2) AS sleepLong,
+            TRUNCATE(AVG(sleep_quality), 2) AS sleepQuality,
+            TRUNCATE(AVG(jog_day), 2) AS jog,
+            TRUNCATE(AVG(run_day), 2) AS run,
+            TRUNCATE(AVG(deep_sleep), 2) AS deepSleep,
+            TRUNCATE(AVG(shallow_sleep), 2) AS shallowSleep,
+            TRUNCATE(AVG(conscious_sleep), 2) AS consciousSleep,
+            TRUNCATE(AVG(awake_time), 2) AS awakeTime,
+            TRUNCATE(AVG(step_day), 2) AS stepAll
+        </if>
+        <if test="dataType == 0">
+            `balance` AS `balance`,
+            `level` AS `level`,
+            `version` AS `version`,
+            `info_date` AS `info_date`,
+            `calories_day` AS `calories`,
+            `distance_day` AS `distance`,
+            `jog_day` AS `jog`,
+            `run_day` AS `run`,
+            `deep_sleep` AS `deepSleep`,
+            `shallow_sleep` AS `shallowSleep`,
+            `conscious_sleep` AS `consciousSleep`,
+            `awake_time` AS `awakeTime`,
+            `sleep_quality` AS `sleepQuality`,
+            `asleep_time` AS `asleepTime`,
+            `sport_time` AS `sportTime`,
+            `step_day` AS `stepAll`,
+            `walk_day` AS `walkAll`,
+            `ringCreateDate` AS `ringCreateDate` ,
+            `deep_sleep`+`shallow_sleep`+`conscious_sleep` AS sleepLong
+        </if>
+        FROM
+        v_student_ring_classinfo v
+        WHERE xh = #{stuNum}
+        AND school_id = #{schoolId}
+        AND info_date BETWEEN #{beginDate}
+        AND #{endDate}
+        ORDER BY info_date
+    </select>
+
+</mapper>

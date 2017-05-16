@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.attendance.persistence.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.attendance.persistence.entity.Course" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="teacherId" property="teacherid" jdbcType="VARCHAR" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="class_begin" property="classBegin" jdbcType="BIGINT" />
+    <result column="class_end" property="classEnd" jdbcType="BIGINT" />
+    <result column="class_place" property="classPlace" jdbcType="VARCHAR" />
+    <result column="flag_week" property="flagWeek" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="must" property="must" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, course_id, teacherId, course_name, class_begin, class_end, class_place, flag_week, 
+    class_id, must
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.attendance.persistence.entity.CourseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.attendance.persistence.entity.CourseExample" >
+    delete from course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.attendance.persistence.entity.Course" >
+    insert into course (id, course_id, teacherId, 
+      course_name, class_begin, class_end, 
+      class_place, flag_week, class_id, 
+      must)
+    values (#{id,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, #{teacherid,jdbcType=VARCHAR}, 
+      #{courseName,jdbcType=VARCHAR}, #{classBegin,jdbcType=BIGINT}, #{classEnd,jdbcType=BIGINT}, 
+      #{classPlace,jdbcType=VARCHAR}, #{flagWeek,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR}, 
+      #{must,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.attendance.persistence.entity.Course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="teacherid != null" >
+        teacherId,
+      </if>
+      <if test="courseName != null" >
+        course_name,
+      </if>
+      <if test="classBegin != null" >
+        class_begin,
+      </if>
+      <if test="classEnd != null" >
+        class_end,
+      </if>
+      <if test="classPlace != null" >
+        class_place,
+      </if>
+      <if test="flagWeek != null" >
+        flag_week,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="must != null" >
+        must,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherid != null" >
+        #{teacherid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="classBegin != null" >
+        #{classBegin,jdbcType=BIGINT},
+      </if>
+      <if test="classEnd != null" >
+        #{classEnd,jdbcType=BIGINT},
+      </if>
+      <if test="classPlace != null" >
+        #{classPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="flagWeek != null" >
+        #{flagWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="must != null" >
+        #{must,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update course
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseId != null" >
+        course_id = #{record.courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherid != null" >
+        teacherId = #{record.teacherid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null" >
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classBegin != null" >
+        class_begin = #{record.classBegin,jdbcType=BIGINT},
+      </if>
+      <if test="record.classEnd != null" >
+        class_end = #{record.classEnd,jdbcType=BIGINT},
+      </if>
+      <if test="record.classPlace != null" >
+        class_place = #{record.classPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flagWeek != null" >
+        flag_week = #{record.flagWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null" >
+        class_id = #{record.classId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.must != null" >
+        must = #{record.must,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update course
+    set id = #{record.id,jdbcType=VARCHAR},
+      course_id = #{record.courseId,jdbcType=VARCHAR},
+      teacherId = #{record.teacherid,jdbcType=VARCHAR},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      class_begin = #{record.classBegin,jdbcType=BIGINT},
+      class_end = #{record.classEnd,jdbcType=BIGINT},
+      class_place = #{record.classPlace,jdbcType=VARCHAR},
+      flag_week = #{record.flagWeek,jdbcType=VARCHAR},
+      class_id = #{record.classId,jdbcType=VARCHAR},
+      must = #{record.must,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.attendance.persistence.entity.Course" >
+    update course
+    <set >
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherid != null" >
+        teacherId = #{teacherid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="classBegin != null" >
+        class_begin = #{classBegin,jdbcType=BIGINT},
+      </if>
+      <if test="classEnd != null" >
+        class_end = #{classEnd,jdbcType=BIGINT},
+      </if>
+      <if test="classPlace != null" >
+        class_place = #{classPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="flagWeek != null" >
+        flag_week = #{flagWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="must != null" >
+        must = #{must,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.attendance.persistence.entity.Course" >
+    update course
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      teacherId = #{teacherid,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      class_begin = #{classBegin,jdbcType=BIGINT},
+      class_end = #{classEnd,jdbcType=BIGINT},
+      class_place = #{classPlace,jdbcType=VARCHAR},
+      flag_week = #{flagWeek,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=VARCHAR},
+      must = #{must,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
