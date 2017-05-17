@@ -243,9 +243,6 @@ public class ConstantUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println("%%".indexOf("%"));
-        System.out.println("11%%".indexOf("%"));
-        System.out.println("2%%".indexOf("%"));
-        System.out.println("2sada".indexOf("%"));
+        System.out.println(splitWithOutNull("asdasd"));
     }
 }

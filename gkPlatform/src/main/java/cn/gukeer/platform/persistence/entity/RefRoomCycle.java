@@ -1,14 +1,19 @@
 package cn.gukeer.platform.persistence.entity;
 
-import java.io.Serializable;
+import cc.gukeer.sync.annotation.NoSync;
+import cc.gukeer.sync.annotation.PrimaryKey;
+import cc.gukeer.sync.annotation.TableSync;
 
+import java.io.Serializable;
+@TableSync(SyncTableName="teach_ref_room_cycle",TargetName = "sync_teach_ref_room_cycle")
 public class RefRoomCycle implements Serializable {
+    @PrimaryKey
     private String id;
 
     private String roomId;
 
     private String cycleId;
-
+    @NoSync
     private static final long serialVersionUID = 1L;
 
     public String getId() {

@@ -444,7 +444,7 @@ public class TeachTaskController extends BasicController {
         //时间格式的转换
         for (TeachCycle teachCycle : list) {
             TeachCylcleExtention teachCylcleExtention = new TeachCylcleExtention();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date1 = new Date(teachCycle.getBeginDate());
             String start = simpleDateFormat.format(date1);
             Date date2 = new Date(teachCycle.getEndDate());
@@ -600,20 +600,21 @@ public class TeachTaskController extends BasicController {
                             String oneInfo = infoArray[i];
                             if (oneInfo.equals("教室管理")) {
                                 classRoomList = teachTaskService.findAllClassRoomByCycleId(preCycleId);
-
                                 List<RefRoomCycle> cycleList = new ArrayList<>();
-                                for (ClassRoom classRoom : classRoomList) {
-                                    String roomId = PrimaryKey.get();
-                                    classRoom.setRoomId(roomId);
+                                if (classRoomList != null) {
+                                    for (ClassRoom classRoom : classRoomList) {
+                                        String roomId = PrimaryKey.get();
+                                        classRoom.setId(roomId);
 
-                                    //教室周期关联
-                                    RefRoomCycle cycle = new RefRoomCycle();
-                                    cycle.setCycleId(thisCycleId);
-                                    cycle.setRoomId(roomId);
-                                    cycle.setId(PrimaryKey.get());
-                                    cycleList.add(cycle);
+                                        //教室周期关联
+                                        RefRoomCycle cycle = new RefRoomCycle();
+                                        cycle.setCycleId(thisCycleId);
+                                        cycle.setRoomId(roomId);
+                                        cycle.setId(PrimaryKey.get());
+                                        cycleList.add(cycle);
+                                    }
                                 }
-                                teachTaskService.batchInsertClassRoom(classRoomList);
+                                teachTaskService.insertClassRoomBatch(classRoomList);
                                 teachTaskService.batchSaveRefRoomCycle(cycleList);
                             } else if (oneInfo.equals("班主任安排")) {
 
@@ -642,6 +643,42 @@ public class TeachTaskController extends BasicController {
                                     course.setCycleId(thisCycleId);
                                 }
                                 teachTaskService.batchInsertCourse(courseList);
+                            } else if (oneInfo.equals("班级教室安排")) {
+                                //查询上一学期班级教室安排
+                                List<RefClassRoom> refClassRoomList = teachTaskService.findRefClassRoomByCycleId(preCycleId);
+                                List<RefClassRoom> refClassRoomListNew = new ArrayList<>();
+                                if (refClassRoomList.size() > 0) {
+                                    for (RefClassRoom refClassRoom : refClassRoomList) {
+                                        RefClassRoom refClassRoomNew = new RefClassRoom();
+                                        refClassRoomNew.setId(PrimaryKey.get());
+                                        refClassRoomNew.setRoomId(refClassRoom.getRoomId());
+                                        refClassRoomNew.setSchoolTypeId(refClassRoom.getSchoolTypeId());
+                                        refClassRoomNew.setGradeClass(refClassRoom.getGradeClass());
+                                        refClassRoomNew.setCycleId(thisCycleId);
+                                        refClassRoomListNew.add(refClassRoomNew);
+                                    }
+                                }
+                                //批量插入班级教室
+                                teachTaskService.batchInsertRefClassRoom(refClassRoomListNew);
+                            } else if (oneInfo.equals("科目课时安排")) {
+                                //首先要根据周期查询上一学期的课程list
+                                List<Course> coursesListPre = teachTaskService.findAllCourseBySchoolIdAndCycleId(schoolId, preCycleId);
+                                //查询上一学期科目查询所有的科目课时
+                                List<CourseClass> courseClassListPre = teachTaskService.findAllCourseClassByCourseList(coursesListPre);
+                                List<CourseClass> courseClassListNew = new ArrayList<>();
+                                if (courseClassListPre.size() > 0) {
+                                    for (CourseClass courseClass : courseClassListPre) {
+                                        CourseClass courseClassNew = new CourseClass();
+                                        courseClassNew.setId(PrimaryKey.get());
+                                        courseClassNew.setCourseHour(courseClass.getCourseHour());
+                                        courseClassNew.setTeacherId(courseClass.getTeacherId());
+                                        courseClassNew.setClassId(courseClass.getClassId());
+                                        courseClassNew.setCourseId(courseClass.getCourseId());
+                                        courseClassListNew.add(courseClassNew);
+                                    }
+                                    teachTaskService.batchInsertCourseClass(courseClassListNew);
+                                }
+
                             }
                         }
                     }
@@ -726,7 +763,7 @@ public class TeachTaskController extends BasicController {
                     List<RefRoomCycle> cycleList = new ArrayList<>();
                     for (ClassRoom classRoom : classRoomList) {
                         String roomId = PrimaryKey.get();
-                        classRoom.setRoomId(roomId);
+                        classRoom.setId(roomId);
 
                         //教室，周期关联
                         RefRoomCycle cycle = new RefRoomCycle();
@@ -736,7 +773,7 @@ public class TeachTaskController extends BasicController {
 
                         cycleList.add(cycle);
                     }
-                    teachTaskService.batchInsertClassRoom(classRoomList);
+                    teachTaskService.insertClassRoomBatch(classRoomList);
                     teachTaskService.batchSaveRefRoomCycle(cycleList);//教室周期关联
                 } else if (oneInfo.equals("班主任安排")) {
 
@@ -851,12 +888,12 @@ public class TeachTaskController extends BasicController {
 
         String pri = PrimaryKey.get();
         room.setSchoolId(user.getSchoolId());
-        if (StringUtil.isNotEmpty(room.getRoomId())) {
+        if (StringUtil.isNotEmpty(room.getId())) {
 
             room.setUpdateBy(user.getId());
             room.setUpdateDate(System.currentTimeMillis());
 
-        } else if (StringUtil.isEmpty(room.getRoomId())) {
+        } else if (StringUtil.isEmpty(room.getId())) {
 
             room.setCreateBy(user.getId());
             room.setCreateDate(System.currentTimeMillis());
@@ -881,7 +918,7 @@ public class TeachTaskController extends BasicController {
         for (String roomId : roomIdList) {
             ClassRoom room = new ClassRoom();
             room.setDelFlag(1);
-            room.setRoomId(roomId);
+            room.setId(roomId);
             teachTaskService.saveClassRoom(room, null);
         }
     }
@@ -932,7 +969,7 @@ public class TeachTaskController extends BasicController {
                 errorRoom = roomView;
                 ClassRoom room = new ClassRoom();
                 String roomId = PrimaryKey.get();
-                room.setRoomId(roomId);
+                room.setId(roomId);
                 room.setRoomName(roomView.getRoomName());
 
                 room.setRoomTypeName(roomView.getRoomTypeName());
@@ -967,12 +1004,11 @@ public class TeachTaskController extends BasicController {
                 correctRoomList.add(room);
             } catch (Exception e) {
                 errorRoomList.add(errorRoom);
-                e.printStackTrace();
                 continue;
             }
         }
         if (correctRoomList.size() > 0)
-            teachTaskService.batchInsertClassRoom(correctRoomList);
+            teachTaskService.insertClassRoomBatch(correctRoomList);
 
         Long end = System.currentTimeMillis();
         Map res = new HashMap();
@@ -2081,7 +2117,7 @@ public class TeachTaskController extends BasicController {
                 System.out.println(classRoomMap.get(schoolTypeId + teachBuilding + classRoomNum));
                 if (null != classRoomMap.get(schoolTypeId + teachBuilding + classRoomNum)) {
                     ClassRoom classRoom = (ClassRoom) classRoomMap.get(schoolTypeId + teachBuilding + classRoomNum);
-                    roomId = classRoom.getRoomId();
+                    roomId = classRoom.getId();
                 }
 
                 refClassRoom.setRoomId(roomId);
@@ -2120,18 +2156,18 @@ public class TeachTaskController extends BasicController {
         User user = getLoginUser();
         String schoolId = user.getSchoolId();
         RefClassRoomView refClassRoomView = teachTaskService.findRefClassRoomViewByRefId(refId);
-        if (schoolTypeId ==""){
-            schoolTypeId=refClassRoomView.getSchoolTypeId();
+        if (schoolTypeId == "") {
+            schoolTypeId = refClassRoomView.getSchoolTypeId();
         }
-        if (building==""){
-            building=refClassRoomView.getTeachBuildingName();
+        if (building == "") {
+            building = refClassRoomView.getTeachBuildingName();
         }
         //查询所有的校区
         List<SchoolType> schoolTypeList = teachTaskService.findAllSchoolTypeBySchoolId(schoolId);
         //根据schoolTypeId查询所有的教学楼 并根据教学楼分组
         List<ClassRoom> buildingList = teachTaskService.findBuildingByschoolTypeId(schoolTypeId);
         //根据schoolTypeId building查询教室号
-        List<ClassRoom> rooms = teachTaskService.findRooomsBySchoolTypeIdAndBuilding(schoolTypeId,building);
+        List<ClassRoom> rooms = teachTaskService.findRooomsBySchoolTypeIdAndBuilding(schoolTypeId, building);
 //        model.addAttribute("teachBuildingList", buildingMap.keySet());
         model.addAttribute("roomNumList", rooms);
         model.addAttribute("schoolTypeList", schoolTypeList);

@@ -34,7 +34,7 @@
                 新增
             </button>
 
-            <button class="roll-delete" <%--onclick="alertTips(400,200,'删除','确定要删除选中项吗？','sure()')"--%>>删除</button>
+            <button class="roll-delete" onclick="alertTips(400,200,'删除','确定要删除选中项吗？','sure()')">删除</button>
 
             <button class="roll-import"
                     onclick="openDialog('导入数据','${ctx}/class/fileImport?url=${ctx}/teach/task/room/import','500px','350px')">
@@ -74,7 +74,7 @@
             <tbody>
             <c:forEach items="${pageInfo.list}" var="room" varStatus="status">
                 <tr>
-                    <td><input class="rsCheck" name="lanmuCheck" id="${room.roomId}" type="checkbox"/></td>
+                    <td><input class="rsCheck" name="lanmuCheck" id="${room.id}" type="checkbox"/></td>
                     <td style="text-align: center">${status.index+1+(pageInfo.pageNum-1)*10}</td>
                     <td>${room.schoolTypeName}</td>
                     <td>${room.floor}</td>
@@ -97,8 +97,8 @@
                     </td>
                     <td>${room.remarks}</td>
                     <td>
-                        <span onclick="openDialogView('修改信息','${ctx}/teach/task/room/update/index?roomId=${room.roomId}','700px','600px')">详情</span>
-                        <span <%--onclick="alertTips(400,202,'删除人员','确定要删除${teacher.name}吗?','deleteSure(\'${teacher.id}\')')"--%>>删除</span>
+                        <span onclick="openDialogView('修改信息','${ctx}/teach/task/room/update/index?roomId=${room.id}','700px','600px')">详情</span>
+                        <span onclick="alertTips(400,202,'删除教室','确定要删除${room.roomName}吗?','deleteSure(\'${room.id}\')')">删除</span>
                     </td>
                 </tr>
             </c:forEach>
@@ -166,8 +166,8 @@
     //删除用户
     function deleteSure(id) {
         closeAlertDiv();
-        $.post("${ctx}/renshi/renyuan/delete", {
-            id: id,
+        $.post("${ctx}/teach/task/room/delete", {
+            roomId: id,
         }, function (retJson) {
         }, "json");
         setTimeout(function () {

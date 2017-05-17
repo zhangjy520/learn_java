@@ -52,7 +52,7 @@ public interface TeachTaskService {
 
     int saveClassRoom(ClassRoom classRoom ,String pri);
 
-    int batchInsertClassRoom(List<ClassRoom> list);
+    int insertClassRoomBatch(List<ClassRoom> list);
 
     ClassRoom getRoomByPri(String pri);
 
@@ -225,4 +225,9 @@ public interface TeachTaskService {
 
 
     List<ClassRoom> findRooomsBySchoolTypeIdAndBuilding(String schoolTypeId, String building);
+
+    //创建教学周期时同步数据查询上一学期所有数据的方法
+    List<RefClassRoom> findRefClassRoomByCycleId(String preCycleId);
+
+    List<CourseClass> findAllCourseClassByCourseList(List<Course> coursesListPre);
 }

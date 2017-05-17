@@ -19,4 +19,6 @@ public interface A_ClassRoomMapper {
 
 
     List<ClassRoom> findBuildingByschoolTypeId(@Param("schoolTypeId")String schoolTypeId);
+
+    void insertClassRoomBatch(@Param("roomList")List<ClassRoom> roomList);
 }

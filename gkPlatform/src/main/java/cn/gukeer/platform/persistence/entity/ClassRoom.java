@@ -5,11 +5,10 @@ import cc.gukeer.sync.annotation.PrimaryKey;
 import cc.gukeer.sync.annotation.TableSync;
 
 import java.io.Serializable;
-
 @TableSync(SyncTableName="teach_class_room",TargetName = "sync_teach_class_room")
 public class ClassRoom implements Serializable {
     @PrimaryKey
-    private String roomId;
+    private String id;
 
     private String roomName;
 
@@ -38,6 +37,7 @@ public class ClassRoom implements Serializable {
     private Integer examSeat;
 
     private Integer courseSelect;
+
     @NoSync
     private String remarks;
     @NoSync
@@ -53,12 +53,12 @@ public class ClassRoom implements Serializable {
     @NoSync
     private static final long serialVersionUID = 1L;
 
-    public String getRoomId() {
-        return roomId;
+    public String getId() {
+        return id;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId == null ? null : roomId.trim();
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     public String getRoomName() {
@@ -233,7 +233,7 @@ public class ClassRoom implements Serializable {
             return false;
         }
         ClassRoom other = (ClassRoom) that;
-        return (this.getRoomId() == null ? other.getRoomId() == null : this.getRoomId().equals(other.getRoomId()))
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getRoomName() == null ? other.getRoomName() == null : this.getRoomName().equals(other.getRoomName()))
             && (this.getRoomType() == null ? other.getRoomType() == null : this.getRoomType().equals(other.getRoomType()))
             && (this.getRoomTypeName() == null ? other.getRoomTypeName() == null : this.getRoomTypeName().equals(other.getRoomTypeName()))
@@ -260,7 +260,7 @@ public class ClassRoom implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getRoomId() == null) ? 0 : getRoomId().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getRoomName() == null) ? 0 : getRoomName().hashCode());
         result = prime * result + ((getRoomType() == null) ? 0 : getRoomType().hashCode());
         result = prime * result + ((getRoomTypeName() == null) ? 0 : getRoomTypeName().hashCode());
@@ -290,7 +290,7 @@ public class ClassRoom implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", roomId=").append(roomId);
+        sb.append(", id=").append(id);
         sb.append(", roomName=").append(roomName);
         sb.append(", roomType=").append(roomType);
         sb.append(", roomTypeName=").append(roomTypeName);

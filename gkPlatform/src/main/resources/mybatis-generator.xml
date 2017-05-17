@@ -484,7 +484,7 @@
             <!--<property name="useActualColumnNames" value="false"/>-->
 
         <!--</table>-->
-        <table schema="gk_platform" tableName="teach_ref_class_room" domainObjectName="RefClassRoom"
+        <table schema="gk_platform" tableName="teach_class_room" domainObjectName="ClassRoom"
                enableCountByExample="false"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

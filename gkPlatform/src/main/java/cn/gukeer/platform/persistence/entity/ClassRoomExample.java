@@ -104,73 +104,73 @@ public class ClassRoomExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andRoomIdIsNull() {
-            addCriterion("room_id is null");
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdIsNotNull() {
-            addCriterion("room_id is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdEqualTo(String value) {
-            addCriterion("room_id =", value, "roomId");
+        public Criteria andIdEqualTo(String value) {
+            addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdNotEqualTo(String value) {
-            addCriterion("room_id <>", value, "roomId");
+        public Criteria andIdNotEqualTo(String value) {
+            addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdGreaterThan(String value) {
-            addCriterion("room_id >", value, "roomId");
+        public Criteria andIdGreaterThan(String value) {
+            addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdGreaterThanOrEqualTo(String value) {
-            addCriterion("room_id >=", value, "roomId");
+        public Criteria andIdGreaterThanOrEqualTo(String value) {
+            addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdLessThan(String value) {
-            addCriterion("room_id <", value, "roomId");
+        public Criteria andIdLessThan(String value) {
+            addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdLessThanOrEqualTo(String value) {
-            addCriterion("room_id <=", value, "roomId");
+        public Criteria andIdLessThanOrEqualTo(String value) {
+            addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdLike(String value) {
-            addCriterion("room_id like", value, "roomId");
+        public Criteria andIdLike(String value) {
+            addCriterion("id like", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdNotLike(String value) {
-            addCriterion("room_id not like", value, "roomId");
+        public Criteria andIdNotLike(String value) {
+            addCriterion("id not like", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdIn(List<String> values) {
-            addCriterion("room_id in", values, "roomId");
+        public Criteria andIdIn(List<String> values) {
+            addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdNotIn(List<String> values) {
-            addCriterion("room_id not in", values, "roomId");
+        public Criteria andIdNotIn(List<String> values) {
+            addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdBetween(String value1, String value2) {
-            addCriterion("room_id between", value1, value2, "roomId");
+        public Criteria andIdBetween(String value1, String value2) {
+            addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdNotBetween(String value1, String value2) {
-            addCriterion("room_id not between", value1, value2, "roomId");
+        public Criteria andIdNotBetween(String value1, String value2) {
+            addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
@@ -1494,8 +1494,8 @@ public class ClassRoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andRoomIdLikeInsensitive(String value) {
-            addCriterion("upper(room_id) like", value.toUpperCase(), "roomId");
+        public Criteria andIdLikeInsensitive(String value) {
+            addCriterion("upper(id) like", value.toUpperCase(), "id");
             return (Criteria) this;
         }
 

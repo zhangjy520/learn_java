@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 public interface ClassRoomMapper {
     int deleteByExample(ClassRoomExample example);
 
-    int deleteByPrimaryKey(String roomId);
+    int deleteByPrimaryKey(String id);
 
     int insert(ClassRoom record);
 
@@ -16,7 +16,7 @@ public interface ClassRoomMapper {
 
     List<ClassRoom> selectByExample(ClassRoomExample example);
 
-    ClassRoom selectByPrimaryKey(String roomId);
+    ClassRoom selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") ClassRoom record, @Param("example") ClassRoomExample example);
 

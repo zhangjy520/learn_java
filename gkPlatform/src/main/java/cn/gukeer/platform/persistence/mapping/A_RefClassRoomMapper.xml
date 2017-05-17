@@ -35,11 +35,13 @@
         (`id`,
         `room_id`,
         `grade_class`,
-        `cycle_id`)
+        `cycle_id`,
+        school_type_id
+        )
         values
         <foreach collection="correctRefClassRoomList" item="refRoomClass" index="index" open="(" close=")"
                  separator=",">
-            #{refRoomClass.id},#{refRoomClass.roomId},#{refRoomClass.gradeClass},#{refRoomClass.cycleId}
+            #{refRoomClass.id},#{refRoomClass.roomId},#{refRoomClass.gradeClass},#{refRoomClass.cycleId},#{refRoomClass.schoolTypeId}
         </foreach>
     </insert>
 

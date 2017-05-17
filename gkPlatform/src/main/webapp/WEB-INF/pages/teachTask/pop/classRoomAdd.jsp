@@ -133,7 +133,7 @@
 <body>
 <div class="container">
     <form method="post" action="${ctx}/teach/task/room/update" id="inputForm">
-        <input type="hidden" name="roomId" value="${room.roomId}">
+        <input type="hidden" name="roomId" value="${room.id}">
         <%--<ul>--%>
             <%--<li>--%>
                 <%--<span class="fSpan">--%>
@@ -204,7 +204,7 @@
                         <span>所在校区</span>
                         <select name="schoolTypeSelect">
                             <c:forEach items="${schoolTypeList}" var="schoolType">
-                            <option value="${schoolType.id}">${schoolType.name}</option>
+                            <option <c:if test="${room.schoolType eq schoolType.id}">selected</c:if> value="${schoolType.id}">${schoolType.name}</option>
                             </c:forEach>
                         </select>
                         <input name="schoolType" type="hidden"/>
@@ -214,9 +214,11 @@
                         <span>教室类型</span>
                         <select name="roomTypeSelect" id="">
                             <c:forEach items="${roomTypeList}" var="roomType">
-                            <option value="${roomType.id}">${roomType.name}</option>
+                            <option <c:if test="${room.roomType eq roomType.id}">selected</c:if> value="${roomType.id}">${roomType.name}</option>
                             </c:forEach>
                         </select>
+                        <input name="roomType" type="hidden"/>
+                        <input name="roomTypeName" type="hidden"/>
                     </td>
                 </tr>
                 <tr>

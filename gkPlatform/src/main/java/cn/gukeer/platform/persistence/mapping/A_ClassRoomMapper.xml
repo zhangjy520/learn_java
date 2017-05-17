@@ -45,4 +45,32 @@
         GROUP BY teach_building
     </select>
 
+    <insert id="insertClassRoomBatch">
+        INSERT INTO `teach_class_room`
+        (`id`,
+        `room_name`,
+        `room_type`,
+        `room_type_name`,
+        `school_id`,
+        `school_type`,
+        `school_type_name`,
+        `floor`,
+        `count`,
+        `available_seat`,
+        `exam_seat`,
+        `course_select`,
+        `remarks`,
+        `create_by`,
+        `create_date`
+        )
+        values
+        <foreach collection="roomList" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.roomName},#{item.roomType},#{item.roomTypeName},#{item.schoolId},#{item.schoolType},
+            #{item.schoolTypeName},#{item.floor},#{item.count},#{item.availableSeat},#{item.examSeat},#{item.courseSelect},
+            #{item.remarks},#{item.createBy},#{item.createDate}
+            )
+        </foreach>
+    </insert>
+
 </mapper>

@@ -204,7 +204,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (StringUtil.isNotEmpty(cycleId)) {
             List<String> list = getRoomIdList(cycleId);
             if (list.size()>0)
-                criteria.andRoomIdIn(list);
+                criteria.andIdIn(list);
             else return new PageInfo<>(new ArrayList<ClassRoom>());
         }
 
@@ -218,9 +218,9 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     @Override
     public int saveClassRoom(ClassRoom classRoom, String pri) {
         int flag = 0;
-        if (StringUtil.isEmpty(classRoom.getRoomId())) {
+        if (StringUtil.isEmpty(classRoom.getId())) {
             //执行新增操作
-            classRoom.setRoomId(pri);
+            classRoom.setId(pri);
             flag = classRoomMapper.insertSelective(classRoom);
         } else {
             //执行修改操作
@@ -230,9 +230,8 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     }
 
     @Transactional
-    @Override
-    public int batchInsertClassRoom(List<ClassRoom> list) {
-        classRoomExtensionMapper.insertClassRoomBatch(list);
+    public int insertClassRoomBatch(List<ClassRoom> list) {
+        a_classRoomMapper.insertClassRoomBatch(list);
         return list.size();
     }
 
@@ -350,7 +349,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
     @Override
     public void batchInsertCourseClass(List<CourseClass> courseClassList) {
-        a_courseClassMapper.insertCourseClassBatch(courseClassList);
+        a_courseClassMapper.batchInsertCourseClass(courseClassList);
     }
 
     @Override
@@ -544,7 +543,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
         List<String> list = getRoomIdList(cycleId);
         if (list.size()>0)
-            criteria.andRoomIdIn(list);
+            criteria.andIdIn(list);
         else
             return null;
 
@@ -675,6 +674,27 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         example.createCriteria().andSchoolTypeEqualTo(schoolTypeId).andTeachBuildingEqualTo(building);
         List<ClassRoom> rooms = classRoomMapper.selectByExample(example);
         return rooms;
+    }
+
+    @Override
+    public List<RefClassRoom> findRefClassRoomByCycleId(String preCycleId) {
+        RefClassRoomExample example = new RefClassRoomExample();
+        example.createCriteria().andCycleIdEqualTo(preCycleId);
+        return refClassRoomMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<CourseClass> findAllCourseClassByCourseList(List<Course> coursesListPre) {
+        CourseClassExample example = new CourseClassExample();
+        List<String> courseIdList = new ArrayList<>();
+
+        if (coursesListPre.size()>0){
+            for (Course course:coursesListPre){
+                courseIdList.add(course.getId());
+            }
+        }
+        example.createCriteria().andCourseIdIn(courseIdList);
+        return courseClassMapper.selectByExample(example);
     }
 
     public int saveCourse(Course course, User user) {

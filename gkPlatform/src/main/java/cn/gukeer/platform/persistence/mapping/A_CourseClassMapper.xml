@@ -21,11 +21,13 @@
         (`id`,
         `class_id`,
         `course_id`,
-        `teacher_id`)
+        `teacher_id`,
+        course_hour
+        )
         values
         <foreach collection="courseClassList" item="item" index="index" separator=",">
             (
-            #{item.id},#{item.classId},#{item.courseId},#{item.teacherId}
+            #{item.id},#{item.classId},#{item.courseId},#{item.teacherId},#{item.courseHour}
             )
         </foreach>
     </insert>

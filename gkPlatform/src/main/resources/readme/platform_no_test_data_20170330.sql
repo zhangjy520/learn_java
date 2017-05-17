@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.24 (32 bit)
 MySQL - 5.7.17 : Database - test
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1009,7 +1010,7 @@ CREATE TABLE `sys_config` (
 
 LOCK TABLES `sys_config` WRITE;
 
-insert  into `sys_config`(`id`,`param_type`,`param_key`,`param_value`,`del_flag`) values ('1','bottomText','s','<p>©2014-2016 Beijing Search Champion Technology Co.,Ltd. 北京谷壳儿科技有限公司</p><p>京ICP备16000182-3号|京公安网备11010502027075</p>',0),('2','defaultPassword','parent','000000',0),('3','defaultPassword','teacher ','111111',0),('4','defaultPassword','student','000000',0);
+insert  into `sys_config`(`id`,`param_type`,`param_key`,`param_value`,`del_flag`) values ('1','bottomText','s','<p>©2014-2016 Beijing Search Champion Technology Co.,Ltd. 北京教育云开放平台科技有限公司</p><p>京ICP备16000182-3号|京公安网备11010502027075</p>',0),('2','defaultPassword','parent','000000',0),('3','defaultPassword','teacher ','111111',0),('4','defaultPassword','student','000000',0);
 
 UNLOCK TABLES;
 

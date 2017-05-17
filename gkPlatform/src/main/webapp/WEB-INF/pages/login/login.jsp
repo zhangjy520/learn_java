@@ -151,7 +151,7 @@
         ${bottomText}
     </c:if>
     <c:if test="${gukeer:emptyString(bottomText)}">
-        <p>©2014-2016 Beijing Search Champion Technology Co.,Ltd. 北京谷壳儿科技有限公司</p>
+        <p>©2014-2016 Beijing Search Champion Technology Co.,Ltd. 北京教育云开放平台科技有限公司</p>
         <p>京ICP备16000182-3号|京公安网备11010502027075</p>
     </c:if>--%>
 </footer>
@@ -309,7 +309,7 @@
   </div>
 </main>
 <footer>
-  <p>©2014-2016 Beijing Search Champion Technology Co.,Ltd. 北京谷壳儿科技有限公司</p>
+  <p>©2014-2016 Beijing Search Champion Technology Co.,Ltd. 北京教育云开放平台科技有限公司</p>
   <p>京ICP备16000182-3号|京公安网备11010502027075</p>
 </footer>
 </body>

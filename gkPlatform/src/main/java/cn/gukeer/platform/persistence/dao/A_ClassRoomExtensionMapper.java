@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface A_ClassRoomExtensionMapper {
 
-    int insertClassRoomBatch(@Param("roomList") List<ClassRoom> roomList);
+
 }

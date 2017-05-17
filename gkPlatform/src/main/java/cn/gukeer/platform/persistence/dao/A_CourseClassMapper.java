@@ -10,7 +10,7 @@ import java.util.List;
  * Created by LL on 2017/4/17.
  */
 public interface A_CourseClassMapper {
-    int insertCourseClassBatch(List<CourseClass> courseClasses);
+    int batchInsertCourseClass(@Param("courseClassList")List<CourseClass> courseClasses);
 
     List<CourseClassView> findAllCourseTeacherBySchoolId(@Param("schoolId") String schoolId);
 

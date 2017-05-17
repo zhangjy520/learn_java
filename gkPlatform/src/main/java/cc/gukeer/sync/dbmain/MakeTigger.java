@@ -5,7 +5,6 @@ import cc.gukeer.sync.annotation.Increment;
 import cc.gukeer.sync.annotation.NoSync;
 import cc.gukeer.sync.annotation.PrimaryKey;
 import cc.gukeer.sync.annotation.TableSync;
-import cn.gukeer.platform.persistence.entity.User;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -220,9 +219,4 @@ public class MakeTigger  {
         return count;
     }
 
-
-    public static void main(String [] args){
-        MakeTigger mt = new MakeTigger();
-        mt.make(User.class);
-    }
 }

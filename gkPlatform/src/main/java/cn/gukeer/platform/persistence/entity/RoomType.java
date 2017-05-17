@@ -1,26 +1,31 @@
 package cn.gukeer.platform.persistence.entity;
 
-import java.io.Serializable;
+import cc.gukeer.sync.annotation.NoSync;
+import cc.gukeer.sync.annotation.PrimaryKey;
+import cc.gukeer.sync.annotation.TableSync;
 
+import java.io.Serializable;
+@TableSync(SyncTableName="teach_room_type",TargetName = "sync_teach_room_type")
 public class RoomType implements Serializable {
+    @PrimaryKey
     private String id;
 
     private String name;
 
     private String schoolId;
-
+    @NoSync
     private String createBy;
-
+    @NoSync
     private Long createDate;
-
+    @NoSync
     private String updateBy;
-
+    @NoSync
     private Long updateDate;
-
+    @NoSync
     private String remark;
-
+    @NoSync
     private Integer delFlag;
-
+    @NoSync
     private static final long serialVersionUID = 1L;
 
     public String getId() {

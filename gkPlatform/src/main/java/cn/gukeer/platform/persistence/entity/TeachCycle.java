@@ -1,8 +1,14 @@
 package cn.gukeer.platform.persistence.entity;
 
+import cc.gukeer.sync.annotation.NoSync;
+import cc.gukeer.sync.annotation.PrimaryKey;
+import cc.gukeer.sync.annotation.TableSync;
+
 import java.io.Serializable;
 
+@TableSync(SyncTableName="teach_cycle",TargetName = "sync_teach_cycle")
 public class TeachCycle implements Serializable {
+    @PrimaryKey
     private String id;
 
     private String schoolId;
@@ -18,19 +24,19 @@ public class TeachCycle implements Serializable {
     private Long endDate;
 
     private Integer weekCount;
-
+    @NoSync
     private Integer delFlag;
-
+    @NoSync
     private Long createDate;
-
+    @NoSync
     private Long updateDate;
-
+    @NoSync
     private String createBy;
-
+    @NoSync
     private String updateBy;
-
+    @NoSync
     private String remark;
-
+    @NoSync
     private static final long serialVersionUID = 1L;
 
     public String getId() {
