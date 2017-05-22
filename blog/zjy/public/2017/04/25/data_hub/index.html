@@ -1,0 +1,535 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>data_hub 数据同步 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="data_hub 数据同步使用技术 ：active_mq,jms等  ps : 不对外开放，个人理解 生产者发送数据： 获取需要推送的第三方应用，ref_platform_app    简述：给那个第三方应用发  获取平台推送到第三方应用的对象列表（获取平台要发送到第三方哪些表（ref_queue_obj,ref_platform_app,push_obj）） 简述：要发哪些表  获取每个表需要推">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="data_hub 数据同步">
+<meta property="og:url" content="http://zjy.com/2017/04/25/data_hub/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="data_hub 数据同步使用技术 ：active_mq,jms等  ps : 不对外开放，个人理解 生产者发送数据： 获取需要推送的第三方应用，ref_platform_app    简述：给那个第三方应用发  获取平台推送到第三方应用的对象列表（获取平台要发送到第三方哪些表（ref_queue_obj,ref_platform_app,push_obj）） 简述：要发哪些表  获取每个表需要推">
+<meta property="og:updated_time" content="2017-05-08T08:10:51.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="data_hub 数据同步">
+<meta name="twitter:description" content="data_hub 数据同步使用技术 ：active_mq,jms等  ps : 不对外开放，个人理解 生产者发送数据： 获取需要推送的第三方应用，ref_platform_app    简述：给那个第三方应用发  获取平台推送到第三方应用的对象列表（获取平台要发送到第三方哪些表（ref_queue_obj,ref_platform_app,push_obj）） 简述：要发哪些表  获取每个表需要推">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zjy.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/25/data_hub/" title="data_hub 数据同步" itemprop="url">data_hub 数据同步</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-25T05:51:49.000Z" itemprop="datePublished"> 发表于 2017-04-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub-数据同步"><span class="toc-number">1.</span> <span class="toc-text">data_hub 数据同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生产者发送数据："><span class="toc-number">2.</span> <span class="toc-text">生产者发送数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消费者接收数据："><span class="toc-number">3.</span> <span class="toc-text">消费者接收数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub功能解释："><span class="toc-number">4.</span> <span class="toc-text">data_hub功能解释：</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="data-hub-数据同步"><a href="#data-hub-数据同步" class="headerlink" title="data_hub 数据同步"></a>data_hub 数据同步</h1><pre><code>使用技术 ：active_mq,jms等 
+ps : 不对外开放，个人理解
+</code></pre><h1 id="生产者发送数据："><a href="#生产者发送数据：" class="headerlink" title="生产者发送数据："></a>生产者发送数据：</h1><ol>
+<li><p>获取需要推送的第三方应用，ref_platform_app    简述：给那个第三方应用发</p>
+</li>
+<li><p>获取平台推送到第三方应用的对象列表（获取平台要发送到第三方哪些表（ref_queue_obj,ref_platform_app,push_obj）） 简述：要发哪些表</p>
+</li>
+<li><p>获取每个表需要推送哪些字段的集合（集合包含：表名，以及每个表需要同步的字段。当然还有上面的队列名）  简述：要发的表的里面哪些字段</p>
+</li>
+<li><p>表名，队列名.+detail_obj.name,平台唯一标识，objinfo(表名，表哪些列)     简述：无</p>
+</li>
+<li><p>查询该表下的所有字段 list<obj<所有列>&gt;  –通过比对是否在需要同步的列集合里面得到—》 list<obj<所规定列>&gt;  getDatas  简述：根据表名查询所有列数据，然后再遍历列集合，筛选字段得到需要发送的最终数据   表1（字段1，字段3…..）</obj<所规定列></obj<所有列></p>
+</li>
+<li><p>注意在getData时侯，需要根据路由表来判断该数据是否同步过，同步过的数据不再参与同步，对查询得到的数据进行增删改查的分类封装，保存查询到的数据列表    简述：分类需要发送的数据，增删改，还有加密参数</p>
+</li>
+<li><p>开始发送数据  （app的 accessKey为app_secret,队列名agent,）   简述：设置发送数据的优先级以及一些加密参数</p>
+</li>
+<li><p>第六步得到的数据列表ids  更新路由表，将同步标识更新，避免 5，6步得到的数据是已经同步过的</p>
+</li>
+</ol>
+<h1 id="消费者接收数据："><a href="#消费者接收数据：" class="headerlink" title="消费者接收数据："></a>消费者接收数据：</h1><p>监听消息队列获取消息，对消息进行解密验证，获取同步的数据信息，进行入数据库等操作</p>
+<h1 id="data-hub功能解释："><a href="#data-hub功能解释：" class="headerlink" title="data_hub功能解释："></a>data_hub功能解释：</h1><ol>
+<li><p>队列名：调用active_mq接口，主要是这个推送过程中产生的一些队列信息。每个队列的生产，消费情况列表。和平台无关，来源 active——mq</p>
+</li>
+<li><p>推送对象绑定：平台发送到应用，使用的队列名，以及每个推送关系，需要推送的表数据对象</p>
+</li>
+<li>用到的表：<ol>
+<li>：ref_platform_app  (关联表 open_platfrom,open_app)   </li>
+<li>：ref_queue_obj (表功能如：云平台1到手环1作为一次推送，这次推送绑定的对象是学生表，教师表。这个绑定关系是此表)</li>
+<li>：push_obj 推送对象，即 数据中心支持发送的所有表数据。</li>
+<li>：detail_obj  关联 push_obj</li>
+<li>：detail_obj_column  每个对象对应的属性</li>
+<li>: route_*  路由表，判断数据是否同步过</li>
+</ol>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2017/04/25/data_hub/" data-title="data_hub 数据同步 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/05/03/state_design_pattern/" title="状态模式 多个if else">
+  <strong>上一篇：</strong><br/>
+  <span>
+  状态模式 多个if else</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/04/25/first/"  title="服务器上的容器部署技术-docker">
+ <strong>下一篇：</strong><br/> 
+ <span>服务器上的容器部署技术-docker
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/04/25/data_hub/" data-title="data_hub 数据同步" data-url="http://zjy.com/2017/04/25/data_hub/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub-数据同步"><span class="toc-number">1.</span> <span class="toc-text">data_hub 数据同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生产者发送数据："><span class="toc-number">2.</span> <span class="toc-text">生产者发送数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消费者接收数据："><span class="toc-number">3.</span> <span class="toc-text">消费者接收数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub功能解释："><span class="toc-number">4.</span> <span class="toc-text">data_hub功能解释：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zhangjy520" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>4</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zhangjy520" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

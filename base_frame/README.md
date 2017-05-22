@@ -1,1 +1,3 @@
-1 »ù´¡¼Ü¹¹   springmvc   mybatis  generator  maven  shiro   ehcache   spring   mysql  pagehelper
+1 åŸºç¡€æ¶æ„   springmvc   mybatis  generator  maven  shiro   ehcache   spring   mysql  pagehelper
+
+2 dwr æ¨é€demo
