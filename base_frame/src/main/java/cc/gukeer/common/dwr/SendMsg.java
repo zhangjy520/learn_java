@@ -50,4 +50,5 @@ public class SendMsg {
         initUtil.init();
     }
 
+
 }
