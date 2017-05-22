@@ -18,7 +18,7 @@
 <meta property="og:url" content="http://zjy.com/2017/04/25/data_hub/index.html">
 <meta property="og:site_name" content="zhang jian yu">
 <meta property="og:description" content="data_hub 数据同步使用技术 ：active_mq,jms等  ps : 不对外开放，个人理解 生产者发送数据： 获取需要推送的第三方应用，ref_platform_app    简述：给那个第三方应用发  获取平台推送到第三方应用的对象列表（获取平台要发送到第三方哪些表（ref_queue_obj,ref_platform_app,push_obj）） 简述：要发哪些表  获取每个表需要推">
-<meta property="og:updated_time" content="2017-05-08T08:10:51.738Z">
+<meta property="og:updated_time" content="2017-05-10T09:03:55.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="data_hub 数据同步">
 <meta name="twitter:description" content="data_hub 数据同步使用技术 ：active_mq,jms等  ps : 不对外开放，个人理解 生产者发送数据： 获取需要推送的第三方应用，ref_platform_app    简述：给那个第三方应用发  获取平台推送到第三方应用的对象列表（获取平台要发送到第三方哪些表（ref_queue_obj,ref_platform_app,push_obj）） 简述：要发哪些表  获取每个表需要推">
@@ -99,7 +99,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub-数据同步"><span class="toc-number">1.</span> <span class="toc-text">data_hub 数据同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生产者发送数据："><span class="toc-number">2.</span> <span class="toc-text">生产者发送数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消费者接收数据："><span class="toc-number">3.</span> <span class="toc-text">消费者接收数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub功能解释："><span class="toc-number">4.</span> <span class="toc-text">data_hub功能解释：</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub-数据同步"><span class="toc-number">1.</span> <span class="toc-text">data_hub 数据同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生产者发送数据："><span class="toc-number">2.</span> <span class="toc-text">生产者发送数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消费者接收数据："><span class="toc-number">3.</span> <span class="toc-text">消费者接收数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub功能解释："><span class="toc-number">4.</span> <span class="toc-text">data_hub功能解释：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于爬虫"><span class="toc-number">5.</span> <span class="toc-text">关于爬虫</span></a></li></ol>
 		
 		</div>
 		
@@ -139,7 +139,17 @@ ps : 不对外开放，个人理解
 </ol>
 </li>
 </ol>
-  
+<h1 id="关于爬虫"><a href="#关于爬虫" class="headerlink" title="关于爬虫"></a>关于爬虫</h1><pre><code>/home/data_hub/node/下文件 
+安装 nodejs，npm，forever
+
+修改app.js中   YWRtaW46YWRtaW4=, jmsAdress为爬取页面地址头部
+
+修改之后启动  ： node app.js
+
+后台启动：forever start app.js
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">	var app = express();</div><div class="line">	var request = require(&apos;request&apos;);</div><div class="line">	var parseString = require(&apos;xml2js&apos;).parseString;</div><div class="line">	var jmsAdress = &apos;http://119.23.62.150:8161/admin/xml/queues.jsp&apos;;</div><div class="line">	// var initAdress = &apos;http://114.215.29.139:10090/gkopen/rpc/init?tocken=2012335444456871128213845&amp;&amp;id=&apos;</div><div class="line"></div><div class="line">	// var options = &#123;</div><div class="line">	//     hostname:&apos;114.215.29.139&apos;,</div><div class="line">	//     port:&apos;8161&apos;,</div><div class="line">	//     path:&apos;/admin/xml/queues.sjp&apos;,</div><div class="line">	//     method:&apos;GET&apos;,</div><div class="line">	//     // headers:&#123;</div><div class="line">	//     //     &apos;Accept&apos;:&apos;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&apos;,</div><div class="line">	//     //     &apos;Accept-Encoding&apos;:&apos;gzip, deflate&apos;,</div><div class="line">	//     //     &apos;Accept-Language&apos;:&apos;zh-CN,zh;q=0.8&apos;,</div><div class="line">	//     //     &apos;Connection&apos;:&apos;keep-alive&apos;,</div><div class="line">	//     //     &apos;Authorization&apos;:&apos;Basic YWRtaW46bHh0ZXN0&apos;,</div><div class="line">	//     //     &apos;Cache-Control&apos;:&apos;max-age=0&apos;,</div><div class="line">	//     //     &apos;Upgrade-Insecure-Requests&apos;:&apos;1&apos;,</div><div class="line">	//     //     &apos;Host&apos;:&apos;114.215.29.139:8161&apos;,</div><div class="line">	//     //     &apos;User-Agent&apos;:&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36&apos;</div><div class="line">	//     // &#125;</div><div class="line">	// &#125;;</div><div class="line">	app.get(&apos;/queue/json&apos;, function(req,res)&#123;</div><div class="line">		request.get(jmsAdress,&#123;headers:&#123;&apos;Authorization&apos;:&apos;Basic YWRtaW46YWRtaW4=&apos;&#125;&#125;,function(error,response,body)&#123;</div><div class="line">		  if (error) &#123;</div><div class="line">		  return console.error(&apos;upload failed:&apos;, error);</div><div class="line">		&#125;</div><div class="line">		console.log(&apos;Upload successful!  Server responded with:&apos;, body);</div><div class="line">		parseString(body,function(error,data)&#123;</div><div class="line">		  if (!error)&#123;</div><div class="line">			var _data = JSON.stringify(data)</div><div class="line">			var __data = _data.replace(/\[/g,&apos;&apos;);</div><div class="line">			var ___data = __data.replace(/\]/g,&apos;&apos;);</div><div class="line">			var ____data = ___data.replace(&apos;&#123;&quot;queues&quot;:&#123;&quot;queue&quot;:&apos;,&apos;[&apos;);</div><div class="line">			var _____data = ____data.replace(&apos;&#125;&#125;&#125;&#125;&apos;,&apos;&#125;&#125;]&apos;);</div><div class="line">			var data = JSON.parse(_____data);</div><div class="line">		   res.jsonp(data);</div><div class="line">		 &#125;</div><div class="line">		&#125;)</div><div class="line">		&#125;)</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">	// app.get(&apos;/sync/init&apos;,function(req,res)&#123;</div><div class="line">	  // var id = req.query.id;</div><div class="line">	  // request.get(initAdress+id,function(error,response,body)&#123;</div><div class="line">		// if (error)&#123;</div><div class="line">		  // return console.error(&apos;error&apos;);</div><div class="line">		// &#125;</div><div class="line">		// console.log(&apos;adress:&apos;,initAdress+id);</div><div class="line">		  // console.log(&apos;id:&apos;,id);</div><div class="line">			// console.log(&apos;body:&apos;,body);</div><div class="line">		// res.redirect(&apos;http://127.0.0.1:11070/datahub/admin/sync&apos;);</div><div class="line">	  // &#125;)</div><div class="line">	// &#125;);</div><div class="line"></div><div class="line">	var server = app.listen(11060, function () &#123;</div><div class="line">	 console.log(&quot;启动成功 11060&quot;);</div><div class="line">	&#125;)</div></pre></td></tr></table></figure>
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -170,18 +180,18 @@ ps : 不对外开放，个人理解
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/03/state_design_pattern/" title="状态模式 多个if else">
+ <a href="/2017/04/25/first/" title="服务器上的容器部署技术-docker">
   <strong>上一篇：</strong><br/>
   <span>
-  状态模式 多个if else</span>
+  服务器上的容器部署技术-docker</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/04/25/first/"  title="服务器上的容器部署技术-docker">
+<a href="/2017/05/03/fileCount/"  title="java 文件统计功能">
  <strong>下一篇：</strong><br/> 
- <span>服务器上的容器部署技术-docker
+ <span>java 文件统计功能
 </span>
 </a>
 </div>
@@ -201,7 +211,7 @@ ps : 不对外开放，个人理解
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub-数据同步"><span class="toc-number">1.</span> <span class="toc-text">data_hub 数据同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生产者发送数据："><span class="toc-number">2.</span> <span class="toc-text">生产者发送数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消费者接收数据："><span class="toc-number">3.</span> <span class="toc-text">消费者接收数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub功能解释："><span class="toc-number">4.</span> <span class="toc-text">data_hub功能解释：</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub-数据同步"><span class="toc-number">1.</span> <span class="toc-text">data_hub 数据同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生产者发送数据："><span class="toc-number">2.</span> <span class="toc-text">生产者发送数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#消费者接收数据："><span class="toc-number">3.</span> <span class="toc-text">消费者接收数据：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#data-hub功能解释："><span class="toc-number">4.</span> <span class="toc-text">data_hub功能解释：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于爬虫"><span class="toc-number">5.</span> <span class="toc-text">关于爬虫</span></a></li></ol>
  
   </div>
 
@@ -227,7 +237,7 @@ ps : 不对外开放，个人理解
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/java/" title="java">java<sup>4</sup></a></li>
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
 			
 		
 			
