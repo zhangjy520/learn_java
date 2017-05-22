@@ -1,29 +1,31 @@
-\blog\zjy\source\_posts   ÏÂĞ´mdÎÄ¼ş
+ä¸ªäººåšå®¢æ­å»ºæœ¬åœ°æ–‡ä»¶
+
+\blog\zjy\source\_posts   ä¸‹å†™mdæ–‡ä»¶
 
 
 git bash here
 
 
-°²×° hexo
+å®‰è£… hexo
 
-hexo  g   ±àÒë
-
-
-hexo  d   ²¿Êğ£¬ÍÆËÍµ½git  520ÄÇ¸ö
+hexo  g   ç¼–è¯‘
 
 
-hexo  server   ±¾µØ4000¶Ë¿ÚÆô¶¯
+hexo  d   éƒ¨ç½²ï¼Œæ¨é€åˆ°git  520é‚£ä¸ª
 
 
-# °²×°hexo
+hexo  server   æœ¬åœ°4000ç«¯å£å¯åŠ¨
+
+
+# å®‰è£…hexo
 npm install hexo-cli g
-# ³õÊ¼»¯²©¿ÍÎÄ¼ş¼Ğ
+# åˆå§‹åŒ–åšå®¢æ–‡ä»¶å¤¹
 hexo init blog
-# ÇĞ»»µ½¸ÃÂ·¾¶
+# åˆ‡æ¢åˆ°è¯¥è·¯å¾„
 cd blog
-# °²×°hexoµÄÀ©Õ¹²å¼ş
+# å®‰è£…hexoçš„æ‰©å±•æ’ä»¶
 npm install
-# °²×°ÆäËü²å¼ş
+# å®‰è£…å…¶å®ƒæ’ä»¶
 npm install hexo-server --save
 npm install hexo-admin --save
 npm install hexo-generator-archive --save

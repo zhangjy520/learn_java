@@ -1,47 +1,49 @@
-ÏÂÔØÎÄ¼ş°ü
+çˆ¬è™«é¡µé¢
 
-/home/node_pa_chongÏÂµÄËùÓĞ
+ä¸‹è½½æ–‡ä»¶åŒ…
 
-°²×°node
+/home/node_pa_chongä¸‹çš„æ‰€æœ‰
+
+å®‰è£…node
 
 $ wget http://nodejs.org/dist/v0.8.16/node-v0.8.16.tar.gz
 $ tar zxvf node-v0.8.16.tar.gz
 $ ./configure
 $ make && make install
 
-°²×°ºÃºó£¬ÔÚ ¿ØÖÆÌ¨ÏÂÊäÈë£º
+å®‰è£…å¥½åï¼Œåœ¨ æ§åˆ¶å°ä¸‹è¾“å…¥ï¼š
 $ node -v
 v0.8.16
-Éı¼¶node
+å‡çº§node
 
-Ê×ÏÈ°²×°nÄ£¿é£º
+é¦–å…ˆå®‰è£…næ¨¡å—ï¼š
         npm install -g n
 
-    Éı¼¶node.jsµ½×îĞÂÎÈ¶¨°æ
+    å‡çº§node.jsåˆ°æœ€æ–°ç¨³å®šç‰ˆ
         n stable
-        n 0.10.26 //»òÕß¿ÉÒÔÑ¡ÔñÉı¼¶µ½Ö¸¶¨°æ±¾
+        n 0.10.26 //æˆ–è€…å¯ä»¥é€‰æ‹©å‡çº§åˆ°æŒ‡å®šç‰ˆæœ¬
 
 
-    npm -v          #ÏÔÊ¾°æ±¾£¬¼ì²énpm ÊÇ·ñÕıÈ·°²×°¡£
+    npm -v          #æ˜¾ç¤ºç‰ˆæœ¬ï¼Œæ£€æŸ¥npm æ˜¯å¦æ­£ç¡®å®‰è£…ã€‚
      
-    npm install express   #°²×°expressÄ£¿é
+    npm install express   #å®‰è£…expressæ¨¡å—
      
-    npm install -g express  #È«¾Ö°²×°expressÄ£¿é
+    npm install -g express  #å…¨å±€å®‰è£…expressæ¨¡å—
      
-    npm list         #ÁĞ³öÒÑ°²×°Ä£¿é
+    npm list         #åˆ—å‡ºå·²å®‰è£…æ¨¡å—
      
-    npm show express     #ÏÔÊ¾Ä£¿éÏêÇé
+    npm show express     #æ˜¾ç¤ºæ¨¡å—è¯¦æƒ…
      
-    npm update        #Éı¼¶µ±Ç°Ä¿Â¼ÏÂµÄÏîÄ¿µÄËùÓĞÄ£¿é
+    npm update        #å‡çº§å½“å‰ç›®å½•ä¸‹çš„é¡¹ç›®çš„æ‰€æœ‰æ¨¡å—
      
-    npm update express    #Éı¼¶µ±Ç°Ä¿Â¼ÏÂµÄÏîÄ¿µÄÖ¸¶¨Ä£¿é
+    npm update express    #å‡çº§å½“å‰ç›®å½•ä¸‹çš„é¡¹ç›®çš„æŒ‡å®šæ¨¡å—
      
-    npm update -g express  #Éı¼¶È«¾Ö°²×°µÄexpressÄ£¿é
+    npm update -g express  #å‡çº§å…¨å±€å®‰è£…çš„expressæ¨¡å—
      
-    npm uninstall express  #É¾³ıÖ¸¶¨µÄÄ£¿é
-ÔİÊ±Æô¶¯
+    npm uninstall express  #åˆ é™¤æŒ‡å®šçš„æ¨¡å—
+æš‚æ—¶å¯åŠ¨
 node app.js
 
-°²×°forever npm -g install forever
+å®‰è£…forever npm -g install forever
 
-Æô¶¯ forever start app.js
+å¯åŠ¨ forever start app.js
