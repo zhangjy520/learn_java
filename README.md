@@ -52,7 +52,7 @@ spring_boot:
 -----------------------
 
 tencentCopy:
-    tencent复制版本，docker部署模板
+    tencent复制版本，docker部署模板 nginx等
 
 ----------------------- 
 
