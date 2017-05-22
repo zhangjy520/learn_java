@@ -1,38 +1,40 @@
-<%@ include file="../common/common.jsp"%>
+<%@ include file="../common/common.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="login">
-<meta name="author" content="lexi">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="login">
+    <meta name="author" content="lexi">
 
-<!-- Bootstrap Core CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"/>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"/>
 
-<!-- jQuery -->
-<script src="${pageContext.request.contextPath}/assets/js/jquery.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+    <!-- jQuery -->
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 
-<script>
-$(function() {
-    $("#register_btn").click(function(event){
-        $.post($('form').attr('action'),{
-            account:$('#account').val(),
-            password:$('#password').val()
-        },function(retJson){
-            if (retJson.code == '0') {
-                window.location.replace("${pageContext.request.contextPath}/login");
-            } else {
-                alert(retJson.msg);
-            }
+
+    <script>
+
+        $(function () {
+            $("#register_btn").click(function (event) {
+                $.post($('form').attr('action'), {
+                    account: $('#account').val(),
+                    password: $('#password').val()
+                }, function (retJson) {
+                    if (retJson.code == '0') {
+                        window.location.replace("${pageContext.request.contextPath}/login");
+                    } else {
+                        alert(retJson.msg);
+                    }
+                });
+            });
         });
-    });
-});
-</script>
-<title>register</title>
+    </script>
+    <title>register</title>
 </head>
 <body>
 <div class="container">
@@ -46,15 +48,17 @@ $(function() {
                     <form method="post" action="${pageContext.request.contextPath}/doRegister">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="请输入帐号" id="account" name="account" type="text" autofocus>
+                                <input class="form-control" placeholder="请输入帐号" id="account" name="account" type="text"
+                                       autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="请输入密码" id="password" name="password" type="password" value="">
+                                <input class="form-control" placeholder="请输入密码" id="password" name="password"
+                                       type="password" value="">
                             </div>
                             <%--<div class="checkbox">--%>
-                                <%--<label>--%>
-                                    <%--<input name="remember" type="checkbox" value="Remember Me">Remember Me--%>
-                                <%--</label>--%>
+                            <%--<label>--%>
+                            <%--<input name="remember" type="checkbox" value="Remember Me">Remember Me--%>
+                            <%--</label>--%>
                             <%--</div>--%>
                             <!-- Change this to a button or input when using this as a form -->
                             <div id="register_btn" class="btn btn-lg btn-success btn-block">注册</div>

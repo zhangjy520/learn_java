@@ -12,6 +12,8 @@
 <script src="${ctxStatic}/tj/js/jquery-1.7.2.js"></script>
 
 <script>
+
+
     $(function() {
         $("#submit-btn").click(function(event){
             $.post($('form').attr('action'),{

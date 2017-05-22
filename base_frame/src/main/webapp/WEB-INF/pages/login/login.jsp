@@ -1,65 +1,67 @@
-<%@ include file="../common/common.jsp"%>
+<%@ include file="../common/common.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="login">
-<meta name="author" content="lexi">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="login">
+    <meta name="author" content="lexi">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css"/>
 
-<script src="${pageContext.request.contextPath}/assets/js/jquery.js"></script>
+    <script src="${ctx}/assets/js/jquery.js"></script>
 
-<script>
-	$(function() {
-		$("#login_btn").click(function(event){
-			$.post($('form').attr('action'),{
-				username:$('#username').val(),
-				password:$('#password').val()
-			},function(retJson){
-				if (retJson.code == '0') {
-					window.location.replace("${pageContext.request.contextPath}/"+retJson.data);
-				} else {
-					alert(retJson.msg);
-				}
-			});
-		});
+    <script>
 
-	});
-</script>
-<title>login</title>
+        $(function () {
+            $("#login_btn").click(function (event) {
+                $.post($('form').attr('action'), {
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                }, function (retJson) {
+                    if (retJson.code == '0') {
+                        window.location.replace("${pageContext.request.contextPath}/" + retJson.data);
+                    } else {
+                        alert(retJson.msg);
+                    }
+                });
+            });
+
+        });
+    </script>
+    <title>login</title>
 </head>
 <body>
-	<div class="headInfo">
-			<!-- <img align="absmiddle" src="image/yangguangFb.png"/>阳光分班
-			<div class="devideLine">
-				 均衡搭配 智能分班
-			</div> -->
-		</div>
-		<div class="loginForm">
-			<form method="post"  action="${pageContext.request.contextPath}/doLogin" autocomplete="off" >
-				<div style="height: 20%;text-align: center;font-size: 20px;color: #1AB394;line-height: 66px;">
-					用户登录					
-				</div>
-				<div class="" style="height: 80%;">
-					 <input class="form-control noAuto" placeholder="请输入帐号" id="username" name="username" type="text" >
-					 <input class="form-control noAuto" placeholder="请输入密码" id="password" name="password" type="password" value="">
-					
-					<div class="checks">
-						<input class="rsCheck" style="float:left;" type="checkbox" name="remember"  id="" value="Remember Me" />
-						<label>&nbsp;记住我</label>
-						<label style="float: right;">忘记密码?</label>
-					</div>
-					
-					<div id="login_btn" class="btn btn-lg btn-success btn-block">登录</div>
-					<!-- <input type="submit" id="loginButton" value="登录"/> -->
-				</div>
-				
-			</form>
-			
-		</div>
+<div class="headInfo">
+    <!-- <img align="absmiddle" src="image/yangguangFb.png"/>阳光分班
+    <div class="devideLine">
+         均衡搭配 智能分班
+    </div> -->
+</div>
+<div class="loginForm">
+    <form method="post" action="${pageContext.request.contextPath}/doLogin" autocomplete="off">
+        <div style="height: 20%;text-align: center;font-size: 20px;color: #1AB394;line-height: 66px;">
+            用户登录
+        </div>
+        <div class="" style="height: 80%;">
+            <input class="form-control noAuto" placeholder="请输入帐号" id="username" name="username" type="text">
+            <input class="form-control noAuto" placeholder="请输入密码" id="password" name="password" type="password"
+                   value="">
+
+            <div class="checks">
+                <input class="rsCheck" style="float:left;" type="checkbox" name="remember" id="" value="Remember Me"/>
+                <label>&nbsp;记住我</label>
+                <label style="float: right;">忘记密码?</label>
+            </div>
+
+            <div id="login_btn" class="btn btn-lg btn-success btn-block">登录</div>
+            <!-- <input type="submit" id="loginButton" value="登录"/> -->
+        </div>
+
+    </form>
+
+</div>
 <%-- 
 <div class="container">
     <div class="row">

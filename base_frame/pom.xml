@@ -276,6 +276,14 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.directwebremoting/dwr -->
+        <dependency>
+            <groupId>org.directwebremoting</groupId>
+            <artifactId>dwr</artifactId>
+            <version>3.0.0-RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>

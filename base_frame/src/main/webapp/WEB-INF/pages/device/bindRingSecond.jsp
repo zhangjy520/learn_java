@@ -12,8 +12,20 @@
 <link rel="stylesheet" href="${ctxStatic}/tj/css/pagination.css"/>
 <script src="${ctxStatic}/tj/js/jquery-1.7.2.js"></script>
 <script src="${ctxStatic}/tj/js/pagination.js"></script>
+    <script type="text/javascript" src="${ctx}/dwr/engine.js"></script>
+    <script type="text/javascript" src="${ctx}/dwr/util.js"></script>
+    <script type="text/javascript" src="${ctx}/dwr/interface/SendMsg.js"></script>
 <script>
+    dwr.engine.setActiveReverseAjax(true);
+
+    dwr.engine.setNotifyServerOnPageUnload(true);
+
+    function show(msg) {
+        alert(msg);
+    }
     $(function() {
+
+        SendMsg.init();//将当前的uid存到scriptSession中
         $("#submit-btn").click(function(event){
             $.post($('form').attr('action'),{
                 id:$("input[name='id']").val(),

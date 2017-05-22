@@ -1,6 +1,7 @@
 package cc.gukeer.smartBoard.controller;
 
 import cc.gukeer.common.controller.BasicController;
+import cc.gukeer.common.dwr.SendMsg;
 import cc.gukeer.common.entity.ResultEntity;
 import cc.gukeer.common.exception.ErrcodeException;
 import cc.gukeer.common.security.AESencryptor;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -76,6 +79,12 @@ public class LoginController extends BasicController {
     @ResponseBody
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public ResultEntity login(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        List<String> users = new ArrayList<String>();
+        users.add("6");
+        users.add("7");
+
+        new SendMsg().send("测试成功",users);
 
         String username = getParamVal(request, "username");
         String password = getParamVal(request, "password");
