@@ -9,9 +9,6 @@ import javax.servlet.ServletException;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/5/22.
- */
 public class SendMsg {
     public void send(final String msg,final List<String> uid) {
 
