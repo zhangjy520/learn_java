@@ -1952,11 +1952,11 @@ footer {
   transition: transform 2s ease-out;
 }
 .author:hover {
-  -webkit-transform: rotateZ(360deg);
-  -moz-transform: rotateZ(360deg);
-  -o-transform: rotateZ(360deg);
-  -ms-transform: rotateZ(360deg);
-  transform: rotateZ(360deg);
+  -webkit-transform: rotateZ(100deg);
+  -moz-transform: rotateZ(100deg);
+  -o-transform: rotateZ(100deg);
+  -ms-transform: rotateZ(100deg);
+  transform: rotateZ(100deg);
 }
 @media only screen and (min-width: 768px) {
   .author {

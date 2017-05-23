@@ -67,10 +67,9 @@
 					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:zjy.com">
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -148,18 +147,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/09/03/dwr/" title="基于dwr的消息推送java web">
+ <a href="/2017/04/25/data_hub/" title="data_hub 数据同步">
   <strong>上一篇：</strong><br/>
   <span>
-  基于dwr的消息推送java web</span>
+  data_hub 数据同步</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/04/25/data_hub/"  title="data_hub 数据同步">
+<a href="/2017/05/03/fileCount/"  title="java 文件统计功能">
  <strong>下一篇：</strong><br/> 
- <span>data_hub 数据同步
+ <span>java 文件统计功能
 </span>
 </a>
 </div>
@@ -172,6 +171,13 @@
 	<div id="uyan_frame"></div> 
 </section>
 
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
@@ -432,7 +438,7 @@ $(document).ready(function(){
 
 
 <script type="text/javascript">
-  var duoshuoQuery = {short_name:"ss"};
+  var duoshuoQuery = {short_name:"skyao"};
   (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
@@ -443,6 +449,26 @@ $(document).ready(function(){
   })();
 </script> 
 
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
 
 
 

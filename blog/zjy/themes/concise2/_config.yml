@@ -87,8 +87,8 @@ links:
 
 
 #### 评论
-duoshuo_shortname: ss    ## e.g. wuchong   your duoshuo short name.
-disqus_shortname:     ## e.g. wuchong   your disqus short name.
+duoshuo_shortname: skyao    ## e.g. wuchong   your duoshuo short name.
+disqus_shortname: skyao    ## e.g. wuchong   your disqus short name.
 
 #### 分享按钮
 jiathis:
@@ -118,8 +118,8 @@ totop: true           ## if you want to scroll to top in every post set the valu
 
 #### 自定义搜索
 google_cse: 
-  enable: false
-  cx:   ## e.g. 018294693190868310296:abnhpuysycw your Custom Search ID.
+  enable: true
+  cx: 006159296644385335077:t9lthmu37y8  ## e.g. 018294693190868310296:abnhpuysycw your Custom Search ID.
 ## https://www.google.com/cse/ 
 ## To enable the custom search You must create a "search" folder in '/source' and a "index.md" file
 ## set the 'front-matter' as
