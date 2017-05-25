@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gukeer.divideStudent.zsfb.persistence.dao.ZsStudentDao">
+
+    <sql id="zsStudentColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		trim(a.xsxm) AS "xsxm",
+		trim(a.xmpy) AS "xmpy",
+		trim(a.ywm) AS "ywm",
+		trim(a.jzxm) AS "jzxm",
+		trim(a.bj) AS "bj",
+		trim(a.jtdz) AS "jtdz",
+		trim(a.xq) AS "xq",
+		trim(a.yxx) AS "yxx",
+		trim(a.sfdkxx) AS "sfdkxx",
+		trim(a.xsxb) AS "xsxb",
+		trim(a.xssg) AS "xssg",
+		trim(a.xstz) AS "xstz",
+		trim(a.xjh) AS "xjh",
+		trim(a.jyid) AS "jyid",
+		trim(a.csrq) AS "csrq",
+		trim(a.syd) AS "syd",
+		trim(a.yxzjlx) AS "yxzjlx",
+		trim(a.yxzjh) AS "yxzjh",
+		trim(a.sfjs) AS "sfjs",
+		trim(a.sfjszn) AS "sfjszn",
+		trim(a.sfsqzn) AS "sfsqzn",
+		trim(a.sfsbjd) AS "sfsbjd",
+		trim(a.sfwjzn) AS "sfwjzn",
+		trim(a.sfsbt) AS "sfsbt",
+		trim(a.sbtxh) AS "sbtxh",
+		trim(a.xslb) AS "xslb",
+		trim(a.gb) AS "gb",
+		trim(a.mz) AS "mz",
+		trim(a.jg) AS "jg",
+		trim(a.zzmm) AS "zzmm",
+		trim(a.jdfs) AS "jdfs",
+		trim(a.xzz) AS "xzz",
+		trim(a.txdz) AS "txdz",
+		trim(a.hkxz) AS "hkxz",
+		trim(a.hkszd) AS "hkszd",
+		trim(a.hkszdxxdz) AS "hkszdxxdz",
+		trim(a.sfabshkxsdd) AS "sfabshkxsdd",
+		trim(a.zslb) AS "zslb",
+		trim(a.taskId) AS "taskId",
+		trim(a.zf) AS "zf",
+		trim(a.sfcm) AS "sfcm"
+	</sql>
+
+    <sql id="zsStudentJoins">
+    </sql>
+    <sql id="zsAnalysisColumn">
+		SUM(trim(a.xsxb) = '1') AS male,
+		SUM(trim(a.xsxb) = '2') AS female,
+		COUNT(a.id) AS sumPeople,
+		SUM(trim(a.sfsqzn) = '1') AS sqzn,
+		SUM(trim(a.sfsbjd) = '1') AS sbjd,
+		COUNT(DISTINCT trim(a.sbtxh)) AS sbt,
+		SUM(trim(a.sfsbt) = '1') AS sbtCount,
+		SUM(trim(a.sfjszn) = '1') AS jszn,
+		SUM(trim(a.sfwjzn) = '1') AS wjzn,
+		SUM(trim(a.sfjs) = '1') AS js,
+		SUM(trim(a.zf) = 'A') AS a,
+		SUM(trim(a.zf) = 'B') AS b,
+		SUM(trim(a.zf) = 'C') AS c,
+		SUM(trim(a.sfdkxx) = '0') AS fdkxx,
+		a.bj AS bj
+	</sql>
+    <select id="get" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <include refid="zsStudentJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <include refid="zsStudentJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="bj!=null and bj!=''">
+            AND a.bj = #{bj}
+        </if>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="xsxb != null and xsxb != ''">
+            AND a.xsxb = #{xsxb}
+        </if>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <include refid="zsStudentJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="xsxb != null and xsxb != ''">
+            AND a.xsxb = #{xsxb}
+        </if>
+        <if test="bj != null and bj != ''">
+            AND a.bj = #{bj}
+        </if>
+        <if test="sfjs != null and sfjs != ''">
+            AND a.sfjs = #{sfjs}
+        </if>
+        <if test="sfjszn!= null and sfjszn != ''">
+            AND a.sfjszn = #{sfjszn}
+        </if>
+        <if test="sfsbjd != null and sfsbjd != ''">
+            AND a.sfsbjd = #{sfsbjd}
+        </if>
+        <if test="sfsqzn != null and sfsqzn != ''">
+            AND a.sfsqzn = #{sfsqzn}
+        </if>
+        <if test="sfwjzn != null and sfwjzn != ''">
+            AND a.sfwjzn = #{sfwjzn}
+        </if>
+        <if test="sbtxh != null and sbtxh != ''">
+            AND a.sbtxh = #{sbtxh}
+        </if>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findNormalStudent" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="xsxb != null and xsxb != ''">
+            AND a.xsxb = #{xsxb}
+        </if>
+        <if test="bj != null and bj != ''">
+            AND a.bj = #{bj}
+        </if>
+        <if test="zf != null and zf != ''">
+            AND a.zf = #{zf}
+        </if>
+        AND (a.sfjs = '' OR a.sfjs IS NULL)
+        AND (a.sfjszn = '' OR a.sfjszn IS NULL)
+        AND (a.sfsbjd = '' OR a.sfsbjd IS NULL)
+        AND (a.sfsqzn = '' OR a.sfsqzn IS NULL)
+        AND (a.sfwjzn = '' OR a.sfwjzn IS NULL)
+        AND (a.sbtxh = '' OR a.sbtxh IS NULL)
+        AND (a.sfcm = '' OR a.sfcm IS NULL)
+        AND (a.sfdkxx = '1' OR a.sfdkxx IS NULL);
+    </select>
+
+    <insert id="insert">
+		INSERT INTO zs_student(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			xsxm,
+			xmpy,
+			ywm,
+			jzxm,
+			jtdz,
+			xq,
+			yxx,
+			sfdkxx,
+			xsxb,
+			xssg,
+			xstz,
+			xjh,
+			jyid,
+			csrq,
+			syd,
+			yxzjlx,
+			yxzjh,
+			sfjs,
+			sfjszn,
+			sfsbjd,
+			sfsqzn,
+			sfwjzn,
+			sfsbt,
+			sbtxh,
+			xslb,
+			gb,
+			mz,
+			jg,
+			zzmm,
+			jdfs,
+			xzz,
+			txdz,
+			hkxz,
+			hkszd,
+			hkszdxxdz,
+			sfabshkxsdd,
+			zslb,
+			bj,
+			taskId,
+			zf,
+			sfcm
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{xsxm},
+			#{xmpy},
+			#{ywm},
+			#{jzxm},
+			#{jtdz},
+			#{xq},
+			#{yxx},
+			#{sfdkxx},
+			#{xsxb},
+			#{xssg},
+			#{xstz},
+			#{xjh},
+			#{jyid},
+			#{csrq},
+			#{syd},
+			#{yxzjlx},
+			#{yxzjh},
+			#{sfjs},
+			#{sfjszn},
+			#{sfsbjd},
+			#{sfsqzn},
+			#{sfwjzn},
+			#{sfsbt},
+			#{sbtxh},
+			#{xslb},
+			#{gb},
+			#{mz},
+			#{jg},
+			#{zzmm},
+			#{jdfs},
+			#{xzz},
+			#{txdz},
+			#{hkxz},
+			#{hkszd},
+			#{hkszdxxdz},
+			#{sfabshkxsdd},
+			#{zslb},
+			#{bj},
+			#{taskId},
+			#{zf},
+			#{sfcm}
+		)
+	</insert>
+
+    <update id="update">
+		UPDATE zs_student SET 	
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			xsxm = #{xsxm},
+			xmpy = #{xmpy},
+			ywm = #{ywm},
+			jzxm = #{jzxm},
+			jtdz = #{jtdz},
+			xq = #{xq},
+			yxx = #{yxx},
+			sfdkxx = #{sfdkxx},
+			xsxb = #{xsxb},
+			xssg = #{xssg},
+			xstz = #{xstz},
+			xjh = #{xjh},
+			jyid = #{jyid},
+			csrq = #{csrq},
+			syd = #{syd},
+			yxzjlx = #{yxzjlx},
+			yxzjh = #{yxzjh},
+			sfjs = #{sfjs},
+			sfjszn = #{sfjszn},
+			sfsbjd = #{sfsbjd},
+			sfsqzn = #{sfsqzn},
+			sfwjzn = #{sfwjzn},
+			sfsbt = #{sfsbt},
+			sbtxh = #{sbtxh},
+			xslb = #{xslb},
+			gb = #{gb},
+			mz = #{mz},
+			jg = #{jg},
+			zzmm = #{zzmm},
+			jdfs = #{jdfs},
+			xzz = #{xzz},
+			txdz = #{txdz},
+			hkxz = #{hkxz},
+			hkszd = #{hkszd},
+			hkszdxxdz = #{hkszdxxdz},
+			sfabshkxsdd = #{sfabshkxsdd},
+			zslb = #{zslb},
+			bj = #{bj},
+			taskId = #{taskId},
+			zf = #{zf},
+			sfcm = #{sfcm}
+			WHERE id = #{id}
+	</update>
+
+    <!--物理删除-->
+    <update id="delete">
+		DELETE FROM zs_student
+		WHERE id = #{id}
+	</update>
+
+    <!--逻辑删除-->
+    <update id="deleteByLogic">
+		UPDATE zs_student SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+    <update id="deleteInfoByTask">
+		DELETE FROM zs_student
+		WHERE taskId = #{taskId}
+	</update>
+    <!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+    <select id="findUniqueByProperty" resultType="ZsStudent" statementType="STATEMENT">
+		select * FROM zs_student  where ${propertyName} = '${value}'
+	</select>
+    <!--排序（order by a.bj+0是为了评估结果查询出来按照班级升序排序） -->
+    <select id="AnalysisResult" resultType="cn.gukeer.divideStudent.zsfb.persistence.entity.ZsAnalysis">
+        select
+        <include refid="zsAnalysisColumn"/>
+        FROM
+        zs_student a
+        WHERE
+        a.taskId = #{taskId}
+        GROUP BY
+        a.bj
+        HAVING
+        a.bj > 0
+        ORDER BY
+        a.bj + 0
+    </select>
+
+    <!--查询任务对应的分班个数-->
+    <select id="queryClassCount" parameterType="java.lang.String" resultType="int">
+		select
+			COUNT(DISTINCT a.bj)
+		FROM zs_student a
+		WHERE a.taskId = #{taskId}
+	</select>
+
+    <!-- 根据双胞胎序号分组查询 -->
+    <select id="findSameSbtxh" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.sfsbt = '1'
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        ORDER BY a.sbtxh
+    </select>
+    <!-- 查询班级双胞胎对数 -->
+    <select id="findSbtByBj" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        from zs_student a
+        WHERE a.sfsbt='1'
+        <if test="bj != null and bj != ''">
+            AND a.bj = #{bj}
+        </if>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        GROUP BY a.sbtxh
+        ORDER BY a.sbtxh
+    </select>
+    <!-- 查询班级双胞胎对数少于平均数的班级 -->
+    <select id="findCurrentBj" resultType="java.lang.Integer">
+		SELECT
+			a.bj
+		FROM
+			zs_student a
+		WHERE a.sbtxh > 0
+		AND a.taskId = #{1}
+		GROUP BY a.bj
+		HAVING COUNT(DISTINCT a.sbtxh) > #{0}
+	</select>
+    <!--查找每个班级重名的人-->
+    <select id="findSameName" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM
+        zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="bj != null and bj != ''">
+            AND a.bj = #{bj}
+        </if>
+        GROUP BY
+        a.xmpy
+        HAVING COUNT(a.xmpy) > 1
+    </select>
+
+    <!--查找和同名学生同属性的人-->
+    <select id="findNoneName" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="xsxb != null and xsxb != ''">
+            AND a.xsxb = #{xsxb}
+        </if>
+        <if test="bj != null and bj != ''">
+            AND a.bj != #{bj}
+        </if>
+        <if test="sfjs != null and sfjs != ''">
+            AND a.sfjs = #{sfjs}
+        </if>
+        <if test="xmpy != null and xmpy != ''">
+            AND a.xmpy != #{xmpy}
+        </if>
+        <if test="sfjszn!= null and sfjszn != ''">
+            AND a.sfjszn = #{sfjszn}
+        </if>
+        <if test="sfsbjd != null and sfsbjd != ''">
+            AND a.sfsbjd = #{sfsbjd}
+        </if>
+        <if test="sfsqzn != null and sfsqzn != ''">
+            AND a.sfsqzn = #{sfsqzn}
+        </if>
+        <if test="sfwjzn != null and sfwjzn != ''">
+            AND a.sfwjzn = #{sfwjzn}
+        </if>
+        <if test="sbtxh != null and sbtxh != ''">
+            AND a.sbtxh = #{sbtxh}
+        </if>
+        ORDER BY a.update_date DESC
+    </select>
+
+    <!--查找学校List-->
+    <select id="findSchoolList" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="sfdkxx != null and sfdkxx != ''">
+            AND a.sfdkxx = #{sfdkxx}
+        </if>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        GROUP BY a.yxx
+        HAVING a.yxx!=''
+        ORDER BY a.update_date DESC
+    </select>
+
+    <!--查找家庭地址List-->
+    <select id="findAddressList" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        GROUP BY a.jtdz,a.xq
+        HAVING a.jtdz!='' OR a.xq !=''
+        ORDER BY a.update_date DESC
+    </select>
+
+    <!--查找对口学校数量-->
+    <select id="findSchoolCount" resultType="cn.gukeer.divideStudent.zsfb.persistence.entity.ZsAnalysis">
+        SELECT
+        a.yxx AS yxx,
+        count(a.yxx) AS yxxCount
+        FROM
+        zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="bj != null and bj != ''">
+            AND a.bj = #{bj}
+        </if>
+        <if test="yxx != null and yxx != ''">
+            AND a.yxx = #{yxx}
+        </if>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        GROUP BY
+        a.yxx
+        HAVING
+        a.yxx != ''
+    </select>
+
+    <!--查询每个学校对应的学生-->
+    <select id="findStudentBySchool" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="yxx != null and yxx != ''">
+            AND a.yxx = #{yxx}
+        </if>
+        <if test="sfdkxx != null and sfdkxx != ''">
+            AND a.sfdkxx = #{sfdkxx}
+        </if>
+        ORDER BY a.update_date DESC
+    </select>
+
+    <!--查询每个地址对应的学生-->
+    <select id="findStudentByAddress" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="jtdz != null and jtdz != ''">
+            AND a.jtdz = #{jtdz}
+        </if>
+        <if test="xq != null and xq != ''">
+            AND a.xq = #{xq}
+        </if>
+        ORDER BY a.update_date DESC
+    </select>
+
+    <select id="findSpacialStudent" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        <if test="xsxb != null and xsxb != ''">
+            AND a.xsxb = #{xsxb}
+        </if>
+        <if test="bj != null and bj != ''">
+            AND a.bj = #{bj}
+        </if>
+        <if test="zf != null and zf != ''">
+            AND a.zf = #{zf}
+        </if>
+        <if test="sfjs != null and sfjs != ''">
+            AND a.sfjs = #{sfjs}
+        </if>
+        <if test="sfjszn != null and sfjszn != ''">
+            AND a.sfjszn = #{sfjszn}
+        </if>
+        <if test="sfsbjd != null and sfsbjd != ''">
+            AND a.sfsbjd = #{sfsbjd}
+        </if>
+        <if test="sfsqzn != null and sfsqzn != ''">
+            AND a.sfsqzn = #{sfsqzn}
+        </if>
+        <if test="sfwjzn != null and sfwjzn != ''">
+            AND a.sfwjzn = #{sfwjzn}
+        </if>
+        <if test="sfcm != null and sfcm != ''">
+            AND a.sfcm = #{sfcm}
+        </if>
+        <if test="sbtxh != null and sbtxh != ''">
+            AND a.sbtxh = #{sbtxh}
+        </if>
+        <if test="sfdkxx != null and sfdkxx != ''">
+            AND a.sfdkxx = #{sfdkxx}
+        </if>
+
+    </select>
+    <select id="findAlreadyDivideClass" resultType="ZsStudent">
+        SELECT
+        <include refid="zsStudentColumns"/>
+        FROM zs_student a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <if test="taskId != null and taskId != ''">
+            AND a.taskId = #{taskId}
+        </if>
+        AND (a.bj != '' OR a.bj IS NOT NULL)
+    </select>
+
+</mapper>

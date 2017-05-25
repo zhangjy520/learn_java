@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gukeer.divideStudent.school.persistence.dao.SchoolDao">
+    
+	<sql id="schoolColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.xxmc AS "xxmc",
+		a.xxxd AS "xxxd",
+		a.xxlx AS "xxlx",
+		a.ssdq AS "ssdq",
+		a.yydz AS "yydz",
+		a.dlhz AS "dlhz",
+		a.yxhz AS "yxhz",
+		a.sync AS "sync",
+		a.sylx AS "sylx",
+		a.ktqssj AS "ktqssj",
+		a.ktzzsj AS "ktzzsj",
+		a.xxym AS "xxym",
+		a.logo AS "logo",
+		a.xxbs AS "xxbs",
+		a.xxpt AS "xxpt",
+		a.xxwz AS "xxwz",
+		a.xxdz AS "xxdz"
+	</sql>
+	
+	<sql id="schoolJoins">
+	</sql>
+
+	<select id="get" resultType="School" >
+		SELECT 
+			<include refid="schoolColumns"/>
+		FROM xj_school a
+		<include refid="schoolJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="School" >
+		SELECT 
+			<include refid="schoolColumns"/>
+		FROM xj_school a
+		<include refid="schoolJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<if test="xxmc != null and xxmc != ''">
+			AND xxmc LIKE 
+				<if test="dbName == 'oracle'">'%'||#{xxmc}||'%'</if>
+				<if test="dbName == 'mysql'">CONCAT('%', #{xxmc}, '%')</if>
+		</if>		
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="School" >
+		SELECT 
+			<include refid="schoolColumns"/>
+		FROM xj_school a
+		<include refid="schoolJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xj_school(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			xxmc,
+			xxxd,
+			xxlx,
+			ssdq,
+			yydz,
+			dlhz,
+			yxhz,
+			sync,
+			sylx,
+			ktqssj,
+			ktzzsj,
+			xxym,
+			logo,
+			xxbs,
+			xxpt,
+			xxwz,
+			xxdz
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{xxmc},
+			#{xxxd},
+			#{xxlx},
+			#{ssdq},
+			#{yydz},
+			#{dlhz},
+			#{yxhz},
+			#{sync},
+			#{sylx},
+			#{ktqssj},
+			#{ktzzsj},
+			#{xxym},
+			#{logo},
+			#{xxbs},
+			#{xxpt},
+			#{xxwz},
+			#{xxdz}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xj_school SET
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			xxmc = #{xxmc},
+			xxxd = #{xxxd},
+			xxlx = #{xxlx},
+			ssdq = #{ssdq},
+			yydz = #{yydz},
+			dlhz = #{dlhz},
+			yxhz = #{yxhz},
+			sync = #{sync},
+			sylx = #{sylx},
+			ktqssj = #{ktqssj},
+			ktzzsj = #{ktzzsj},
+			xxym = #{xxym},
+			logo = #{logo},
+			xxbs = #{xxbs},
+			xxpt = #{xxpt},
+			xxwz = #{xxwz},
+			xxdz = #{xxdz}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xj_school
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xj_school SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="School" statementType="STATEMENT">
+		select * FROM xj_school  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

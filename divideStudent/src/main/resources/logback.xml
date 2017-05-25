@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+	<property name="LOG_HOME" value="c:/logback_logs" />
+
+	<!-- conf console out -->
+	<appender name ="console_out" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<!-- 过滤掉非INFO级别 -->
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<!-- 01:conf infoAppender out -->
+	<appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<file>${LOG_HOME}/info.log</file>
+		<!-- 设置滚动策略 -->
+		<rollingPoliy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--设置日志命名模式-->
+			<fileNamePattern>infoFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--最多保留30天log-->
+			<maxHistory>30</maxHistory>
+		</rollingPoliy>
+		<!-- 超过50MB时，触发滚动策略 -->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d [%p] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 02:conf debugAppender out -->
+	<appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/debug.log</file>
+		<!-- 设置滚动策略 -->
+		<rollingPoliy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--设置日志命名模式-->
+			<fileNamePattern>debugFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--最多保留30天log-->
+			<maxHistory>30</maxHistory>
+		</rollingPoliy>
+		<!-- 超过50MB时，触发滚动策略 -->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d [%p] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 03:conf errorAppender out -->
+	<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/error.log</file>
+		<!-- 设置滚动策略 -->
+		<rollingPoliy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--设置日志命名模式-->
+			<fileNamePattern>errorFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--最多保留30天log-->
+			<maxHistory>30</maxHistory>
+		</rollingPoliy>
+		<!-- 超过50MB时，触发滚动策略 -->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d [%p] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="ALL">
+		<appender-ref ref="infoAppender"/>
+		<appender-ref ref="debugAppender"/>
+		<appender-ref ref="errorAppender"/>
+		<appender-ref ref="console_out"/>
+	</root>
+</configuration>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gukeer.divideStudent.zsfb.persistence.dao.ZsTaskDao">
+    
+	<sql id="zsTaskColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.scsjqr AS "scsjqr",
+		a.fbcg AS "fbcg",
+		a.rxnf AS "rxnf",
+		a.rwmc AS "rwmc"
+	</sql>
+	
+	<sql id="zsTaskJoins">
+	</sql>
+	
+    
+	<select id="get" resultType="ZsTask" >
+		SELECT 
+			<include refid="zsTaskColumns"/>
+		FROM zs_task a
+		<include refid="zsTaskJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ZsTask" >
+		SELECT 
+			<include refid="zsTaskColumns"/>
+		FROM zs_task a
+		<include refid="zsTaskJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<if test="createBy != null and createBy.id != null and createBy.id != ''">
+			AND a.create_by = #{createBy.id}
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ZsTask" >
+		SELECT 
+			<include refid="zsTaskColumns"/>
+		FROM zs_task a
+		<include refid="zsTaskJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<if test="createBy != null and createBy.id != null and createBy.id != ''">
+			AND a.create_by = #{create_by}
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO zs_task(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			scsjqr,
+			fbcg,
+			rxnf,
+			rwmc
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{scsjqr},
+			#{fbcg},
+			#{rxnf},
+			#{rwmc}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE zs_task SET 	
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			scsjqr = #{scsjqr},
+			fbcg = #{fbcg},
+			rxnf = #{rxnf},
+			rwmc = #{rwmc}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM zs_task
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE zs_task SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="ZsTask" statementType="STATEMENT">
+		select * FROM zs_task  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>
