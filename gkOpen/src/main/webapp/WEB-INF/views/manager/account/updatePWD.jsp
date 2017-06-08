@@ -37,15 +37,15 @@
     <div id="document-content">
         <%@ include file="../../common/manager/left_menu.jsp"%>
         <section class="col-xs-9 validform">
-            <h1>密码修改 <span>字母、数字或英文符号，最短6位，区分大小写</span></h1>
+            <h1>密码修改 <span>6-16位字符</span></h1>
             <div>
                 <span style="font-size: 14px;color: #525252;" value="${passWord}">当前密码:</span>
-                <input type="password" datatype="*6-20" errormsg='请输入字母、数字或英文符号，最短6位' id="currentPassword"/>
+                <input type="password" datatype="*6-16" errormsg='请输入当前密码' id="currentPassword"/>
             </div>
             <p class="validTip" style="left:173px;top:140px;"></p>
             <div>
                 <span style="font-size: 14px;color: #525252;">新密码:</span>
-                <input type="password" datatype="*6-20" errormsg='请输入字母、数字或英文符号，最短6位' id="newPassword" name="newPassword"  />
+                <input type="password" datatype="*6-16" errormsg='请输6-16位字符' id="newPassword" name="newPassword"  />
             </div>
             <p class="validTip" style="left:173px;top:207px;"></p>
             <div>
@@ -70,7 +70,7 @@
                         if (data.code == 0) {
                             window.location.href=postPath + "/"+data.data;
                         }else {
-//                            alert();
+//                          alert();
                             webToast(data.msg, "top", 2300);
                         }
                     });
@@ -79,7 +79,7 @@
                 //表单验证
                 $('.validform').Validform({
                     tiptype:2,
-//                    datatyp:{"zh6-20":/^[\u4E00-\u9FA5\uf900-\ufa2d]{6,20}$/}
+//                  datatyp:{"zh6-20":/^[\-\u9FA5\uf900-\ufa2d]{6,20}$/}
                 });
             </script>
         </section>

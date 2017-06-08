@@ -1,9 +1,11 @@
 package cc.gukeer.common.utils;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.util.List;
+import java.util.Properties;
 
 public class FileUtils {
 
@@ -44,5 +46,17 @@ public class FileUtils {
 		}
 		File file = new File(filePath);
 		return file.exists();
+	}
+
+	public static Properties getProperties(String path){
+		Properties p = new Properties();
+		InputStream inStream = null;
+		try {
+			inStream = new ClassPathResource(path).getInputStream();
+			p.load(inStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return p;
 	}
 }

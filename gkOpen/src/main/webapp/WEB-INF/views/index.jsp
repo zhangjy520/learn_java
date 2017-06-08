@@ -27,9 +27,15 @@
 </head>
 <body>
 
-<style>ul {
-    margin: 0;
-}</style>
+<style>
+    ul {
+        margin: 0 !important;
+    }
+    .web_toast{
+        display: block !important;
+        top: 130px !important;
+    }
+</style>
 <div style="width:100%;">
     <section>
         <div class="bs-content" <%--style="height:685px;"--%>>
@@ -110,7 +116,7 @@
 <script>
     var exception = "${exception}";
     if (exception.length>0){
-        alert("登录超时，请重新登录");
+        webToast(data.msg, "top", 3000);
     }
 
 

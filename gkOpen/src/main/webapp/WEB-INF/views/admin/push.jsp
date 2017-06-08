@@ -53,7 +53,7 @@
                     <c:if test="${appBaseInfoView.category == 1}">
                         <td>互动空间</td>
                     </c:if>
-                    <!--<td>正在使用</td>-->
+                            <!--<td>正在使用</td>-->
                     <c:if test="${appBaseInfoView.userType == 1}">
                         <td>${appBaseInfoView.cCompany}</td>
                         <td>${appBaseInfoView.cManage}</td>
@@ -65,7 +65,7 @@
                         <td>${appBaseInfoView.pPhone}</td>
                     </c:if>
                     <td>
-                        <span class="singlePush  c3" value="${appBaseInfoView.id}" id="singlePush">推送平台信息</span>
+                        <span class="singlePush  c3" value="${appBaseInfoView.id}" id="singlePush">管理</span>
                     </td>
                 </tr>
             </c:forEach>

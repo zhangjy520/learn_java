@@ -26,4 +26,5 @@ public interface PushPlatformService {
 
     List<Platform> findPlatformBydelflag();
 
+    List<RefPlatformApp> findRefPlatformAppByAppId(String appId);
 }

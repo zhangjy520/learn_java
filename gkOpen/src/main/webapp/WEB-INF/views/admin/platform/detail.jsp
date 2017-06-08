@@ -39,7 +39,10 @@
         top: 2px;
         margin-right: 5px;
     }
-
+    .document-grade-2 li:first-child a{
+        color: #54AB37 !important;
+        padding-left: 5px !important;
+    }
     .col-xs-9 > h1 > label {
         font-size: 14px;
         color: #333;
@@ -96,6 +99,10 @@
                     <li style="width: 520px;">
                         <span style="margin-top:9px;" >唯一标识:</span>
                         <span id="identitySpan" style="line-height: 36px;vertical-align: middle;width: auto;padding-left: 5px;">${platform.identity}</span>
+                    </li>
+                    <li style="width: 520px;">
+                        <span style="margin-top:9px;" >传输密钥:</span>
+                        <span style="line-height: 36px;vertical-align: middle;width: auto;padding-left: 5px;">${platform.password}</span>
                     </li>
                     <li>
                         <span style="margin-top:9px;">平台地址:</span>

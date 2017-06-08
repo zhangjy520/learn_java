@@ -43,55 +43,55 @@
             <h1>消息中心 <input type="checkbox" id="check"/><label for="check" id="unread-label">仅显示未读消息</label></h1>
             <section class="news-center">
                 <ul style="padding-bottom: 20px;">
-                    <c:forEach items="${messageContent}" var="message">
-                        <c:if test="${message.openMessage.isread == 1}">
+                    <c:forEach items="${messagePageInfo.list}" var="message">
+                        <c:if test="${message.isread == 1}">
                             <li class="read">
-                                <c:if test="${message.openMessage.status == 2}">
-                                    <c:if test="${message.openMessage.messageType == 0}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前账号信息已通过审核</a>
+                                <c:if test="${message.status == 2}">
+                                    <c:if test="${message.messageType == 0}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前账号信息已通过审核</a>
                                     </c:if>
-                                    <c:if test="${message.openMessage.messageType == 1}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前应用信息已通过审核</a>
+                                    <c:if test="${message.messageType == 1}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前应用信息已通过审核</a>
                                     </c:if>
                                 </c:if>
-                                <c:if test="${message.openMessage.status == 3}">
-                                    <c:if test="${message.openMessage.messageType == 0}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前账号信息未通过审核</a>
+                                <c:if test="${message.status == 3}">
+                                    <c:if test="${message.messageType == 0}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前账号信息未通过审核</a>
                                     </c:if>
-                                    <c:if test="${message.openMessage.messageType == 1}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前应用信息未通过审核</a>
+                                    <c:if test="${message.messageType == 1}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前应用信息未通过审核</a>
                                     </c:if>
                                 </c:if>
                                 <aside>
                                     <i></i>
-                                    <span>${message.dateFormat}</span>
+                                    <span>${gukeer:millsToyyyyMMdd(message.createDate)}</span>
                                 </aside>
                             </li>
                         </c:if>
-                        <c:if test="${message.openMessage.isread == 0}">
+                        <c:if test="${message.isread == 0}">
                             <li class="unread">
-                                <c:if test="${message.openMessage.status==2}">
-                                    <c:if test="${message.openMessage.messageType == 0}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前账号信息已通过审核</a>
+                                <c:if test="${message.status==2}">
+                                    <c:if test="${message.messageType == 0}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前账号信息已通过审核</a>
                                     </c:if>
-                                    <c:if test="${message.openMessage.messageType == 1}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前应用信息已通过审核</a>
+                                    <c:if test="${message.messageType == 1}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前应用信息已通过审核</a>
                                     </c:if>
                                     <aside>
                                         <i></i>
-                                        <span>${message.dateFormat}</span>
+                                        <span>${gukeer:millsToyyyyMMdd(message.createDate)}</span>
                                     </aside>
                                 </c:if>
-                                <c:if test="${message.openMessage.status==3}">
-                                    <c:if test="${message.openMessage.messageType == 0}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前账号信息未通过审核</a>
+                                <c:if test="${message.status==3}">
+                                    <c:if test="${message.messageType == 0}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前账号信息未通过审核</a>
                                     </c:if>
-                                    <c:if test="${message.openMessage.messageType == 1}">
-                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.openMessage.id}'">您当前应用信息未通过审核</a>
+                                    <c:if test="${message.messageType == 1}">
+                                        <a onclick="window.location.href ='${ctx}/manager/info/detail?messageId=${message.id}'">您当前应用信息未通过审核</a>
                                     </c:if>
                                     <aside>
                                         <i></i>
-                                        <span>${message.dateFormat}</span>
+                                        <span>${gukeer:millsToyyyyMMdd(message.createDate)}</span>
                                     </aside>
                                 </c:if>
                             </li>

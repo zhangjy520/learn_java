@@ -1,26 +1,28 @@
 package cc.gukeer.open.controller;
 
 import cc.gukeer.common.controller.BasicController;
-import cc.gukeer.common.utils.Encodes;
+import cc.gukeer.common.entity.ResultEntity;
+import cc.gukeer.common.security.AESencryptor;
+import cc.gukeer.common.utils.RedisUtil;
 import cc.gukeer.open.common.CheckStateType;
 import cc.gukeer.open.common.LoginUserType;
 import cc.gukeer.open.common.RegisterStatusType;
 import cc.gukeer.open.persistence.entity.Dynamic;
-import cc.gukeer.open.service.DynamicService;
-import org.springframework.stereotype.Controller;
-import cc.gukeer.common.entity.ResultEntity;
-import cc.gukeer.common.security.AESencryptor;
 import cc.gukeer.open.persistence.entity.OpenUser;
+import cc.gukeer.open.service.DynamicService;
 import cc.gukeer.open.service.OpenUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,8 @@ import java.util.List;
 @Controller
 public class LoginController extends BasicController {
 
+    @Autowired
+    JedisPool jedisPool;
     @Autowired
     OpenUserService openUserService;
     @Autowired
@@ -58,14 +62,18 @@ public class LoginController extends BasicController {
     public ResultEntity login(HttpServletRequest request) {
         String username = getParamVal(request, "username");
         String password = getParamVal(request, "password");
+        String remember = getParamVal(request, "remember");
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return ResultEntity.newErrEntity("用户名或密码不能为空");
         }
 
-        UsernamePasswordToken token = new UsernamePasswordToken(username.toLowerCase(), AESencryptor.encryptCBCPKCS5Padding(password));
+        UsernamePasswordToken token = new UsernamePasswordToken(username.toLowerCase(), AESencryptor.encryptCBCPKCS5Padding(password),true);
 
         Subject subject = SecurityUtils.getSubject();
         String errmsg = null;
+        if ("1".equals(remember)) {
+            token.setRememberMe(true);
+        }
         try {
             subject.login(token);
         } catch (UnknownAccountException uae) {
@@ -111,6 +119,9 @@ public class LoginController extends BasicController {
 
     @RequestMapping(value = "/registerLogin")
     public String registerLoginlogin(HttpServletRequest request) {
+        Jedis jedis = jedisPool.getResource();
+        System.out.println(RedisUtil.getObject("aaa",jedis));
+
         String username = getParamVal(request, "username");
         String password = getParamVal(request, "password");
         UsernamePasswordToken token = new UsernamePasswordToken(username.toLowerCase(), password);

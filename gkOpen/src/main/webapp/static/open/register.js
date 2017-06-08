@@ -21,30 +21,29 @@ function toEmailCheck() {
     //邮箱格式验证
     if (regist_email == "") {
         webToast("电子邮件不能为空", "top", 2300);
-        $("#nextStop").attr("disabled", false);
+        // $("#nextStop").attr("disabled", false);
         return false;
     } else {
         reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
         if (!reg.test(regist_email)) {
             webToast("电子邮件格式不正确", "top", 2300);
-            $("#nextStop").attr("disabled", false);
+            // $("#nextStop").attr("disabled", false);
             return false;
         }
     }
     if(regist_password == ""){
         webToast("密码不能为空", "top", 2300);
-        $("#nextStop").attr("disabled", false);
+        // $("#nextStop").attr("disabled", false);
         return false;
     }else{
-        reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
-        if (!reg.test(regist_password)) {
-            webToast("密码格式错误", "top", 2300);
-            $("#nextStop").attr("disabled", false);
+        if (regist_password.length<6) {
+            webToast("请输入六位以上密码", "top", 2300);
+            // $("#nextStop").attr("disabled", false);
             return false;
         }
     }
 
-    $("#nextStop").attr("disabled", true);
+    // $("#nextStop").attr("disabled", true);
     webToast("正在发送邮件到您的邮箱中，请稍后", "top", 2300);
     $.post(postPath + "/register/doregister", {
         userType: userType,
@@ -56,7 +55,7 @@ function toEmailCheck() {
             webToast(data.msg, "top", 2000);
             window.location.replace(postPath + data.data);
         } else {
-            $("#nextStop").attr("disabled", false);
+            // $("#nextStop").attr("disabled", false);
             webToast(data.msg, "top", 2300);
             window.location.replace(postPath + data.data);
         }

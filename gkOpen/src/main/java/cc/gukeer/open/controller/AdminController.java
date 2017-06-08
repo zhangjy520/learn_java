@@ -2,6 +2,7 @@ package cc.gukeer.open.controller;
 
 import cc.gukeer.common.controller.BasicController;
 import cc.gukeer.common.entity.ResultEntity;
+import cc.gukeer.common.utils.NumberConvertUtil;
 import cc.gukeer.common.utils.PrimaryKey;
 import cc.gukeer.open.common.AppPushType;
 import cc.gukeer.open.common.CheckStateType;
@@ -69,23 +70,27 @@ public class AdminController extends BasicController {
         int pageSize = getPageSize(request);
         Integer appStatus = getStatus(request, "appStatus");
         Integer userStatus = getStatus(request, "userStatus");
+        String delFlag = request.getParameter("del");
+        if (delFlag == null) {
+            delFlag = "0";
+        }
         PageInfo<UserBaseInfoView> userBasePageInfo =
                 openUserService.getUserByCheckState(userStatus, userPageNum, pageSize);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //时间类型的转换
-        List<UserBaseInfoView>  userBaseInfoList = userBasePageInfo.getList();
-        for (UserBaseInfoView userBaseInfo:userBaseInfoList){
-            long long_date =   userBaseInfo.getUpdateTime();
+        List<UserBaseInfoView> userBaseInfoList = userBasePageInfo.getList();
+        for (UserBaseInfoView userBaseInfo : userBaseInfoList) {
+            long long_date = userBaseInfo.getUpdateTime();
             Date date = new Date(long_date);
             String res = simpleDateFormat.format(date);
             userBaseInfo.setTime(res);
         }
         PageInfo<AppBaseInfoView> appBasePageInfo =
-                appService.getAppBaseInfoByStatus(appStatus, appPageNum, pageSize);
+                appService.getAppBaseInfoByStatus(appStatus, appPageNum, pageSize,NumberConvertUtil.convertS2I(delFlag));
         ////时间类型的转换
-        List<AppBaseInfoView>  appBaseInfoList = appBasePageInfo.getList();
-        for (AppBaseInfoView appBaseInfo:appBaseInfoList){
-            long long_date =   appBaseInfo.getUpdateDate();
+        List<AppBaseInfoView> appBaseInfoList = appBasePageInfo.getList();
+        for (AppBaseInfoView appBaseInfo : appBaseInfoList) {
+            long long_date = appBaseInfo.getUpdateDate();
             Date date = new Date(long_date);
             String res = simpleDateFormat.format(date);
             appBaseInfo.setTime(res);
@@ -128,30 +133,6 @@ public class AdminController extends BasicController {
         return null;
     }
 
-    @RequestMapping(value = "/dynamic", method = RequestMethod.GET)
-    public String dynamic(HttpServletRequest request, Model model) {
-        Integer pageNum = getPageNum(request);
-        Integer pageSize = getPageSize(request);
-        PageInfo<Dynamic> pageInfo = dynamicService.findDynamicBydelFlag(pageNum, pageSize);
-        List<ExtentionDynamic> listView = new ArrayList();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (Dynamic dynamic : pageInfo.getList()) {
-            ExtentionDynamic extentionDynamic = new ExtentionDynamic();
-            long releaseTime = dynamic.getReleaseTime();
-            Date releaseTimeDate = new Date(releaseTime);
-            String dateFormat = simpleDateFormat.format(releaseTimeDate);
-            extentionDynamic.setReleaseTimeExt(dateFormat);
-            extentionDynamic.setDynamic(dynamic);
-            listView.add(extentionDynamic);
-        }
-        model.addAttribute("listView", listView);
-        model.addAttribute("pageInfo", pageInfo);
-        model.addAttribute("adminDynamic", "adminDynamic");
-        return "admin/dynamic";
-    }
-
-
     @RequestMapping(value = "/dynamic/publish", method = RequestMethod.POST)
     public String dynamicPUblish(HttpServletRequest request, Model model, HttpServletResponse response) {
         String hr = request.getParameter("hr");
@@ -184,23 +165,23 @@ public class AdminController extends BasicController {
     public String sync(HttpServletRequest request, Model model) {
         PageInfo<SyncView> syncViews = syncService.getSyncView();
         model.addAttribute("syncViews", syncViews);
-        model.addAttribute("sync","sync");
+        model.addAttribute("sync", "sync");
         return "admin/sync";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/sync/setName",method = RequestMethod.POST)
+    @RequestMapping(value = "/sync/setName", method = RequestMethod.POST)
     public ResultEntity setName(HttpServletRequest request, Model model) {
         String id = request.getParameter("id");
         String queueName = request.getParameter("content");
-        refPlatformService.setName(id,queueName);
+        refPlatformService.setName(id, queueName);
         return ResultEntity.newResultEntity();
     }
 
     @RequestMapping(value = "/sync/open", method = RequestMethod.GET)
     public String syncOpen(HttpServletRequest request) {
         String id = request.getParameter("id");
-        refPlatformService.updateSyncStatus(id,1);
+        refPlatformService.updateSyncStatus(id, 1);
 
         return "redirect:/admin/sync";
     }
@@ -208,20 +189,21 @@ public class AdminController extends BasicController {
     @RequestMapping(value = "/sync/close", method = RequestMethod.GET)
     public String syncClose(HttpServletRequest request) {
         String id = request.getParameter("id");
-        refPlatformService.updateSyncStatus(id,0);
+        refPlatformService.updateSyncStatus(id, 0);
         return "redirect:/admin/sync";
     }
 
     /**
-     *应用推送的首页  应该是查所有应用  而不是中间表
-     * */
+     * 应用推送的首页  应该是查所有应用  而不是中间表
+     */
     @RequestMapping(value = "/push/index", method = RequestMethod.GET)
     public String push(HttpServletRequest request, Model model) {
         int appPageNum = getPageNum(request);
         int pageSize = getPageSize(request);
-        PageInfo<AppBaseInfoView> pageInfo = appService.getAppBaseInfoByStatus(2,appPageNum,pageSize);
+        //2审核状态  1表示删除标识
+        PageInfo<AppBaseInfoView> pageInfo = appService.findAppBaseInfoContainDel(appPageNum, pageSize);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("appPush", "appPush");
         return "admin/push";
-    } 
+    }
 }

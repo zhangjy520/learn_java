@@ -17,7 +17,7 @@
 </head>
 <style>
     .tech-detail-article img{
-        margin: 0 0 30px 80px;
+        margin: 0 0 30px 50px;
         width: 90%;
         border: 1px solid #ddd;
     }

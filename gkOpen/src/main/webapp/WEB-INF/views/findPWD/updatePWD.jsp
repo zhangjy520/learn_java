@@ -33,10 +33,11 @@
     .Validform_checktip {
         width: auto !important;
         font-size: 12px !important;
-        position: absolute;
+        position: relative;
         left: 376px;
         top: 2px;
     }
+    /*.validTip span{width:120px !important;}*/
 </style>
 <!--注册流程-->
 <div class="container find-pwd validform" id="find-pwd-1">
@@ -44,17 +45,17 @@
     <div class="find-box" id="f-email-check" style="position:relative;">
         <div>
             <span>输入密码：</span>
-            <input type="password" placeholder="字母和数字组成，6~20位组成，区分大小写"
-                   datatype="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/"
-                   errormsg="请输入字母和数字，6~20位组成" name="newPassword" value=""
+            <input type="password" placeholder="请输入6-16位字符"
+                   datatype="*6-16"
+                   errormsg="请输入6-16位字符" value=""
                    onload="javascript:document.password.reset()"/>
             <%--<input type="password" name="newPassword" datatype="*6-20" errormsg='请输入字母、数字或英文符号，最短6位'>--%>
         </div>
         <p class="validTip" style=""></p>
         <div style="position:relative;">
             <span>确认密码：</span>
-            <input type="password" recheck="newPassword" datatype="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" errormsg='您两次输入的密码不一致，请重试'
-                   id="confirmNewPassword" placeholder="字母和数字组成，6~20位组成，区分大小写"/>
+            <input type="password" recheck="newPassword" datatype="*6-16" errormsg='您两次输入的密码不一致，请重试'
+                   id="confirmNewPassword" placeholder="请输入6-16位字符"/>
         </div>
         <p class="validTip" style=""></p>
 
@@ -78,9 +79,13 @@
                 <span>电话</span>:
                 <span>15311427437</span>
             </div>
+            <%--<div>--%>
+                <%--<span>邮箱</span>:--%>
+                <%--<span>Gukeerkeji@163.com</span>--%>
+            <%--</div>--%>
             <div>
-                <span>邮箱</span>:
-                <span>Gukeerkeji@163.com</span>
+                <span>工作时间</span>:
+                <span>周一至周五&nbsp;&nbsp;&nbsp;&nbsp;9:00-18:00</span>
             </div>
         </aside>
         <section>
@@ -92,10 +97,6 @@
             <div>
                 <span>客服热线</span>:
                 <span>010-82824069</span>
-            </div>
-            <div>
-                <span>工作时间</span>:
-                <span>周一至周五9:00-18:00</span>
             </div>
         </section>
     </div>
@@ -114,12 +115,13 @@
     //表单验证
     $('.validform').Validform({
         tiptype: 2,
-        datatyp: {"zh6-20": /^[\u4E00-\u9FA5\uf900-\ufa2d]{6,20}$/}
+//        datatyp: {"zh6-20": /^[\u4E00-\u9FA5\uf900-\ufa2d]{6,20}$/}
     });
 
     $("#submit-PWD").click(function () {
         var userEmail = $("#userEmail").val();
         var password = $("#confirmNewPassword").val();
+        if(userEmail == '' || password == '') return;
         $.post("${ctx}/pwd/update", {
             password: password,
             userEmail: userEmail

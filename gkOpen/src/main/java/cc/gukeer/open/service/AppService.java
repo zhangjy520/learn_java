@@ -20,7 +20,7 @@ public interface AppService  {
 
     PageInfo<App> findAppByDetail(int pageNum, int pageSize, int status,OpenUser openUser);
 
-    PageInfo<AppBaseInfoView> getAppBaseInfoByStatus(Integer stauts,int pageNum, int pageSize);
+    PageInfo<AppBaseInfoView> getAppBaseInfoByStatus( Integer stauts, int pageNum, int pageSize,Integer del);
 
     AppAllInfoView getAppAllInfo(String appId);
 
@@ -40,6 +40,5 @@ public interface AppService  {
 
     int enable(String appId);
 
-
-
+    PageInfo<AppBaseInfoView> findAppBaseInfoContainDel(int appPageNum, int pageSize);
 }

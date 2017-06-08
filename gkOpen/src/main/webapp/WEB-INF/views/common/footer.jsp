@@ -8,9 +8,13 @@
                 <span>张经理</span>
             </div>
 
+            <%--<div>--%>
+                <%--<span>邮箱</span>:--%>
+                <%--<span>Gukeerkeji@163.com</span>--%>
+            <%--</div>--%>
             <div>
-                <span>邮箱</span>:
-                <span>Gukeerkeji@163.com</span>
+                <span>工作时间</span>:
+                <span>周一至周五&nbsp;&nbsp;&nbsp;&nbsp;9:00-18:00</span>
             </div>
         </aside>
         <section>
@@ -19,10 +23,7 @@
                 <span>技术运营支持</span>:
                 <span>北京科技有限公司</span>
             </div>
-            <div>
-                <span>工作时间</span>:
-                <span>周一至周五9:00-18:00</span>
-            </div>
+
         </section>
     </div>
     <div class="footer-footer">

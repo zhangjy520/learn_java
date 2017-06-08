@@ -18,7 +18,8 @@
                                              cc.gukeer.open.controller,
                                              cc.gukeer.open.service,
                                              cc.gukeer.support.layout.controller,
-                                             cc.gukeer.support.layout.service
+                                             cc.gukeer.support.layout.service,
+                                             cc.gukeer.push
                                              "/>
 
     <mvc:annotation-driven>

@@ -54,8 +54,8 @@
         <div class="register-pwd">
             <span>密码：</span>
             <%--<input type="password" name="password" value="" placeholder="密码" id="password"/>--%>
-            <input type="password" placeholder="字母和数字组成，6~20位组成，区分大小写"  datatype="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/"
-                   errormsg="请输入字母和数字，6~20位组成" name="password" value=""
+            <input type="password" placeholder="请输入6-16位字符"  datatype="*6-16"
+                   errormsg="请输入6-16位字符" name="password" value=""
                    id="regist_password" onload="javascript:document.password.reset()"/>
             <%--<i>字母和数字组成，最短6位，区分大小写</i>--%>
         </div>

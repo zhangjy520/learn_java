@@ -89,11 +89,14 @@
                                 <td>未初始化</td>
                             </c:if>
                             <c:if test="${platform.initStatus == 1}">
-                                <td>已经初始化</td>
+                                <td>初始化成功</td>
+                            </c:if>
+                            <c:if test="${platform.initStatus == 2}">
+                                <td>初始化失败</td>
                             </c:if>
                             <td>
                                 <span class="app1"
-                                      onclick="window.location.href='${ctx}/platform/detail?id='+'${platform.id}'">修改/查看信息</span>
+                                      onclick="window.location.href='${ctx}/platform/add/page?id='+'${platform.id}'">修改/查看信息</span>
                                 <c:if test="${platform.delFlag==0}">
                                     <span class="app3" data-url="${ctx}/platform/del?id=${platform.id}">删除</span>
                                 </c:if>

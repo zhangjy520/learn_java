@@ -33,8 +33,8 @@
 <%@ include file="../common/admin/menu.jsp" %>
 <main id="main-tab">
     <ul class="clear tab-menu">
-        <li id="app" data="check1" style="padding: 0 20px;">应用审核</li>
-        <li id="user" data="check2" style="padding: 0 20px;">用户审核</li>
+        <li id="app" data="check1" style="padding: 0 20px;">应用审核管理</li>
+        <li id="user" data="check2" style="padding: 0 20px;">用户审核管理</li>
     </ul>
 
     <div id="check1">
@@ -42,17 +42,17 @@
             <label onclick="window.location.href ='${ctx}/admin/index'" for="c1">
                 <input type="radio" name="check1" id="c1"/>全部应用</label>
 
-            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=AUDITING'" for="c2">
+            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=AUDITING&&del=0'" for="c2">
                 <input type="radio" name="check1" id="c2"/>待审核</label>
 
-            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=AUDIT_SUCCESS'" for="c3">
+            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=AUDIT_SUCCESS&&del=0'" for="c3">
                 <input type="radio" name="check1" id="c3"/>已通过</label>
 
-            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=AUDIT_FAIL'" for="c4">
+            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=AUDIT_FAIL&&del=0'" for="c4">
                 <input type="radio" name="check1" id="c4"/>未通过</label>
 
-            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=FORBIDDEN'" for="c5">
-                <input type="radio" name="check1" id="c5"/>禁用</label>
+            <label onclick="window.location.href ='${ctx}/admin/index?appStatus=FORBIDDEN&&del=1'" for="c5">
+                <input type="radio" name="check1" id="c5"/>已删除</label>
         </p>
         <table>
             <thead>
@@ -60,7 +60,6 @@
                 <th width="5%">序号</th>
                 <th width="8%">应用名称</th>
                 <th width="8%">应用分类</th>
-                <th width="8%">应用状态</th>
                 <th width="9%">开发商</th>
                 <th width="8%">负责人</th>
                 <th width="15%">联系电话</th>
@@ -74,27 +73,13 @@
                     <c:if test="${appinfo.userType==0}">
                         <td>${status.count}</td>
                         <td>${appinfo.name}</td>
-                        <td>${appinfo.category}</td>
-
-                        <c:if test="${appinfo.checkStatus==1}">
-                            <td>未审核</td>
+                        <%--0：教学教务 1互动空间--%>
+                        <c:if test="${appinfo.category==0}">
+                        <td>教学教务</td>
                         </c:if>
-                        <c:if test="${appinfo.checkStatus==5}">
-                            <td>未审核</td>
+                        <c:if test="${appinfo.category==1}">
+                            <td>互动空间</td>
                         </c:if>
-                        <c:if test="${appinfo.checkStatus==2}">
-                            <td>审核成功</td>
-                        </c:if>
-                        <c:if test="${appinfo.checkStatus==3}">
-                            <td>审核失败</td>
-                        </c:if>
-                        <c:if test="${appinfo.checkStatus==4}">
-                            <td>禁用</td>
-                        </c:if>
-
-
-
-
 
                         <td>${appinfo.pCompany}</td>
                         <td>${appinfo.pManage}</td>
@@ -120,7 +105,7 @@
                                 <span class="c3 app-c3"
                                       onclick="location.href='${ctx}/check/details/app?id='+'${appinfo.id}'+'&&mark=1&&type=1'">详情</span>
                                 <span data-url ="${ctx}/app/do/delete?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c4 app-c4">删除</span>
-                                <span data-url ="${ctx}/app/do/disable?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c5 app-c5">禁用</span>
+                                <%--<span data-url ="${ctx}/app/do/disable?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c5 app-c5">禁用</span>--%>
                             </td>
                         </c:if>
                         <c:if test="${appinfo.checkStatus==3}">
@@ -134,7 +119,7 @@
                             <td>
                                 <span onclick="location.href='${ctx}/check/details/app?id='+'${appinfo.id}'+'&&mark=1&&type=1'"
                                       class="c3 app-c3">详情</span>
-                                <span  data-url="${ctx}/app/do/able?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c2 app-c2">启用</span>
+                                <%--<span  data-url="${ctx}/app/do/able?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c2 app-c2">启用</span>--%>
                                 <span data-url ="${ctx}/app/do/delete?id=${appinfo.id} &&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c4 app-c4">删除</span>
                             </td>
                         </c:if>
@@ -145,22 +130,13 @@
                     <c:if test="${appinfo.userType==1}">
                         <td>${status.count}</td>
                         <td>${appinfo.name}</td>
-                        <td>${appinfo.category}</td>
-                        <c:if test="${appinfo.checkStatus==1}">
-                            <td>未审核</td>
+                        <c:if test="${appinfo.category==0}">
+                            <td>教学教务</td>
                         </c:if>
-                        <c:if test="${appinfo.checkStatus==5}">
-                            <td>未审核</td>
+                        <c:if test="${appinfo.category==1}">
+                            <td>互动空间</td>
                         </c:if>
-                        <c:if test="${appinfo.checkStatus==2}">
-                            <td>审核成功</td>
-                        </c:if>
-                        <c:if test="${appinfo.checkStatus==3}">
-                            <td>审核失败</td>
-                        </c:if>
-                        <c:if test="${appinfo.checkStatus==4}">
-                            <td>禁用</td>
-                        </c:if>
+
                         <td>${appinfo.cCompany}</td>
                         <td>${appinfo.cManage}</td>
                         <td>${appinfo.cPhone}</td>
@@ -184,7 +160,7 @@
                                 <span class="c3 app-c3"
                                       onclick="location.href='${ctx}/check/details/app?id='+'${appinfo.id}'+'&&mark=1&&type=1&&type=1'">详情</span>
                                 <span data-url ="${ctx}/app/do/delete?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c4 app-c4">删除</span>
-                                <span data-url ="${ctx}/app/do/disable?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c5 app-c5">禁用</span>
+                                <%--<span data-url ="${ctx}/app/do/disable?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c5 app-c5">禁用</span>--%>
                             </td>
                         </c:if>
                         <c:if test="${appinfo.checkStatus==3}">
@@ -198,8 +174,8 @@
                             <td>
                                 <span onclick="location.href='${ctx}/check/details/app?id='+'${appinfo.id}'+'&&mark=1&&type=1'"
                                       class="c3 app-c3">详情</span>
-                                <span data-url="${ctx}/app/do/able?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c2 app-c2">启用</span>
-                                <span data-url ="${ctx}/app/do/delete?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c4 app-c4">删除</span>
+                                <%--<span data-url="${ctx}/app/do/able?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c2 app-c2">启用</span>--%>
+                                <%--<span data-url ="${ctx}/app/do/delete?id=${appinfo.id}&&appPageNum=${appBasePageInfo.pageNum}&&appStatus=${appStatus}" class="c4 app-c4">删除</span>--%>
                             </td>
                         </c:if>
 
@@ -419,7 +395,7 @@
             shade: 0.6,
             btn: ['确认', '取消'],
             area: ['380px', '200px'],
-            content: '<p style="color:#525252;font-size:14px;">您确定删除该应用？</p>',
+            content: '<p style="color:#525252;font-size:14px;">您确定删除该应用，删除后该应用会下线？</p>',
             move: false,
             btn1: function () {
                 console.log(url);

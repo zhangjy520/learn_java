@@ -118,14 +118,14 @@ public class ResetPWDController extends BasicController {
     public ResultEntity updatePWD(HttpServletRequest request){
         String password = request.getParameter("password");
         String username = request.getParameter("userEmail");
-        String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+//        String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
         logger.info("LoginUsername: {}, password: {}", username, password);
         if (StringUtil.isEmpty(password)) {
             return ResultEntity.newErrEntity("请填写完整信息");
         }
-        Boolean boo = password.matches(regex);
-        if (!boo){
-            return ResultEntity.newErrEntity("密码格式不正确");
+//        Boolean boo = password.matches(regex);
+        if (password.length()<6){
+            return ResultEntity.newErrEntity("密码长度不能小于6");
         }
         OpenUser openUser = openUserService.queryUserByUserNameEmail(username);
         openUser.setPassword( AESencryptor.encryptCBCPKCS5Padding(password));

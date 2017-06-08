@@ -39,7 +39,7 @@ public class MessagePush {
             public boolean match(ScriptSession scriptSession) {
                 String userid= (String)scriptSession.getAttribute("uid" );
                 System.out.println(userid);
-                    return id .equals(userid);
+                    return id.equals(userid);
             }
         };
 

@@ -15,6 +15,11 @@
     <script src="${ctx}/static/js/pageDevide.js"></script>
     <script src="${ctx}/static/js/action.js"></script>
 </head>
+<style>
+    .document-grade-1>li{
+        margin: 0 !important;
+    }
+</style>
 <body>
 <main class="container">
     <section class="clearfix">
@@ -34,11 +39,11 @@
         </aside>
         <div class="col-xs-9" id="normal-q1">
             <h1>常见问题</h1>
-            <div>
+            <div class="question">
                 <ul>
                     <li>
                         <a href="${ctx}/tech/question" class="clearfix">
-                            <span class="lf">教育云平台注册</span>
+                            <span class="lf">教育云开放平台注册</span>
                             <span class="rl">2016-11-20 16:31:23</span>
                         </a>
                     </li>
@@ -59,7 +64,7 @@
         </div>
         <div class="col-xs-9" id="normal-q2">
             <h1>登录注册</h1>
-            <div>
+            <div class="question">
                 <ul>
                     <li>
                         <a href="${ctx}/tech/question?status=person" class="clearfix">
@@ -108,14 +113,14 @@
         </div>
         <div class="col-xs-9" id="normal-q4">
             <h1>应用审核</h1>
-            <div>
+            <div class="question">
                 <ul>
-                    <li>
-                        <a href="${ctx}/tech/question?status=process" class="clearfix">
-                            <span class="lf">审核流程</span>
-                            <span class="rl">2016-11-20 16:31:23</span>
-                        </a>
-                    </li>
+                    <%--<li>--%>
+                        <%--<a href="${ctx}/tech/question?status=process" class="clearfix">--%>
+                            <%--<span class="lf">审核流程</span>--%>
+                            <%--<span class="rl">2016-11-20 16:31:23</span>--%>
+                        <%--</a>--%>
+                    <%--</li>--%>
                     <li>
                         <a href="${ctx}/tech/question?status=submit" class="clearfix">
                             <span class="lf">开发者如何提交应用？</span>
@@ -139,11 +144,17 @@
         </div>
         <div class="col-xs-9" id="normal-q3">
             <h1>用户审核</h1>
-            <div>
+            <div class="question">
                 <ul>
                     <li>
                         <a href="${ctx}/tech/question?status=user1" class="clearfix">
-                            <span class="lf">审核流程</span>
+                            <span class="lf">个人开发者审核流程</span>
+                            <span class="rl">2016-11-20 16:31:23</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${ctx}/tech/question?status=user1" class="clearfix">
+                            <span class="lf">企业开发者审核流程</span>
                             <span class="rl">2016-11-20 16:31:23</span>
                         </a>
                     </li>
@@ -171,7 +182,7 @@
 
         <div class="col-xs-9" id="normal-q5">
             <h1>其他</h1>
-            <div>
+            <div class="question">
                 <ul>
                     <li>
                         <a href="${ctx}/tech/question?status=other" class="clearfix">
@@ -190,11 +201,15 @@
 <!--网页信息-->
 <%@ include file="../../common/footer.jsp" %>
 <script>
+
     $('.normal-question a').click(function () {
+        localStorage.index_a =  $('.normal-question a').index($(this));
         $(this).addClass('active');
         $(this).parent().siblings().children().removeClass('active');
         toggleData(this);
-    })
+    });
+
+
     //    问题内容切换
     function toggleData(data) {
         var div = $('[id*=normal-q]');
@@ -202,8 +217,17 @@
             if (div[i].id == $(data).attr('data')) {
                 $(div[i]).show();
                 $(div[i]).siblings('div').hide();
+                localStorage.nnn = i;
             }
         }
+    }
+
+    if(localStorage.index_a != 'undefind' && localStorage.index_b != 'undefind'){
+        $('.normal-question a').eq(localStorage.index_a).addClass('active');
+        $('.normal-question a').eq(localStorage.index_a).parent().siblings().children().removeClass('active');
+        var div = $('[id*=normal-q]');
+        $(div[localStorage.nnn]).show();
+        $(div[localStorage.nnn]).siblings('div').hide();
     }
 
 </script>

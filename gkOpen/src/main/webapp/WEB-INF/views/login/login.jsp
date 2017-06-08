@@ -28,11 +28,11 @@
                 </div>
                 <div class="login-input">
                     <span><img src="${ctx}/static/images/logo_ico1.png" alt=""></span>
-                    <input type="text" placeholder="用户名" name="username" id="username"  class="denglu"/>
+                    <input type="text" placeholder="用户名" name="username" id="username"  class="denglu" autocomplete="off"/>
                 </div>
                 <div class="login-input">
                     <span><img src="${ctx}/static/images/logo_ico2.png" alt=""></span>
-                    <input type="password" placeholder="密码" name="password" id="password" class="denglupwd"/>
+                    <input type="password" placeholder="密码" name="password" id="password" class="denglupwd" autocomplete="off"/>
                 </div>
                 <div class="clearfix">
                     <label for="rememberme" class="checkbox lf">
@@ -62,11 +62,19 @@
     var strPath = window.document.location.pathname;
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
     function login() {
+        var remember  = 0;
+            if (document.getElementById("rememberme").checked) {
+                remember = 1;
+            } else {
+                remember = 0;
+            }
+
         var username = $("#username").val();
         var password = $("#password").val();
         $.post(postPath + "/doLogin", {
             username: username,
-            password: password
+            password: password,
+            remember:remember
         }, function (data) {
             $("#loginButton").attr("disabled", false);
             if (data.code == 0) {

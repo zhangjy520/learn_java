@@ -16,6 +16,19 @@
         aside{width:130px;}
         main{padding-bottom:80px;}
         #check-detail-content .massages li aside{width:165px;}
+        #check-detail-content{
+            padding-top: 20px;
+        }
+        .no-pass{
+            text-align: left;
+            padding-left: 285px;
+            margin-bottom: 35px;
+        }
+        .no-pass h3, .no-pass span{
+            font-size: 15px;
+            display: inline-block;
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +68,7 @@
     </div>
     <div id="check-detail-content">
         <section id="content1">
+
             <ul class="massages massages1">
                 <li>
                     <aside>
@@ -181,17 +195,13 @@
     </c:if>
     <c:if test="${mark==1}">
         <footer>
-                <c:if test="${!empty message}">
+            <c:if test="${!empty message}">
+                <div class="no-pass">
                     <h3>审核不通过原因:</h3>
-                    <div>
-                        <span>${message}</span>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                </c:if>
-                <button class="check-btn1" onclick="window.location.href='${ctx}/admin/index?show=user'">返回</button>
+                    <span style="color: #FD2E37;">${message}</span>
+                </div>
+            </c:if>
+            <button class="check-btn1" onclick="window.location.href='${ctx}/admin/index?show=user'">返回</button>
         </footer>
     </c:if>
 </main>
@@ -215,8 +225,7 @@
                     setTimeout(function () {
                                 window.opener.location.reload();
                                 window.close();
-                            },
-                            1300)
+                            }, 1300)
                 });
             }
         })
@@ -228,7 +237,7 @@
             shade: 0.6,
             btn:['确认','取消'],
             area: ['380px','310px'],
-            content: '<textarea id="textRemark" style="border-radius:5px;padding:5px;outline: none;" cols="45" rows="11" placeholder="请输入不通过的原因"></textarea>',
+            content: '<textarea id="textRemark" style="height: 185px;border-radius:5px;padding:5px;outline: none;" cols="45" rows="11" placeholder="请输入不通过的原因"></textarea>',
             move:false,
             btn1:function(){
                 var userId = $("#userId").text();

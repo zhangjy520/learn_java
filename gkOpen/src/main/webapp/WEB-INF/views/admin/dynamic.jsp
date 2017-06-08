@@ -37,14 +37,14 @@
                 <th width="1%">
                     <input type="checkbox" class="allCheck" id="selectAll">
                 </th>
-                <th width="3.5%">序号</th>
+                <th width="5%">序号</th>
                 <th width="30%">标题</th>
                 <th width="20%">发布时间</th>
                 <th width="10%">操作</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${listView}" var="dynamic" varStatus="status">
+            <%--<c:forEach items="${listView}" var="dynamic" varStatus="status">
                 <tr>
                     <td><input type="checkbox" name="tableHeaderCheckBox" value="${dynamic.dynamic.id}"></td>
                     <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
@@ -55,6 +55,22 @@
                     <td>
                         <span class="deleteSingle" data-url="${ctx}/dynamic/del/one?id=${dynamic.dynamic.id}"
                               >删除</span>
+                        <input type="hidden" id="ids">
+                    </td>
+                </tr>
+            </c:forEach>--%>
+
+            <c:forEach items="${pageInfo.list}" var="dynamic" varStatus="status">
+                <tr>
+                    <td><input type="checkbox" name="tableHeaderCheckBox" value="${dynamic.id}"></td>
+                    <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
+                    <td><a href="${ctx}/dynamic/detail?id=${dynamic.id}">${dynamic.title}</a></td>
+                    <td>
+                        <p>${gukeer:millsToyyyyMMdd(dynamic.releaseTime)}&nbsp;&nbsp;</p>
+                    </td>
+                    <td>
+                        <span class="deleteSingle" data-url="${ctx}/dynamic/del/one?id=${dynamic.id}"
+                        >删除</span>
                         <input type="hidden" id="ids">
                     </td>
                 </tr>
@@ -70,6 +86,8 @@
 </main>
 
 <script>
+
+
 
     $(".allCheck").on("click", function () {
         if (this.checked == true) {
@@ -100,7 +118,7 @@
         var content = '<main id="content_body">' +
                 '<div style="overflow:hidden;font-size:13px;margin-bottom:20px;">' +
                 '<span style="float:left;color:#525252;" >标题：</span>' +
-                '<input type="text" id="hr" style="padding-left:5px;height:28px;width:200px;border:1px solid #ddd;outline: none;">' +
+                '<input type="text" id="hr" style="padding-left:5px;height:28px;width:365px;border:1px solid #ddd;outline: none;">' +
                 '</div><div style="overflow:hidden;font-size:13px;margin-bottom:20px;">' +
                 '<span style="float:left;">内容：</span>' +
                 '<div style="float:left;"><textarea id="textareaContent"></textarea></div>' +

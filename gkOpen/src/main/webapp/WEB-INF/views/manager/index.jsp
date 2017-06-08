@@ -29,17 +29,17 @@
         <section class="col-xs-9" id="app1">
             <div id="check1">
                 <p style="margin-left: auto;">
-                    <label for="c1"><input type="radio" name="check1" id="c1" <c:if test="${status2 == null}">checked</c:if> onclick="window.location.href='${ctx}/manager/index'">&nbsp;全部应用</label>
+                    <label for="c1"><input type="radio" name="check1" id="c1" <c:if test="${appStatus == null}">checked</c:if> onclick="window.location.href='${ctx}/manager/index'">&nbsp;全部应用</label>
 
-                    <label for="c2"><input type="radio" name="check1" id="c2" <c:if test="${status2 == 2}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 2">&nbsp;已通过</label>
+                    <label for="c2"><input type="radio" name="check1" id="c2" <c:if test="${appStatus == 2}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=2'">&nbsp;已通过</label>
 
-                    <label for="c3"><input type="radio" name="check1" id="c3" <c:if test="${status2 == 1}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 1">&nbsp;审核中</label>
+                    <label for="c3"><input type="radio" name="check1" id="c3" <c:if test="${appStatus == 1}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=1'">&nbsp;审核中</label>
 
-                    <label for="c4"><input type="radio" name="check1" id="c4" <c:if test="${status2 == 0}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 0">&nbsp;未提交审核</label>
+                    <%--<label for="c4"><input type="radio" name="check1" id="c4" <c:if test="${status2 == 0}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 0">&nbsp;未提交审核</label>--%>
 
-                    <label for="c5"><input type="radio" name="check1" id="c5" <c:if test="${status2 == 3}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 3">&nbsp;审核不通过</label>
+                    <label for="c5"><input type="radio" name="check1" id="c5" <c:if test="${appStatus == 3}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=3'">&nbsp;审核不通过</label>
 
-                    <label for="c6"><input type="radio" name="check1" id="c6" <c:if test="${status2 == 4}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 4">&nbsp;禁用</label>
+                    <label for="c6"><input type="radio" name="check1" id="c6" <c:if test="${appStatus == 4}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=4'">&nbsp;已删除</label>
             </p>
 
                 <script>
@@ -103,7 +103,7 @@
                                     <td>审核不通过</td>
                                 </c:if>
                                 <c:if test="${app.checkStatus == 4}">
-                                    <td>禁用</td>
+                                    <td>已删除</td>
                                 </c:if>
                                 <c:if test="${app.checkStatus == 5}">
                                     <td>修改待审核</td>

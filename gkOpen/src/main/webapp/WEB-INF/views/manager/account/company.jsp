@@ -67,6 +67,16 @@
         margin-bottom: 20px;
     }
 
+    .col-xs-9 div > p>span:nth-child(2){
+        display: inline-block;
+        width: 500px;
+        word-wrap: break-word;
+        word-break: break-all;
+        vertical-align: top;
+    }
+    .short-sp{
+        width: auto !important;
+    }
     .col-xs-9 div > p label {
         font-weight: normal;
         color: #333;
@@ -81,7 +91,7 @@
         color: #888;
         text-align: right;
         width: 135px;
-        margin-right: 15px;
+        margin-right: 20px;
     }
 
     .col-xs-9 div > p span.img {
@@ -129,6 +139,7 @@
         color: #fff;
         border-radius: 3px;
         outline: none;
+        border: 1px solid ;
     }
 </style>
 <main class="container">
@@ -166,6 +177,7 @@
                     <span>登录邮箱:</span>
                     <span id="usernameEmail">${sessionScope.openUser.username }</span>
                 </p>
+                <p></p>
             </div>
             <form action="${ctx}/manager/updateInfo" method="post" id="submitForm" data-ajax='false'>
                 <div>
@@ -235,7 +247,7 @@
                     </p>
                     <p>
                         <span class="spanForUpdate">注册资本:</span>
-                        <span <%--class="change"--%>>${company.capital}</span>
+                        <span <%--class="change"--%> class="short-sp">${company.capital}</span>
                         <span>万元</span>
                     </p>
                 </div>
@@ -272,7 +284,7 @@
                         <input type="hidden" value="${company.developerName}" class="forUpdate required"
                                name="company.developerName" style="height: 42px;"/>
                     </p>
-                    <p style="height: 42px;">
+                    <p>
                         <span>手机号码:</span>
                         <span class="change">${company.developerPhone}</span>
                         <input type="hidden" value="${company.developerPhone}" class="forUpdate required"
@@ -360,3 +372,6 @@
 
 </body>
 </html>
+
+
+

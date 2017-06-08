@@ -218,7 +218,7 @@ main.container > section #normal-q5 footer p{
   padding:30px 45px;
 }
 #tech-detail>div{padding:0;}
-#tech-detail .tech-detail-back a{
+.tech-detail-back a{
   font-size:14px;
   color:#54ab37;
   display:inline-block;

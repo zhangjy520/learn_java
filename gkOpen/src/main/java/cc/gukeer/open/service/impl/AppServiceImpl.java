@@ -36,7 +36,7 @@ public class AppServiceImpl implements AppService {
     @Override
     public int save(App app) {
         int succ = appMapper.insert(app);
-        if (succ >0) {
+        if (succ > 0) {
             return 1;
         }
         return 0;
@@ -66,7 +66,13 @@ public class AppServiceImpl implements AppService {
 
     public PageInfo findAppByDetail(int pageNum, int pageSize, int status, OpenUser openUser) {
         AppExample appExample = new AppExample();
-        appExample.createCriteria().andDelFlagEqualTo(0).andCheckStatusEqualTo(status).andUserIdEqualTo(openUser.getId());
+        AppExample.Criteria criteria = appExample.createCriteria();
+        if (status != 0) {
+            criteria.andCheckStatusEqualTo(status);
+        }else{
+            criteria.andDelFlagEqualTo(0);
+        }
+        criteria.andUserIdEqualTo(openUser.getId());
         appExample.setOrderByClause("id desc");
         PageHelper.startPage(pageNum, pageSize);
         List<App> appList = appMapper.selectByExample(appExample);
@@ -74,10 +80,9 @@ public class AppServiceImpl implements AppService {
         return pageInfo;
     }
 
-    @Override
-    public PageInfo<AppBaseInfoView> getAppBaseInfoByStatus(Integer status, int pageNum, int pageSize) {
+    public PageInfo<AppBaseInfoView> getAppBaseInfoByStatus(Integer status, int pageNum, int pageSize, Integer del) {
         PageHelper.startPage(pageNum, pageSize);
-        List<AppBaseInfoView> appBaseInfoViews = a_appExtentionMapper.findAppBaseInfo(status);
+        List<AppBaseInfoView> appBaseInfoViews = a_appExtentionMapper.findAppBaseInfo(status, del);
         PageInfo<AppBaseInfoView> pageInfo = new PageInfo<>(appBaseInfoViews);
         return pageInfo;
     }
@@ -122,6 +127,7 @@ public class AppServiceImpl implements AppService {
         App app = new App();
         AppExample appExample = new AppExample();
         appExample.createCriteria().andIdEqualTo(appId);
+        app.setCheckStatus(4);
         app.setDelFlag(1);
         return appMapper.updateByExampleSelective(app, appExample);
     }
@@ -138,7 +144,7 @@ public class AppServiceImpl implements AppService {
     public PageInfo<App> finaAppByOpenUser(int pageNum, int pageSize, OpenUser openUser) {
         String openUserId = openUser.getId();
         AppExample appExample = new AppExample();
-        appExample.createCriteria().andUserIdEqualTo(openUserId);
+        appExample.createCriteria().andUserIdEqualTo(openUserId).andDelFlagEqualTo(0);
         appExample.setOrderByClause("create_date desc");
         PageHelper.startPage(pageNum, pageSize);
         List<App> appList = appMapper.selectByExample(appExample);
@@ -166,7 +172,7 @@ public class AppServiceImpl implements AppService {
 
     public App getAppAllInfoByPrimarykey(String id) {
         App app = appMapper.selectByPrimaryKey(id);
-        if (null != app){
+        if (null != app) {
             return app;
         }
         return null;
@@ -177,7 +183,7 @@ public class AppServiceImpl implements AppService {
         AppExample appExample = new AppExample();
         appExample.createCriteria().andIdEqualTo(id).andCheckStatusEqualTo(2);
         List<App> app = appMapper.selectByExample(appExample);
-        if (null != app){
+        if (null != app) {
             return app.get(0);
         }
         return null;
@@ -204,7 +210,7 @@ public class AppServiceImpl implements AppService {
         appExample.createCriteria().andIdEqualTo(appId);
         App app = new App();
         app.setDelFlag(1);
-        appMapper.updateByExampleSelective(app,appExample);
+        appMapper.updateByExampleSelective(app, appExample);
         return 0;
     }
 
@@ -214,8 +220,16 @@ public class AppServiceImpl implements AppService {
         appExample.createCriteria().andIdEqualTo(appId);
         App app = new App();
         app.setDelFlag(0);
-        appMapper.updateByExampleSelective(app,appExample);
+        appMapper.updateByExampleSelective(app, appExample);
         return 0;
+    }
+
+    @Override
+    public PageInfo<AppBaseInfoView> findAppBaseInfoContainDel(int appPageNum, int pageSize) {
+        PageHelper.startPage(appPageNum, pageSize);
+        List<AppBaseInfoView> appBaseInfoViews = a_appExtentionMapper.findAppBaseInfoContainDel();
+        PageInfo<AppBaseInfoView> pageInfo = new PageInfo<>(appBaseInfoViews);
+        return pageInfo;
     }
 
 }

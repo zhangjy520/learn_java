@@ -70,14 +70,7 @@ public class TechController extends BasicController {
         }else if (status.equals("user4")) {
             return "tech/question/user/update";
         }
-
         return null;
     }
-
-
-    public static void main(String agrs){
-
-    }
-
 }
 

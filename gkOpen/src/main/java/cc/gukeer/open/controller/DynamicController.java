@@ -30,27 +30,13 @@ public class DynamicController extends BasicController {
     @Autowired
     DynamicService dynamicService;
 
-//    @RequestMapping(value = "/index", method = RequestMethod.GET)
-//    public String index(HttpServletRequest request) {
-//        return "info/index";
-//    }
-
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String dynamic(HttpServletRequest request, Model model) {
         Integer pageNum = getPageNum(request);
         Integer pageSize = getPageSize(request);
-        PageInfo<Dynamic> pageInfo = dynamicService.findDynamicBydelFlag(pageNum, pageSize);
-        List<ExtentionDynamic> listView = new ArrayList();
 
-        for (Dynamic dynamic : pageInfo.getList()) {
-            ExtentionDynamic extentionDynamic = new ExtentionDynamic();
-            long releaseTime = dynamic.getReleaseTime();
-            String dateFormat = DateTimeUtil.formatDateInterval(releaseTime);
-            extentionDynamic.setReleaseTimeExt(dateFormat);
-            extentionDynamic.setDynamic(dynamic);
-            listView.add(extentionDynamic);
-        }
-        model.addAttribute("listView", listView);
+        PageInfo<Dynamic> pageInfo = dynamicService.findDynamicBydelFlag(pageNum, pageSize);
+
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("adminDynamic", "adminDynamic");
         return "admin/dynamic";
@@ -61,16 +47,6 @@ public class DynamicController extends BasicController {
         Integer pageNum = getPageNum(request);
         Integer pageSize = getPageSize(request);
         PageInfo<Dynamic> pageInfo = dynamicService.findAllDynamicByPage(pageNum, pageSize);
-        List<ExtentionDynamic> listView = new ArrayList();
-        for (Dynamic dynamic : pageInfo.getList()) {
-            ExtentionDynamic extentionDynamic = new ExtentionDynamic();
-            long releaseTime = dynamic.getReleaseTime();
-            String dateFormat = DateTimeUtil.formatDateInterval(releaseTime);
-            extentionDynamic.setReleaseTimeExt(dateFormat);
-            extentionDynamic.setDynamic(dynamic);
-            listView.add(extentionDynamic);
-        }
-        model.addAttribute("listView", listView);
         model.addAttribute("pageInfo", pageInfo);
         return "indexInfo/more";
     }
@@ -81,15 +57,8 @@ public class DynamicController extends BasicController {
         String id = request.getParameter("id");
         if (null != id) {
             Dynamic dynamic = dynamicService.findDynamicByPrimarykey(id);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            ExtentionDynamic extentionDynamic = new ExtentionDynamic();
-            long releaseTime = dynamic.getReleaseTime();
-            String dateFormat = DateTimeUtil.formatDateInterval(releaseTime);
-            extentionDynamic.setReleaseTimeExt(dateFormat);
-            extentionDynamic.setDynamic(dynamic);
-            model.addAttribute("extentionDynamic", extentionDynamic);
+            model.addAttribute("dynamic", dynamic);
         }
-//        dynamicService.findDynamicById();
         return "indexInfo/detail";
     }
 
@@ -121,14 +90,8 @@ public class DynamicController extends BasicController {
     @RequestMapping(value = "/del/one", method = RequestMethod.GET)
     public String dynamicDelOne(HttpServletRequest request, Model model) {
         String id = request.getParameter("id");
-            int succ = 0;
-            succ = dynamicService.delDynamicByPrimaryId(id);
-//            if (succ == 1) {
-//                return ResultEntity.newResultEntity("删除成功", "dynamic/index");
-//            } else {
-//                return ResultEntity.newErrEntity("删除失败");
-//            }
+        dynamicService.delDynamicByPrimaryId(id);
         return "redirect:/dynamic/index";
-        }
+    }
 
 }

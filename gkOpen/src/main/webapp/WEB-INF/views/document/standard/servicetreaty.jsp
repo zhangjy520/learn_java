@@ -22,7 +22,6 @@
     }
     ul{
         margin-top: -10px !important;
-        margin-bottom: 25px !important;
     }
 </style>
 <body>

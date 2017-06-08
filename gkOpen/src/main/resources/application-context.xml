@@ -12,7 +12,7 @@
     <property name="locations">
         <list>
             <value>classpath*:db.properties</value>
-            <value>classpath*:syncdata.properties</value>
+            <!--<value>classpath*:syncdata.properties</value>-->
         </list>
     </property>
 </bean>
@@ -29,5 +29,7 @@
     <import resource="application-shiro.xml"/>
     <!--<import resource="application-jms.xml"/>-->
    <!-- &lt;!&ndash; 定时配置文件加载&ndash;&gt;-->
-    <!--<import resource="classpath:syncScon-quartz.xml"/>-->
+    <import resource="classpath:syncScon-quartz.xml"/>
+
+    <import resource="classpath:application-redis.xml"/>
 </beans>

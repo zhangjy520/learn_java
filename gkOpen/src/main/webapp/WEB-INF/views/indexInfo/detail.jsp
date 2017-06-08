@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>平台动态</title>
+    <link rel="stylesheet" href="${ctx}/static/css/tech-support.css">
     <style>
         body {
             padding-bottom: 80px;
@@ -26,16 +27,19 @@
         }
 
         .container-box h2 {
+            width: 70%;
+            margin: 0 auto;
             font-size: 24px;
-            font-weight: 500;
             text-align: center;
-            line-height: 50px;
+            line-height: 35px;
         }
 
         .detail p {
+            font-family: "Microsoft YaHei" !important;
             line-height: 38px;
             font-size: 14px;
             color: #000;
+            color: #666 !important;
         }
 
         .detail {
@@ -51,15 +55,14 @@
 <script src="${ctx}/static/js/action.js"></script>
 <div class="container-box">
     <div class="tech-detail-back" >
-        <a onclick="window.history.back()" style="color: #54ab37"  onmouseover="this.style.cursor='hand'"
-           onmouseout="this.style.cursor='normal'">返回</a>
+        <a onclick="window.history.back()">返回</a>
     </div>
-    <h2>${extentionDynamic.dynamic.title}</h2>
+    <h2>${dynamic.title}</h2>
     <div class="detail">
-        ${extentionDynamic.dynamic.content}
+        ${dynamic.content}
         <div>
             <p>教育云开放平台</p>
-            <p>${extentionDynamic.releaseTimeExt}</p>
+            <p>${gukeer:millsToyyyyMMdd(dynamic.releaseTime)}</p>
         </div>
     </div>
 </div>

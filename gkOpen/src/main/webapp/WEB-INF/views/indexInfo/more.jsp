@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>查看更多动态</title>
     <link rel="stylesheet" href="${ctx}/static/css/pageDevide.min.css"/>
+    <link rel="stylesheet" href="${ctx}/static/css/tech-support.css">
     <script src="${ctx}/static/js/pageDevide.js"></script>
     <script src="${ctx}/static/js/action.js"></script>
     <style>
@@ -65,13 +66,6 @@
         .fenY1 {
             float: right;
         }
-        .tech-detail-back a{
-            font-size: 14px;
-            color: #54ab37;
-            display: inline-block;
-            padding-left: 16px;
-            background:url(../../../static/images/back.png) no-repeat left center;
-        }
         .tech-detail-back a:hover{
             cursor: pointer;
         }
@@ -95,12 +89,12 @@
 
     <div class="list-box">
         <ul>
-            <c:forEach items="${listView}" var="dynamic">
+            <c:forEach items="${pageInfo.list}" var="dynamic">
                 <li class="clearfix">
-                    <a onclick="window.location.href='${ctx}/dynamic/detail?id=${dynamic.dynamic.id}'" class="lf"
+                    <a onclick="window.location.href='${ctx}/dynamic/detail?id=${dynamic.id}'" class="lf"
                        style="color: #666"  onmouseover="this.style.cursor='pointer'; style='color:#54ab37;text-underline:none'"
-                       onmouseout="this.style.cursor='normal'; style='color:#666'">${dynamic.dynamic.title}</a>
-                    <span class="rl">${dynamic.releaseTimeExt}</span>
+                       onmouseout="this.style.cursor='normal'; style='color:#666'">${dynamic.title}</a>
+                    <span class="rl">${gukeer:millsToyyyyMMdd(dynamic.releaseTime)}</span>
                 </li>
             </c:forEach>
         </ul>

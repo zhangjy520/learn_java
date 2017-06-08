@@ -74,7 +74,7 @@ public class RegisterController extends BasicController {
     //跳转注册页面
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String reg(Model model) {
-        model.addAttribute("registerindex","registerindex");
+        model.addAttribute("registerindex", "registerindex");
         return "register/index";
     }
 
@@ -86,7 +86,7 @@ public class RegisterController extends BasicController {
         String username = OpenUser.getUsername();
         String url = getMailUrl(username);
         model.addAttribute("username", username);
-        model.addAttribute("url",url);
+        model.addAttribute("url", url);
         return "register/emailcheck";
     }
 
@@ -104,27 +104,28 @@ public class RegisterController extends BasicController {
             return "register/company";
         }
     }
+
     @ResponseBody
     @RequestMapping(value = "/mail/resend", method = RequestMethod.POST)
-    public  ResultEntity personalCompleteData(HttpServletRequest request) {
+    public ResultEntity personalCompleteData(HttpServletRequest request) {
 
         String openUserId = request.getParameter("id");
         String username = request.getParameter("username");
         OpenUser openUser = null;
         if (StringUtil.isNotEmpty(openUserId)) {
             openUser = openUserService.getOpenUserById(openUserId);
-        }else {
+        } else {
             openUser = openUserService.queryUserByUserNameEmail(username);
         }
         MailUtils mailUtils = new MailUtils();
         try {
-            String mailContent = getMailContent(request,openUser);
-            mailUtils.sendMail(openUser, request, mailContent,"重新发送的激活邮件");
-            return  ResultEntity.newResultEntity("邮件已经重新发送","/register/emailcheck?id=" + openUser.getId()+"&username=" + openUser.getUsername());
+            String mailContent = getMailContent(request, openUser);
+            mailUtils.sendMail(openUser, request, mailContent, "重新发送的激活邮件");
+            return ResultEntity.newResultEntity("邮件已经重新发送", "/register/emailcheck?id=" + openUser.getId() + "&username=" + openUser.getUsername());
         } catch (MessagingException e) {
             e.printStackTrace();
             //request.setAttribute("",);
-            return  ResultEntity.newErrEntity("error");
+            return ResultEntity.newErrEntity("error");
         }
     }
 
@@ -135,31 +136,36 @@ public class RegisterController extends BasicController {
         int roleflag = openUser.getUserType();
         String username = openUser.getUsername();
         String password = openUser.getPassword();
-        String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+//        String regex = "[A-Za-z0-9]{6}";
         logger.info("LoginUsername: {}, password: {}", username, password);
         if (StringUtil.isEmpty(username) || StringUtil.isEmpty(password)) {
             return ResultEntity.newErrEntity("请填写完整信息");
         }
-        Boolean boo = password.matches(regex);
-        if (!boo){
-            return ResultEntity.newErrEntity("密码格式不正确");
+//        Boolean boo = password.matches(regex);
+        if (password.length() < 6) {
+            return ResultEntity.newErrEntity("请填写六位以上的密码");
         }
         //查询数据库用户不存在
         Boolean loginUserFromDataBase = openUserService.queryUserByUserName(openUser.getUsername());
         MailUtils mailUtils = new MailUtils();
         if (!loginUserFromDataBase) {
+            //随机数，用于发送邮件时的密钥的拼接
             String random = RandomStringUtils.random(5);
+            //时间戳，密钥拼接
             long timeStamp = System.currentTimeMillis();
-			
+
             openUser.setId(PrimaryKey.get());
             openUser.setCurrentTimeSendemail(timeStamp);
             openUser.setRandom(random);
+
+            //审核状态【1提交等待审核，2审核成功，3审核失败，4删除，5修改i信息等待审核】
             openUser.setStatus(0);
+            //激活状态  【0未激活, 1激活, 2冻结】
             openUser.setRegisterStatus(0);
             openUser.setCreateDate(new Date().getTime());
             openUser.setPassword(AESencryptor.encryptCBCPKCS5Padding(password));
-            String content = getMailContent(request,openUser);
-            mailUtils.sendMail(openUser, request, content,"激活邮件");
+            String content = getMailContent(request, openUser);
+            mailUtils.sendMail(openUser, request, content, "激活邮件");
             //OpenUser.setCreateDate(new Date().getTime());
             openUserService.saveOpenUser(openUser);
             String url = "/register/emailcheck?id=" + openUser.getId() + "&username=" + username;
@@ -176,8 +182,8 @@ public class RegisterController extends BasicController {
                 Long hours = diff / (1000 * 60 * 60);
                 if (hours > 24) {
                     try {
-                        String content = getMailContent(request,openUser);
-                        mailUtils.sendMail(openUser, request, content,"激活邮件");
+                        String content = getMailContent(request, openUser);
+                        mailUtils.sendMail(openUser, request, content, "激活邮件");
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
@@ -228,8 +234,8 @@ public class RegisterController extends BasicController {
                 if (hours > 24) {
                     MailUtils mailUtils = new MailUtils();
                     openUser.setCreateDate(nowCurrentTime);
-                    String content = getMailContent(request,openUser);
-                    mailUtils.sendMail(openUser, request, content,"教育云开放平台激活邮件");
+                    String content = getMailContent(request, openUser);
+                    mailUtils.sendMail(openUser, request, content, "教育云开放平台激活邮件");
                     model.addAttribute("error", "注册时间已经超过24小时，请前往邮箱查收激活邮件重新激活账号");
                     return "error";
                 } else {
@@ -282,7 +288,7 @@ public class RegisterController extends BasicController {
         String cmbCity = request.getParameter("cmbCity");
         String cmbArea = request.getParameter("cmbArea");
         String cmbAddress = request.getParameter("cmbAddress");
-        String address = cmbProvince + cmbCity + cmbArea+cmbAddress;
+        String address = cmbProvince + cmbCity + cmbArea + cmbAddress;
         //保存图片信息到图片表
         try {
             accessories.setId(PrimaryKey.get());
@@ -301,7 +307,7 @@ public class RegisterController extends BasicController {
                 openUser.setUpdateDate(System.currentTimeMillis());
                 openUserService.updateOpenUser(openUser);
                 request.getSession().setAttribute("status", openUser.getStatus());
-                return "redirect:/registerLogin?username="+openUser.getUsername()+"&&password="+openUser.getPassword();
+                return "redirect:/registerLogin?username=" + openUser.getUsername() + "&&password=" + openUser.getPassword();
             } else {
                 //保存公司详细信息
                 company.setAddress(address);
@@ -315,7 +321,7 @@ public class RegisterController extends BasicController {
                 openUser.setUpdateDate(System.currentTimeMillis());
                 openUserService.updateOpenUser(openUser);
                 request.getSession().setAttribute("status", openUser.getStatus());
-                return "redirect:/registerLogin?username="+openUser.getUsername()+"&&password="+openUser.getPassword();
+                return "redirect:/registerLogin?username=" + openUser.getUsername() + "&&password=" + openUser.getPassword();
             }
         } catch (Exception e) {
             model.addAttribute("error", e.toString());
@@ -323,7 +329,7 @@ public class RegisterController extends BasicController {
         }
     }
 
-    public String getMailContent(HttpServletRequest request,OpenUser openUser){
+    public String getMailContent(HttpServletRequest request, OpenUser openUser) {
         String md5_code = MD5Utils.md5(ProjectConfig.SECRET_STR + openUser.getUsername() + openUser.getRandom() + openUser.getCurrentTimeSendemail());
         String basepath = getBasepath(request);
         StringBuffer sb = new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");

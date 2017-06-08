@@ -99,13 +99,31 @@ public class RefPlatformServiceImpl implements RefPlatformService {
         return null;
     }
 
-    @Override
     public List<RefPlatformApp> findByAppIdAndOpt(String appId) {
         RefPlatformAppExample refPlatformAppExample  = new RefPlatformAppExample();
         refPlatformAppExample.createCriteria().andOptStatusEqualTo(1).andAppIdEqualTo(appId);
         List<RefPlatformApp> refPlatformApps = refPlatformAppMapper.selectByExample(refPlatformAppExample);
         if (refPlatformApps.size()>0){
             return refPlatformApps;
+        }
+        return null;
+    }
+
+    @Override
+    public List<RefPlatformApp> findRefplatformByAppId(String appId) {
+        RefPlatformAppExample example = new RefPlatformAppExample();
+        example.createCriteria().andAppIdEqualTo(appId);
+        List<RefPlatformApp> refPlatformAppList  = refPlatformAppMapper.selectByExample(example);
+        return refPlatformAppList;
+    }
+
+    @Override
+    public RefPlatformApp findRefPlatformByAppIdAndPlatformId(String appId, String platformId) {
+        RefPlatformAppExample example = new RefPlatformAppExample();
+        example.createCriteria().andAppIdEqualTo(appId).andPlatformIdEqualTo(platformId);
+        List<RefPlatformApp> refPlatformApps = refPlatformAppMapper.selectByExample(example);
+        if (refPlatformApps.size()>0){
+            return refPlatformApps.get(0);
         }
         return null;
     }

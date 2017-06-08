@@ -1,9 +1,11 @@
 package cc.gukeer.open.service.impl;
 
 import cc.gukeer.open.persistence.dao.PlatformMapper;
+import cc.gukeer.open.persistence.dao.RefPlatformAppMapper;
 import cc.gukeer.open.persistence.entity.Platform;
 import cc.gukeer.open.persistence.entity.PlatformExample;
 import cc.gukeer.open.persistence.entity.RefPlatformApp;
+import cc.gukeer.open.persistence.entity.RefPlatformAppExample;
 import cc.gukeer.open.service.PushPlatformService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +21,9 @@ import java.util.List;
 public class PushPlatformServiceImpl implements PushPlatformService {
     @Autowired
     PlatformMapper platformMapper;
+
+    @Autowired
+    RefPlatformAppMapper  refPlatformAppMapper;
 
     public PageInfo<Platform> findAllPushPlatform(int pageNum, int pageSize) {
         PlatformExample platformExample = new PlatformExample();
@@ -93,9 +98,17 @@ public class PushPlatformServiceImpl implements PushPlatformService {
         PlatformExample platformExample = new PlatformExample();
         platformExample.createCriteria().andDelFlagEqualTo(0);
         List<Platform> list = platformMapper.selectByExample(platformExample);
+
         if (list.size()>0){
             return list;
         }
         return null;
+    }
+
+    @Override
+    public List<RefPlatformApp> findRefPlatformAppByAppId(String appId) {
+        RefPlatformAppExample example= new RefPlatformAppExample();
+        example.createCriteria().andAppIdEqualTo(appId);
+        return refPlatformAppMapper.selectByExample(example);
     }
 }

@@ -36,8 +36,12 @@
                     tiptype:2
                 });
 
+
                 function logEmail() {
                     var email = $("#email").val();
+
+                    if(email == '') return;
+
                     $.post( "${ctx}/pwd/check/username",{
                         email:email
                     },function (data) {

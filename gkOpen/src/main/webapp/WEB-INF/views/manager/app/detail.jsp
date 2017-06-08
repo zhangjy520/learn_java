@@ -138,11 +138,12 @@
     #next {
         right: 20px;
     }
-    #list{
+
+    #list {
         width: 350px;
     }
 
-    #check-main>p{
+    #check-main > p {
         font-size: 15px;
         color: #FF2C36;
         margin-top: 20px;
@@ -152,10 +153,14 @@
     <div id="document-content">
         <%@ include file="../../common/manager/left_menu.jsp" %>
         <section class="col-xs-9">
-            <h1><a href="${ctx}/manager/index" style="color:#54ab37;text-decoration: none;font-size: 20px;">应用管理</a><span
+            <h1><a href="${ctx}/manager/index"
+                   style="color:#54ab37;text-decoration: none;font-size: 20px;">应用管理</a><span
                     style="font-size:18px;">>&nbsp;详情</span></h1>
             <main id="check-main">
-                <p><span>应用审核不通过原因 :&nbsp;</span><span style="width: 515px;vertical-align: top;">  ${clauseNotPass}</span></p>
+                <c:if test="${app.checkStatus==3}">
+                    <p><span>应用审核不通过原因 :&nbsp;</span><span
+                            style="width: 515px;vertical-align: top;"> ${clauseNotPass}</span></p>
+                </c:if>
                 <h3>应用信息</h3>
                 <section>
                     <ul class="massages">
@@ -175,7 +180,8 @@
                         </li>
                         <li>
                             <aside><span>应用图标:</span></aside>
-                            <div><img src="${app.logo}" alt="" style="border: 1px solid #ddd;width: 100px;height: 100px;"></div>
+                            <div><img src="${app.logo}" alt=""
+                                      style="border: 1px solid #ddd;width: 100px;height: 100px;"></div>
                         </li>
                         <li>
                             <aside><span>应用类别:</span></aside>
@@ -207,29 +213,30 @@
                         <li>
                             <aside><span>应用截图:</span></aside>
                             <%--<div id="container">--%>
-                                <%--<div id="list">--%>
-                                    <%--<c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">--%>
-                                        <%----%>
-                                        <%--<img src="${appScreenShot}" alt="应用截图" height="320px" width="320px" />--%>
+                            <%--<div id="list">--%>
+                            <%--<c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">--%>
+                            <%----%>
+                            <%--<img src="${appScreenShot}" alt="应用截图" height="320px" width="320px" />--%>
 
-                                        <%--<img src="${appScreenShot}" alt="应用截图" width="320px" height="320px" />--%>
+                            <%--<img src="${appScreenShot}" alt="应用截图" width="320px" height="320px" />--%>
 
-                                    <%--</c:forEach>--%>
-                                <%--</div>--%>
-                                <%--<div id="buttons">--%>
-                                    <%--<c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">--%>
-                                        <%--<span index="${status.index+1+(appPageInfo.pageNum-1)*10}" class="on"></span>--%>
-                                    <%--</c:forEach>--%>
-                                <%--</div>--%>
+                            <%--</c:forEach>--%>
+                            <%--</div>--%>
+                            <%--<div id="buttons">--%>
+                            <%--<c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">--%>
+                            <%--<span index="${status.index+1+(appPageInfo.pageNum-1)*10}" class="on"></span>--%>
+                            <%--</c:forEach>--%>
+                            <%--</div>--%>
 
 
-                                    <div id="container">
-                                        <div id="list">
-                                            <c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">
-                                                <img src="${appScreenShot}" alt="应用截图" style="border: 1px solid #ddd;margin: 0 12px 12px 0;width: 100px;height: 100px;"/>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
+                            <div id="container">
+                                <div id="list">
+                                    <c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">
+                                        <img src="${appScreenShot}" alt="应用截图"
+                                             style="border: 1px solid #ddd;margin: 0 12px 12px 0;width: 100px;height: 100px;"/>
+                                    </c:forEach>
+                                </div>
+                            </div>
                         </li>
                         <li>
                             <aside><span>演示URL:</span></aside>
@@ -265,44 +272,44 @@
 </body>
 <script>
     <%--window.onload = function () {--%>
-        <%--var len = '${appListSize}';      //图片的数量--%>
-        <%--$('#buttons span').removeClass('on'); //初始化--%>
-        <%--$('#buttons span').eq(0).addClass('on');--%>
-        <%--var index = 0;--%>
-        <%--var timer = setInterval(function () {--%>
-            <%--index++;--%>
-            <%--if (index == len) {--%>
-                <%--index = 0--%>
-            <%--}--%>
-            <%--$('#list').animate({'left': index * (-320)}, 1000);--%>
-            <%--$('#buttons span').removeClass('on');--%>
-            <%--$('#buttons span').eq(index).addClass('on');--%>
-        <%--}, 2000);--%>
+    <%--var len = '${appListSize}';      //图片的数量--%>
+    <%--$('#buttons span').removeClass('on'); //初始化--%>
+    <%--$('#buttons span').eq(0).addClass('on');--%>
+    <%--var index = 0;--%>
+    <%--var timer = setInterval(function () {--%>
+    <%--index++;--%>
+    <%--if (index == len) {--%>
+    <%--index = 0--%>
+    <%--}--%>
+    <%--$('#list').animate({'left': index * (-320)}, 1000);--%>
+    <%--$('#buttons span').removeClass('on');--%>
+    <%--$('#buttons span').eq(index).addClass('on');--%>
+    <%--}, 2000);--%>
 
-        <%--$('#container').on('mouseover', function () {--%>
-            <%--clearInterval(timer)--%>
-        <%--});--%>
-        <%--$('#buttons span').removeClass('on'); //初始化--%>
-        <%--$('#buttons span').eq(0).addClass('on');--%>
-        <%--$('#container').on('mouseout', function () {--%>
-            <%--clearInterval(timer)--%>
-            <%--timer = setInterval(function () {--%>
-                <%--index++;--%>
-                <%--if (index == len) {--%>
-                    <%--index = 0--%>
-                <%--}--%>
-                <%--$('#list').animate({'left': index * (-320)}, 1000);--%>
-                <%--$('#buttons span').removeClass('on');--%>
-                <%--$('#buttons span').eq(index).addClass('on');--%>
-            <%--}, 2000);--%>
-        <%--});--%>
-        <%--$('#buttons span').each(function (a, ele) {--%>
-            <%--$(this).on("click", function () {--%>
-                <%--$('#list').animate({'left': a * (-320)}, 1000);--%>
-                <%--$(this).addClass('on').siblings().removeClass('on')--%>
-                <%--index = a;--%>
-            <%--})--%>
-        <%--});--%>
+    <%--$('#container').on('mouseover', function () {--%>
+    <%--clearInterval(timer)--%>
+    <%--});--%>
+    <%--$('#buttons span').removeClass('on'); //初始化--%>
+    <%--$('#buttons span').eq(0).addClass('on');--%>
+    <%--$('#container').on('mouseout', function () {--%>
+    <%--clearInterval(timer)--%>
+    <%--timer = setInterval(function () {--%>
+    <%--index++;--%>
+    <%--if (index == len) {--%>
+    <%--index = 0--%>
+    <%--}--%>
+    <%--$('#list').animate({'left': index * (-320)}, 1000);--%>
+    <%--$('#buttons span').removeClass('on');--%>
+    <%--$('#buttons span').eq(index).addClass('on');--%>
+    <%--}, 2000);--%>
+    <%--});--%>
+    <%--$('#buttons span').each(function (a, ele) {--%>
+    <%--$(this).on("click", function () {--%>
+    <%--$('#list').animate({'left': a * (-320)}, 1000);--%>
+    <%--$(this).addClass('on').siblings().removeClass('on')--%>
+    <%--index = a;--%>
+    <%--})--%>
+    <%--});--%>
     <%--}--%>
 </script>
 </html>

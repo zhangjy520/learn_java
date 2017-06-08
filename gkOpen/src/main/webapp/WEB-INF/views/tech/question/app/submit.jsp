@@ -20,7 +20,7 @@
 
     }
     .tech-detail-article img{
-        margin: 0 0 30px 70px;
+        margin: 0 0 30px 40px;
         width: 90%;
     }
     p{

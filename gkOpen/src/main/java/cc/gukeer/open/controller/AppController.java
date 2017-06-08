@@ -69,18 +69,39 @@ public class AppController extends BasicController {
     @Autowired
     PushPlatformService pushPlatformService;
 
+    /**
+     * 管理员对创建成功的应用的操作:审核、删除（禁用）、查看详情的方法
+     */
     @RequestMapping(value = "/do/{edit}")
     public String edit(HttpServletRequest request, @PathVariable String edit) {
-        String appId = request.getParameter("id");
+        String appId = getParamVal(request,"id");
         OpenUser openUser = getLoginUser();
         int userType = openUser.getUserType();
 
         if (edit.equals("delete")) {
             appService.deleteById(appId);
+            //执行了这个操作之后还要下线所有平台的应用信息，查询中间表，设置推送状态为3
+            List<RefPlatformApp> refPlatformAppList = refPlatformService.findRefplatformByAppId(appId);
+            if (refPlatformAppList.size() > 0) {
+                for (RefPlatformApp refPlatformApp : refPlatformAppList) {
+                    //禁用下线状态
+                    refPlatformApp.setAppStatus(4);
+                    refPlatformApp.setOptStatus(0);
+                    refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
+                }
+            }
         } else if (edit.equals("able")) {
             appService.updateStatus(appId, 2);
         } else if (edit.equals("disable")) {
             appService.updateStatus(appId, 4);
+            //在此时查询ref_app_class表，若有数据，则将ref_app_class的app_status修改为3（禁用下线）
+            List<RefPlatformApp> refPlatformApps = refPlatformService.findRefplatformByAppId(appId);
+            if (refPlatformApps.size() > 0) {
+                for (RefPlatformApp refPlatformApp : refPlatformApps) {
+                    refPlatformApp.setAppStatus(3);
+                    int succ = refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
+                }
+            }
         }
         if (userType == LoginUserType.PERSONAL.getStatenum() || userType == LoginUserType.COMPANY.getStatenum()) {
             return "redirect:/manager/index";
@@ -88,67 +109,66 @@ public class AppController extends BasicController {
         return "forward:/admin/index";
     }
 
+    /**
+     * 创建应用
+     */
     @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResultEntity save(HttpServletRequest request, App app) {
         try {
-            String _status = request.getParameter("status");
+            String _status = getParamVal(request,"status");
             int status = Integer.valueOf(_status);
-            String appName = request.getParameter("appName");
-            if (null == appName ||"" == appName || appName.length() > 6) {
+            String appName =getParamVal( request,"appName");
+            if ( "" == appName || appName.length() > 6) {
                 return ResultEntity.newErrEntity("名称不能为空且不能大于6个字");
             }
-            String appAbstruct = request.getParameter("appAbstruct");
-            if (null == appAbstruct||"" == appAbstruct ||appAbstruct.length() > 300) {
+            String appAbstruct = getParamVal(request,"appAbstruct");
+            if (null == appAbstruct || "" == appAbstruct || appAbstruct.length() > 300) {
                 return ResultEntity.newErrEntity("介绍不能为空且不能超过500字");
             }
-            String logo = request.getParameter("logo");
-            if (null == logo || "" == logo) {
+            String logo = getParamVal(request,"logo");
+            if ( "" == logo) {
                 return ResultEntity.newErrEntity("logo图片不能为空");
             }
-            String myselect = request.getParameter("myselect");
+            String myselect = getParamVal(request,"myselect");
 
             int category = Integer.valueOf(myselect);
-            if (null == myselect || "" == myselect) {
+            if ("" == myselect) {
                 return ResultEntity.newErrEntity("类别不能为空");
             }
-            String _targetUser = request.getParameter("targetUser");
-            if (null == _targetUser || "" == _targetUser) {
+            String _targetUser = getParamVal(request,"targetUser");
+            if ("" == _targetUser) {
                 return ResultEntity.newErrEntity("目标用户不能为空");
             }
             String targetUser = _targetUser.substring(5, _targetUser.length());
-            String _isFree = request.getParameter("isFree");
-            if (null == _isFree || "" == _isFree) {
+            String _isFree = getParamVal(request,"isFree");
+            if ("" == _isFree) {
                 return ResultEntity.newErrEntity("是否免费不能为空");
             }
             int isFree = Integer.valueOf(_isFree);
-            String _rank = request.getParameter("rank");
-            if (null == _rank || "" == _rank) {
+            String _rank = getParamVal(request,"rank");
+            if ("" == _rank) {
                 return ResultEntity.newErrEntity("级别不能为空");
             }
-
             int rank = Integer.valueOf(_rank);
-//            String multifyInput2 = request.getParameter("multifyInput2");
-//            if (null == multifyInput2 || "" == multifyInput2) {
-//                return ResultEntity.newErrEntity("应用截图为必传项");
-//            }
-            String demoUrl = request.getParameter("demoUrl");
-            if (null == demoUrl || "" == demoUrl) {
+            String demoUrl = getParamVal(request,"demoUrl");
+            if ("" == demoUrl) {
                 return ResultEntity.newErrEntity("演示地址不能为空");
             }
-            String demoAccount = request.getParameter("demoAccount");
-            if (null == demoAccount || "" == demoAccount) {
+            String demoAccount = getParamVal(request,"demoAccount");
+            if ("" == demoAccount) {
                 return ResultEntity.newErrEntity("演示账号不能为空");
             }
-            String version = request.getParameter("version");
-            if (null == version || "" == version) {
+            String version = getParamVal(request,"version");
+            if ("" == version) {
                 return ResultEntity.newErrEntity("版本号不能为空");
             }
-            String arrsrc = request.getParameter("arrsrc");
-            if (arrsrc == logo || "" == arrsrc) {
-                return ResultEntity.newErrEntity("应用截图不能为空");
+            String arrsrc = getParamVal(request,"arrsrc");
+            if ("" == arrsrc) {
+                return ResultEntity.newErrEntity("请选择应用截图");
             }
-            String arrindex = request.getParameter("arrindex");
+
+            String arrindex = getParamVal(request,"arrindex");
             String[] src = arrsrc.split(",");
             String[] index = arrindex.split(",");
             Integer[] intIndex = new Integer[index.length];
@@ -161,23 +181,8 @@ public class AppController extends BasicController {
                 map.put(src[j], intIndex[j]);
             }
             printMap(map);
-//            List<Map.Entry<String, Integer>> list_Data = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
-//            //通过Collections.sort(List I,Comparator c)方法进行排序
-//            Collections.sort(list_Data, new Comparator<Map.Entry<String, Integer>>() {
-//                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-//                    return (o1.getValue() - o2.getValue());
-//                }
-//            });
-//            System.out.println(list_Data);
             sortMap(map);
             printMap(map);
-//            Map<String, Integer> map1 = new TreeMap<>();
-//            for (int i = 0; i < list_Data.size(); i++) {
-//                Integer entry = list_Data.get(i).getValue();
-//                map1.put(list_Data.get(i).getKey(), list_Data.get(i).getValue());
-//            }
-//            printMap(map1);
-//            System.out.println(map1.toString());
             OpenUser openUser = getLoginUser();
             app.setId(PrimaryKey.get());
             app.setUserId(openUser.getId());
@@ -185,11 +190,9 @@ public class AppController extends BasicController {
             app.setUpdateDate(System.currentTimeMillis());
             app.setCheckStatus(status);
             app.setName(appName);
-//            app.setAppAbbreviation(abbreviation);
             app.setAppAbstruct(appAbstruct);
             app.setLogo(logo);
             app.setCategory(category);
-            app.setTargetUser(targetUser);
             app.setIsFree(isFree);
             app.setAppRank(rank);
             app.setAppScreenshot(map.toString());
@@ -254,57 +257,35 @@ public class AppController extends BasicController {
         return newMap;
     }
 
+    /**
+     * 修改应用
+     */
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResultEntity appUpdate(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id");
+        String id = getParamVal(request,"id");
         App app = appService.getAppById(id);
         app.setCheckStatus(5);
-        String appName = request.getParameter("appName");
-        String appAbstruct = request.getParameter("appAbstruct");
-        String logo = request.getParameter("logo");
-        if (null == logo || "" == logo) {
-            return ResultEntity.newErrEntity("图标不能为空");
-        }
-        String myselect = request.getParameter("myselect");
+        String appName = getParamVal(request,"appName");
+        String appAbstruct = getParamVal(request,"appAbstruct");
+        String myselect = getParamVal(request,"myselect");
         int category = Integer.valueOf(myselect);
-        String _isFree = request.getParameter("isFree");
+        String _isFree = getParamVal(request,"isFree");
         int isFree = Integer.valueOf(_isFree);
-        String _rank = request.getParameter("rank");
+        String _rank = getParamVal(request,"rank");
         int rank = Integer.valueOf(_rank);
-        String demoUrl = request.getParameter("demoUrl");
-        String demoAccount = request.getParameter("demoAccount");
-        String arrsrc = request.getParameter("arrsrc");
-        String arrindex = request.getParameter("arrindex");
-        if (arrsrc == logo || "" == arrsrc) {
-            return ResultEntity.newErrEntity("应用截图不能为空");
-        }
-        String[] src = arrsrc.split(",");
-        String[] index = arrindex.split(",");
-        Integer[] intIndex = new Integer[index.length];
-        for (int i = 0; i < index.length; i++) {
-            intIndex[i] = Integer.parseInt(index[i]);
-        }
-        Map<String, Integer> map = new TreeMap<>();
-        for (int j = 0; j < src.length; j++) {
-            map.put(src[j], intIndex[j]);
-        }
-        printMap(map);
-        sortMap(map);
-        printMap(map);
+        String demoUrl = getParamVal(request,"demoUrl");
+        String demoAccount = getParamVal(request,"demoAccount");
         app.setCreateDate(new Date().getTime());
         app.setUpdateDate(new Date().getTime());
         app.setName(appName);
         app.setAppAbstruct(appAbstruct);
-        app.setLogo(logo);
         app.setCategory(category);
         app.setIsFree(isFree);
         app.setAppRank(rank);
-        app.setAppScreenshot(map.toString());
         app.setAppUrl(demoUrl);
         app.setDemoAccount(demoAccount);
         app.setDelFlag(0);
-
         int succ = appService.updateAppById(app);
         App app1 = appService.getAppById(id);
         String _appScreenShot = app1.getAppScreenshot();
@@ -312,18 +293,20 @@ public class AppController extends BasicController {
         model.addAttribute("appScreenShotList", appScreenShotList);
         model.addAttribute("app", app1);
         model.addAttribute("appListSize", appScreenShotList.size());
-        return ResultEntity.newResultEntity("应用修改成功","manager/index");
+        return ResultEntity.newResultEntity("应用修改成功", "manager/index");
     }
 
+    /**
+     * 应用
+     */
     @RequestMapping(value = "/sreen", method = RequestMethod.POST)
     public String appUpdateSreenshot(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id");
-        String imgs = request.getParameter("multifyInput2");
+        String id = getParamVal(request,"id");
+        String imgs = getParamVal(request,"multifyInput2");
         App app = appService.getAppById(id);
         app.setAppScreenshot(imgs);
         app.setCheckStatus(5);
         app.setCreateDate(new Date().getTime());
-//        app.setAppAbbreviation(null);
         int succ = appService.updateAppById(app);
         App app1 = appService.getAppById(id);
         String _appScreenShot = app1.getAppScreenshot();
@@ -333,19 +316,9 @@ public class AppController extends BasicController {
         model.addAttribute("appListSize", appScreenShotList.size());
         return "manager/app/update";
     }
-//    @ResponseBody
-//    @RequestMapping(value = "/push", method = RequestMethod.POST)
-//    public ResultEntity send(HttpServletRequest request, Model model) {
-//        String id = request.getParameter("id");
-//        App app = appService.getAppAllInfoByPrimarykey(id);
-//        if (null != app) {
-//            return ResultEntity.newResultEntity("应用信息查询已返回", app);
-//        }
-//        return null;
-//    }
 
     public Integer getStatus(HttpServletRequest request, String parm) {
-        String _status = request.getParameter(parm);
+        String _status = getParamVal(request,parm);
         if (!StringUtils.isEmpty(_status)) {
             if (_status.equals("AUDIT_FAIL")) {
                 return CheckStateType.AUDIT_FAIL.getStatenum();
@@ -369,15 +342,13 @@ public class AppController extends BasicController {
         return null;
     }
 
-    @RequestMapping(value = "/push", method = RequestMethod.POST)
+
+    /*@RequestMapping(value = "/push", method = RequestMethod.POST)
     public String dopush(HttpServletRequest request) {
-        String appId = request.getParameter("appId");
-        String platformId = request.getParameter("platformId");
+        String appId = getParamVal("appId");
+        String platformId = getParamVal("platformId");
         App app = null;
         ArrayList arrayList = new ArrayList<>();
-//        if (null != appIds) {
-//            for (int i = 1; i < appIdsArray.length; i++) {
-//                String appId = appIdsArray[i];
         app = appService.findAppByPrimarykeyAndCheckestatus(appId);
         String userId = app.getUserId();
         String companName = null;
@@ -398,12 +369,6 @@ public class AppController extends BasicController {
         appExtention.setDeveloper(developer);
         appExtention.setCompanyName(companName);
         arrayList.add(appExtention);
-//            }
-//        }
-//        if (null != platformIds) {
-//            String[] platformIdsArray = platformIds.split(",");
-//            for (int i = 1; i < platformIdsArray.length; i++) {
-//                String platformId = platformIdsArray[i];
         Platform platform = pushPlatformService.findPlatformById(platformId);
         String urlApp = platform.getUrlApp();
         //加密串的处理
@@ -466,37 +431,52 @@ public class AppController extends BasicController {
 
         }
         return "admin/push";
-    }
+    }*/
 
+
+    /**
+     * 推送应用的pop弹窗的方法
+     */
     @RequestMapping(value = "/pop", method = RequestMethod.GET)
     public String platformPop(HttpServletRequest request) {
-        String appId = request.getParameter("appId");
-        List<Platform> platformList = pushPlatformService.findPlatformByInitStatus();
+        //1.获取appId  2.查询所有平台 3.查询app<-->platform推送状态
+
+        String appId = getParamVal(request,"appId");//获取appId
+        List<Platform> platformList = pushPlatformService.findPlatformByInitStatus(); //查询所有平台
+
         RefPlatformApp refPlatformApp = null;
-        ArrayList<PlatformExtention> platformExtentionList = new ArrayList<>();
+        ArrayList<PlatformExtention> platformExtentionList = new ArrayList<>();//创建这个list的目的是通过appId和platformId通过设置一个exist状态看是否已经推送了
+        //遍历platform
         if (platformList.size() > 0) {
             for (Platform platform : platformList) {
                 String platformId = platform.getId();
-                refPlatformApp = refPlatformService.selectById(appId, platformId);
+                refPlatformApp = refPlatformService.selectById(appId, platformId);//查询app<-->platform推送状态
+                PlatformExtention platformExtention = new PlatformExtention();
                 if (refPlatformApp == null) {
-                    PlatformExtention platformExtention = new PlatformExtention();
-                    platformExtention.setExist(0);
+                    platformExtention.setIsExist(0);  //在中间表中不存在
+                    platformExtention.setName(platform.getName());
                     platformExtention.setPlatform(platform);
-                    platformExtention.setAppStatus(5);
-                    platformExtention.setAppOptStatus(5);
+                    //在这设置这两个状态仅仅作为页面显示的作用
+                    platformExtention.setAppStatus(0);//云应用状态[0未推送,1推送,2修改,4禁用下线(应用已经退出市场，和产品迭代没关系)]
+                    platformExtention.setAppOptStatus(2);//操作状态[0操作失败，1操作成功]
+
                     platformExtentionList.add(platformExtention);
                 } else {
                     int appStatus = refPlatformApp.getAppStatus();
                     int optStatus = refPlatformApp.getOptStatus();
-                    PlatformExtention platformExtention = new PlatformExtention();
+
+                    platformExtention.setIsExist(1);//存在于2中间表中
                     platformExtention.setPlatform(platform);
+
                     platformExtention.setAppOptStatus(optStatus);
                     platformExtention.setAppStatus(appStatus);
+
                     platformExtentionList.add(platformExtention);
                 }
             }
         }
         request.setAttribute("platformExtentionList", platformExtentionList);
+        request.setAttribute("platformList", platformList);
         request.setAttribute("appId", appId);
         return "admin/pop";
     }
@@ -504,17 +484,27 @@ public class AppController extends BasicController {
     @ResponseBody
     @RequestMapping(value = "/push/ref", method = RequestMethod.POST)
     public ResultEntity toref(HttpServletRequest request) {
-        String appId = request.getParameter("appId");
-        String platformId = request.getParameter("platformId");
+        String appId = getParamVal(request,"appId");
+        String platformId = getParamVal(request,"platformId");
+        String appStatus = getParamVal(request,"appStatus");
         RefPlatformApp refPlatformApp = refPlatformService.selectById(appId, platformId);
         if (null != refPlatformApp) {
+            if (appStatus.equals("online")){
+                refPlatformApp.setOptStatus(0);
+                refPlatformApp.setAppStatus(1);
+                App app = new App();
+                app.setId(appId);
+                app.setCheckStatus(2);
+                appService.updateAppById(app);
+                refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
+            }
             return ResultEntity.newResultEntity("已推送到任务管理", "app/pop");
         } else {
             RefPlatformApp refPlatformAppNew = new RefPlatformApp();
             refPlatformAppNew.setId(PrimaryKey.get());
             refPlatformAppNew.setAppId(appId);
             refPlatformAppNew.setPlatformId(platformId);
-            refPlatformAppNew.setAppStatus(0);
+            refPlatformAppNew.setAppStatus(1);
             refPlatformAppNew.setOptStatus(0);
             refPlatformAppNew.setDataStatus(0);
             refPlatformAppNew.setSyncStatus(0);
@@ -523,10 +513,18 @@ public class AppController extends BasicController {
         }
     }
 
-    @RequestMapping(value = "/unpush", method = RequestMethod.POST)
+    @RequestMapping(value = "/off/line", method = RequestMethod.POST)
     public String unpush(HttpServletRequest request) {
-        String appId = request.getParameter("appId");
-        String platformId = request.getParameter("platformId");
+        String appId = getParamVal(request,"appId");
+        String platformId = getParamVal(request,"platformId");
+        //根据appId和platformId修改中间表ref_app_platform，同时经app的check_status状态改为4,禁用下线状态
+        App app = appService.getAppById(appId);
+        app.setCheckStatus(4);
+        app.setDelFlag(1);
+        appService.updateAppById(app);
+        RefPlatformApp refPlatformApp = refPlatformService.findRefPlatformByAppIdAndPlatformId(appId, platformId);
+        refPlatformApp.setAppStatus(0);
+        refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
         Platform platform = pushPlatformService.findPlatformById(platformId);
         String urlApp = platform.getUrlApp();
         //加密串的处理
@@ -549,13 +547,9 @@ public class AppController extends BasicController {
         JSONObject json = JSON.parseObject(_reback);
         Integer code = (Integer) json.get("code");
         if (code == 0) {
-            platform.setInitStatus(1);
-            pushPlatformService.updatePlatform(platform);
-            RefPlatformApp refPlatformApp = new RefPlatformApp();
-            refPlatformApp.setId(PrimaryKey.get());
-            refPlatformApp.setAppId(appId);
-            refPlatformApp.setPlatformId(platformId);
-            int succ = refPlatformService.insertRefPlatformApp(refPlatformApp);
+            refPlatformApp.setAppStatus(3);
+            refPlatformApp.setOptStatus(0);
+            int succ = refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
             logger.info("应用推送成功");
         } else {
             logger.info("应用推送失败");
@@ -565,8 +559,8 @@ public class AppController extends BasicController {
 
     @RequestMapping(value = "/manager/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id");
-        String _status = request.getParameter("status");
+        String id = getParamVal(request,"id");
+        String _status = getParamVal(request,"status");
         int status = 0;
         if (_status != "" && _status != null) {
             status = Integer.parseInt(_status);
@@ -574,13 +568,13 @@ public class AppController extends BasicController {
         App app = appService.getAppById(id);
         String userId = app.getUserId();
         String appName = app.getName();
-        OpenMessage openMessage = messageService.findByMessageByUserIdAndAppName(userId,appName);
+        OpenMessage openMessage = messageService.findByMessageByUserIdAndAppName(userId, appName);
         String _appScreenShot = app.getAppScreenshot();
         List<String> appScreenShotList = multigraphService.makeImgPath(_appScreenShot);
         model.addAttribute("appScreenShotList", appScreenShotList);
         model.addAttribute("app", app);
         model.addAttribute("appListSize", appScreenShotList.size());
-        if (openMessage != null){
+        if (openMessage != null) {
             model.addAttribute("clauseNotPass", openMessage.getText());
         }
         if (status == 5) {

@@ -9,7 +9,7 @@
     <display-name>JSTL functions sys</display-name>
     <tlib-version>1.1</tlib-version>
     <short-name>gukeer</short-name>
-    <uri>http://java.sun.com/jsp/jstl/functionss</uri>
+    <uri>http://java.sun.com/jsp/jstl/functions</uri>
 
     <function>
         <description>判断roleMenuList是否包含roleId</description>

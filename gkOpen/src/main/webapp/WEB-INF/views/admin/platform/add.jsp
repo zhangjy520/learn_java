@@ -2,11 +2,6 @@
 <%@ include file="../../common/header.jsp" %>
 <%@ include file="../../login/login.jsp" %>
 <%@ include file="/base.jsp" %>
-<%
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    String path = request.getContextPath();
-    String basepath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,10 +46,11 @@
         background: #fff !important;
     }
 
-    footer{
+    footer {
         text-align: center;
     }
-    footer button{
+
+    footer button {
         height: 40px;
         width: 112px;
         border: 1px solid #54AB37;
@@ -73,26 +69,37 @@
                 <p>提示：当前信息都为必填，请注意填写</p>
                 <h3>应用信息</h3>
                 <ul>
+                    <input type="hidden"  value="${platform.id}" id="platformId">
                     <li>
                         <span style="margin-top:9px;">名称:</span>
-                        <input type="text" name="platform.name" id="platformName">
+                        <input type="text" name="platform.name" id="platformName" value="${platform.name}">
                         <i></i>
                     </li>
                     <li>
                         <span style="margin-top:9px;">接收应用地址:</span>
-                        <input type="text" name="platform.urlApp" id="urlApp">
+                        <input type="text" name="platform.urlApp" id="urlApp" value="${platform.urlApp}">
                         <i>发布后不可修改，用于大部分的对外显示，不超过六个汉字</i>
                     </li>
-
+                    <c:if test="${status==1}">
+                        <li style="width: 520px;">
+                            <span style="margin-top:9px;">唯一标识:</span>
+                            <span id="identitySpan"
+                                  style="line-height: 36px;vertical-align: middle;width: auto;padding-left: 5px;">${platform.identity}</span>
+                        </li>
+                        <li style="width: 520px;">
+                            <span style="margin-top:9px;">传输密钥:</span>
+                            <span style="line-height: 36px;vertical-align: middle;width: auto;padding-left: 5px;">${platform.password}</span>
+                        </li>
+                    </c:if>
                     <li>
                         <span style="margin-top:9px;">平台地址:</span>
-                        <input type="text" name="platform.urlVisit" id="urlVisit">
+                        <input type="text" name="platform.urlVisit" id="urlVisit" value="${platform.urlVisit}">
                         <i>发布后不可修改，用于大部分的对外显示，不超过六个汉字</i>
                     </li>
                     <li>
                         <span>介绍:</span>
                         <textarea cols="53" rows="10" name="platform.introduce"
-                                  style="resize: none;border:1px solid #ddd;" id="platformIntroduce"></textarea>
+                                  style="resize: none;border:1px solid #ddd;" id="platformIntroduce">${platform.introduce}</textarea>
                         <i>请填写应用介绍，审核通过后将在应用商店该应用详情中体现，便于师生了解该服务概况，不超过500个字</i>
                     </li>
                 </ul>
@@ -100,7 +107,7 @@
         </section>
     </div>
     <footer>
-        <button id="platformAdd" onclick="save()">保存</button>
+        <button onclick="save()">保存</button>
     </footer>
 </main>
 
@@ -126,7 +133,15 @@
         if (platformIntroduce == "") {
             webToast("平台介绍不能为空", "top", 2300);
         }
-        $.post(postPath + "/platform/add", {
+        var url="";
+        var id = $("#platformId").val();
+        if (id !=null){
+            url= "/platform/update";
+        }else {
+            url = "/platform/add";
+        }
+        $.post(postPath + url, {
+            id:id,
             platformName: platformName,
             urlVisit: urlVisit,
             urlApp: urlApp,
@@ -139,7 +154,6 @@
                 alert(data.msg);
             }
         });
-        tattsgbdata locakrfipin.href = postpath
     }
 </script>
 </body>

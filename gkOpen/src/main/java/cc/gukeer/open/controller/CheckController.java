@@ -98,6 +98,7 @@ public class CheckController extends BasicController {
     }
 
     //审核用户
+    //@PathVariable 可以将 URL 中占位符参数绑定到控制器处理方法的入参中：URL 中的 {xxx} 占位符可以通过@PathVariable("xxx") 绑定到操作方法的入参中
     @ResponseBody
     @RequestMapping(value = "/user/{isPass}")
     public ResultEntity checkPersonal(@PathVariable String isPass, HttpServletRequest request) {
@@ -140,6 +141,18 @@ public class CheckController extends BasicController {
             App app = appService.getAppById(appId);
             String userId = app.getUserId();
             if (isPass.equals("Pass")) {
+                int  checkStatus = app.getCheckStatus();
+                if (checkStatus == 5){
+                    //在此时查询ref_app_class表，若有数据，则将ref_app_class的app_status修改为2（修改待推送状态）
+                    List<RefPlatformApp> refPlatformApps = refPlatformService.findRefplatformByAppId(appId);
+                    if (refPlatformApps.size()>0){
+                        for (RefPlatformApp refPlatformApp:refPlatformApps){
+                            refPlatformApp.setAppStatus(2);
+                            refPlatformApp.setOptStatus(0);//设置为0的目的是由任务进行自动监测
+                            int succ = refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
+                        }
+                    }
+                }
                 appService.updateStatus(appId, CheckStateType.AUDIT_SUCCESS.getStatenum());
                 OpenMessage openMessage = new OpenMessage();
                 openMessage.setIsread(0);
@@ -148,21 +161,6 @@ public class CheckController extends BasicController {
                 openMessage.setStatus(CheckStateType.AUDIT_SUCCESS.getStatenum());
                 //1为应用
                 openMessage.setMessageType(1);
-                //审核成功之后就把app的数据和平台的数据加入到中间表
-                //首先获取所有平台信息 此时的平台信息并不知道有没有初始化信息 只是中间表插入一条数据
-                List<Platform> platforms = pushPlatformService.findPlatformBydelflag();
-                if (platforms != null && platforms.size()>0){
-                    for (Platform platform:platforms) {
-                        String platformId = platform.getId();
-                        RefPlatformApp  refPlatformApp = refPlatformService.selectById(platformId,appId);
-                        if (refPlatformApp !=null) {
-                            refPlatformApp.setUpdateTime(new Date().getTime());
-                            refPlatformApp.setOptStatus(0);
-                            refPlatformApp.setAppStatus(2);
-                            refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
-                        }
-                    }
-                }
                 openUserService.addMessage(userId, openMessage);
                 MessagePush messagePush = new MessagePush();
                 try {
@@ -182,6 +180,8 @@ public class CheckController extends BasicController {
                 //1为应用
                 openMessage.setMessageType(1);
                 appService.updateStatus(appId, CheckStateType.AUDIT_FAIL.getStatenum());
+                //首先查询该信息存不存在，若存在更新操作
+//                openUserService.findMessageBy
                 openUserService.addMessage(userId, openMessage);
                 MessagePush messagePush = new MessagePush();
                 try {

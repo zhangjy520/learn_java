@@ -1,0 +1,18 @@
+开放平台应用从创建到审核到推送的流程以及状态变化，及对应的表格数据变动情形：
+
+1.用户通过审核后才可以创建应用
+
+2.admin用户对应用审核：
+		审核的时候注意：
+		a.要判断该应用是否已经推送过了，即此时通过应用id查询ref_platform_app中间表，
+		将中间表中的app_status状态修改为2，opt_status对应改为0
+
+		b.若为初次审核，则不对ref_platform_app中间表进行操作,初次审核通过后的推送任务是在admin账号登陆时的推送管理中进行管理推送的
+		初次点击应用推送时，将在ref_platform_app中间表中插入一条app和platform的对应信息，
+		并在此时将中间表中的app_status状态修改为0，opt_status对应改为0
+
+
+
+3.删除应用时，将应用表中的del_flag设置为1，并将open_app表中check_status设置为4，并此时通过应用id查询ref_platform_app中间表，
+		将中间表中的app_status状态修改为3，opt_status对应改为0
+

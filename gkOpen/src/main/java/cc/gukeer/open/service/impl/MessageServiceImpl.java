@@ -83,6 +83,7 @@ public class MessageServiceImpl implements MessageService {
     public OpenMessage findByMessageByUserIdAndAppName(String userId, String appName) {
         OpenMessageExample openMessageExample = new OpenMessageExample();
         openMessageExample.createCriteria().andUserIdEqualTo(userId).andAppNameEqualTo(appName);
+        openMessageExample.setOrderByClause("create_date desc");
          List<OpenMessage> list =  openMessageMapper.selectByExample(openMessageExample);
         if (list.size()>0){
             return list.get(0);

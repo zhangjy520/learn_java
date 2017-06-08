@@ -34,25 +34,35 @@
         open_app a LEFT JOIN open_user u ON a.user_id = u.id LEFT JOIN open_company c
         ON c.id = u.company_id LEFT JOIN open_personal p ON p.id = u.personal_id
         where u.user_type != 2 AND a.check_status != 0
-        AND a.del_flag != 1
-        <if test="_parameter == 1">
+          AND a.del_flag =#{del}
+        <if test="status == 1">
             AND a.check_status = 1 OR a.check_status = 5
         </if>
-        <if test="_parameter == 2">
+        <if test="status == 2">
             AND a.check_status = 2
         </if>
-        <if test="_parameter == 3">
+        <if test="status == 3">
             AND a.check_status = 3
         </if>
-        <if test="_parameter == 4">
+        <if test="status == 4">
             AND a.check_status = 4
         </if>
-        <if test="_parameter == 5">
+        <if test="status == 5">
             AND a.check_status = 5
         </if>
-        <if test="_parameter == null">
+        <if test="status == null">
 
         </if>
+        ORDER BY a.create_date DESC
+    </select>
+
+    <select id="findAppBaseInfoContainDel" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        open_app a LEFT JOIN open_user u ON a.user_id = u.id LEFT JOIN open_company c
+        ON c.id = u.company_id LEFT JOIN open_personal p ON p.id = u.personal_id
+        where u.user_type != 2 AND a.check_status != 0 AND a.check_status = 2 OR a.check_status = 4
         ORDER BY a.create_date DESC
     </select>
 </mapper>

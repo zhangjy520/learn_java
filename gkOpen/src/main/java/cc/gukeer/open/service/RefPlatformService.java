@@ -24,7 +24,7 @@ public interface RefPlatformService {
 
     int updateRefPlatformByPrimarykey(RefPlatformApp refPlatformApp);
 
-    PageInfo<RefPlatformApp> findRefPlatformAppByOptAndAppStatus(int appPageNum, int pageSize);
+    List<RefPlatformApp> findRefplatformByAppId(String appId);
 
-    List<RefPlatformApp> findByAppIdAndOpt(String appId);
+    RefPlatformApp findRefPlatformByAppIdAndPlatformId(String appId, String platformId);
 }

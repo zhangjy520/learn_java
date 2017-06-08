@@ -16,7 +16,7 @@ public enum CheckStateType {
     //审核失败
     AUDIT_FAIL(3),
 
-    //禁用
+    //下线
     FORBIDDEN(4),
 
     //修改待审核

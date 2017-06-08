@@ -18,6 +18,7 @@ import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +35,8 @@ import java.util.*;
 @RequestMapping(value = "/platform", method = RequestMethod.GET)
 public class PlatformManagerController extends BasicController {
     @Autowired
-    PushPlatformService pushPlatformService;
+    PushPlatformService pushPlatformService;//不直接用PlatformService命名原因是:打出来试试就知道了
+
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String platform(HttpServletRequest request, Model model) {
@@ -51,14 +53,23 @@ public class PlatformManagerController extends BasicController {
 
     @RequestMapping(value = "/add/page", method = RequestMethod.GET)
     public String addPage(HttpServletRequest request) {
-        request.setAttribute("addPlatformPage", "addPlatformPage");
+        String id = getParamVal(request,"id");
+        if (id != "") {
+            Platform platform = pushPlatformService.findPlatformById(id);
+            request.setAttribute("platformManager", "platformManager");
+            request.setAttribute("platform", platform);
+            request.setAttribute("status",1);//这个status仅仅是作为前台判断前台有没有平台的密钥元素用的
+            request.setAttribute("platformIndex", "platformIndex");
+        }else {
+            request.setAttribute("addPlatformPage", "addPlatformPage");
+        }
         return "admin/platform/add";
     }
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResultEntity pop(HttpServletRequest request) {
-        Platform platform = new Platform();
+    public ResultEntity pop(HttpServletRequest request, @ModelAttribute Platform platform) {
+//        Platform platform = new Platform();
         try {
             request.setCharacterEncoding("UTF-8");
             String platformName = request.getParameter("platformName");
@@ -99,7 +110,7 @@ public class PlatformManagerController extends BasicController {
             if (succ > 0) {
                 return ResultEntity.newResultEntity("保存成功", "/platform/add/page");
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultEntity.newErrEntity("保存失败");
         }
@@ -117,7 +128,7 @@ public class PlatformManagerController extends BasicController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String appPlatformDetail(HttpServletRequest request) {
-        String id = request.getParameter("id");
+        String id = getParamVal(request,"id");
         if (id != "") {
             Platform platform = pushPlatformService.findPlatformById(id);
             request.setAttribute("platformManager", "platformManager");
@@ -160,6 +171,7 @@ public class PlatformManagerController extends BasicController {
         platform.setName(platformName);
         platform.setUrlApp(urlApp);
         platform.setUrlVisit(urlVisit);
+        platform.setInitStatus(0);
         platform.setIntroduce(platformIntroduce);
         int succ = pushPlatformService.updatePlatform(platform);
         if (succ > 0) {

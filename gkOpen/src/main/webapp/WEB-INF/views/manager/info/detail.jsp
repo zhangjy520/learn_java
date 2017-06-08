@@ -44,6 +44,10 @@
         border: 1px solid #54ab37;
         background: #54ab37;
     }
+    .document-grade-1 li:first-child ul li:first-child a{
+        color: #525252 !important;
+        padding-left: 0 !important;
+    }
 </style>
 <main class="container">
 
@@ -78,6 +82,7 @@
                             <span>登录邮箱</span>:
                             <label>${openUser.username}</label>
                         </li>
+                        <li>
                         <span>审核结果</span>:
                         <c:if test="${openMessage.status == 2}">
                             <label>审核成功</label>
@@ -85,6 +90,7 @@
                         <c:if test="${openMessage.status == 3}">
                             <label>审核失败</label>
                         </c:if>
+                        </li>
                         <li>
                             <span>备注</span>:
                             <label>${openMessage.text}</label>

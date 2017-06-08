@@ -12,6 +12,7 @@
         window.location.href ="${ctx}/doLogout";
     }
 </script>
+
 <aside class="col-xs-3">
     <ul class="document-grade-1">
         <c:if test="${openUser.status==2}">
@@ -39,8 +40,11 @@
         <li>
             <a href="#">消息中心</a>
             <ul class="document-grade-2" style="display: block">
-                <li><a href="${ctx}/manager/info/index?type=2" class="info">消息中心</a></li>
-               <%-- <li><a href="${ctx}/manager/dynamic" id="dynamic">平台动态</a></li>--%>
+
+                <li><a href="${ctx}/manager/info/index?type=2" class="info" style="position: relative">消息中心
+                    <c:if test="${unReadCount>0}">
+                        <i style="display: inline-block;width:20px;height:20px;font-style:normal;line-height: 20px;text-align: center;color:#fff;background: red;position:absolute;border-radius: 50%;top:10px;left:70px">${unReadCount}</i>
+                    </c:if></a></li>
             </ul>
         </li>
     </ul>
@@ -107,15 +111,15 @@
     //设置在页面关闭时，通知服务端销毁会话
     dwr.engine.setNotifyServerOnPageUnload( true);
     //这个函数是提供给后台推送的时候 调用的
-    function showSuccess(content){
+    function showSuccess(content,info){
         toastr.options = {
             "closeButton": true,
             "debug": false,
             "positionClass": "toast-bottom-right",
             "onclick": function functionName() {
-                window.location.href='http://www.baidu.com'
+                window.location.reload();
             },
-            "showDuration": "300",
+            "showDuration": "10000",
             "hideDuration": "0",
             "timeOut": "",
             "extendedTimeOut": "1000",
@@ -126,12 +130,15 @@
         }
         toastr.success("您的应用<strong>"+content+"</strong>通过审核<a href='${ctx}/manager/info/index?type=2'>查看详情</a>")
     }
-    function showFail(content){
+    function showFail(content,info){
         toastr.options = {
             "closeButton": true,
             "debug": false,
             "positionClass": "toast-bottom-right",
-            "showDuration": "300",
+            "onclick": function functionName() {
+                window.location.reload();
+            },
+            "showDuration": "10000",
             "hideDuration": "0",
             "timeOut": "",
             "extendedTimeOut": "1000",

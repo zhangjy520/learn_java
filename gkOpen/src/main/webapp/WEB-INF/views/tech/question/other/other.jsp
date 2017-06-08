@@ -40,6 +40,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="${ctx}/static/css/tech-support.css">
 
 </head>
 <style>
@@ -47,6 +48,9 @@
         text-align: center;
         margin: 37px 0;
         padding-bottom: 8px;
+    }
+    p{
+        text-indent: 0 !important;
     }
 </style>
 <body>

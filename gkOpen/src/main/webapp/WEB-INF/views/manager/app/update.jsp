@@ -275,7 +275,7 @@
                                 }
                             })
                         </script>
-                        <i>请选择应用分类</i>
+                        <%--<i>请选择应用分类</i>--%>
                     </li>
                     <li>
                         <span>是否免费:</span>
@@ -295,7 +295,7 @@
                                                                               id="rank2">校级</label>
                             <%--<label for="u3"><input type="radio" name="t-user">教师</label>--%>
                         </div>
-                        <i>请选择是否需要付费试用该应用</i>
+                        <i>请选择应用级别</i>
                     </li>
                     <li>
                         <span class="multifySpan2">应用截图:</span>
