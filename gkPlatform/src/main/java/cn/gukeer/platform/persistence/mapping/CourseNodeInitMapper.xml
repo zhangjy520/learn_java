@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.CourseNodeInitMapper" >
+  <resultMap id="BaseResultMap" type="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="cycle_id" property="cycleId" jdbcType="VARCHAR" />
+    <result column="cycle_year" property="cycleYear" jdbcType="VARCHAR" />
+    <result column="cycle_semester" property="cycleSemester" jdbcType="INTEGER" />
+    <result column="morning_start" property="morningStart" jdbcType="BIGINT" />
+    <result column="morning_persistence" property="morningPersistence" jdbcType="INTEGER" />
+    <result column="common_persistence" property="commonPersistence" jdbcType="INTEGER" />
+    <result column="total_node" property="totalNode" jdbcType="INTEGER" />
+    <result column="afternoon_start" property="afternoonStart" jdbcType="BIGINT" />
+    <result column="night_start" property="nightStart" jdbcType="BIGINT" />
+    <result column="month_start_end" property="monthStartEnd" jdbcType="VARCHAR" />
+    <result column="month_start_end_name" property="monthStartEndName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, school_id, cycle_id, cycle_year, cycle_semester, morning_start, morning_persistence, 
+    common_persistence, total_node, afternoon_start, night_start, month_start_end, month_start_end_name, 
+    create_time, update_by, del_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInitExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from teach_course_node_init
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from teach_course_node_init
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from teach_course_node_init
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInitExample" >
+    delete from teach_course_node_init
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
+    insert into teach_course_node_init (id, school_id, cycle_id, 
+      cycle_year, cycle_semester, morning_start, 
+      morning_persistence, common_persistence, 
+      total_node, afternoon_start, night_start, 
+      month_start_end, month_start_end_name, create_time, 
+      update_by, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, #{cycleId,jdbcType=VARCHAR}, 
+      #{cycleYear,jdbcType=VARCHAR}, #{cycleSemester,jdbcType=INTEGER}, #{morningStart,jdbcType=BIGINT}, 
+      #{morningPersistence,jdbcType=INTEGER}, #{commonPersistence,jdbcType=INTEGER}, 
+      #{totalNode,jdbcType=INTEGER}, #{afternoonStart,jdbcType=BIGINT}, #{nightStart,jdbcType=BIGINT}, 
+      #{monthStartEnd,jdbcType=VARCHAR}, #{monthStartEndName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{updateBy,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
+    insert into teach_course_node_init
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="cycleId != null" >
+        cycle_id,
+      </if>
+      <if test="cycleYear != null" >
+        cycle_year,
+      </if>
+      <if test="cycleSemester != null" >
+        cycle_semester,
+      </if>
+      <if test="morningStart != null" >
+        morning_start,
+      </if>
+      <if test="morningPersistence != null" >
+        morning_persistence,
+      </if>
+      <if test="commonPersistence != null" >
+        common_persistence,
+      </if>
+      <if test="totalNode != null" >
+        total_node,
+      </if>
+      <if test="afternoonStart != null" >
+        afternoon_start,
+      </if>
+      <if test="nightStart != null" >
+        night_start,
+      </if>
+      <if test="monthStartEnd != null" >
+        month_start_end,
+      </if>
+      <if test="monthStartEndName != null" >
+        month_start_end_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleId != null" >
+        #{cycleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleYear != null" >
+        #{cycleYear,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleSemester != null" >
+        #{cycleSemester,jdbcType=INTEGER},
+      </if>
+      <if test="morningStart != null" >
+        #{morningStart,jdbcType=BIGINT},
+      </if>
+      <if test="morningPersistence != null" >
+        #{morningPersistence,jdbcType=INTEGER},
+      </if>
+      <if test="commonPersistence != null" >
+        #{commonPersistence,jdbcType=INTEGER},
+      </if>
+      <if test="totalNode != null" >
+        #{totalNode,jdbcType=INTEGER},
+      </if>
+      <if test="afternoonStart != null" >
+        #{afternoonStart,jdbcType=BIGINT},
+      </if>
+      <if test="nightStart != null" >
+        #{nightStart,jdbcType=BIGINT},
+      </if>
+      <if test="monthStartEnd != null" >
+        #{monthStartEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="monthStartEndName != null" >
+        #{monthStartEndName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update teach_course_node_init
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleId != null" >
+        cycle_id = #{record.cycleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleYear != null" >
+        cycle_year = #{record.cycleYear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleSemester != null" >
+        cycle_semester = #{record.cycleSemester,jdbcType=INTEGER},
+      </if>
+      <if test="record.morningStart != null" >
+        morning_start = #{record.morningStart,jdbcType=BIGINT},
+      </if>
+      <if test="record.morningPersistence != null" >
+        morning_persistence = #{record.morningPersistence,jdbcType=INTEGER},
+      </if>
+      <if test="record.commonPersistence != null" >
+        common_persistence = #{record.commonPersistence,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalNode != null" >
+        total_node = #{record.totalNode,jdbcType=INTEGER},
+      </if>
+      <if test="record.afternoonStart != null" >
+        afternoon_start = #{record.afternoonStart,jdbcType=BIGINT},
+      </if>
+      <if test="record.nightStart != null" >
+        night_start = #{record.nightStart,jdbcType=BIGINT},
+      </if>
+      <if test="record.monthStartEnd != null" >
+        month_start_end = #{record.monthStartEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.monthStartEndName != null" >
+        month_start_end_name = #{record.monthStartEndName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update teach_course_node_init
+    set id = #{record.id,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=VARCHAR},
+      cycle_id = #{record.cycleId,jdbcType=VARCHAR},
+      cycle_year = #{record.cycleYear,jdbcType=VARCHAR},
+      cycle_semester = #{record.cycleSemester,jdbcType=INTEGER},
+      morning_start = #{record.morningStart,jdbcType=BIGINT},
+      morning_persistence = #{record.morningPersistence,jdbcType=INTEGER},
+      common_persistence = #{record.commonPersistence,jdbcType=INTEGER},
+      total_node = #{record.totalNode,jdbcType=INTEGER},
+      afternoon_start = #{record.afternoonStart,jdbcType=BIGINT},
+      night_start = #{record.nightStart,jdbcType=BIGINT},
+      month_start_end = #{record.monthStartEnd,jdbcType=VARCHAR},
+      month_start_end_name = #{record.monthStartEndName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
+    update teach_course_node_init
+    <set >
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleId != null" >
+        cycle_id = #{cycleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleYear != null" >
+        cycle_year = #{cycleYear,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleSemester != null" >
+        cycle_semester = #{cycleSemester,jdbcType=INTEGER},
+      </if>
+      <if test="morningStart != null" >
+        morning_start = #{morningStart,jdbcType=BIGINT},
+      </if>
+      <if test="morningPersistence != null" >
+        morning_persistence = #{morningPersistence,jdbcType=INTEGER},
+      </if>
+      <if test="commonPersistence != null" >
+        common_persistence = #{commonPersistence,jdbcType=INTEGER},
+      </if>
+      <if test="totalNode != null" >
+        total_node = #{totalNode,jdbcType=INTEGER},
+      </if>
+      <if test="afternoonStart != null" >
+        afternoon_start = #{afternoonStart,jdbcType=BIGINT},
+      </if>
+      <if test="nightStart != null" >
+        night_start = #{nightStart,jdbcType=BIGINT},
+      </if>
+      <if test="monthStartEnd != null" >
+        month_start_end = #{monthStartEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="monthStartEndName != null" >
+        month_start_end_name = #{monthStartEndName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
+    update teach_course_node_init
+    set school_id = #{schoolId,jdbcType=VARCHAR},
+      cycle_id = #{cycleId,jdbcType=VARCHAR},
+      cycle_year = #{cycleYear,jdbcType=VARCHAR},
+      cycle_semester = #{cycleSemester,jdbcType=INTEGER},
+      morning_start = #{morningStart,jdbcType=BIGINT},
+      morning_persistence = #{morningPersistence,jdbcType=INTEGER},
+      common_persistence = #{commonPersistence,jdbcType=INTEGER},
+      total_node = #{totalNode,jdbcType=INTEGER},
+      afternoon_start = #{afternoonStart,jdbcType=BIGINT},
+      night_start = #{nightStart,jdbcType=BIGINT},
+      month_start_end = #{monthStartEnd,jdbcType=VARCHAR},
+      month_start_end_name = #{monthStartEndName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

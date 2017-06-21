@@ -57,19 +57,19 @@
     <div>
             <table>
                 <tr>
-                    <td><span>学年:</span><input type="text" name="teachCycle.cycleYear" value="${teachCycle.teachCycle.cycleYear}" class="cycleYear"></td>
+                    <td><span>学年:</span><input type="text" name="teachCycle.cycleYear" value="${teachCycle.cycleYear}" class="cycleYear"></td>
                 </tr>
                 <tr>
-                    <td><span>学期:</span><input type="text" name="teachCycle.cycleSemester" value="${teachCycle.teachCycle.cycleSemester}" class="cycleSemester"></td>
+                    <td><span>学期:</span><input type="text" name="teachCycle.cycleSemester" value="${teachCycle.cycleSemester}" class="cycleSemester"></td>
                 </tr>
                 <tr>
-                    <td><span>开始:</span><input type="text" name="teachCycle.beginDate" value="${teachCycle.strBeginDate}" class="hello laydate-icon start" onclick="laydate()"></td>
+                    <td><span>开始周:</span><input type="text" name="teachCycle.beginDate" value="${teachCycle.beginDate}" class="start"></td>
                 </tr>
                 <tr>
-                    <td><span>结束:</span><input type="text" name="teachCycle.endDate" value="${teachCycle.strEndDate}" class="hello laydate-icon end" onclick="laydate()"></td>
+                    <td><span>结束周:</span><input type="text" name="teachCycle.endDate" value="${teachCycle.endDate}" class="end" ></td>
                 </tr>
                 <tr>
-                    <td><span>总周次:</span><input type="text" name="teachCycle.weekCount" value="${teachCycle.teachCycle.weekCount}" class="weekCount"></td>
+                    <td><span>总周次:</span><input type="text" name="teachCycle.weekCount" value="${teachCycle.weekCount}" class="weekCount"></td>
                 </tr>
             </table>
     </div>
@@ -84,9 +84,10 @@
         var weekCount = $(".weekCount").val();
         if (cycleYear == "" || cycleSemester == "" || start == "" || end == "" || weekCount == "") {
             webToast("所填项均为必填", "top", 2300);
+            return;
         }
         $.post("${ctx}/teach/task/cycle/do", {
-            id:'${teachCycle.teachCycle.id}',
+            id:'${teachCycle.id}',
             cycleYear: cycleYear,
             cycleSemester: cycleSemester,
             beginDate: start,
@@ -97,7 +98,7 @@
             if (data.code == 0) {
                 webToast(data.msg, "top", 5000);
                 setTimeout(function(){parent.location.reload();}, 5000);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function(){top.layer.close(index)}, 5000);
+                setTimeout(function(){top.layer.close()}, 5000);
                 return true;
             } else {
                 webToast(data.msg, "top", 5000);
@@ -107,44 +108,5 @@
             }
         });
     }
-    //    将checkbox的值存到域中 通过form提交
-    $('input[type=checkbox]').change(function () {
-        $('#Jszzdm').val($('input[type=checkbox]:checked').map(function () {
-            return this.value
-        }).get().join(','))
-    })
-
-    laydate({
-        elem: '.hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-    });
-    //    将checkbox的值存到域中 通过form提交
-
-
-    var start = {
-        elem: '.start',
-        format: 'YYYY/MM/DD hh:mm:ss',
-        min: laydate.now(), //设定最小日期为当前日期
-        max: '2099-06-16 23:59:59', //最大日期
-        istime: true,
-        istoday: false,
-        choose: function (datas) {
-            end.min = datas; //开始日选好后，重置结束日的最小日期
-            end.start = datas //将结束日的初始值设定为开始日
-        }
-    };
-    var end = {
-        elem: '.end',
-        format: 'YYYY/MM/DD hh:mm:ss',
-        min: laydate.now(),
-        max: '2099-06-16 23:59:59',
-        istime: true,
-        istoday: false,
-        choose: function (datas) {
-            start.max = datas; //结束日选好后，重置开始日的最大日期
-        }
-    };
-    laydate(start);
-    laydate(end);
 </script>
 </html>

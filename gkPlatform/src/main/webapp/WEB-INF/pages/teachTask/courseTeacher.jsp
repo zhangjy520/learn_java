@@ -5,14 +5,16 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>任课教师管理</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <style>
     .row {
         margin: auto;
     }
-
+    #generated{
+        padding-top: 0 !important;
+    }
     .search-box select {
         height: 30px;
     }
@@ -52,9 +54,28 @@
     #generated {
         padding-top: 20px;
     }
-
+    #zh-manage #generated > div:first-child{
+        overflow: inherit;
+    }
     .but {
         padding-left: 15px;
+    }
+
+
+    .active {
+        color: #54AB37 !important;
+        border: 1px solid #ddd !important;
+        border-bottom: 0 !important;
+    }
+    .class-containt span{
+        float: left;
+        padding: 10px 15px;
+        cursor: pointer;
+        color: #525252;
+        border-bottom: 1px solid #ddd;
+    }
+    .class-containt span:hover{
+        color: #54AB37;
     }
 </style>
 
@@ -62,7 +83,7 @@
 <%@ include file="../common/sonHead/teachTaskHead.jsp" %>
 <main class="container" id="zh-manage">
     <div class="search-box">
-        <div class="stu-num-manage-menu" style="display: inline-block">
+
             学年：
             <select name="cycleYear" class="cycleYear">
                 <c:forEach items="${yearList}" var="year">
@@ -70,6 +91,7 @@
                             <c:if test="${cycleYear ==year}">selected</c:if> value="${year}" >${year}</option>
                 </c:forEach>
             </select>
+
             学期：
             <select name="cycleSemester" class="cycleSemester">
                 <c:forEach items="${semesterList}" var="cycle">
@@ -78,7 +100,7 @@
                     </option>
                 </c:forEach>
             </select>
-        </div>
+
         <div class="roll-operation" style="display: inline-block;">
             <button onclick="openDialog('导入数据','${ctx}/class/fileImport?url=${ctx}/teach/task/course/teacher/import','500px','350px')">
                 导入
@@ -93,12 +115,13 @@
             <input class="searchInput" type="text" name="zhiGong" placeholder="请输入老师姓名"/>
         </div>
     </div>
+    </div>
     <section id="generated" class="row">
-        <div style="padding: 0;">
+        <div style="padding:0;padding-top: 20px; overflow: hidden;" class="class-containt">
             <c:forEach items="${courseList}" var="course">
-                        <span onclick="courseChange('${course.id}')" style="background-color: #9d9d9d;"
-                            <%--<c:if test="${course.name eq courseName}">selected</c:if>--%>
-                        >${course.name}</span>
+                        <span onclick="courseChange('${course.id}')" valCourseId="${course.id}" <c:if test="${course.id==courseId}" >class="active"</c:if>>
+                            ${course.name}
+                        </span>
             </c:forEach>
         </div>
         <div class="row" style="padding: 0;">
@@ -142,7 +165,8 @@
         $("select").change(function () {
             var cycleSemester = $("select[name='cycleSemester']").val();
             var cycleYear = $("select[name='cycleYear']").val();
-            window.location.href = "${ctx}/teach/task/course/teacher/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+            var valCourseId = $('.class-containt   .active').attr("valCourseId");
+            window.location.href = "${ctx}/teach/task/course/teacher/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&courseId="+valCourseId;
         });
 
         <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
@@ -152,7 +176,22 @@
             backFn: function (p) {
                 var cycleSemester = $("select[name='cycleSemester']").val();
                 var cycleYear = $("select[name='cycleYear']").val();
-                window.location.href = "${ctx}/teach/task/course/teacher/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+                var valCourseId = $('.class-containt   .active').attr("valCourseId");
+                window.location.href = "${ctx}/teach/task/course/teacher/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&courseId="+valCourseId;
+            }
+        });
+        </c:if>
+
+        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
+        $(".gotoPage").click(function () {
+            var pageNum = $("#fenY2go").val();
+            if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
+                layer.msg("请输入正确的页码")
+            } else {
+                var cycleSemester = $("select[name='cycleSemester']").val();
+                var cycleYear = $("select[name='cycleYear']").val();
+                var valCourseId = $('.class-containt   .active').attr("valCourseId");
+                window.location.href = "${ctx}/teach/task/course/teacher/index?pageNum=" + pageNum + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&courseId="+valCourseId;
             }
         });
         </c:if>
@@ -161,10 +200,8 @@
     function courseChange(id) {
         var cycleSemester = $("select[name='cycleSemester']").val();
         var cycleYear = $("select[name='cycleYear']").val();
-        var courseId =
         window.location.href = "${ctx}/teach/task/course/teacher/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester + "&&courseId=" + id;
     }
-
     function reSetPass(id) {
         $.post("${ctx}/renshi/account/password/update", {
             id: id,

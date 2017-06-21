@@ -1,10 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../../common/headerXf.jsp" %>
 <%@ include file="../../common/common.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>班级教室编辑</title>
     <link rel="stylesheet" type="text/css" href="${ctxStatic}/css/jquery.autocomplete.css"/>
+    <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
+
     <script type="text/javascript" src="${ctxStaticNew}/js/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="${ctxStaticNew}/js/layer/layer.js"></script>
     <script type="text/javascript" src="${ctxStaticNew}/js/openDialog.js"></script>
@@ -29,7 +32,9 @@
         font-size: 13px !important;
         color: #525252 !important;
     }
-
+    table{
+        margin-top: 20px;
+    }
     table td {
         font-size: 13px;
         /*text-align: right;*/
@@ -38,15 +43,15 @@
 
     table td span:first-child {
         width: 88px;
-        text-align: right;
+        /*text-align: right;*/
     }
 
     table td span:last-child {
-        width: 150px;
-        height: 28px;
-        line-height: 28px;
-        margin-left: 12px;
-        padding-left: 10px;
+        /*width: 150px;*/
+        /*height: 28px;*/
+        /*line-height: 28px;*/
+        /*margin-left: 12px;*/
+        /*padding-left: 10px;*/
     }
 
     table td input[type="text"], table td select {
@@ -60,13 +65,46 @@
         border-radius: 2px;
         color: #333;
     }
+    .cla-sp{
+        width: 150px;
+        height: 28px;
+        line-height: 28px;
+        margin-left: 14px;
+    }
+    #zh-manage .search-box{
+        margin-top: 0 !important;
+    }
+    #zh-manage .search-box ul{
+        border: none;
+    }
+    .stu-num-manage-menu{
+        display: inline-block;
+    }
+    .stu-num-manage-menu ul{
+        margin-bottom: 0 !important;
+        height: auto !important;
+    }
+    .roll-operation{
+        vertical-align: middle !important;
+    }
+    .btn-containt button{
+        border: 1px solid #54ab37;
+        border-radius: 2px;
+        background: #54AB37;
+        color: #fff;
+        width: 70px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 20px;
+    }
 </style>
-<body>
 <div>
+    <%@ include file="../../common/sonHead/teachTaskHead.jsp" %>
+    <main class="container" id="zh-manage">
     <table>
         <input type="hidden" value="${refId}" class="refId">
         <tr>
-            <td><span>年级班级:${refClassRoomView.sectionName}${refClassRoomView.nj}年级${refClassRoomView.banji}</span></td>
+            <td><span>年级班级:</span><span class="cla-sp">${refClassRoomView.sectionName}${refClassRoomView.nj}年级${refClassRoomView.banji}</span></td>
         </tr>
         <tr>
             <td><span>校区:</span>
@@ -88,15 +126,16 @@
             <td><span>教室号:</span>
                 <select name="schoolType" class="roomNum">
                     <c:forEach items="${roomNumList}" var="classRoom" varStatus="status">
-                        <option  <c:if test="${roomId==classRoom.roomId}">selected</c:if> value="${classRoom.roomId}">${classRoom.roomNum}</option>
+                        <option  <c:if test="${roomId==classRoom.id}">selected</c:if> value="${classRoom.id}">${classRoom.roomNum}</option>
                     </c:forEach>
                 </select>
             </td>
         </tr>
     </table>
-</div>
-<div>
-    <button onclick="confirmSave()">确定</button>
+    <div class="btn-containt">
+        <button onclick="confirmSave()">确定</button>
+    </div>
+    </main>
 </div>
 </body>
 <script>

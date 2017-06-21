@@ -5,9 +5,15 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>人员管理</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<style>
+     table .selectCourseClass  {
+        color: #54ab37;
+        background: url(${ctxStaticNew}/images/modify.png) no-repeat left center;
+    }
+</style>
 <body>
 <%@ include file="../common/sonHead/teachTaskHead.jsp" %>
 
@@ -33,16 +39,19 @@
 
         <div class="roll-operation">
             <button class="roll-add"
-                    onclick="openDialog('新增','${ctx}/teach/task/course/pop?type=add','500px','400px');">课程新增
+                    onclick="openDialog('新增','${ctx}/teach/task/course/pop?type=add','500px','440px');">课程新增
             </button>
+            <%--<button class="roll-add"--%>
+                    <%--onclick="openDialog('标准课程新增','${ctx}/teach/task/course/standard/add/pop','500px','400px');">标准课程新增--%>
+            <%--</button>--%>
         </div>
         <div class="roll-teatypemanage">
             <button onclick="openCourseType('课程类型管理','${ctx}/teach/task/course/type/pop','500px','352px');">课程类型管理
             </button>
         </div>
     </div>
-    <div class="stu-num-manage-menu">
-    </div>
+    <%--<div class="stu-num-manage-menu">--%>
+    <%--</div>--%>
     <section id="generated" class="row">
         <div class="row">
             <table class="normal check">
@@ -55,7 +64,7 @@
                 <tr>
                     <th width="5%">序号</th>
                     <th>课程名称</th>
-                    <th>课程类型</th>
+                    <th>标准课程类型</th>
                     <th>教室类型</th>
                     <th>操作</th>
                 </tr>
@@ -65,13 +74,12 @@
                     <tr>
                         <td>${status.index+1+(coursePageInfo.pageNum-1)*10}</td>
                         <td>${course.name}</td>
-                        <td>${course.courseType}</td>
-                        <td>${course.roomType}</td>
+                        <td>${course.courseTypeName}</td>
+                        <td>${course.roomTypeName}</td>
                         <td><span onclick="openDialog('编辑课程',
-                                '${ctx}/teach/task/course/pop?id=${course.id}&&type=edit','500px','360px');">编辑</span>
+                                '${ctx}/teach/task/course/pop?id=${course.id}&&cycleId=${course.cycleId}','500px','500px');">编辑</span>
                             <span onclick="openDialog('授课班级',
-                                    '${ctx}/teach/task/course/class/pop?id=${course.id}','500px','352px');">授课班级</span>
-
+                                    '${ctx}/teach/task/course/class/pop?id=${course.id}'  ,'500px','352px');" class="selectCourseClass">授课班级</span>
                             <span value="${course.id}"
                                   onclick="alertTips('400px','200px','删除课程','确定要删除${course.name}课程吗？','deleteSure(\'${course.id}\')')"> 删除</span>
                         </td>
@@ -95,7 +103,7 @@
             window.location.href = "${ctx}/teach/task/course/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
         });
 
-        $(".fenY").createPage({
+        $(".fenY2").createPage({
             pageCount:${coursePageInfo.pages},//总页数
             current:${coursePageInfo.pageNum},//当前页面
             backFn: function (p) {
@@ -194,28 +202,22 @@
             maxmin: false, //开启最大化最小化按钮
             content: url,
             scrollbar: false,
-            btn: ['确定', '关闭'],
+            btn: ['关闭'],
             yes: function (index, layero) {
                 var body = top.layer.getChildFrame('body', index);
                 var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                 var inputForm = body.find('#inputForm');
                 var top_iframe;
-                /*if(target){
-                 top_iframe = target;//如果指定了iframe，则在改frame中跳转
-                 }
-                 inputForm.attr("target",top_iframe);//表单提交成功后，从服务器返回的url在当前tab中展示*/
-                debugger;
                 var add = body.find('.add').val();
                 console.log(add);
                 if (add.length > 0) {
                     $.get(postPath + "/teach/task/course/type/add", {
                         name: add
                     }, function (data) {
-//                        alert("ssssss");
+
                     })
                 } else {
                     if (iframeWin.contentWindow.doSubmit()) {
-                        //debugger;
                         setTimeout(function () {
                             parent.location.reload();
                         }, 400);

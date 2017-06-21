@@ -62,7 +62,7 @@
 			pageCount:${pageInfo.pages},//总页数
 			current:${pageInfo.pageNum},//当前页面
 			backFn:function(p){
-				window.location.href = "${ctx}/renshi/rolefp/index?pageNum="+p+"&pageSize=10";
+				window.location.href = "${ctx}/teach/task/rolefp/index?pageNum="+p+"&pageSize=10";
 			}
 		});
 
@@ -72,7 +72,7 @@
 			if (pageNum <= 0 || pageNum > ${pageInfo.pages}){
 				layer.msg("请输入正确的页码")
 			} else {
-				window.location.href = "${ctx}/renshi/rolefp/index?pageNum="+$(".go").val()+"&pageSize=10";
+				window.location.href = "${ctx}/teach/task/rolefp/index?pageNum="+$(".go").val()+"&pageSize=10";
 			}
 		});
 		</c:if>
@@ -118,7 +118,7 @@
 	$.fn.zTree.init($("#tree1"), setting, zNodes1);
 	/*z-tree*/
 	$(".node_name").click(function () {
-		window.location.href="${ctx}/renshi/rolefp/index?pageSize=10&roleId="+$(this).attr("menuId");
+		window.location.href="${ctx}/teach/task/rolefp/index?pageSize=10&roleId="+$(this).attr("menuId");
 	});
 
 	function  deleteSure(userId,roleId) {

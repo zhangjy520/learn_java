@@ -3,7 +3,7 @@
 <html language="en">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>教务管理</title>
 
     <link rel="stylesheet" type="text/css" href="${ctxStatic}/css/jquery.autocomplete.css" />
     <style>

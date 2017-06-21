@@ -4,7 +4,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>教学周期管理</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <style>
@@ -22,6 +22,15 @@
         color: #fff;
         border-radius: 2px;
     }
+    #ry-manage table tbody td:last-child span:last-child{
+
+    }
+    .reset{
+        padding-left: 20px;
+        cursor: pointer;
+        color: #fd3a47;
+        background: url(../../../assetsNew/images/icon-delete.png) no-repeat left 2px;
+    }
 </style>
 <body>
 
@@ -30,8 +39,8 @@
     <section id="generated" class="row">
         <button class="addTeachCycleButton addbutton"
                 onclick="openDialog('添加教学周期',
-                        '${ctx}/teach/task/cycle/add/pop','550px','420px');">
-            添加教学周期>
+                        '${ctx}/teach/task/cycle/add/pop','550px','440px');">
+            添加教学周期
         </button>
         <div class="row">
             <table class="normal">
@@ -41,27 +50,27 @@
                     <th width="5%">序号</th>
                     <th>学年</th>
                     <th>学期</th>
-                    <th>开始时间</th>
-                    <th>结束时间</th>
+                    <th>开始周</th>
+                    <th>结束周</th>
                     <th>总周次</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${teachCycleList}" var="teachCycle" varStatus="status">
+                <c:forEach items="${pageInfo.list}" var="teachCycle" varStatus="status">
                     <tr>
                         <td><input type="checkbox"></td>
                         <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
-                        <td>${teachCycle.teachCycle.cycleYear}</td>
-                        <td>${teachCycle.teachCycle.cycleSemester}</td>
-                        <td>${teachCycle.start}</td>
-                        <td>${teachCycle.end}</td>
-                        <td>${teachCycle.teachCycle.weekCount}</td>
+                        <td>${teachCycle.cycleYear}</td>
+                        <td>${teachCycle.cycleSemester}</td>
+                        <td>${teachCycle.beginDate}</td>
+                        <td>${teachCycle.endDate}</td>
+                        <td>${teachCycle.weekCount}</td>
                         <td><span onclick="openDialog('编辑周期',
-                                '${ctx}/teach/task/cycle/edit/pop?id=${teachCycle.teachCycle.id}&&type=edit','550px','420px');">编辑</span>
+                                '${ctx}/teach/task/cycle/edit/pop?id=${teachCycle.id}&&type=edit','550px','420px');">编辑</span>
 
-                            <sapn value="${teachCycle.id}"
-                                  onclick="alertTips(400,202,'删除周期','确定要删除${teachCycle.teachCycle.cycleYear}第${teachCycle.teachCycle.cycleSemester}学期吗？','deleteSure(\'${teachCycle.teachCycle.id}\')')">
+                            <sapn class="reset" value="${teachCycle.id}"
+                                  onclick="alertTips(400,202,'删除周期','确定要删除${teachCycle.cycleYear}第${teachCycle.cycleSemester}学期吗？','deleteSure(\'${teachCycle.id}\')')">
                                 删除
                             </sapn>
                             <%--<span onclick="openDialog('同步数据',--%>
@@ -72,7 +81,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="fenye" style="width:98.5%;padding-left:15px;">
+        <div class="fenye" style="width:100%;">
             <div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>
             <div class="fenY2" id="fenY2">
             </div>

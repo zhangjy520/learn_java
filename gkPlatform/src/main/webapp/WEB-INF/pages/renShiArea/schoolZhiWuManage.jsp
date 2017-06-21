@@ -4,9 +4,35 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>人事管理</title>
+    <title>区级人事管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<style>
+    #bm-manage {
+        padding-left: 30px;
+    }
+
+    .search-box select {
+        width: 120px;
+        height: 28px;
+        line-height: 28px;
+    }
+
+    #bm-manage .stu-num-manage-menu ul li a.active {
+        color: #54ab37 !important;
+        border: 1px solid #ddd;
+        border-bottom: 0;
+        background: #fff;
+    }
+
+    #bm-manage .stu-num-manage-menu ul li a:hover {
+        color: #54ab37 !important;
+    }
+
+    select {
+        margin-left: 12px;
+    }
+</style>
 <body>
 
 <%@ include file="../common/sonHead/qujiRenShiHead.jsp" %>
@@ -19,12 +45,13 @@
         <main class="col-xs-9" id="bm-manage">
             <div class="search-box">
                 <div style="float: left">
-                    职务 :
+                    职务
                     <select name="titleId">
                         <option value="0">全部</option>
                         <c:forEach items="${zhiwuList}" var="zhiwu">
                             <option value="${zhiwu.id}"
-                                    <c:if test="${currentTitle.id eq zhiwu.id}">selected</c:if> >${zhiwu.mc}</option>
+                                    <c:if test="${currentTitle.id eq zhiwu.id}">selected</c:if> >${zhiwu.mc}
+                            </option>
                         </c:forEach>
                     </select>
                 </div>
@@ -33,7 +60,6 @@
                     <button onclick="searchTeacher()"></button>
                     <input class="searchInput" id="searchTeacher" type="text" placeholder="请输入职工姓名"/>
                 </div>
-
             </div>
 
             <div class="stu-num-manage-menu">
@@ -44,16 +70,15 @@
             </div>
 
             <section id="generated">
-
                 <div>
                     <table class="normal">
                         <thead>
-                            <tr>
-                                <th width="10%">序号</th>
-                                <th width="20%">姓名</th>
-                                <th width="20%">性别</th>
-                                <th width="30%">教职工编号</th>
-                            </tr>
+                        <tr>
+                            <th width="10%">序号</th>
+                            <th width="20%">姓名</th>
+                            <th width="20%">性别</th>
+                            <th width="30%">教职工编号</th>
+                        </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${teacherList}" var="teacher" varStatus="status">
@@ -111,7 +136,7 @@
         </main>
     </div>
     <script type="text/javascript">
-        activeMenu("xiaoji",4);
+        activeMenu("xiaoji", 4);
 
         var titleId = $("select[name='titleId']").val();
         var name = $("#searchHidden").val();
@@ -127,7 +152,7 @@
                     if (name == "undefined") {
                         name = "";
                     }
-                    jump(menuId,"${currentTitle.id}",name,p);
+                    jump(menuId, "${currentTitle.id}", name, p);
                 }
             });
             </c:if>
@@ -142,7 +167,7 @@
                     if (name == "undefined") {
                         name = "";
                     }
-                    jump(menuId,"${currentTitle.id}",name,$(".go").val());
+                    jump(menuId, "${currentTitle.id}", name, $(".go").val());
                 }
             });
 
@@ -199,7 +224,7 @@
             if (menuId.indexOf("nosearch") >= 0) {
 
             } else {
-                jump(menuId,null,null,1);
+                jump(menuId, null, null, 1);
             }
         });
 
@@ -235,15 +260,16 @@
         $("select").change(function () {
             var titleId = $(this).val();
             var teacherName = $("#searchHidden").val();
-            jump(menuId,titleId,teacherName,1);
+            jump(menuId, titleId, teacherName, 1);
         });
 
 
         function searchTeacher() {
             titleId = $("select[name='titleId']").val();
             var teacherName = $("#searchTeacher").val();
-            jump(menuId,titleId,teacherName,1);
+            jump(menuId, titleId, teacherName, 1);
         }
+
     </script>
 </main>
 </body>

@@ -72,10 +72,9 @@
 
         .stuMsg input[type=text] {
             width: 190px;
-            height: 23px;
+            height: 28px;
             padding:0;
             padding-left:5px;
-            margin-left: 15px;
             border-radius:3px;
             border:1px solid #a9a9a9;
         }
@@ -85,7 +84,6 @@
         }
 
         .stuMsg input[class=laydate-icon] {
-            margin-left: 15px;
             width: 190px;
             border: 1px solid #a9a9a9;
         }
@@ -103,8 +101,8 @@
             font-size: 20px;
             color: #E51C23;
             position: absolute;
-            top: 1px;
-            right: 26px;
+            top: 4px;
+            right: 36px;
         }
 
         .radio b {
@@ -112,11 +110,10 @@
         }
 
         .stuMsg select {
-            margin-left: 15px;
             font-size: 14px;
             color: #999;
             width: 197px;
-            height: 23px;
+            height: 28px;
             padding-left: 5px;
             border: 1px solid #a9a9a9;
             border-radius: 4px;
@@ -164,25 +161,27 @@
         }
 
         .parentMsg ul li span {
-            margin-right: 15px;
+
             display: inline-block;
             width: 36%;
             text-align: right;
         }
 
         .parentMsg input[type=text] {
-            height: 23px;
+            height: 28px;
             padding:0;
             padding-left:5px;
             width:190px;
             border:1px solid #a9a9a9;
             border-radius: 3px;
+            outline: none;
         }
 
         .parentMsg select {
             width: 190px;
-            height: 23px;
+            height: 28px;
             border-radius: 4px;
+            outline: none;
         }
 
         .container table {
@@ -302,12 +301,12 @@
             <ul class="left">
                 <li>
                     <span>姓名：</span>
-                    <input type="text" name="xsxm" value="${student.xsxm}"/>
+                    <input ${disabled} type="text" name="xsxm" value="${student.xsxm}"/>
                     <b>*</b>
                 </li>
                 <li class="radio">
                     <span>性别：</span>
-                    <select id="xsxb">
+                    <select ${disabled} id="xsxb">
                         <option value="-1"></option>
                         <option value="1" <c:if test="${student.xsxb == 1}">selected</c:if>>男</option>
                         <option value="2" <c:if test="${student.xsxb == 2}">selected</c:if>>女</option>
@@ -315,22 +314,22 @@
                 </li>
                 <li>
                     <span>出生日期：</span>
-                    <input type="text" name="csrq"
+                    <input ${disabled} type="text" name="csrq"
                     <%--value="${student.csrq}" --%>
                             <c:if test="${gukeer:notEmptyString(student.csrq)}"> value="${gukeer:millsToyyyyMMdd(student.csrq)}" </c:if>
                            id="birthDate" class="laydate-icon"/>
                 </li>
                 <li>
                     <span>国别：</span>
-                    <input type="text" name="gb" value="${student.gb}"/>
+                    <input ${disabled} type="text" name="gb" value="${student.gb}"/>
                 </li>
                 <li>
                     <span>民族：</span>
-                    <input type="text" name="mz" value="${student.mz}"/>
+                    <input ${disabled} type="text" name="mz" value="${student.mz}"/>
                 </li>
                 <li>
                     <span>学段：</span>
-                    <select id="xueduan" name="xueduan">
+                    <select ${disabled} id="xueduan" name="xueduan">
                         <option value="0">请选择学段</option>
                         <c:forEach items="${schoolview.sections}" var="xd">
                             <option value="${xd.id}"
@@ -340,7 +339,7 @@
                 </li>
                 <li>
                     <span>校区：</span>
-                    <select id="xq" name="xq">
+                    <select ${disabled} id="xq" name="xq">
                         <option value="0">请选择校区</option>
                         <c:forEach items="${xqList}" var="xq">
                             <option value="${xq.value}"
@@ -350,7 +349,7 @@
                 </li>
                 <li>
                     <span>年级：</span>
-                    <select id="nianji" name="nianji">
+                    <select ${disabled} id="nianji" name="nianji">
                         <c:if test="${gukeer:emptyString(nowxd) || gukeer:emptyString(nownj)}">
                             <option value="0">请选择年级</option>
                         </c:if>
@@ -367,7 +366,7 @@
                 </li>
                 <li>
                     <span>班级：</span>
-                    <select id="banji" name="banji">
+                    <select ${disabled} id="banji" name="banji">
                         <c:if test="${nowbj == '0'}">
                             <option value="0">请选择班级</option>
                         </c:if>
@@ -387,11 +386,11 @@
                 </li>--%>
                 <li>
                     <span>学籍号：</span>
-                    <input type="text" name="xh" value="${student.xh}"/>
+                    <input ${disabled} type="text" name="xh" value="${student.xh}"/>
                 </li>
                 <li>
                     <span>教育ID号：</span>
-                    <input type="text" name="jyid" value="${student.jyid}"/>
+                    <input ${disabled} type="text" name="jyid" value="${student.jyid}"/>
                 </li>
               <%--  <li>
                     <span>全国学籍号：</span>
@@ -399,7 +398,7 @@
                 </li>--%>
                 <li>
                     <span>有效证件类型：</span>
-                    <select id="yxzjlx">
+                    <select ${disabled} id="yxzjlx">
                         <option value="-1"></option>
                         <option value="1" <c:if test="${student.yxzjlx == 1}">selected</c:if>>身份证</option>
                         <option value="2" <c:if test="${student.yxzjlx == 2}">selected</c:if>>护照</option>
@@ -407,7 +406,7 @@
                 </li>
                 <li>
                     <span>有效证件号：</span>
-                    <input type="text" name="yxzjh" value="${student.yxzjh}"/>
+                    <input ${disabled} type="text" name="yxzjh" value="${student.yxzjh}"/>
                 </li>
             </ul>
             <ul class="right">
@@ -430,7 +429,9 @@
                         <li style="">
 
                             <c:if test="${gukeer:notEmptyString(student.xszp)}">
-                                <div class="removeBtn" onclick="rmPic(this)">—</div>
+                                <c:if test="${gukeer:emptyString(disabled)}">
+                                    <div class="removeBtn" onclick="rmPic(this)">—</div>
+                                </c:if>
                                 <img src="${ctx}/file/pic/show?picPath=${student.xszp}" data-url="${student.xszp}"
                                      width="100%" height="100%" id="head_url">
                             </c:if>
@@ -441,18 +442,25 @@
 
                         </li>
                     </ul>
+                    <c:if test="${gukeer:emptyString(disabled)}">
+                        <div id="iconUpload" class="uploading" style="width:70px;height:30px;color:#fff;border:1px solid #54AB37;background: #54AB37;border-radius: 4px;vertical-align: -260%;cursor:pointer">
+                            <a  style="display: inline-block;height:100%;line-height: 30px; ">上传照片</a>
+                        </div>
+                    </c:if>
+                    <c:if test="${gukeer:notEmptyString(disabled)}">
+                        <div style="">
 
-                    <div id="iconUpload" class="uploading" style="width:70px;height:30px;color:#fff;border:1px solid #54AB37;background: #54AB37;border-radius: 4px;vertical-align: -260%;cursor:pointer">
-                        <a  style="display: inline-block;height:100%;line-height: 30px; ">上传照片</a>
-                    </div>
+                        </div>
+                    </c:if>
+
                 </li>
                 <li>
                     <span>拼音：</span>
-                    <input type="text" name="xmpy" value="${student.xmpy}"/>
+                    <input ${disabled} type="text" name="xmpy" value="${student.xmpy}"/>
                 </li>
                 <li>
                     <span>在校状态：</span>
-                    <select id="status">
+                    <select ${disabled} id="status">
                         <option value="0" <c:if test="${student.status == 0}">selected</c:if>>在籍在校</option>
                         <option value="1" <c:if test="${student.status == 1}">selected</c:if>>在籍离校</option>
                         <option value="2" <c:if test="${student.status == 2}">selected</c:if>>在校不在籍</option>
@@ -471,7 +479,7 @@
                 </li>
                 <li>
                     <span>招生类别：</span>
-                    <select id="zslb">
+                    <select ${disabled} id="zslb">
                         <option value="-1"></option>
                         <option value="0" <c:if test="${student.zslb == 0}">selected</c:if>>普通入学</option>
                         <option value="1" <c:if test="${student.zslb == 1}">selected</c:if>>民族班</option>
@@ -484,7 +492,7 @@
                 </li>
                 <li>
                     <span>入学时间：</span>
-                    <input type="text" name="rxrq" id="enterDate"
+                    <input ${disabled} type="text" name="rxrq" id="enterDate"
                     <%--value="${student.rxrq}"--%>
                             <c:if test="${gukeer:notEmptyString(student.rxrq)}">
                                 value="${gukeer:millsToyyyyMMdd(student.rxrq)}"
@@ -493,7 +501,7 @@
                 </li>
                 <li>
                     <span>政治面貌：</span>
-                    <select id="zzmm">
+                    <select ${disabled} id="zzmm">
                         <option value="-1"></option>
                         <option value="0" <c:if test="${student.zzmm == 0}">selected</c:if>>群众</option>
                         <option value="1" <c:if test="${student.zzmm == 1}">selected</c:if>>团员</option>
@@ -502,7 +510,7 @@
                 </li>
                 <li>
                     <span>学生类别：</span>
-                    <select id="xslb">
+                    <select ${disabled} id="xslb">
                         <option value="-1"></option>
                         <option value="0" <c:if test="${student.xslb == 0}">selected</c:if>>普通学生</option>
                         <option value="1" <c:if test="${student.xslb == 1}">selected</c:if>>随班就读生</option>
@@ -512,7 +520,7 @@
                 </li>
                 <li>
                     <span>来源地区：</span>
-                    <select id="lydq">
+                    <select ${disabled} id="lydq">
                         <option value="-1"></option>
                         <option value="0" <c:if test="${student.lydq == 0}">selected</c:if>>区县内</option>
                         <option value="1" <c:if test="${student.lydq == 1}">selected</c:if>>省市内</option>
@@ -521,7 +529,7 @@
                 </li>
                 <li>
                     <span>户口性质：</span>
-                    <select id="hkxz">
+                    <select ${disabled} id="hkxz">
                         <option value="-1"></option>
                         <option value="0" <c:if test="${student.hkxz == 0}">selected</c:if>>农村</option>
                         <option value="1" <c:if test="${student.hkxz == 1}">selected</c:if>>城镇</option>
@@ -530,19 +538,19 @@
                 </li>
                 <li>
                     <span>籍贯：</span>
-                    <input type="text" name="jg" value="${student.jg}"/>
+                    <input ${disabled} type="text" name="jg" value="${student.jg}"/>
                 </li>
                 <li>
                     <span>户口所在地：</span>
-                    <input type="text" name="hkszd" value="${student.hkszd}"/>
+                    <input ${disabled} type="text" name="hkszd" value="${student.hkszd}"/>
                 </li>
                 <li>
                     <span>现居住地：</span>
-                    <input type="text" name="xjzd" value="${student.xjzd}"/>
+                    <input ${disabled} type="text" name="xjzd" value="${student.xjzd}"/>
                 </li>
                 <li>
                     <span>是否按本市户口学生对待：</span>
-                    <select id="sfbshk">
+                    <select ${disabled} id="sfbshk">
                         <option value="-1"></option>
                         <option value="1" <c:if test="${student.sfbshk == 1}">selected</c:if>>是</option>
                         <option value="2" <c:if test="${student.sfbshk == 2}">selected</c:if>>否</option>
@@ -557,30 +565,30 @@
                 <ul>
                     <li>
                         <span>姓名：</span>
-                        <input type="text" name="fname" value="${fpatriarch.name}"/>
+                        <input ${disabled} type="text" name="fname" value="${fpatriarch.name}"/>
                     </li>
                     <li>
                         <span>联系电话：</span>
-                        <input type="text" name="fphone" value="${fpatriarch.phone}"/>
+                        <input ${disabled} type="text" name="fphone" value="${fpatriarch.phone}"/>
                     </li>
                     <li>
                         <span>职务或职业：</span>
-                        <input type="text" name="fzhiye" value="${fpatriarch.work}">
+                        <input ${disabled} type="text" name="fzhiye" value="${fpatriarch.work}">
                     </li>
                     <li>
                         <span>工作单位：</span>
-                        <input type="text" name="fdanwei" value="${fpatriarch.workAt}"/>
+                        <input ${disabled} type="text" name="fdanwei" value="${fpatriarch.workAt}"/>
                     </li>
                 </ul>
                 <ul>
                     <li>
                         <span>是否监护人：</span>
-                        <input type="checkbox" <c:if
+                        <input ${disabled} type="checkbox" <c:if
                                 test="${empty fpatriarch.sfjhr || fpatriarch.sfjhr == 1}"> checked </c:if> id="fjhr"/>
                     </li>
                     <li>
                         <span>是否生活在一起：</span>
-                        <input type="checkbox" <c:if
+                        <input ${disabled} type="checkbox" <c:if
                                 test="${empty fpatriarch.sfyqsh || fpatriarch.sfyqsh == 1}"> checked </c:if>
                                id="fyqsh"/>
                     </li>
@@ -591,30 +599,30 @@
                 <ul>
                     <li>
                         <span>姓名：</span>
-                        <input type="text" name="mname" value="${mpatriarch.name}"/>
+                        <input ${disabled} type="text" name="mname" value="${mpatriarch.name}"/>
                     </li>
                     <li>
                         <span>联系电话：</span>
-                        <input type="text" name="mphone" value="${mpatriarch.phone}"/>
+                        <input ${disabled} type="text" name="mphone" value="${mpatriarch.phone}"/>
                     </li>
                     <li>
                         <span>职务或职业：</span>
-                        <input type="text" name="mzhiye" value="${mpatriarch.work}"/>
+                        <input ${disabled} type="text" name="mzhiye" value="${mpatriarch.work}"/>
                     </li>
                     <li>
                         <span>工作单位：</span>
-                        <input type="text" name="mdanwei" value="${mpatriarch.workAt}"/>
+                        <input ${disabled} type="text" name="mdanwei" value="${mpatriarch.workAt}"/>
                     </li>
                 </ul>
                 <ul>
                     <li>
                         <span>是否监护人：</span>
-                        <input type="checkbox" <c:if
+                        <input ${disabled} type="checkbox" <c:if
                                 test="${empty mpatriarch.sfjhr || mpatriarch.sfjhr == 1}"> checked </c:if> id="mjhr"/>
                     </li>
                     <li>
                         <span>是否生活在一起：</span>
-                        <input type="checkbox" <c:if
+                        <input ${disabled} type="checkbox" <c:if
                                 test="${empty mpatriarch.sfyqsh || mpatriarch.sfyqsh == 1}"> checked </c:if>
                                id="myqsh"/>
                     </li>

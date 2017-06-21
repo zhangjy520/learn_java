@@ -23,7 +23,7 @@ public interface A_MasterMapper {
 
     void batchUpdateTeacherClass(@Param("TeacherClassList") List<TeacherClass> TeacherClassList,@Param("classId") String classId);
 
-    List<BZRView> findAllCourseTeacherBycourseClassList(@Param("courseClassList")List<CourseClass> courseClassList);
+    List<BZRView> findAllCourseTeacherBycourseClassList(@Param("courseClassList") List<CourseClass> courseClassList, @Param("cycleId") String cycleId);
 
     List<BZRView> selectCourseTeacherBycourseIdListAndName(@Param("courseIdList")List<String> courseIdList, @Param("teacherName")String teacherName);
 

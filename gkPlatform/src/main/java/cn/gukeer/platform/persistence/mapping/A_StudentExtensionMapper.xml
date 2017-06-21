@@ -52,8 +52,7 @@
         (`id`,
         `school_id`,
         `class_id`,
-        `student_account`,
-        `patriach_account`,
+        `account`,
         `xsxm`,
         `xmpy`,
         `xszp`,
@@ -95,7 +94,7 @@
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (
-            #{item.id},#{item.schoolId},#{item.classId},#{item.studentAccount},#{item.patriachAccount},#{item.xsxm},
+            #{item.id},#{item.schoolId},#{item.classId},#{item.account},#{item.xsxm},
             #{item.xmpy},#{item.xszp},#{item.phone},#{item.csrq},#{item.rxrq},#{item.xsxb},
             #{item.xssg},#{item.xd},#{item.nj},#{item.xh},#{item.xjh},#{item.qgxjh},
             #{item.jyid},#{item.syd},#{item.yxzjlx},#{item.yxzjh},#{item.jbs},#{item.sfsbt},
@@ -134,6 +133,8 @@
         `name`,
         `student_school_id`,
         `student_id`,
+        `pinyin`,
+        `account`,
         `work`,
         `work_at`,
         `phone`,
@@ -147,8 +148,9 @@
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (
-            #{item.id},#{item.name},#{item.studentSchoolId},#{item.studentId},#{item.work},
-            #{item.workAt},#{item.phone},#{item.gender},#{item.sfjhr},#{item.sfyqsh},
+            #{item.id},#{item.name},#{item.studentSchoolId},#{item.studentId},
+            #{item.pinyin},#{item.account},#{item.work},#{item.workAt},
+            #{item.phone},#{item.gender},#{item.sfjhr},#{item.sfyqsh},
             #{item.patriarchFlag},#{item.delFlag},#{item.createBy},#{item.createDate}
             )
         </foreach>
@@ -199,7 +201,7 @@
         <foreach item="school" index="index" collection="schoolList" open="(" separator="," close=")">
             #{school.id}
         </foreach>
-        AND v.del_flag = 0 GROUP BY sectionName
+        AND v.del_flag = 0 GROUP BY sectionName ORDER BY v.`sectionYear` DESC,v.`sectionName`,v.`nj`
     </select>
 
     <select id="personCountReport" resultType="java.util.Map">
@@ -207,15 +209,21 @@
         indexName,
         MAX(per) maxP,
         MIN(per) minP,
-        AVG(per) avgP
+        TRUNCATE(SUM(per)/#{size},2) avgP
         FROM (
-        SELECT indexName,className,COUNT(*) per
+        SELECT
+        sectionYear,
+        sectionName,
+        nj,
+        indexName,
+        className,
+        COUNT(*) per
         FROM v_student_classinfo v WHERE v.school_id IN
         <foreach item="school" index="index" collection="schoolList" open="(" separator="," close=")">
             #{school.id}
         </foreach>
          AND v.del_flag = 0 GROUP BY indexName,className
-        ) AS a GROUP BY indexName
+        ) AS a GROUP BY indexName ORDER BY a.`sectionYear` DESC,a.`sectionName`,a.`nj`
   </select>
 
     <select id="lydqReport" resultType="java.util.Map">

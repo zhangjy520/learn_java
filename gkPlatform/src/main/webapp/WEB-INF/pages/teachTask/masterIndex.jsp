@@ -4,7 +4,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>班主任管理</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <style>
@@ -104,6 +104,42 @@
         margin: 0 30px;
         padding: 10px 0;
     }
+
+    .anjDiv ul li a.active {
+        color: #54AB37;
+        border: 1px solid #ddd;
+        border-bottom: 0;
+        background: #fff;
+    }
+
+    .anjDiv {
+         display: inline-block;
+         /*width: 600px;*/
+         height: 45px;
+         line-height: 44px;
+         font-size: 15px;
+         color: #777;
+         text-align: center;
+         text-decoration: none;
+     }
+
+    .njUl li {
+        float: left
+    }
+    .njUl a{
+        padding: 10px 15px;
+        cursor: pointer;
+        color: #525252;
+        border-bottom: 1px solid #ddd;
+    }
+    .njUl a:hover{
+        text-decoration: none;
+        color: #54AB37;
+    }
+
+    #zh-manage #generated > div{
+        padding: 0 !important;
+    }
 </style>
 <body>
 <%@ include file="../common/sonHead/teachTaskHead.jsp" %>
@@ -114,7 +150,7 @@
             <select name="cycleYear" class="cycleYear">
                 <c:forEach items="${yearList}" var="year">
                     <option name="cycleYear"
-                            <c:if test="${cycleYear ==year}">selected</c:if> value="${year}">${year}</option>
+                            <c:if test="${cycleYear == year}">selected</c:if> value="${year}">${year}</option>
                 </c:forEach>
             </select>
             学期：
@@ -141,29 +177,31 @@
     </div>
     <section id="generated" class="row">
 
-        <span class="but">
+        <div class="anjDiv">
+            <ul class="njUl">
             <c:forEach items="${classSectionList}" var="classSection">
                 <c:if test="${classSection.sectionYear == 6}">
-                    <button value="${classSection.id}" value="${classSection.id}"
-                            onclick="njButton(${classSection.id},1)">一年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},2)">二年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},3)">三年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},4)">四年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},5)">五年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},6)">六年级</button>
+                    <li><a value="${classSection.id}" value="${classSection.id}"
+                            onclick="njButton('${classSection.id}',1)"  valueNj="1" <c:if test="${xdId==classSection.id && nj==1}" >class="active"</c:if>>小学一年级</a>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">小学二年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id &&nj==3}">class="active"</c:if> valueNj="3">小学三年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',4)" <c:if test="${xdId==classSection.id &&nj==4}">class="active"</c:if> valueNj="4">小学四年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',5)" <c:if test="${xdId==classSection.id && nj==5}">class="active"</c:if> valueNj="5">小学五年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton(${classSection.id},6)" <c:if test="${xdId==classSection.id &&nj==6}">class="active"</c:if> valueNj="6">小学六年级</a></li>
                 </c:if>
-                <c:if test="${classSection.sectionYear == 3 &&classSection.name=='初中' }">
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},1)">初中一年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},2)">初中二年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},3)">初中三年级</button>
+                <c:if test="${classSection.sectionYear == 3 &&classSection.name=='初中' }" >
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">初中一年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">初中二年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id && nj==3}">class="active"</c:if> valueNj="3">初中三年级</a></li>
                 </c:if>
                 <c:if test="${classSection.sectionYear == 3 &&classSection.name=='高中' }">
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},1)">高中一年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},2)">高中二年级</button>
-                    <button value="${classSection.id}" onclick="njButton(${classSection.id},3)">高中三年级</button>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">高中一年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">高中二年级</a></li>
+                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id && nj==3}">class="active"</c:if> valueNj="2">高中三年级</a></li>
                 </c:if>
             </c:forEach>
-        </span>
+                </ul>
+        </div>
         <div class="row">
             <table class="normal">
                 <thead>
@@ -182,16 +220,16 @@
                         <td>${BZR.deputymasterName}</td>
                         <td><span
                                 onclick="openDialog('编辑','${ctx}/teach/task/master/edit/pop?classId=${BZR.classId}&&deputyName=${BZR.deputymasterName}&&master=${BZR.masterName}&&teacherId=${BZR.teacherId}&&deputyIds=${BZR.deputyIds}&&cycleId=${BZR.cycleId}','500px','352px');"
-                                style="background-color: #6b828e;float: left;margin-top: 10px;">编辑</span></td>
+                                >编辑</span></td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
         <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <c:if test="${gukeer:notEmptyString(teacherClassPageInfo.pages)}">
+            <%--<c:if test="${gukeer:notEmptyString(teacherClassPageInfo.pages)}">--%>
                 <div class="fenYDetail">共${teacherClassPageInfo.total}条记录，本页${teacherClassPageInfo.size}条</div>
-            </c:if>
+            <%--</c:if>--%>
             <div class="fenY2" id="fenY2">
             </div>
         </div>
@@ -200,12 +238,8 @@
 <script>
     //id为sectionId,nj为传入的nj的
     function njButton(id, nj) {
-        debugger;
         var cycleYear = $(".cycleYear").find("option:selected").val();
         var cycleSemester = $(".cycleSemester").find("option:selected").val();
-//        if ($(this).attr("name") == "cycle_year") {
-//            cycleSemester = "";
-//        }
         window.location.href = "${ctx}/teach/task/master/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester + "&&nj=" + nj + "&&sectionId=" + id;
     }
 
@@ -213,17 +247,19 @@
         $("select").change(function () {
             var cycleSemester = $("select[name='cycleSemester']").val();
             var cycleYear = $("select[name='cycleYear']").val();
-            window.location.href = "${ctx}/teach/task/master/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+            var nj = $('.anjDiv   .active').attr("valueNj");
+            window.location.href = "${ctx}/teach/task/master/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&&nj="+nj;
         });
 
         <c:if test="${TeacherClassPageInfo!=null&&TeacherClassPageInfo.pages != 0}">
         $(".fenY2").createPage({
-            pageCount:${TeacherClassPageInfo.pages},//总页数
-            current:${TeacherClassPageInfo.pageNum},//当前页面
+            pageCount:'${TeacherClassPageInfo.pages}',//总页数
+            current:'${TeacherClassPageInfo.pageNum}',//当前页面
             backFn: function (p) {
                 var cycleSemester = $("select[name='cycleSemester']").val();
                 var cycleYear = $("select[name='cycleYear']").val();
-                window.location.href = "${ctx}/teach/task/master/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+                var nj = $('.anjDiv   .active').attr("valueNj");
+                window.location.href = "${ctx}/teach/task/master/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&nj="+nj;
             }
         });
         </c:if>

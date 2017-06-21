@@ -1,6 +1,6 @@
 package cc.gukeer.sync.dbmain;
 
-import cn.gukeer.platform.persistence.entity.ClassRoom;
+import cn.gukeer.platform.persistence.entity.Course;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -137,44 +137,13 @@ public class Rundb {
     }
 
     public static void main(String[] args) throws SQLException {
-      /* //生成用户的触发器以及中间表
-       Map<String, String> user = MakeTigger.make(User.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> teacherClass = MakeTigger.make(TeacherClass.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> classSection = MakeTigger.make(ClassSection.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> gradeClass = MakeTigger.make(GradeClass.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> school = MakeTigger.make(School.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> schoolType = MakeTigger.make(SchoolType.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> Student = MakeTigger.make(Student.class);
-        //产生教师的触发器以及中间表
-        Map<String, String> teacherMap = MakeTigger.make(Teacher.class);
-        Map<String, String> titleMap = MakeTigger.make(Title.class);
-        Map<String, String> department = MakeTigger.make(Department.class);
-        Map<String, String> patriarch = MakeTigger.make(Patriarch.class);*/
 
 
 
-       Map<String,String>  classRoom = MakeTigger.make(ClassRoom.class);run(classRoom);
 
-//        Map<String,String>  refClassRoom = MakeTigger.make(RefClassRoom.class);run(refClassRoom);
+       Map<String,String>  classRoom = MakeTigger.make(Course.class);run(classRoom);
 
-//        Map<String,String>  teachCourse = MakeTigger.make(Course.class);run(teachCourse);
 
-    //    Map<String,String>  courseType = MakeTigger.make(CourseType.class);run(courseType);
-
-        //
-//        Map<String,String>  teachCycle = MakeTigger.make(TeachCycle.class);run(teachCycle);
-
-     //   Map<String,String>  courseClass = MakeTigger.make(CourseClass.class);run(courseClass);
-
-//       Map<String,String>  refRoomCycle = MakeTigger.make(RefRoomCycle.class);run(refRoomCycle);
-
-  //      Map<String,String>  roomType = MakeTigger.make(RoomType.class);run(roomType);
 
 
     }

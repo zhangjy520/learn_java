@@ -65,7 +65,7 @@ public class RenShiManageController extends BasicController {
     AppService appService;
 
 
-    //    职务信息页面
+    //职务信息页面
     @RequestMapping(value = "/zhiwu/index")
     public String rsZhiWuIndex(HttpServletRequest request, Model model) {
         int pageNum = getPageNum(request);
@@ -81,7 +81,7 @@ public class RenShiManageController extends BasicController {
         }
 
         PageHelper.startPage(pageNum, pageSize);
-        List<Teacher> teacherList = teacherService.findTeacherByTitleId(_id, getLoginUser().getSchoolId(),null,null);
+        List<Teacher> teacherList = teacherService.findTeacherByTitleId(_id, getLoginUser().getSchoolId(), null, null);
         PageInfo<Teacher> pageInfo = new PageInfo<Teacher>(teacherList);
 
         Title currentTitle = teacherService.selectTitleById(_id);
@@ -98,7 +98,7 @@ public class RenShiManageController extends BasicController {
         String id = getParamVal(request, "titleId");
 
         Title title = teacherService.selectTitleById(id);
-        List<Teacher> teacherList = teacherService.findTeacherByTitleId(id, getLoginUser().getSchoolId(),null,null);
+        List<Teacher> teacherList = teacherService.findTeacherByTitleId(id, getLoginUser().getSchoolId(), null, null);
 
         model.addAttribute("title", title);
         model.addAttribute("teacherList", teacherList);
@@ -221,7 +221,7 @@ public class RenShiManageController extends BasicController {
         if (idList.size() > 0) {
             Role role = new Role();
             role.setId(roleId);
-            userRoleList = userService.findUserRoleByCriteria(idList, role, loginUser.getSchoolId());//List<Integer> ids, Role role,String schoolId
+            userRoleList = userService.findUserRoleByCriteria(idList, role, loginUser.getSchoolId());
         }
         if (userRoleList.size() > 0) {
             List<String> userIds = new ArrayList<String>();
@@ -233,12 +233,8 @@ public class RenShiManageController extends BasicController {
             List<String> teacherIdList = new ArrayList<>();
             for (User user : userList) {
                 teacherIdList.add(user.getRefId());
-//                Teacher teacher = teacherService.findTeacherById(user.getRefId());
-//                if (teacher != null) {
-//                    teacherList.add(teacher);
-//                }
             }
-            teacherList = teacherService.selectBatchTeachers(teacherIdList,loginUser.getSchoolId());
+            teacherList = teacherService.selectBatchTeachers(teacherIdList, loginUser.getSchoolId());
             PageInfo<Teacher> pageInfo = new PageInfo<Teacher>(teacherList);
             model.addAttribute("teacherList", teacherList);
             model.addAttribute("pageInfo", pageInfo);
@@ -288,7 +284,7 @@ public class RenShiManageController extends BasicController {
             userService.saveUserRoleBatch(userRoleList);
             entity.setMsg("分配成功");
             entity.setCode(200);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             entity.setMsg("分配失败");
         }
@@ -402,7 +398,6 @@ public class RenShiManageController extends BasicController {
 
         Teacher teacher = new Teacher();
         teacher.setId(teacherId);
-        //teacher.setDelFlag(1);
         teacher.setDepartmentId("0");//删除这个人员，将这个人员移动到 其他（序号为0） 部门 默认值
         teacherService.updateTeacher(teacher);
     }
@@ -506,6 +501,7 @@ public class RenShiManageController extends BasicController {
         String teachers = getParamVal(request, "teachers");
         String teacherName = getParamVal(request, "teacherName");
         String chooseSchoolId = getParamVal(request, "chooseSchoolId");
+
         model.addAttribute("teachers", teachers);
         model.addAttribute("teacherName", teacherName);
         model.addAttribute("chooseSchoolId", chooseSchoolId);
@@ -550,29 +546,34 @@ public class RenShiManageController extends BasicController {
             }
             if (dataList.size() > 0) {
                 for (Teacher teacher : dataList) {
-                    // Teacher teacher = teacherService.findTeacherById(teacherId[k]);
                     IOTeacherView ioTeacherView = new IOTeacherView();
                     ioTeacherView.setName(teacher.getName());
                     ioTeacherView.setAdrress(teacher.getAddress());
                     ioTeacherView.setBgsdh(teacher.getBgsdh());
                     ioTeacherView.setCym(teacher.getCym());
-                    if (1 == teacher.getGender()) {
-                        ioTeacherView.setGender("男");
-                    } else if (2 == teacher.getGender()) {
-                        ioTeacherView.setGender("女");
-                    } else ioTeacherView.setGender("");
+
+                    if (!GukeerStringUtil.isNullOrEmpty(teacher.getGender())) {
+                        if (1 == teacher.getGender()) {
+                            ioTeacherView.setGender("男");
+                        } else if (2 == teacher.getGender()) {
+                            ioTeacherView.setGender("女");
+                        } else ioTeacherView.setGender("");
+                    } else {
+                        continue;
+                    }
 
                     ioTeacherView.setGgjsjb(teacher.getGgjsjb());
                     ioTeacherView.setNo(teacher.getNo());
                     ioTeacherView.setMobile(teacher.getMobile());
                     ioTeacherView.setMail(teacher.getEmail());
                     ioTeacherView.setIdentity(teacher.getIdentity());
+
                     if (teacher.getStartWork() != null && teacher.getStartWork() != 0)
                         ioTeacherView.setStartWork(teacher.getStartWork().toString());
-           /*     if (teacher.getTitleId() != null && teacher.getTitleId() != 0)
-                    ioTeacherView.setTitle(teacher.getTitleId().toString());*/
+
                     if (teacher.getHighTime() != null && teacher.getHighTime() != 0)
                         ioTeacherView.setHignTime(teacher.getHighTime().toString());
+
                     ioTeacherView.setHignJob(teacher.getHighJob());
                     ioTeacherView.setPzxx(teacher.getPzxx());
 
@@ -602,7 +603,6 @@ public class RenShiManageController extends BasicController {
                     ioTeacherView.setSzjb(teacher.getSzjb());
                     ioTeacherView.setGzgwf(teacher.getGzgwf());
 
-                    //dataList.add(teacher);
                     teaList.add(ioTeacherView);
 
                 }
@@ -620,9 +620,12 @@ public class RenShiManageController extends BasicController {
     @RequestMapping(value = "/moban/download")
     public void exportMoban(HttpServletResponse response) {
         try {
+            boolean flag = userService.isAreaAdmin(getLoginUser().getSchoolId());
             String fileName = "人事导入模板.xlsx";
-            String anno = "注释：红色字段为必填项\n" +
-                    "          1.日期格式：yyyymmdd,例如：20160901\n";
+            if (flag) {
+                fileName = "区级人事导入模板.xlsx";
+            }
+            String anno = "注释：1.日期格式：yyyymmdd,例如：20160901\n";
             new ExportExcel("人员数据", IOTeacherView.class, 2, anno, 1).setDataList(new ArrayList()).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
@@ -703,15 +706,17 @@ public class RenShiManageController extends BasicController {
                 teacher.setGzgwf(teacherView.getGzgwf());
                 teacher.setId(PrimaryKey.get());
                 teacher.setDelFlag(0);
-                //                teacherService.insertTeacher(teacher);
+                //teacherService.insertTeacher(teacher);
                 correctTeacherList.add(teacher);
             } catch (Exception e) {
                 errorTeacherList.add(errorTeacher);
-                e.printStackTrace();
+                //e.printStackTrace();
                 continue;
             }
         }
-        teacherService.insertTeacherBatch(correctTeacherList);//批量插入正确验证的数据
+        if (correctTeacherList.size() > 0)
+            teacherService.insertTeacherBatch(correctTeacherList);//批量插入正确验证的数据
+
         Long end = System.currentTimeMillis();
         Map res = new HashMap();
         res.put("msg", "导入完成，共" + correctTeacherList.size() + "条成功，" + errorTeacherList.size() + "条失败,耗时" + (end - begin) / 1000 + "秒");
@@ -724,10 +729,9 @@ public class RenShiManageController extends BasicController {
     @RequestMapping(value = "/teacher/error/export", method = RequestMethod.POST)
     public void errorTeacher(HttpServletRequest request, HttpServletResponse response) {
         try {
-            
+
             String fileName = "错误信息列表.xlsx";
-            String anno = "注释：红色字段为必填项\n" +
-                    "          1.日期格式：yyyymmdd,例如：20160901\n";
+            String anno = "注释：1.日期格式：yyyymmdd,例如：20160901\n";
             String msg = getParamVal(request, "msg");
             JsonArray jsonArray = new JsonParser().parse(msg).getAsJsonArray();
             List<IOTeacherView> exportFile = new ArrayList<IOTeacherView>();
@@ -745,13 +749,18 @@ public class RenShiManageController extends BasicController {
     @RequestMapping(value = "/renyuan/edit")
     public String edit(HttpServletRequest request, Model model) {
         String id = getParamVal(request, "id");
-        String _id = id;
+        String type = getParamVal(request, "type");
 
-        if (_id != null || _id != "") {
-            Teacher teacher = teacherService.findTeacherById(_id);
+        if (id != null || id != "") {
+            Teacher teacher = teacherService.findTeacherById(id);
             model.addAttribute("teacher", teacher);
         }
         List<Title> titleList = teacherService.selectTitleBySchoolId(getLoginUser().getSchoolId().toString());
+
+        if ("1".equals(type)) {
+            //若type是1，只是查看人员信息，输入框全部disabled
+            model.addAttribute("disabled", "disabled");
+        }
 
         model.addAttribute("titleList", titleList);
         return "renShiManage/rsRenYuanEdit";
@@ -951,9 +960,9 @@ public class RenShiManageController extends BasicController {
         if (teacherList.size() == 0) {
             return null;
         }
-        if (departmentList.size() == 0) {
+      /*  if (departmentList.size() == 0) {
             return null;
-        }
+        }*/
         if (queryType.equals("1")) {
             //查询教师 格式：teacher1，teacher2，teacher3，teacher4
             return new Gson().toJson(teacherList);
@@ -973,7 +982,7 @@ public class RenShiManageController extends BasicController {
                 withDepart.add(resMap);
             }
 
-            /*无部门的teacher*/
+//            无部门的teacher
             Map<String, List<Teacher>> noDepartTeacherMap = new HashMap<>();
             List<Teacher> noDepartTeacher = new ArrayList();
             for (Teacher teacher : teacherList) {

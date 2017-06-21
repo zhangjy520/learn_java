@@ -135,7 +135,7 @@
         <description>除法</description>
         <name>division</name>
         <function-class>cn.gukeer.common.utils.NumberConvertUtil</function-class>
-        <function-signature>java.lang.Double div(java.lang.String,java.lang.String,int)</function-signature>
-        <example>${gukeer:division(java.lang.String,java.lang.String,int)}</example>
+        <function-signature>java.lang.Double division(java.lang.Object,java.lang.Object,int).String,int)</function-signature>
+        <example>${gukeer:division(java.lang.Object,java.lang.Object,int)}</example>
     </function>
 </taglib>

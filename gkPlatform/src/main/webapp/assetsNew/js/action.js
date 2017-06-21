@@ -58,17 +58,6 @@ $(function(){
         $(this).parent().siblings().children().removeClass('active');
     })
 
-//账号菜单
-
-//   $('.account-box').hover(function(){
-//       $('.acount-number').fadeIn();
-//   },function(){
-//       $('.acount-number').fadeOut();
-//
-//   })
-
-
-
 
 //账户设置菜单切换
     $('.account-tabs a').click(function(){

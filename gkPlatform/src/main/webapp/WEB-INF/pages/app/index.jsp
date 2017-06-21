@@ -10,6 +10,9 @@
         .layui-layer.layui-layer-iframe.layer-anim {
             top: 6% !important;
         }
+        .row{
+            margin:0;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +36,7 @@
 
 <div id="app-index" style="display: none">
     <div class="app-store-banner row">
-        <img class="img-responsive" src="${ctxStaticNew}/images/appStore-banner%20.png" alt=""/>
+        <img class="img-responsive" src="${ctxStaticNew}/images/appStore-banner.png" alt=""/>
     </div>
     <main class="container">
         <div class="app-store-title">

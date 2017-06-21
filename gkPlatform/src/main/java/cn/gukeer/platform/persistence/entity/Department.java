@@ -14,7 +14,7 @@ public class Department implements Serializable {
     private String parentId;
 
     private String schoolId;
-    @NoSync
+
     private String no;
 
     private String name;

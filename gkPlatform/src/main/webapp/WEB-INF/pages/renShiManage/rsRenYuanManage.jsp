@@ -92,7 +92,7 @@
 </main>
 <script>
 
-    activeMenu("rymenu",0);
+    activeMenu("rymenu", 0);
 
     /* 初始化分页 */
     $(function () {
@@ -111,9 +111,9 @@
             }
         });
 
-        var name ;
+        var name;
         $(".summitButton").click(function () {
-            name =  $("input[name='zhiGong']").val();
+            name = $("input[name='zhiGong']").val();
             window.location.href = "${ctx}/renshi/renyuan/index?teacherName=" + encodeURI(encodeURI(name));
         });
 
@@ -127,7 +127,7 @@
         });
 
         $(".gotoPage").click(function () {
-            name =  $("input[name='zhiGong']").val();
+            name = $("input[name='zhiGong']").val();
             var pageNum = $(".go").val();
             if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
                 layer.msg("请输入正确的页码")
@@ -188,25 +188,25 @@
         }
     }
 
-    function importCallBack(res){
+    function importCallBack(res) {
         layer.closeAll();
         layer.confirm(res.msg, {
-            btn: ['下载失败列表','关闭'] //按钮
-        }, function(){
-            var form=$("<form>");//定义一个form表单
-            form.attr("style","display:none");
-            form.attr("target","");
-            form.attr("method","post");
-            form.attr("action","${ctx}/renshi/teacher/error/export");
-            var input1=$("<input>");
-            input1.attr("type","hidden");
-            input1.attr("name","msg");
-            input1.attr("value",JSON.stringify(res.errorList));
+            btn: ['下载失败列表', '关闭'] //按钮
+        }, function () {
+            var form = $("<form>");//定义一个form表单
+            form.attr("style", "display:none");
+            form.attr("target", "");
+            form.attr("method", "post");
+            form.attr("action", "${ctx}/renshi/teacher/error/export");
+            var input1 = $("<input>");
+            input1.attr("type", "hidden");
+            input1.attr("name", "msg");
+            input1.attr("value", JSON.stringify(res.errorList));
             $("body").append(form);//将表单放置在web中
             form.append(input1);
             form.submit();//表单提交
             return false;
-        }, function(){
+        }, function () {
             window.location.reload(true);
         });
     }

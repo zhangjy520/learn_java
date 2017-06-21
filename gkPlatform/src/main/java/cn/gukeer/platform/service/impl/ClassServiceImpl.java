@@ -53,6 +53,9 @@ public class ClassServiceImpl extends BasicController implements ClassService {
     @Autowired
     A_StudentExtensionMapper studentExtensionMapper;
 
+    @Autowired
+    TeacherClassMapper teacherClassMapper;
+
     private String getClassSectionName(String xd, List<ClassSection> sectionList) {
         String rst = "";
         if (null == sectionList || sectionList.size() == 0) {
@@ -496,7 +499,11 @@ public class ClassServiceImpl extends BasicController implements ClassService {
 
     @Override
     public int saveTeacherClass(String teahcerid, String classId, int type) {
-        return teacherExtensionMapper.saveTeacherClass(teahcerid, classId, type);
+        TeacherClass teacherClass = new TeacherClass();
+        teacherClass.setClassId(classId);
+        teacherClass.setType(type);
+        teacherClass.setTeacherId(teahcerid);
+        return teacherClassMapper.insert(teacherClass);
     }
 
     @Override

@@ -1,12 +1,14 @@
 package cn.gukeer.common.utils;
 
+import cn.gukeer.common.tld.GukeerStringUtil;
+
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * 接受默认值，处理异常
- *
+ * <p>
  * Created by conn on 2016/8/8.
  */
 public class NumberConvertUtil {
@@ -45,18 +47,18 @@ public class NumberConvertUtil {
         return val;
     }
 
-    public static String getNumFromStr(String str){
-        if (str == "" || str ==null) {
+    public static String getNumFromStr(String str) {
+        if (str == "" || str == null) {
             return "0";
-        }else {
-            String regEx="[^0-9]";
+        } else {
+            String regEx = "[^0-9]";
             Pattern p = Pattern.compile(regEx);
             Matcher m = p.matcher(str);
             String res = m.replaceAll("").trim();
             if (res.equals("")) {
                 return "0";
-            }else {
-                return  m.replaceAll("").trim();
+            } else {
+                return m.replaceAll("").trim();
             }
         }
     }
@@ -80,13 +82,17 @@ public class NumberConvertUtil {
         return b1.multiply(b2).doubleValue();
     }
 
-    public static Double div(String d1, String d2, int len) {// 进行除法运算
-        BigDecimal b1 = new BigDecimal(d1);
-        BigDecimal b2 = new BigDecimal(d2);
-        return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
+    public static Double division(Object d1, Object d2, int len) {// 进行除法运算
+        if (GukeerStringUtil.isNullOrEmpty(d1) || GukeerStringUtil.isNullOrEmpty(d2))
+            return 0.0;
+        BigDecimal b1 = new BigDecimal(d1.toString());
+        BigDecimal b2 = new BigDecimal(d2.toString());
+        double res = b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return res;
     }
+
     public static void main(String[] args) {
-        System.out.println(div("2","9",2));
+        System.out.println(division("11", "441", 4));
     }
 
 }

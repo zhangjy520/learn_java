@@ -1,3 +1,4 @@
+
 package cn.gukeer.platform.controller;
 
 import cn.gukeer.common.controller.BasicController;
@@ -199,15 +200,7 @@ public class SchoolController extends BasicController {
 
         if (_id == null || _id.equals("")) {
             String primary = PrimaryKey.get();
-            String teacherId = PrimaryKey.get();
             school.setId(primary);
-//            school.setShortFlag(shortFlag);
-//            school.setType(NumberConvertUtil.convertS2I(type));
-//            school.setAddress(address);//地址输入框，联系地址
-//            school.setXz(chooseAddress);//级联选择，所属地区
-//            school.setDeployUrl(deployUrl);
-//            school.setParentId(NumberConvertUtil.convertS2I(parentId));
-//            school.setEmail(email);
 
             school.setCreateBy(getLoginUser().getId());
             school.setCreateDate(System.currentTimeMillis());
@@ -216,7 +209,6 @@ public class SchoolController extends BasicController {
 
 //            //删除单例相应数据
 //            SchoolMsg.deleteMsg(school.getDeployUrl());
-
 
             //分配管理员，创建机构的时候分配管理员账号admin+标识为登录名，密码初始为6个0.
             String manId = "";
@@ -264,7 +256,7 @@ public class SchoolController extends BasicController {
             // 添加ref_user_role表
             UserRole userRole = new UserRole();
             userRole.setSchoolId(primary);
-            userRole.setRoleId("3"); //默认值
+            userRole.setRoleId("3");
             userRole.setUserId(userId);
             userService.saveUserRole(userRole);
 
@@ -288,7 +280,7 @@ public class SchoolController extends BasicController {
             //学校生成后，创建默认学段
             ClassSection elementary = new ClassSection();
             elementary.setName("小学");
-            elementary.setDelFlag(1);
+            elementary.setDelFlag(0);
             elementary.setCreateBy(getLoginUser().getId());
             elementary.setCreateDate(System.currentTimeMillis());
             elementary.setSchoolId(primary);
@@ -299,7 +291,7 @@ public class SchoolController extends BasicController {
 
             ClassSection junior = new ClassSection();
             junior.setName("初中");
-            junior.setDelFlag(1);
+            junior.setDelFlag(0);
             junior.setCreateBy(getLoginUser().getId());
             junior.setCreateDate(System.currentTimeMillis());
             junior.setSchoolId(primary);
@@ -311,7 +303,7 @@ public class SchoolController extends BasicController {
 
             ClassSection senior = new ClassSection();
             senior.setName("高中");
-            senior.setDelFlag(1);
+            senior.setDelFlag(0);
             senior.setCreateBy(getLoginUser().getId());
             senior.setCreateDate(System.currentTimeMillis());
             senior.setSchoolId(primary);

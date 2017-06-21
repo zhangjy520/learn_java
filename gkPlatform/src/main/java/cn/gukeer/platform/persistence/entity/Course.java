@@ -1,19 +1,15 @@
 package cn.gukeer.platform.persistence.entity;
 
-import cc.gukeer.sync.annotation.NoSync;
-import cc.gukeer.sync.annotation.PrimaryKey;
-import cc.gukeer.sync.annotation.TableSync;
-
 import java.io.Serializable;
 
-@TableSync(SyncTableName="teach_course",TargetName = "sync_teach_course")
 public class Course implements Serializable {
-    @PrimaryKey
     private String id;
 
     private String schoolId;
 
     private String name;
+
+    private String englishName;
 
     private String cycleId;
 
@@ -27,9 +23,8 @@ public class Course implements Serializable {
 
     private Double passScore;
 
-    @NoSync
     private Integer delFlag;
-    @NoSync
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -54,6 +49,14 @@ public class Course implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName == null ? null : englishName.trim();
     }
 
     public String getCycleId() {
@@ -127,6 +130,7 @@ public class Course implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getSchoolId() == null ? other.getSchoolId() == null : this.getSchoolId().equals(other.getSchoolId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getEnglishName() == null ? other.getEnglishName() == null : this.getEnglishName().equals(other.getEnglishName()))
             && (this.getCycleId() == null ? other.getCycleId() == null : this.getCycleId().equals(other.getCycleId()))
             && (this.getShortName() == null ? other.getShortName() == null : this.getShortName().equals(other.getShortName()))
             && (this.getCourseType() == null ? other.getCourseType() == null : this.getCourseType().equals(other.getCourseType()))
@@ -143,6 +147,7 @@ public class Course implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getSchoolId() == null) ? 0 : getSchoolId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getEnglishName() == null) ? 0 : getEnglishName().hashCode());
         result = prime * result + ((getCycleId() == null) ? 0 : getCycleId().hashCode());
         result = prime * result + ((getShortName() == null) ? 0 : getShortName().hashCode());
         result = prime * result + ((getCourseType() == null) ? 0 : getCourseType().hashCode());
@@ -162,6 +167,7 @@ public class Course implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", schoolId=").append(schoolId);
         sb.append(", name=").append(name);
+        sb.append(", englishName=").append(englishName);
         sb.append(", cycleId=").append(cycleId);
         sb.append(", shortName=").append(shortName);
         sb.append(", courseType=").append(courseType);

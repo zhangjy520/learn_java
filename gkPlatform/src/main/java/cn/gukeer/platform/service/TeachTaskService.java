@@ -1,11 +1,9 @@
 package cn.gukeer.platform.service;
 
 
-import cn.gukeer.platform.modelView.BZRView;
-import cn.gukeer.platform.modelView.ClassView;
-import cn.gukeer.platform.modelView.CourseClassView;
-import cn.gukeer.platform.modelView.RefClassRoomView;
+import cn.gukeer.platform.modelView.*;
 import cn.gukeer.platform.persistence.entity.*;
+import cn.gukeer.platform.persistence.entity.extention.GradeClassExtention;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -90,7 +88,7 @@ public interface TeachTaskService {
     void batchInsertCourse(List<Course> courseList);
 
     //查询所有
-    PageInfo<Course> getAllCourseListByParam(Map param);
+    PageInfo<CourseView> getAllCourseListByParam(Map param);
 
     //根据schoolId  cycleId查询所有课程
     List<Course> findAllCourseBySchoolIdAndCycleId(String schoolId, String cycleId);
@@ -154,7 +152,7 @@ public interface TeachTaskService {
      *
      * */
     //任课教师首页的方法
-    PageInfo<BZRView> findAllCourseTeacherBycourseClassList(List<CourseClass> courseClassList, int pageNum, int pageSize);
+    PageInfo<BZRView> findAllCourseTeacherBycourseClassList(List<CourseClass> courseClassList, int pageNum, int pageSize, String cycleId);
 
     //查询所有任课教师安排的方法
     List<CourseClassView> findAllCourseTeacherBySchoolId(String schoolId);
@@ -230,4 +228,67 @@ public interface TeachTaskService {
     List<RefClassRoom> findRefClassRoomByCycleId(String preCycleId);
 
     List<CourseClass> findAllCourseClassByCourseList(List<Course> coursesListPre);
+
+    List<GradeClassExtention> findAllGradeClassBySchoolId(String schoolId);
+
+
+    //////////////////////////////////////////////
+    //标准课程方法
+    PageInfo<StandardCourse> findAllStandardCourseBySchoolIdAndPageNum(String schoolId, int pageNum, int pageSize);
+
+    StandardCourse findStandardCourseByName(String name);
+
+    void saveStandardCourse(StandardCourse standardCourse);
+
+    List<StandardCourse> findAllStandardCourseBySchoolId(String schoolId);
+
+    StandardCourse findStandardCourseById(String id);
+
+    void delStandardCourseById(String id);
+
+    void saveDailyHour(DailyHour dailyHour);
+
+    //批量插入班级课时信息
+    void batchInsertDailyHour(List<DailyHour> dailyHourList);
+
+
+    //班级日常课时首页信息的查询
+    PageInfo<DailyHourView> findDailyHourByXdAndCycleIdAndNj(String schoolId,String xdId, String cycleId, String nj, int pageNum, int pageSize);
+
+    DailyHour findDailyHourById(String dailyHourId);
+
+    void delDailyHourById(String dailyId);
+
+    void saveCourseNode(CourseNode courseNode);
+
+    void batchSaveCourseNode(List<CourseNode> courseNodeList);
+
+    PageInfo<CourseNode> findCourseNodeBySchoolId(String schoolId, Integer pageNum, Integer pageSize, String cycleId);
+
+    CourseNode getCourseNodeById(String nodeId);
+
+    void updateCourseNodeById(CourseNode courseNode);
+
+    CourseNodeInit findCourNodeInitByCycleIdAndSchoolIdAndTimeSection(String schoolId, String cycleId, String time_section);
+
+    void saveCourseNodeInit(CourseNodeInit courseNodeInit);
+
+    PageInfo<CourseNodeInit> findCourseNodeInitBySchoolId(String schoolId, Integer pageNum, Integer pageSize, String cycleId);
+
+    CourseNodeInit findCourseNodeInitById(String nodeId);
+
+    List<CourseNode> findCourseNodeByNodeId(String nodeId);
+
+    void delCourseNodeInit(String nodeId);
+
+//    void delCourseNodeByNodeInitId(String nodeId);
+
+    int updateCourseNodeInitById(CourseNodeInit courseNodeInit);
+
+    void updateCourseClassByCourseIdAndClassId(CourseClass courseClass);
+
+    //保存教室类型的方法
+    int saveRoomType(RoomType roomType, User user);
+
+    void batchDelCourseClass( String courseId);
 }

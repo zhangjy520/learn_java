@@ -107,7 +107,7 @@
 
             $.post($('form').attr('action'),{
                 menuList:menuString,
-                roleId:${roleId}
+                roleId:"${roleId}"
             },function(retJson){
                 if (retJson.code == '0') {
                     window.location.replace ("${pageContext.request.contextPath}/"+retJson.data);

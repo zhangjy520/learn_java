@@ -2,6 +2,7 @@ package cn.gukeer.platform.controller;
 
 import cn.gukeer.common.controller.BasicController;
 import cn.gukeer.common.entity.ResultEntity;
+import cn.gukeer.common.exception.CustomException;
 import cn.gukeer.common.exception.ErrcodeException;
 import cn.gukeer.common.tld.GukeerStringUtil;
 import cn.gukeer.common.utils.GsonUtil;
@@ -16,7 +17,7 @@ import cn.gukeer.platform.modelView.importExport.IOCMasterView;
 import cn.gukeer.platform.modelView.importExport.IOCRefClassRoomView;
 import cn.gukeer.platform.modelView.importExport.IOClassRoomView;
 import cn.gukeer.platform.persistence.entity.*;
-import cn.gukeer.platform.persistence.entity.extention.TeachCylcleExtention;
+import cn.gukeer.platform.persistence.entity.extention.GradeClassExtention;
 import cn.gukeer.platform.service.*;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -75,41 +76,41 @@ public class TeachTaskController extends BasicController {
      */
     @RequestMapping(value = "/course/index")
     public String courseIndex(HttpServletRequest request, Model model) {
-        String cycleYear = getParamVal(request, "cycleYear");
-        String cycleSemester = getParamVal(request, "cycleSemester");
+
         int pageNum = getPageNum(request);
         int pageSize = getPageSize(request);
         User user = getLoginUser();
         String schoolId = user.getSchoolId();
+
+        String cycleYear = getParamVal(request, "cycleYear");
+        String cycleSemester = getParamVal(request, "cycleSemester");
+
+        //根据学年学期获得周期
+        TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), user.getSchoolId());
+        //获得周期列表，补全两个下拉框
+        List<TeachCycle> cycleList = teachTaskService.getCycleList(user.getSchoolId());
+        if (GukeerStringUtil.isNullOrEmpty(teachCycle))
+            if (cycleList.size() > 0)
+                teachCycle = cycleList.get(0);
+        List<TeachCycle> semesterList = new ArrayList<>();
+        if (StringUtil.isEmpty(cycleYear))
+            cycleYear = teachCycle.getCycleYear();
+        Map yearMap = new TreeMap();
+        for (TeachCycle cycle : cycleList) {
+            if (cycleYear.equals(cycle.getCycleYear()))
+                semesterList.add(cycle);
+            yearMap.put(cycle.getCycleYear(), cycle);
+        }
 
         Map param = new HashMap();
         param.put("pageNum", pageNum);
         param.put("pageSize", pageSize);
         param.put("schoolId", schoolId);
         param.put("cycleYear", cycleYear);
-        //根据学校的查询所有的教学周期
-        //根据学年学期获得周期
-        TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), user.getSchoolId());
-
-        //获得周期列表，补全两个下拉框
-        List<TeachCycle> cycleList = teachTaskService.getCycleList(user.getSchoolId());
-        if (GukeerStringUtil.isNullOrEmpty(teachCycle))
-            if (cycleList.size() > 0)
-                teachCycle = cycleList.get(0);
-
-        List<TeachCycle> semesterList = new ArrayList<>();
-        if (StringUtil.isEmpty(cycleYear))
-            cycleYear = teachCycle.getCycleYear();
-
-        Map yearMap = new HashMap();
-        for (TeachCycle cycle : cycleList) {
-            if (cycleYear.equals(cycle.getCycleYear()))
-                semesterList.add(cycle);
-            yearMap.put(cycle.getCycleYear(), cycle);
-        }
         param.put("cycleId", teachCycle.getId());
         //查询所有的课程
-        PageInfo<Course> coursePageInfo = teachTaskService.getAllCourseListByParam(param);
+        PageInfo<CourseView> coursePageInfo = teachTaskService.getAllCourseListByParam(param);
+
         model.addAttribute("cycleYear", cycleYear);
         model.addAttribute("cycleSemester", cycleSemester);
         model.addAttribute("semesterList", semesterList);
@@ -121,33 +122,52 @@ public class TeachTaskController extends BasicController {
     //课程编辑、增加的弹窗
     @RequestMapping(value = "/course/pop")
     public String courseAddPop(HttpServletRequest request, Model model) {
-        //查询所有的课程类型
-        String type = getParamVal(request, "type");
         User user = getLoginUser();
         String schoolId = user.getSchoolId();
-        Map param = new HashedMap();
-        param.put("schoolId", schoolId);
-        String courseId = request.getParameter("id");
-        PageInfo<CourseType> courseTypePageInfo = teachTaskService.findAllCourseType(param);
+        String courseId = getParamVal(request, "id");
+        String cycleId = getParamVal(request, "cycleId");
+
+        //查询所有的标准课程类型
+        List<StandardCourse> standardCourseList = teachTaskService.findAllStandardCourseBySchoolId(schoolId);
+
         //查询所有的教室类型
         List<RoomType> roomTypeList = teachTaskService.getAllRoomTypeBySchoolId(schoolId);
         //根据学校的查询所有的教学周期
-        PageInfo<TeachCycle> teachCyclePageInfo = teachTaskService.getTeachCycle(param);
+        List<TeachCycle> teachCycleList = teachTaskService.getCycleList(schoolId);
 
-        model.addAttribute("courseTypePageInfo", courseTypePageInfo);
-        model.addAttribute("roomTypeList", roomTypeList);
-        model.addAttribute("teachCyclePageInfo", teachCyclePageInfo);
-        Course course = null;
-        TeachCycle teachCycleDB = null;
-        if (type.equals("edit")) {
-            if (courseId != null && courseId != "")
-                course = teachTaskService.getCourseByPrimaryKey(courseId);
-            String cycleId = course.getCycleId();
-            teachCycleDB = teachTaskService.selectByKey(cycleId);
-            model.addAttribute("course", course);
-            model.addAttribute("teachCycleDB", teachCycleDB);
-            return "teachTask/pop/courseEditPop";
+        //获得周期列表，补全两个下拉框
+        List<TeachCycle> cycleList = teachTaskService.getCycleList(user.getSchoolId());
+        TeachCycle teachCycle = null;
+        if (GukeerStringUtil.isNullOrEmpty(cycleId)) {
+            if (cycleList.size() > 0)
+                teachCycle = cycleList.get(0);
+        } else {
+            teachCycle = teachTaskService.selectByKey(cycleId);
         }
+
+        List<TeachCycle> semesterList = new ArrayList<>();
+        String cycleYear = teachCycle.getCycleYear();
+
+        Map yearMap = new TreeMap();
+        for (TeachCycle cycle : cycleList) {
+            if (cycleYear.equals(cycle.getCycleYear()))
+                semesterList.add(cycle);
+            yearMap.put(cycle.getCycleYear(), cycle);
+        }
+
+        Course course = null;
+        if (courseId != "") {
+            course = teacherService.findCourseById(courseId);
+        }
+
+        model.addAttribute("standardCourseList", standardCourseList);
+        model.addAttribute("roomTypeList", roomTypeList);
+        model.addAttribute("teachCycleList", teachCycleList);
+
+        model.addAttribute("cycleYear", cycleYear);
+        model.addAttribute("cycleSemester", teachCycle.getCycleSemester());
+        model.addAttribute("course", course);
+        model.addAttribute("yearmap", yearMap.keySet());
         return "teachTask/pop/courseAddPop";
     }
 
@@ -166,146 +186,135 @@ public class TeachTaskController extends BasicController {
         //根据courseId,查询course_classs表，作为页面checkbox默认选中的判断条件
         List<CourseClass> courseClassList = teachTaskService.findClassIdByCourseId(courseId);
 
-        //学段容器
-        List<ClassSectionView> sectionViewList = new ArrayList<ClassSectionView>();
-        for (ClassSection classSection : sectionList) {
-            //年级容器
-            ClassSectionView sectionView = new ClassSectionView();
-            sectionView.setId("school_" + schoolId + "section_" + classSection.getId());
-            sectionView.setName(classSection.getName());
-            sectionView.setPid("school_" + schoolId);
+        List<GradeClassExtention> gradeClassList = teachTaskService.findAllGradeClassBySchoolId(schoolId);
 
-            ArrayList<GradeClassView> njlist = new ArrayList<GradeClassView>();
-            List<GradeClass> njList = classService.getAllClassBySchoolId(schoolId);
-            for (int k = 0; k < njList.size() - 1; k++) {
-                for (int l = njList.size() - 1; l > k; l--) {
-                    if (njList.get(l).getNj().equals(njList.get(k).getNj())) {
-                        njList.remove(l);
-                    }
-                }
+        for (GradeClassExtention gradeClassExtention : gradeClassList) {
+            for (CourseClass courseClass : courseClassList) {
+                if (courseClass.getClassId().equals(gradeClassExtention.getId()))
+                    gradeClassExtention.setSelectedId(courseClass.getClassId());
             }
-            for (int i = 0; i < njList.size(); i++) {
-                ArrayList<BanjiView> bjlist = new ArrayList<BanjiView>();
-                GradeClass gradeClass = njList.get(i);
-                GradeClassView classView = new GradeClassView();
-                classView.setTid("school_" + schoolId + "section_" + classSection.getId() + "nianji" + gradeClass.getNj());
-//                    classView.setNjname(GradeNameUtil.getStringName(gradeClass.getNj()));
-                classView.setNjname(ConstantUtil.getValueByKeyAndFlag(gradeClass.getNj(), "nj"));
-                classView.setPid("school_" + schoolId + "section_" + classSection.getId());
-                List<GradeClass> bjList = teachTaskService.findBjList(gradeClass.getNj(), gradeClass.getXd(), gradeClass.getSchoolId());
-                //得到年级下的班级集合
-                for (int m = 0; m < bjList.size(); m++) {
-                    BanjiView banjiView = new BanjiView();
-                    GradeClass banji = bjList.get(m);
-                    if (courseClassList != null) {
-                        for (CourseClass courseClass : courseClassList) {
-                            if (courseClass.getClassId().equals(banji.getId()))
-                                banjiView.setSelectedId(courseClass.getClassId());
-                        }
-                    }
-                    banjiView.setId(banji.getId());
-                    banjiView.setName(banji.getName());
-                    banjiView.setPid("school_" + schoolId + "section_" + classSection.getId() + "nianji" + gradeClass.getNj());
-                    bjlist.add(banjiView);
-                }
-                classView.setBanjiview(bjlist);
-                njlist.add(classView);
-            }
-            sectionView.setNjview(njlist);
-            //年级排序
-            if (njlist.size() != 0)
-                for (int i = 0; i < njlist.size() - 1; i++) {
-                    for (int j = i + 1; j < njlist.size(); j++) {
-                        int left = NumberConvertUtil.convertS2I(njlist.get(i).getTid().substring(njlist.get(i).getTid().length() - 1));
-                        int right = NumberConvertUtil.convertS2I(njlist.get(j).getTid().substring(njlist.get(j).getTid().length() - 1));
-                        if (left > right) {
-                            GradeClassView temp = njlist.get(i);
-                            njlist.set(i, njlist.get(j));
-                            njlist.set(j, temp);
-                        }
-                    }
-                }
-            sectionViewList.add(sectionView);
         }
-        model.addAttribute("sectionViewList", sectionViewList);
-        return "teachTask/courseClassPop";
+
+        model.addAttribute("sectionList", sectionList);
+        model.addAttribute("gradeClassList", gradeClassList);
+        return "teachTask/pop/courseClassPop";
     }
 
-    //课程的增删改
-    @RequestMapping(value = "/course/update", method = RequestMethod.POST)
-    public String updateCourse(HttpServletRequest request, Model model) {
-        String type = getParamVal(request, "type");
-        User user = getLoginUser();
-        String id = getParamVal(request, "id");
-        String name = request.getParameter("name");
-        String roomType = request.getParameter("roomType");
-        String courseType = request.getParameter("courseType");
-        String cycleYear = request.getParameter("cycleYear");
-        String _semester = request.getParameter("semester");
-        int semester = 0;
-        if (_semester != "" && _semester != null) {
-            semester = Integer.parseInt(_semester);
-        }
-        String schoolId = user.getSchoolId();
-        TeachCycle teachCycle = null;
-        //根据schoolId和学期学年数据查询cycleId
-        if (cycleYear != null) {
-            teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, semester, schoolId);
-        }
-        Course courseFromDB = null;
-        if (id != "" && id != null) {
-            courseFromDB = teachTaskService.getCourseByPrimaryKey(id);
-        }
-        if (ConstantUtil.UPDATE.equalsIgnoreCase(type.trim())) {
-            courseFromDB.setRoomType(roomType);
-            courseFromDB.setName(name);
-            courseFromDB.setCycleId(teachCycle.getId());
-            courseFromDB.setCourseType(courseType);
-            int succ = teachTaskService.saveCourse(courseFromDB, user);
-            return "teachTask/course";
-        } else if (ConstantUtil.DELETE.equalsIgnoreCase(type.trim())) {
-            courseFromDB.setDelFlag(1);
-            teachTaskService.saveCourse(courseFromDB, user);
-            return "teachTask/course";
-        } else if (ConstantUtil.INSERT.equalsIgnoreCase(type.trim())) {
-            //根据cycleId name schoolId查询该课程是否已存在
-            Course courseIn = teachTaskService.findCourseBySchoolIdAndCycleIdAndName(teachCycle.getId(), name, schoolId);
-            //若存在就更新
-            if (courseIn != null) {
-                teachTaskService.saveCourse(courseIn, user);
-                return "teachTask/course";
-            }
-
-            Course course = new Course();
-            course.setRoomType(roomType);
-            course.setName(name);
-            course.setCourseType(courseType);
-            course.setCycleId(teachCycle.getId());
-            teachTaskService.saveCourse(course, user);
-        }
-        return "teachTask/course";
-    }
-
-    //选择授课班级
+    // 增加授课班级
     @RequestMapping(value = "/course/class/add", method = RequestMethod.POST)
     public String courseClass(HttpServletRequest request) {
         String courseId = request.getParameter("courseId");
-        String classIds = request.getParameter("classIds");
+        String classIds = getParamVal(request, "classIds");
+
         String[] idsArray = classIds.split(",");
         List<CourseClass> courseClasses = new ArrayList<>();
+
+        teachTaskService.batchDelCourseClass(courseId);
+
         if (idsArray.length > 0) {
-            for (String classId : idsArray) {
+            for (int i = 0; i < idsArray.length; i++) {
                 CourseClass courseClass = new CourseClass();
-                if (classId != "" && classId != null) {
+                if (idsArray[i] != "" && idsArray[i] != null) {
                     courseClass.setId(PrimaryKey.get());
-                    courseClass.setClassId(classId);
+                    courseClass.setClassId(idsArray[i]);
                     courseClass.setCourseId(courseId);
                 }
                 courseClasses.add(courseClass);
             }
+            //先根据courseId查询所有的数据，做一个删除操作，再插入
+            teachTaskService.batchInsertCourseClass(courseClasses);
+
         }
-        teachTaskService.batchInsertCourseClass(courseClasses);
         return "teachTask/course";
+    }
+
+    //课程的增删改
+    @RequestMapping(value = "/course/update", method = RequestMethod.POST)
+    public String updateCourse(HttpServletRequest request, Model model, Course course) {
+        String type = getParamVal(request, "type");
+        User user = getLoginUser();
+        String id = getParamVal(request, "id");
+        String cycleYear = getParamVal(request, "cycleYear");
+        String _semester = request.getParameter("semester");
+
+        TeachCycle teachCycle = null;
+        //根据schoolId和学期学年数据查询cycleId
+        if (cycleYear != "") {
+            teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(_semester), user.getSchoolId());
+        }
+        if (id != "") {
+            course.setId(id);
+            if (ConstantUtil.DELETE.equalsIgnoreCase(type.trim())) {
+                course.setDelFlag(1);
+            }
+            teachTaskService.saveCourse(course, user);
+        } else if (ConstantUtil.INSERT.equalsIgnoreCase(type.trim())) {
+            //根据cycleId name schoolId查询该课程是否已存在
+            course.setCycleId(teachCycle.getId());
+            teachTaskService.saveCourse(course, user);
+        }
+        return "redirect:/teach/task/course/pop";
+    }
+
+    //标准课程增加、编辑的弹窗
+    @RequestMapping(value = "/course/standard/pop", method = RequestMethod.GET)
+    public String addStandardCoursePop(HttpServletRequest request, Model model) {
+        //查询所有的课程类型
+        String id = request.getParameter("id");
+
+        String type = getParamVal(request, "type");
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        Map param = new HashedMap();
+        param.put("schoolId", schoolId);
+        PageInfo<CourseType> courseTypePageInfo = teachTaskService.findAllCourseType(param);
+
+        model.addAttribute("courseTypePageInfo", courseTypePageInfo);
+        Course course = null;
+        if (id != null) {
+            StandardCourse standardCourse = teachTaskService.findStandardCourseById(id);
+            model.addAttribute("standardCourse", standardCourse);
+        }
+        return "teachTask/pop/standardCoursePop";
+    }
+
+
+    //标准课程增加
+    @RequestMapping(value = "/course/standard/add", method = RequestMethod.POST)
+    public String addStandardCourse(HttpServletRequest request, Model model, StandardCourse standardCourse) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String id = standardCourse.getId();
+        standardCourse.setSchoolId(schoolId);
+        teachTaskService.saveStandardCourse(standardCourse);
+        return "teachTask/course";
+    }
+
+    //标准课程删除
+    @RequestMapping(value = "/course/standard/del", method = RequestMethod.POST)
+    public String delStandardCourse(HttpServletRequest request, Model model) {
+        String id = request.getParameter("id");
+        //直接删掉，不做逻辑删除
+        teachTaskService.delStandardCourseById(id);
+        return "teachTask/course";
+    }
+
+    //标准课程首页
+    @RequestMapping(value = "/course/standard/index", method = RequestMethod.GET)
+    public String standardCourseIndex(HttpServletRequest request, Model model, StandardCourse standardCourse) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        int pageNum = getPageNum(request);
+        int pageSize = getPageSize(request);
+        //根据标准的课程名称查询的是否已经存在
+        //根据schoolId查询所有的标准课程
+        PageInfo<StandardCourse> pageInfo = teachTaskService.findAllStandardCourseBySchoolIdAndPageNum(schoolId, pageNum, pageSize);
+        List<StandardCourse> standardCourseList = pageInfo.getList();
+        if (standardCourseList.size() > 0) {
+
+        }
+        model.addAttribute("pageInfo", pageInfo);
+        return "teachTask/standardCourse";
     }
 
 
@@ -321,9 +330,12 @@ public class TeachTaskController extends BasicController {
     public String courseCategory(HttpServletRequest request, Model model) {
         User user = getLoginUser();
         String schoolId = user.getSchoolId();
+
         Map param = new HashMap();
         param.put("schoolId", schoolId);
+
         PageInfo<CourseType> pageInfo = teachTaskService.findAllCourseType(param);
+
         model.addAttribute("pageInfo", pageInfo);
         return "teachTask/pop/courseCategoryPop";
     }
@@ -336,21 +348,19 @@ public class TeachTaskController extends BasicController {
         String oneCourse = request.getParameter("oneCourse");
         String typeId = request.getParameter("typeId");
         //根据名字是否已经存在
-        CourseType courseTypeFromDB = null;
         if (typeId != null) {
-            courseTypeFromDB = teachTaskService.selectCourseTypeByKey(typeId);
-            courseTypeFromDB.setUpdateDate(new Date().getTime());
-            courseTypeFromDB.setUpdateBy(user.getId());
-            courseTypeFromDB.setName(oneCourse);
-            courseTypeFromDB.setDelFlag(0);
-            int succ = teachTaskService.saveCourseType(courseTypeFromDB);
+            CourseType courseType = new CourseType();
+            courseType.setId(typeId);
+            courseType.setUpdateDate(new Date().getTime());
+            courseType.setUpdateBy(user.getId());
+            courseType.setName(oneCourse);
+            courseType.setDelFlag(0);
+            int succ = teachTaskService.saveCourseType(courseType);
             return ResultEntity.newResultEntity("修改成功", "teachTask/pop/courseCategoryPop");
         } else {
             if (oneCourse != null) {
-                courseTypeFromDB = teachTaskService.findCourseTypeByName(oneCourse, schoolId);
+                CourseType courseTypeFromDB = teachTaskService.findCourseTypeByName(oneCourse, schoolId);
                 if (courseTypeFromDB != null) {
-                    courseTypeFromDB.setDelFlag(0);
-                    int succ = teachTaskService.saveCourseType(courseTypeFromDB);
                     return ResultEntity.newResultEntity("课程已经存在,已经执行了更新操作", "teachTask/pop/courseCategoryPop");
                 } else {
                     CourseType courseType = new CourseType();
@@ -365,33 +375,6 @@ public class TeachTaskController extends BasicController {
         }
         return ResultEntity.newResultEntity();
     }
-
-    @ResponseBody
-    @RequestMapping(value = "/course/type/batch", method = RequestMethod.POST)
-    public ResultEntity courseCategoryAddBatch(HttpServletRequest request) {
-        User user = getLoginUser();
-        String schoolId = user.getSchoolId();
-        String tempAdd = request.getParameter("tempAdd");
-        String tempUpdate = request.getParameter("tempUpdate");
-
-        //查询所有课程类型
-        List<CourseType> courseTypeList = teachTaskService.findAllCourseTypeBySchoolId(schoolId);
-
-        if (tempAdd != null) {
-            String[] batchAddArray = tempAdd.split(",");
-            for (int i = 0; i < batchAddArray.length; i++) {
-                if (courseTypeList.size() > 0) {
-                    for (CourseType courseType : courseTypeList) {
-                        if (batchAddArray[i].equals(courseType.getName())) {
-                            return ResultEntity.newResultEntity("", "teachTask/pop/courseCategoryPop");
-                        }
-                    }
-                }
-            }
-        }
-        return ResultEntity.newResultEntity("创建成功", "teachTask/pop/courseCategoryPop");
-    }
-
 
     @RequestMapping(value = "/course/type/update", method = RequestMethod.POST)
     public String courseCategoryUpdate(@ModelAttribute CourseType courseType, HttpServletRequest request, Model model) {
@@ -440,23 +423,12 @@ public class TeachTaskController extends BasicController {
 
         PageInfo<TeachCycle> pageInfo = teachTaskService.getTeachCycle(param);
         List<TeachCycle> list = pageInfo.getList();
-        List<TeachCycle> teachCycleList = new ArrayList<>();
-        //时间格式的转换
-        for (TeachCycle teachCycle : list) {
-            TeachCylcleExtention teachCylcleExtention = new TeachCylcleExtention();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date1 = new Date(teachCycle.getBeginDate());
-            String start = simpleDateFormat.format(date1);
-            Date date2 = new Date(teachCycle.getEndDate());
-            String end = simpleDateFormat.format(date2);
-            teachCylcleExtention.setStart(start);
-            teachCylcleExtention.setEnd(end);
-            teachCylcleExtention.setTeachCycle(teachCycle);
-            teachCycleList.add(teachCylcleExtention);
-        }
-        model.addAttribute("teachCycleList", teachCycleList);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("list", list);
+
+        if (StringUtil.isNotEmpty(getParamVal(request, "appId")))
+            request.getSession().setAttribute("teachTaskId", getParamVal(request, "appId"));
+
         return "teachTask/cycleIndex";
     }
 
@@ -471,25 +443,11 @@ public class TeachTaskController extends BasicController {
     @RequestMapping(value = "/cycle/edit/pop")
     public String cycleEditPop(HttpServletRequest request, Model model) {
         String id = request.getParameter("id");
-        TeachCycle teachCycleDB = null;
+        TeachCycle teachCycle = null;
         if (id != null && id != "") {
-            teachCycleDB = teachTaskService.selectByKey(id);
+            teachCycle = teachTaskService.selectByKey(id);
         }
-
-        //使劲
-        String strBeginDate = "";
-        String strEndDate = "";
-        TeachCycleView teachCycleView = new TeachCycleView();
-        teachCycleView.setTeachCycle(teachCycleDB);
-        try {
-            strBeginDate = longToString(teachCycleDB.getBeginDate(), "yyyy-MM-dd");
-            strEndDate = longToString(teachCycleDB.getEndDate(), "yyyy-MM-dd");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        teachCycleView.setStrBeginDate(strBeginDate);
-        teachCycleView.setStrEndDate(strEndDate);
-        model.addAttribute("teachCycle", teachCycleView);
+        model.addAttribute("teachCycle", teachCycle);
         return "teachTask/pop/cycleEditPop";
     }
 
@@ -510,17 +468,7 @@ public class TeachTaskController extends BasicController {
         if (cycleYear == "" || cycleSemester == "" || _beginDate == "" || _endDate == "" || weekCount == "") {
             ResultEntity.newResultEntity("所填项均为必填", "teachTask/cycleIndex");
         } else {
-            Long beginDate = 1L;
-            Long endDate = 1L;
-            //时间格式转换
-            try {
-                if (_beginDate != null && _endDate != null) {
-                    beginDate = stringToLong(_beginDate, "yyyy-MM-dd");
-                    endDate = stringToLong(_endDate, "yyyy-MM-dd");
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
             if (StringUtils.isNotBlank(cycleId)) {
                 teachCycleDB = teachTaskService.selectByKey(cycleId);
                 if (ConstantUtil.DELETE.equalsIgnoreCase(type.trim())) {
@@ -533,8 +481,8 @@ public class TeachTaskController extends BasicController {
                     teachCycleDB.setCreateDate(System.currentTimeMillis());
                     teachCycleDB.setCycleYear(cycleYear);
                     teachCycleDB.setCycleSemester(NumberConvertUtil.convertS2I(cycleSemester));
-                    teachCycleDB.setBeginDate(beginDate);
-                    teachCycleDB.setEndDate(endDate);
+                    teachCycleDB.setBeginDate(Long.parseLong(_beginDate));
+                    teachCycleDB.setEndDate(Long.parseLong(_endDate));
                     teachCycleDB.setSchoolId(schoolId);
                     teachCycleDB.setWeekCount(NumberConvertUtil.convertS2I(weekCount));
                     teachTaskService.saveTeachCycle(teachCycleDB);
@@ -552,8 +500,8 @@ public class TeachTaskController extends BasicController {
                     teachCycleNew.setCreateDate(System.currentTimeMillis());
                     teachCycleNew.setCycleYear(cycleYear);
                     teachCycleNew.setCycleSemester(NumberConvertUtil.convertS2I(cycleSemester));
-                    teachCycleNew.setBeginDate(beginDate);
-                    teachCycleNew.setEndDate(endDate);
+                    teachCycleNew.setBeginDate(Long.parseLong(_beginDate));
+                    teachCycleNew.setEndDate(Long.parseLong(_endDate));
                     teachCycleNew.setSchoolId(schoolId);
                     teachCycleNew.setWeekCount(NumberConvertUtil.convertS2I(weekCount));
                     teachTaskService.saveTeachCycle(teachCycleNew);
@@ -614,8 +562,10 @@ public class TeachTaskController extends BasicController {
                                         cycleList.add(cycle);
                                     }
                                 }
-                                teachTaskService.insertClassRoomBatch(classRoomList);
-                                teachTaskService.batchSaveRefRoomCycle(cycleList);
+                                if (classRoomList != null) {
+                                    teachTaskService.insertClassRoomBatch(classRoomList);
+                                    teachTaskService.batchSaveRefRoomCycle(cycleList);
+                                }
                             } else if (oneInfo.equals("班主任安排")) {
 
                                 teacherClassList = teachTaskService.findLastMasterByPreCycleId(preCycleId);
@@ -642,7 +592,9 @@ public class TeachTaskController extends BasicController {
                                     course.setId(PrimaryKey.get());
                                     course.setCycleId(thisCycleId);
                                 }
-                                teachTaskService.batchInsertCourse(courseList);
+                                if (courseClassList.size()>0&&courseClassList != null){
+                                    teachTaskService.batchInsertCourse(courseList);
+                                }
                             } else if (oneInfo.equals("班级教室安排")) {
                                 //查询上一学期班级教室安排
                                 List<RefClassRoom> refClassRoomList = teachTaskService.findRefClassRoomByCycleId(preCycleId);
@@ -832,7 +784,7 @@ public class TeachTaskController extends BasicController {
         if (StringUtil.isEmpty(year))
             year = teachCycle.getCycleYear();
 
-        Map yearMap = new HashMap();
+        Map yearMap = new TreeMap();
         for (TeachCycle cycle : cycleList) {
             if (year.equals(cycle.getCycleYear()))
                 semesterList.add(cycle);
@@ -878,9 +830,8 @@ public class TeachTaskController extends BasicController {
     }
 
     //教室 修改，新增
-    @ResponseBody
     @RequestMapping(value = "/room/update", method = RequestMethod.POST)
-    public ResultEntity updateRoom(@ModelAttribute("inputForm") ClassRoom room, HttpServletRequest request) {
+    public String updateRoom(@ModelAttribute("inputForm") ClassRoom room, HttpServletRequest request) {
 
         User user = getLoginUser();
 
@@ -906,7 +857,7 @@ public class TeachTaskController extends BasicController {
             teachTaskService.saveRefRoomCycle(cycle);
         }
         teachTaskService.saveClassRoom(room, pri);
-        return ResultEntity.newResultEntity("删除成功");
+        return "redirect:/teach/task/room/update/index";
     }
 
     //教室，删除，批量删除
@@ -928,7 +879,10 @@ public class TeachTaskController extends BasicController {
     public void exportRoomTemplate(HttpServletResponse response) {
         try {
             String fileName = "教室导入模板.xlsx";
-            String anno = "请确保您的校区，教室类型等字段填写合格";
+            String anno = "注释：所有字段均为必填项\n" +
+                    "          1.校区一栏填写:主校区、西校区，按此规则填写;教室类型一栏请填写存在的类型\n" +
+                    "          2.楼层、容纳人数、有效座位数、考试座位数、房间号请填写整数\n" +
+                    "          3.是否用于选课请填写是或者否 \n";
             new ExportExcel("教室导入模板", IOClassRoomView.class, 2, anno, 1).setDataList(new ArrayList()).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
@@ -971,7 +925,7 @@ public class TeachTaskController extends BasicController {
                 String roomId = PrimaryKey.get();
                 room.setId(roomId);
                 room.setRoomName(roomView.getRoomName());
-
+                room.setTeachBuilding(roomView.getTeachBuilding());
                 room.setRoomTypeName(roomView.getRoomTypeName());
                 if (GukeerStringUtil.isNullOrEmpty(roomTypeMap.get(roomView.getRoomTypeName()))) {
                     throw new ErrcodeException("教室类型不存在");
@@ -1022,7 +976,10 @@ public class TeachTaskController extends BasicController {
     public void errorRoom(HttpServletRequest request, HttpServletResponse response) {
         try {
             String fileName = "错误信息列表.xlsx";
-            String anno = "请确保您的校区，教室类型等字段填写合格";
+            String anno = "注释：所有字段均为必填项\n" +
+                    "          1.校区一栏填写:主校区、西校区，按此规则填写;教室类型一栏请填写存在的类型\n" +
+                    "          2.楼层、容纳人数、有效座位数、考试座位数、房间号请填写整数\n" +
+                    "          3.是否用于选课请填写是或者否 \n";
             String msg = getParamVal(request, "msg");
             JsonArray jsonArray = new JsonParser().parse(msg).getAsJsonArray();
             List<IOClassRoomView> exportFile = new ArrayList<IOClassRoomView>();
@@ -1129,7 +1086,7 @@ public class TeachTaskController extends BasicController {
         if (GukeerStringUtil.isNullOrEmpty(teachCycle)) {
             teachCycle = cycleList.get(0);
         }
-        Map yearMap = new HashMap();
+        Map yearMap = new TreeMap();
         for (TeachCycle cycle : cycleList) {
             if (teachCycle.getCycleYear().equals(cycle.getCycleYear()))
                 semesterList.add(cycle);
@@ -1161,10 +1118,10 @@ public class TeachTaskController extends BasicController {
         }
         //根据正班班主任分页 根据classIdList和type=1 去中间表插叙查询班主任 此次查询仅仅作为分页的存在意义
         PageInfo<TeacherClass> teacherClassPageInfo = null;
-        if (teacherClasses.size() > 0) {
-            teacherClassPageInfo = teachTaskService.findMasterByClassIdListAndType(classIdList, pageNum, pageSize, cycleId);
-        }
-
+//        if (teacherClasses.size() > 0) {
+        teacherClassPageInfo = teachTaskService.findMasterByClassIdListAndType(classIdList, pageNum, pageSize, cycleId);
+//        }
+        model.addAttribute("teacherClassPageInfo", teacherClassPageInfo);
         model.addAttribute("xdId", xdId);
         model.addAttribute("cycleList", cycleList);
         model.addAttribute("yearList", yearMap.keySet());
@@ -1172,6 +1129,7 @@ public class TeachTaskController extends BasicController {
         model.addAttribute("classSectionList", classSectionList);
         model.addAttribute("cycleSemester", cycleSemester);
         model.addAttribute("semesterList", semesterList);
+        model.addAttribute("nj", nj);
         if (teacherClasses == null || teacherClasses.size() == 0) {
             return "teachTask/masterIndex";
         }
@@ -1200,6 +1158,7 @@ public class TeachTaskController extends BasicController {
             bzrView2.setXdName(bzrView.getXdName());
             bzrView2.setClassId(bzrView.getClassId());
             bzrView2.setClassName(bzrView.getClassName());
+            bzrView2.setCycleId(bzrView.getCycleId());
             String deputyIds = "";
             String deputyNames = "";
             for (BZRView bzrView1 : deputyBzrViewNew) {
@@ -1211,7 +1170,7 @@ public class TeachTaskController extends BasicController {
                 }
             }
             bzrView2.setDeputyIds(deputyIds);
-            bzrView2.setDeputymasterName(deputyNames);
+            bzrView2.setDeputymasterName(deputyNames.substring(1, deputyNames.length()));
             bzrViewPageList.add(bzrView2);
         }
 
@@ -1223,7 +1182,7 @@ public class TeachTaskController extends BasicController {
         model.addAttribute("classSectionList", classSectionList);
         model.addAttribute("bzrViewPageList", bzrViewPageList);
         model.addAttribute("cycleSemester", cycleSemester);
-        model.addAttribute("teacherClassPageInfo", teacherClassPageInfo);
+
         return "teachTask/masterIndex";
     }
 
@@ -1237,6 +1196,8 @@ public class TeachTaskController extends BasicController {
         String teacherId = request.getParameter("teacherId");
         String deputyIds = request.getParameter("tempTeacherId");
         String classId = request.getParameter("classId");
+        String cycleId = request.getParameter("cycleId");
+
         List<TeacherClass> TeacherClassList = new ArrayList<>();
         //全部根据classId进行批量更新
         if (classId != null) {
@@ -1247,6 +1208,7 @@ public class TeachTaskController extends BasicController {
         TeacherClass teacherClass = new TeacherClass();
         teacherClass.setType(1);
         teacherClass.setClassId(classId);
+        teacherClass.setCycleId(cycleId);
         if (teacherId == "") {
             teacherClass.setTeacherId(teacherIdFromHouTai);
         } else {
@@ -1262,6 +1224,7 @@ public class TeachTaskController extends BasicController {
             //aaaaaaaaaaaaaaaaaaaaaaaaa   teacherClass1.setId(PrimaryKey.get());
 //            teacherClass1.setCycleId();
             teacherClass1.setType(2);
+            teacherClass1.setCycleId(cycleId);
             TeacherClassList.add(teacherClass1);
         }
         //批量插入
@@ -1291,6 +1254,15 @@ public class TeachTaskController extends BasicController {
         //根据classId查询得到班级的名字
         GradeClass gradeClass = classService.selectClassById(classId);
 
+        String[] arrDeputyIds = null;
+        List<String> deputyIdsList = new ArrayList<>();
+        if (deputyIds != null) {
+            arrDeputyIds = deputyIds.split(",");
+            if (arrDeputyIds != null && arrDeputyIds.length > 1) {
+                for (int i = 1; i < arrDeputyIds.length; i++)
+                    deputyIdsList.add(arrDeputyIds[i]);
+            }
+        }
 
 //        //根据schoolId 所有老师的名字
         List<Teacher> _teacherList = teacherService.findAllTeacher(schoolId);
@@ -1306,6 +1278,7 @@ public class TeachTaskController extends BasicController {
         model.addAttribute("teacherList", teacherList);
         model.addAttribute("teacherIdFromHouTai", teacherId);
         model.addAttribute("deputyIds", deputyIds);
+        model.addAttribute("deputyIdsList", deputyIdsList);
         model.addAttribute("cycleId", cycleId);
         return "teachTask/pop/masterEditPop";
     }
@@ -1409,72 +1382,96 @@ public class TeachTaskController extends BasicController {
         TeachCycle cycleLatest = getLatestTeachCycle(user.getSchoolId());
         ImportExcel importExcel = new ImportExcel(file, 2, 0);
         List<IOCMasterView> list = importExcel.getDataList(IOCMasterView.class);
+        Map res = new HashMap();
         for (IOCMasterView iocMasterView : list) {
-            TeacherClass ref1 = new TeacherClass();
-            GradeClass gradeClass = (GradeClass) classMap.get(iocMasterView.getBj() + iocMasterView.getNj() + classSectionMap.get(iocMasterView.getXdName()));
-            String classId = "";
-            if (gradeClass != null) {
-                classId = gradeClass.getId();
-            }
-            //根据学期和学年导入数据时候首先获取cycleId
-            String cycleYear = iocMasterView.getCycleYear();
-            int cycleSemester = iocMasterView.getCycleSemester();
-            //获取cycleId
-            TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, cycleSemester, schoolId);
-            String cycleId = null;
-            if (teachCycle != null) {
-                cycleId = teachCycle.getId();
-            }
-            if (gradeClass.getNj().equals(iocMasterView.getNj()))
-                if (gradeClass.getXd().equals(classSectionMap.get(iocMasterView.getXdName())))
-                    ref1.setClassId(gradeClass.getId());
-            ref1.setCycleId(cycleId);
+            try {
 
-            //班主任
-            String[] masterNoArray = iocMasterView.getMasterName().split("\\(");
-            String masterNo = masterNoArray[1].substring(0, masterNoArray[1].length() - 1);
-            String teacherId = "";
-            if (masterNo.equals(teacherMap.get(masterNo).getNo())) {
-                Teacher teacher = teacherMap.get(masterNo);
-                teacherId = teacher.getId();
-                ref1.setTeacherId(teacherMap.get(masterNo).getId());
-            }
+                TeacherClass ref1 = new TeacherClass();
+                GradeClass gradeClass = (GradeClass) classMap.get(iocMasterView.getBj() + iocMasterView.getNj() + classSectionMap.get(iocMasterView.getXdName()));
+                String classId = "";
+                if (gradeClass != null) {
+                    classId = gradeClass.getId();
+                }
+                //根据学期和学年导入数据时候首先获取cycleId
+                String cycleYear = iocMasterView.getCycleYear();
+                int cycleSemester = iocMasterView.getCycleSemester();
+                //获取cycleId
+                TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, cycleSemester, schoolId);
+                String cycleId = null;
+                if (teachCycle != null) {
+                    cycleId = teachCycle.getId();
+                }
+                if (gradeClass.getNj().equals(iocMasterView.getNj()))
+                    if (gradeClass.getXd().equals(classSectionMap.get(iocMasterView.getXdName())))
+                        ref1.setClassId(gradeClass.getId());
+                ref1.setCycleId(cycleId);
 
-            ref1.setType(1);
-            //aaaaaaaaaaaaaaa ref1.setId(PrimaryKey.get());
-            //根据classId cycleId masterteacherId去查数据  若存在则不导入
-            TeacherClass teacherClass = teachTaskService.findTeacherClassByClassIdCycleIdTeacherId(classId, cycleId, teacherId);
-            if (teacherClass == null) {
-                correctTeacherClassList.add(ref1);
-            }
-            //副班主任
-            String deputyNoStr = iocMasterView.getDeputymasterName();
-            if (deputyNoStr != null) {
-                String[] deputyNoArray = deputyNoStr.split(",");
-                for (int i = 0; i < deputyNoArray.length; i++) {
+                //班主任
+                //中英文符号的替换
+                String _masterName = iocMasterView.getMasterName();
+                String amasterName = _masterName.replace("（", "(");
+                String masterName = amasterName.replace("）", ")");
+                String[] masterNoArray = masterName.split("\\(");
+
+                String masterNo = masterNoArray[1].substring(0, masterNoArray[1].length() - 1);
+                String teacherId = "";
+                if (masterNo.equals(teacherMap.get(masterNo).getNo())) {
+                    Teacher teacher = teacherMap.get(masterNo);
+                    teacherId = teacher.getId();
+                    ref1.setTeacherId(teacherMap.get(masterNo).getId());
+                }
+
+                ref1.setType(1);
+                //aaaaaaaaaaaaaaa ref1.setId(PrimaryKey.get());
+                //根据classId cycleId masterteacherId去查数据  若存在则不导入
+
+                TeacherClass teacherClass = teachTaskService.findTeacherClassByClassIdCycleIdTeacherId(classId, cycleId, teacherId);
+
+                if (teacherClass == null) {
+                    correctTeacherClassList.add(ref1);
+                } else {
+                    throw new ErrcodeException("已经导入一次，无需重复操作");
+                }
+                //副班主任
+
+                //中英文符号替换
+                String _deputyNoStr = iocMasterView.getDeputymasterName();
+                String douhaoDeputyNoStr = _deputyNoStr.replace("；", ";");
+                String aDeputyNoStr = douhaoDeputyNoStr.replace("（", "(");
+                String deputyNoStr = aDeputyNoStr.replace("）", ")");
+
+                if (deputyNoStr != null) {
+                    String[] deputyNoArray = deputyNoStr.split(";");
+                    for (int i = 0; i < deputyNoArray.length; i++) {
 //                    System.out.println(deputyNoArray[i]);
-                    String _deputyNo = deputyNoArray[i];
-                    String[] _deputyArray = _deputyNo.split("\\(");
-                    String deputyNo = _deputyArray[1].substring(0, _deputyArray[1].length() - 1);
-                    TeacherClass ref2 = new TeacherClass();
-                    ref2.setClassId(gradeClass.getId());
-                    if (deputyNo.equals(teacherMap.get(deputyNo)))
-                        System.out.println(teacherMap.get(deputyNo).getId());
-                    ref2.setTeacherId(teacherMap.get(deputyNo).getId());
-                    ref2.setType(2);
-                    ref2.setCycleId(cycleId);
-                    //aaaaaaaaaaaaaaaaa ref2.setId(PrimaryKey.get());
-                    TeacherClass teacherClass1 = teachTaskService.findTeacherClassByClassIdCycleIdTeacherId(classId, cycleId, teacherMap.get(deputyNo).getId());
-                    if (teacherClass1 == null) {
-                        correctTeacherClassList.add(ref2);
+                        String _deputyNo = deputyNoArray[i];
+                        String[] _deputyArray = _deputyNo.split("\\(");
+                        String deputyNo = _deputyArray[1].substring(0, _deputyArray[1].length() - 1);
+                        TeacherClass ref2 = new TeacherClass();
+                        ref2.setClassId(gradeClass.getId());
+                        if (deputyNo.equals(teacherMap.get(deputyNo)))
+                            System.out.println(teacherMap.get(deputyNo).getId());
+                        ref2.setTeacherId(teacherMap.get(deputyNo).getId());
+                        ref2.setType(2);
+                        ref2.setCycleId(cycleId);
+                        //aaaaaaaaaaaaaaaaa ref2.setId(PrimaryKey.get());
+                        TeacherClass teacherClass1 = teachTaskService.findTeacherClassByClassIdCycleIdTeacherId(classId, cycleId, teacherMap.get(deputyNo).getId());
+                        if (teacherClass1 == null) {
+                            correctTeacherClassList.add(ref2);
+                        }
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                errorIOCMasterView.add(iocMasterView);
+                continue;
             }
         }
 
-        teachTaskService.insertBatchTeacherClass(correctTeacherClassList);
+        if (correctTeacherClassList.size() > 0)
+            teachTaskService.insertBatchTeacherClass(correctTeacherClassList);
         Long end = System.currentTimeMillis();
-        Map res = new HashMap();
+
         res.put("msg", "导入完成，共" + correctTeacherClassList.size() + "条成功，" + errorIOCMasterView.size() + "条失败,耗时" + (end - begin) / 1000 + "秒");
         res.put("errorList", errorIOCMasterView);
         return new ResponseEntity(res, HttpStatus.OK);
@@ -1488,7 +1485,7 @@ public class TeachTaskController extends BasicController {
      * @return
      */
 
-    //任课教师首页
+//任课教师首页
     @RequestMapping(value = "/course/teacher/index")
     public String courseTeacherIndex(HttpServletRequest request, Model model) {
         int pageNum = getPageNum(request);
@@ -1511,7 +1508,7 @@ public class TeachTaskController extends BasicController {
         if (StringUtil.isEmpty(cycleYear))
             cycleYear = teachCycle.getCycleYear();
 
-        Map yearMap = new HashMap();
+        Map yearMap = new TreeMap();
         for (TeachCycle cycle : cycleList) {
             if (cycleYear.equals(cycle.getCycleYear()))
                 semesterList.add(cycle);
@@ -1521,7 +1518,7 @@ public class TeachTaskController extends BasicController {
         List<Course> courseList = teachTaskService.findAllCourseBySchoolIdAndCycleId(schoolId, teachCycle.getId());
 
         String courseName = null;
-        if (StringUtil.isEmpty(courseId)) {
+        if (StringUtil.isEmpty(courseId) || courseId.equals("undefined")) {
             if (courseList != null && courseList.size() > 0) {
                 Course course = courseList.get(0);
                 courseId = courseList.get(0).getId();
@@ -1544,7 +1541,7 @@ public class TeachTaskController extends BasicController {
             return "teachTask/courseTeacher";
         }
 
-        PageInfo<BZRView> pageInfo = teachTaskService.findAllCourseTeacherBycourseClassList(courseClassList, pageNum, pageSize);
+        PageInfo<BZRView> pageInfo = teachTaskService.findAllCourseTeacherBycourseClassList(courseClassList, pageNum, pageSize, teachCycle.getId());
         model.addAttribute("pageInfo", pageInfo);
         return "teachTask/courseTeacher";
     }
@@ -1659,7 +1656,6 @@ public class TeachTaskController extends BasicController {
                 //gradeclassId、courseId
                 errCourse = iocCourseTeacherView;
                 String gradeClassId = "";
-                String cycleId = "";
                 GradeClass gradeClass = (GradeClass) classMap.get(iocCourseTeacherView.getBj() + iocCourseTeacherView.getNj() + classSectionMap.get(iocCourseTeacherView.getXdName()));
 
                 //拿到对应的classId
@@ -1667,15 +1663,18 @@ public class TeachTaskController extends BasicController {
                     if (gradeClass.getNj().equals(iocCourseTeacherView.getNj())) {
                         if (gradeClass.getName().equals(iocCourseTeacherView.getBj())) {
                             gradeClassId = gradeClass.getId();
-                            cycleId = gradeClass.getCycleId();
                         }
                     }
                 }
 
+                //获取最新的教学周期
+                TeachCycle teachCycle = getLatestTeachCycle(schoolId);
+                String cycleId = teachCycle.getId();
                 String courseId = (String) courseNameMap.get(cycleId + iocCourseTeacherView.getCourse());
-
                 //????????????????????????????????????老师姓名+（编号）
-                String courseTeacher = iocCourseTeacherView.getCourseTeacher();
+                String _courseTeacher = iocCourseTeacherView.getCourseTeacher();
+                String acourseTeacher = _courseTeacher.replace("（", "(");
+                String courseTeacher = acourseTeacher.replace("）", ")");
                 String[] courseteachArray = courseTeacher.split("\\(");
                 String courseTeacherNo = courseteachArray[1].substring(0, courseteachArray[1].length() - 1);
                 //通过老师的在职编号查询老师的id
@@ -1687,8 +1686,10 @@ public class TeachTaskController extends BasicController {
                 CourseClass courseClass = new CourseClass();
                 courseClass.setTeacherId(teacherId);
                 courseClass.setClassId(gradeClassId);
+                if (courseId == null) {
+                    throw new ErrcodeException(iocCourseTeacherView.getCourse() + "课程不存在，请先到课程管理目录创建该课程");
+                }
                 courseClass.setCourseId(courseId);
-                courseClass.setId(PrimaryKey.get());
                 correcCourseClassList.add(courseClass);
             } catch (Exception e) {
                 errorIOCCourseTeacherViewList.add(errCourse);
@@ -1696,8 +1697,13 @@ public class TeachTaskController extends BasicController {
                 continue;
             }
         }
-        if (correcCourseClassList.size() > 0)
-            teachTaskService.batchInsertCourseClass(correcCourseClassList);
+        if (correcCourseClassList.size() > 0) {
+            //执行批量更新，因为course和class已经有这条数据，只能是更新
+            for (CourseClass courseClass : correcCourseClassList) {
+                teachTaskService.updateCourseClassByCourseIdAndClassId(courseClass);
+            }
+        }
+//            teachTaskService.batchInsertCourseClass(correcCourseClassList);
 //        teacherService.insertTeacherBatch(correcCourseTeacherList);//批量插入正确验证的数据
         Long end = System.currentTimeMillis();
         Map res = new HashMap();
@@ -1712,8 +1718,10 @@ public class TeachTaskController extends BasicController {
     public void exportCourseTeacher(HttpServletResponse response) {
         try {
             String fileName = "任课教师导入模板.xlsx";
-            String anno = "注释：红色字段为必填项\n" +
-                    "          1.日期格式：yyyymmdd,例如：20160901\n";
+            String anno = "注释：所有字段均为必填项\n" +
+                    "          1.任课教师一栏请按例子格式填写 XXX(教师在校编号)\n" +
+                    "          2.年级一栏填写数字，如1表示一年级，初中一年级也填写1;\n";
+
             new ExportExcel("人员数据", IOCCourseTeacherView.class, 2, anno, 1).setDataList(new ArrayList()).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1751,19 +1759,21 @@ public class TeachTaskController extends BasicController {
     //任课教师搜索
     @RequestMapping(value = "/course/teacher/search")
     public String courseTeacherSearch(HttpServletRequest request, Model model) {
-        int pageNum = getPageNum(request);
-        int pageSize = getPageSize(request);
+        //在页面获取所有的查询条件
         String cycleYear = getParamVal(request, "cycleYear");
         String cycleSemester = getParamVal(request, "cycleSemester");
         User user = getLoginUser();
         String schoolId = user.getSchoolId();
         String teacherName = request.getParameter("name");
+
+        ////解决teacherName乱码问题。
         try {
             if (teacherName != null)
-                teacherName = java.net.URLDecoder.decode(teacherName, "UTF-8");//解决非post访问的中文乱码问题。
+                teacherName = java.net.URLDecoder.decode(teacherName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         //根据学年学期获得周期
         TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), user.getSchoolId());
 
@@ -1777,12 +1787,13 @@ public class TeachTaskController extends BasicController {
         if (StringUtil.isEmpty(cycleYear))
             cycleYear = teachCycle.getCycleYear();
 
-        Map yearMap = new HashMap();
+        Map yearMap = new TreeMap();
         for (TeachCycle cycle : cycleList) {
             if (cycleYear.equals(cycle.getCycleYear()))
                 semesterList.add(cycle);
             yearMap.put(cycle.getCycleYear(), cycle);
         }
+
         String cycleId = teachCycle.getId();
         teacherName = "%" + teacherName + "%";
         //根据cycleId和schoolId查询courseIdList
@@ -1801,14 +1812,16 @@ public class TeachTaskController extends BasicController {
         return "teachTask/courseTeacherSearch";
     }
 
-    //班主任下载导入模板下载导入模板
+    //班主任 导入模板下载
     @ResponseBody
     @RequestMapping(value = "/master/moban/download")
     public void exportMaster(HttpServletResponse response) {
         try {
             String fileName = "班主任导入模板.xlsx";
-            String anno = "注释：红色字段为必填项\n" +
-                    "          1.日期格式：yyyymmdd,例如：20160901\n";
+            String anno = "注释：所有字段均为必填项\n" +
+                    "          1.班主任一栏请按例子格式填写 XXX(教师在校编号)\n" +
+                    "          2.副班主任一栏，若副班主任有一人请填写 XXX(教师编号);末尾分号不能省略\n";
+
             new ExportExcel("班主任", IOCMasterView.class, 2, anno, 1).setDataList(new ArrayList()).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1874,9 +1887,9 @@ public class TeachTaskController extends BasicController {
     }
 
     // string类型转换为long类型
-    // strTime要转换的String类型的时间
-    // formatType时间格式
-    // strTime的时间格式和formatType的时间格式必须相同
+// strTime要转换的String类型的时间
+// formatType时间格式
+// strTime的时间格式和formatType的时间格式必须相同
     public static long stringToLong(String strTime, String formatType)
             throws ParseException {
         Date date = stringToDate(strTime, formatType); // String类型转成date类型
@@ -1889,9 +1902,9 @@ public class TeachTaskController extends BasicController {
     }
 
     // string类型转换为date类型
-    // strTime要转换的string类型的时间，formatType要转换的格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日
-    // HH时mm分ss秒，
-    // strTime的时间格式必须要与formatType的时间格式相同
+// strTime要转换的string类型的时间，formatType要转换的格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日
+// HH时mm分ss秒，
+// strTime的时间格式必须要与formatType的时间格式相同
     public static Date stringToDate(String strTime, String formatType)
             throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat(formatType);
@@ -1901,14 +1914,14 @@ public class TeachTaskController extends BasicController {
     }
 
     // date类型转换为long类型
-    // date要转换的date类型的时间
+// date要转换的date类型的时间
     public static long dateToLong(Date date) {
         return date.getTime();
     }
 
     // long类型转换为String类型
-    // currentTime要转换的long类型的时间
-    // formatType要转换的string类型的时间格式
+// currentTime要转换的long类型的时间
+// formatType要转换的string类型的时间格式
     public static String longToString(long currentTime, String formatType)
             throws ParseException {
         Date date = longToDate(currentTime, formatType); // long类型转成Date类型
@@ -1917,8 +1930,8 @@ public class TeachTaskController extends BasicController {
     }
 
     // long转换为Date类型
-    // currentTime要转换的long类型的时间
-    // formatType要转换的时间格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日 HH时mm分ss秒
+// currentTime要转换的long类型的时间
+// formatType要转换的时间格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日 HH时mm分ss秒
     public static Date longToDate(long currentTime, String formatType)
             throws ParseException {
         Date dateOld = new Date(currentTime); // 根据long类型的毫秒数生命一个date类型的时间
@@ -1928,14 +1941,14 @@ public class TeachTaskController extends BasicController {
     }
 
     // date类型转换为String类型
-    // formatType格式为yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日 HH时mm分ss秒
-    // data Date类型的时间
+// formatType格式为yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日 HH时mm分ss秒
+// data Date类型的时间
     public static String dateToString(Date data, String formatType) {
         return new SimpleDateFormat(formatType).format(data);
     }
 
 
-    //综合管理
+//综合管理
 
     /**
      * 教务管理-班级教室管理
@@ -1945,7 +1958,7 @@ public class TeachTaskController extends BasicController {
      * @return
      */
 
-    //班级教室首页
+//班级教室首页
     @RequestMapping(value = "/ref/class/room/index", method = RequestMethod.GET)
     public String refClassRoomIndex(HttpServletRequest request, Model model) {
         int pageNum = getPageNum(request);
@@ -1967,7 +1980,7 @@ public class TeachTaskController extends BasicController {
         if (StringUtil.isEmpty(cycleYear))
             cycleYear = teachCycle.getCycleYear();
 
-        Map yearMap = new HashMap();
+        Map yearMap = new TreeMap();
         for (TeachCycle cycle : cycleList) {
             if (cycleYear.equals(cycle.getCycleYear()))
                 semesterList.add(cycle);
@@ -1997,7 +2010,7 @@ public class TeachTaskController extends BasicController {
     public void exportRefClassRoom(HttpServletResponse response) {
         try {
             String fileName = "班级教室导入模板.xlsx";
-            String anno = "注释：红色字段为必填项\n" +
+            String anno = "注释：所有字段为必填项\n" +
                     "          1.日期格式：yyyymmdd,例如：20160901\n" +
                     "          2.学期项:数字1表示第一学期,数字2表示第二学期\n";
 
@@ -2077,7 +2090,6 @@ public class TeachTaskController extends BasicController {
                 RefClassRoom refClassRoom = new RefClassRoom();
                 errRefClassRoom = iocRefClassRoomView;
                 ///////////////////////id
-                refClassRoom.setId(PrimaryKey.get());
                 String gradeClassId = "";
                 String cycleId = "";
                 //根据表格拿到学年和学期
@@ -2125,6 +2137,7 @@ public class TeachTaskController extends BasicController {
                 if (null != refClassRoomMap.get(cycleId + gradeClassId + roomId)) {
                     throw new ErrcodeException("已经导入过，请勿重复导入");
                 } else {
+                    refClassRoom.setId(PrimaryKey.get());
                     correctRefClassRoomList.add(refClassRoom);
                 }
             } catch (Exception e) {
@@ -2226,7 +2239,7 @@ public class TeachTaskController extends BasicController {
         if (StringUtil.isEmpty(cycleYear))
             cycleYear = teachCycle.getCycleYear();
 
-        Map yearMap = new HashMap();
+        Map yearMap = new TreeMap();
         for (TeachCycle cycle : cycleList) {
             if (cycleYear.equals(cycle.getCycleYear()))
                 semesterList.add(cycle);
@@ -2243,9 +2256,19 @@ public class TeachTaskController extends BasicController {
 
         //cycleId、courseId都有了 查询
         List<CourseClassView> courseClassViewList = teachTaskService.findRefCourseClassByCycleIdCourseId(cycleId, courseId);
-
+        List<Integer> hours = new ArrayList<>();
         if (courseClassViewList.size() > 0) {
-            model.addAttribute("inputLength", ">0");
+            for (CourseClassView courseClassView : courseClassViewList) {
+                if (courseClassView.getCourseHour() != null) {
+                    hours.add(courseClassView.getCourseHour());
+                }
+            }
+
+        }
+        if (hours.size() > 0) {
+            model.addAttribute("save", 1);
+        } else {
+            model.addAttribute("save", 0);
         }
         model.addAttribute("yearList", yearMap.keySet());
         model.addAttribute("semesterList", semesterList);
@@ -2280,6 +2303,8 @@ public class TeachTaskController extends BasicController {
         Map map = new HashedMap();
         if (sectionIdArray.length > 0) {
             for (int i = 1; i < sectionIdArray.length; i++) {
+
+                //该数组中的第一个元素代表sectionId,第二个元素代表nj,第三个元素代表课时数
                 String[] arr = sectionIdArray[i].split(":");
                 for (int j = 0; j < arr.length; j++) {
                     A_CourseClassHour a_courseClassHour = new A_CourseClassHour();
@@ -2308,7 +2333,6 @@ public class TeachTaskController extends BasicController {
                             updateForCourseClass.add(courseClassDB);
                         }
                     }
-
                 }
             }
         }
@@ -2320,5 +2344,558 @@ public class TeachTaskController extends BasicController {
 //        teachTaskService.updateCourseClassByList(updateForCourseClass);
         return "redirect:/teach/task/course/hour";
     }
+
+
+    /**
+     * 班级日常课时管理
+     */
+
+//首页
+    @RequestMapping(value = "/daily/hour", method = RequestMethod.GET)
+    public String dailyHour(HttpServletRequest request, Model model) {
+        String cycleYear = getParamVal(request, "cycleYear");
+        String cycleSemester = getParamVal(request, "cycleSemester");
+        String xdId = getParamVal(request, "sectionId");
+        String nj = getParamVal(request, "nj");
+        int pageNum = getPageNum(request);
+        int pageSize = getPageSize(request);
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+
+        //根据学年学期获得周期
+        TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), user.getSchoolId());
+
+        //查询所有的教学周期
+        List<TeachCycle> cycleList = teachTaskService.getCycleList(user.getSchoolId());
+
+        List<TeachCycle> semesterList = new ArrayList<>();
+        if (GukeerStringUtil.isNullOrEmpty(teachCycle)) {
+            teachCycle = cycleList.get(0);
+        }
+        Map yearMap = new TreeMap();
+        for (TeachCycle cycle : cycleList) {
+            if (teachCycle.getCycleYear().equals(cycle.getCycleYear()))
+                semesterList.add(cycle);
+            yearMap.put(cycle.getCycleYear(), cycle);
+        }
+
+        //根据学校id查询学段的名字
+        List<ClassSection> classSectionList = teachTaskService.findAllXd(schoolId);
+        if (xdId == "") {
+            if (classSectionList.size() > 0) {
+                xdId = classSectionList.get(0).getId();
+            }
+        }
+        String cycleId = teachCycle.getId();
+        if (StringUtil.isEmpty(cycleYear)) {
+            cycleYear = teachCycle.getCycleYear();
+        }
+        if (nj == "" || nj == null) {
+            nj = "1";
+        }
+
+        //根据xd、cycleId、nj查询所有的班级日常课时信息
+        PageInfo<DailyHourView> pageInfo = teachTaskService.findDailyHourByXdAndCycleIdAndNj(schoolId, xdId, cycleId, nj, pageNum, pageSize);
+        model.addAttribute("xdId", xdId);
+        model.addAttribute("cycleList", cycleList);
+        model.addAttribute("yearList", yearMap.keySet());
+        model.addAttribute("classSectionList", classSectionList);
+        model.addAttribute("cycleSemester", cycleSemester);
+        model.addAttribute("semesterList", semesterList);
+        model.addAttribute("nj", nj);
+        model.addAttribute("cycleYear", cycleYear);
+        model.addAttribute("pageInfo", pageInfo);
+        return "teachTask/dailyHour";
+
+    }
+
+    //班级日常课时的弹窗
+    @RequestMapping(value = "/daily/hour/add/pop", method = RequestMethod.GET)
+    public String dailyHourAddPop(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String dailyId = getParamVal(request, "dailyId");
+        String bj = getParamVal(request, "bj");//班级
+        //根据上述条件查询cycleId的值
+        List<TeachCycle> cycleList = teachTaskService.getCycleList(schoolId);
+        Map map = new HashMap<>();
+        for (TeachCycle teachCycle : cycleList) {
+            map.put(teachCycle.getCycleYear(), teachCycle.getId());
+        }
+        //查询所有的班级
+        List<GradeClass> gradeClassList = classService.getAllClassBySchoolId(schoolId);
+        DailyHour dailyHour = null;
+        if (dailyId != "") {
+            dailyHour = teachTaskService.findDailyHourById(dailyId);
+        }
+        try {
+            bj = new String(bj.getBytes("iso8859-1"), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("bj", bj);
+        model.addAttribute("gradeClassList", gradeClassList);
+        model.addAttribute("yearList", map.keySet());
+        model.addAttribute("dailyHour", dailyHour);
+        return "teachTask//pop/dailyHourAdd";
+    }
+
+
+    //班级日常课时的增加
+    @ResponseBody
+    @RequestMapping(value = "/daily/hour/add", method = RequestMethod.POST)
+    public ResultEntity dailyHourAdd(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+
+        String cycleYear = getParamVal(request, "cycleYear");
+        String cycleSemester = getParamVal(request, "cycleSemester");
+        TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), schoolId);
+        String cycleId = null;
+        if (teachCycle != null) {
+            cycleId = teachCycle.getId();
+        }
+
+        String skts = getParamVal(request, "skts");
+        String swks = getParamVal(request, "swks");
+        String xwks = getParamVal(request, "xwks");
+        String kjc = getParamVal(request, "kjc");
+        String classIds = getParamVal(request, "classIds");
+        if (skts == "" || kjc == "" || swks == "" || xwks == "" || classIds == "" || cycleSemester == "") {
+            return ResultEntity.newErrEntity("所有项均为必填项");
+        }
+        List<DailyHour> dailyHourList = new ArrayList<>();
+        String[] classIdArr = classIds.split(",");
+        if (classIdArr.length > 0) {
+            for (int i = 1; i < classIdArr.length; i++) {
+                DailyHour dailyHour = new DailyHour();
+                dailyHour.setId(PrimaryKey.get());
+                dailyHour.setSkts(NumberConvertUtil.convertS2I(skts));
+                dailyHour.setSwks(NumberConvertUtil.convertS2I(swks));
+                dailyHour.setXwks(NumberConvertUtil.convertS2I(xwks));
+                dailyHour.setKjc(NumberConvertUtil.convertS2I(kjc));
+                dailyHour.setCycleId(cycleId);
+                dailyHour.setCreateTime(System.currentTimeMillis());
+                dailyHour.setUpdateTime(System.currentTimeMillis());
+                dailyHour.setUpdateBy(user.getId());
+                dailyHour.setGradeClassId(classIdArr[i]);
+                dailyHour.setDelFlag(0);
+                dailyHour.setXn(cycleYear);
+                dailyHour.setXq(cycleSemester);
+                dailyHour.setSchoolId(schoolId);
+                dailyHourList.add(dailyHour);
+            }
+        }
+        //查询所有的dailyHour,看是否已经创建过一次了
+        teachTaskService.batchInsertDailyHour(dailyHourList);
+        return ResultEntity.newResultEntity("");
+    }
+
+
+    //班级日常课时编辑
+    @ResponseBody
+    @RequestMapping(value = "/daily/hour/edit", method = RequestMethod.POST)
+    public ResultEntity dailyHourEdit(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String dailyId = getParamVal(request, "dailyId");
+        String cycleYear = getParamVal(request, "cycleYear");
+        String cycleSemester = getParamVal(request, "cycleSemester");
+        TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), schoolId);
+        String cycleId = null;
+        if (teachCycle != null) {
+            cycleId = teachCycle.getId();
+        }
+        DailyHour dailyHour = new DailyHour();
+        if (dailyId != "") {
+            dailyHour.setId(dailyId);
+        }
+        String skts = getParamVal(request, "skts");
+        String swks = getParamVal(request, "swks");
+        String xwks = getParamVal(request, "xwks");
+        String kjc = getParamVal(request, "kjc");
+        dailyHour.setXq(cycleSemester);
+        if (skts == "" || kjc == "" || swks == "" || xwks == "" || cycleSemester == "") {
+            return ResultEntity.newErrEntity("所有项均为必填项");
+        }
+        dailyHour.setSkts(NumberConvertUtil.convertS2I(skts));
+        dailyHour.setSwks(NumberConvertUtil.convertS2I(swks));
+        dailyHour.setXwks(NumberConvertUtil.convertS2I(xwks));
+        dailyHour.setKjc(NumberConvertUtil.convertS2I(kjc));
+        dailyHour.setCycleId(cycleId);
+        dailyHour.setUpdateTime(System.currentTimeMillis());
+        dailyHour.setUpdateBy(user.getId());
+        dailyHour.setDelFlag(0);
+        dailyHour.setXn(cycleYear);
+        dailyHour.setXq(cycleSemester);
+        teachTaskService.saveDailyHour(dailyHour);
+        return ResultEntity.newResultEntity("");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/daily/hour/del", method = RequestMethod.POST)
+    public ResultEntity dailyHourDel(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String dailyId = getParamVal(request, "dailyId");
+        teachTaskService.delDailyHourById(dailyId);
+        return ResultEntity.newResultEntity("");
+    }
+
+    /**
+     * 课节设置
+     */
+//首页
+    @RequestMapping(value = "/node", method = RequestMethod.GET)
+    public String nodeIndex(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        Integer pageNum = getPageNum(request);
+        Integer pageSize = getPageSize(request);
+        String cycleYear = getParamVal(request, "cycleYear");
+        String cycleSemester = getParamVal(request, "cycleSemester");
+
+        //根据学年学期获得周期
+        TeachCycle teachCycle = teachTaskService.getCycleByYearSemester(cycleYear, NumberConvertUtil.convertS2I(cycleSemester), user.getSchoolId());
+
+        //查询所有的教学周期
+        List<TeachCycle> cycleList = teachTaskService.getCycleList(user.getSchoolId());
+
+        List<TeachCycle> semesterList = new ArrayList<>();
+        if (GukeerStringUtil.isNullOrEmpty(teachCycle)) {
+            teachCycle = cycleList.get(0);
+        }
+        if (StringUtil.isEmpty(cycleYear)) {
+            cycleYear = teachCycle.getCycleYear();
+        }
+
+
+        Map yearMap = new TreeMap();
+        for (TeachCycle cycle : cycleList) {
+            if (teachCycle.getCycleYear().equals(cycle.getCycleYear()))
+                semesterList.add(cycle);
+            yearMap.put(cycle.getCycleYear(), cycle);
+        }
+        String cycleId = teachCycle.getId();
+        //根据schoolId查询时间表
+        PageInfo<CourseNodeInit> pageInfo = teachTaskService.findCourseNodeInitBySchoolId(schoolId, pageNum, pageSize, cycleId);
+        model.addAttribute("cycleYear", cycleYear);
+        model.addAttribute("cycleSemester", cycleSemester);
+        model.addAttribute("yearList", yearMap.keySet());
+        model.addAttribute("semesterList", semesterList);
+        model.addAttribute("pageInfo", pageInfo);
+        return "teachTask/node";
+    }
+
+    //node添加pop页面
+    @RequestMapping(value = "/node/add/pop", method = RequestMethod.GET)
+    public String nodeAddPop(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String nodeId = getParamVal(request, "nodeId");
+        CourseNodeInit courseNodeInit = null;
+        CourseNodeInitView courseNodeInitView = null;
+        if (nodeId != "") {
+            courseNodeInitView = new CourseNodeInitView();
+            courseNodeInit = teachTaskService.findCourseNodeInitById(nodeId);
+            courseNodeInitView.setCourseNodeInit(courseNodeInit);
+            try {
+                courseNodeInitView.set_morningStart(longToString(courseNodeInit.getMorningStart(), "HH:mm"));
+                courseNodeInitView.set_afternoonStart(longToString(courseNodeInit.getAfternoonStart(), "HH:mm"));
+                courseNodeInitView.set_nightStart(longToString(courseNodeInit.getNightStart(), "HH:mm"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        model.addAttribute("courseNodeInitView", courseNodeInitView);
+        return "teachTask/pop/nodeAdd";
+    }
+
+
+    //node添加
+    @ResponseBody
+    @RequestMapping(value = "/node/add", method = RequestMethod.POST)
+    public ResultEntity nodeAdd(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String _morningStart = getParamVal(request, "morningStart");
+        String _monrningPersistence = getParamVal(request, "monrningPersistence");
+        String _commonPersistence = getParamVal(request, "commonPersistence");
+        String _total = getParamVal(request, "total");
+        String _afternoonStart = getParamVal(request, "afternoonStart");
+        String _nightStart = getParamVal(request, "nightStart");
+        String time_section = getParamVal(request, "time_section");
+        String nodeId = getParamVal(request, "nodeId");
+        TeachCycle teachCycle = getLatestTeachCycle(schoolId);
+        String cycleId = teachCycle.getId();
+        Integer total = NumberConvertUtil.convertS2I(_total);
+        Long morningStart = 0L;
+        Long afternoonStart = 0L;
+        Long nightStart = 0L;
+
+        try {
+            morningStart = stringToLong(_morningStart, "HH:mm");
+//            String a= longToString(23581234L,"HH:mm");
+            afternoonStart = stringToLong(_afternoonStart, "HH:mm");
+            nightStart = stringToLong(_nightStart, "HH:mm");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //早自习持续时长
+        Long monrningPersistenceMin = NumberConvertUtil.getVal(Long.parseLong(_monrningPersistence));
+        Long monrningPersistenceMM = monrningPersistenceMin * 60 * 1000;//将分钟转化为毫秒
+
+        //普通持续时长
+        Long _commonPersistenceMin = NumberConvertUtil.getVal(Long.parseLong(_commonPersistence));
+        Long _commonPersistenceMM = _commonPersistenceMin * 60 * 1000;//将分钟转化为毫秒
+
+        //通过cycle_id  schoolId  time_section 查询这个学期的作息时间表是否已经创建
+        CourseNodeInit courseNodeInit = teachTaskService.findCourNodeInitByCycleIdAndSchoolIdAndTimeSection(schoolId, cycleId, time_section);
+        if (courseNodeInit != null) {
+            //则执行更新操作 并且把所有的课节删掉  重新创建的逻辑
+            int succ = teachTaskService.updateCourseNodeInitById(courseNodeInit);
+            //同时删除所有的课节操作
+//            teachTaskService.delCourseNodeByNodeInitId(courseNodeInit.getId());
+        } else {
+            courseNodeInit = new CourseNodeInit();
+            courseNodeInit.setId(PrimaryKey.get());
+            courseNodeInit.setAfternoonStart(afternoonStart);
+            courseNodeInit.setCommonPersistence(NumberConvertUtil.convertS2I(_commonPersistence));
+            courseNodeInit.setCreateTime(System.currentTimeMillis());
+            courseNodeInit.setCycleId(cycleId);
+            courseNodeInit.setCycleSemester(teachCycle.getCycleSemester());
+            courseNodeInit.setCycleYear(teachCycle.getCycleYear());
+            courseNodeInit.setMonthStartEnd(time_section);
+            courseNodeInit.setMorningStart(morningStart);
+            courseNodeInit.setMorningPersistence(NumberConvertUtil.convertS2I(_monrningPersistence));
+            courseNodeInit.setNightStart(nightStart);
+            courseNodeInit.setSchoolId(schoolId);
+            courseNodeInit.setTotalNode(total);
+            courseNodeInit.setUpdateBy(user.getId());
+            if (time_section.equals("9月1日-9月30日")) {
+                courseNodeInit.setMonthStartEndName("秋季作息时间表");
+            }
+            if (time_section.equals("10月1日-1月中旬")) {
+                courseNodeInit.setMonthStartEndName("冬季作息时间表");
+            }
+            if (time_section.equals("2月中旬-4月30日")) {
+                courseNodeInit.setMonthStartEndName("春季作息时间表");
+            }
+            if (time_section.equals("5月1日-7月中旬")) {
+                courseNodeInit.setMonthStartEndName("夏季作息时间表");
+            }
+            teachTaskService.saveCourseNodeInit(courseNodeInit);
+
+        }
+        //10分钟课间用long类型表示
+        Long min10 = 10 * 60 * 1000L;
+
+        List<CourseNode> courseNodeList = new ArrayList<>();
+        Long time = 0L;
+
+        //在此之前首先通过schoolId 下午开课时间  查询节点有没有创建过 如果创建过了
+        for (int i = 0; i < total; i++) {
+            Integer node = i;
+            Long endTime = time + _commonPersistenceMM;
+            String nodeName = "第" + i + "节";
+            if (i == 0) {
+                //早自习
+                time = morningStart;
+                String morningAfternoon = "上午";
+                nodeName = "早自习";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            //上午
+            if (i == 1) {
+                String morningAfternoon = "上午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            if (i == 2) {
+                String morningAfternoon = "上午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10 * 2;
+            }
+            if (i == 3) {
+                String morningAfternoon = "上午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            if (i == 4) {
+                String morningAfternoon = "上午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            //下午课节
+            if (i == 5) {
+                time = afternoonStart;
+                String morningAfternoon = "下午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            if (i == 6) {
+                String morningAfternoon = "下午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10 * 2;
+            }
+            if (i == 7) {
+                String morningAfternoon = "下午";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            //一般晚自习是从第八节开始的
+            if (i == 8) {
+                time = nightStart;
+                String morningAfternoon = "晚自习";
+                nodeName = "晚自习1";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+
+            if (i == 9) {
+                String morningAfternoon = "晚自习";
+                nodeName = "晚自习2";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+            if (i == 10) {
+                String morningAfternoon = "晚自习";
+                nodeName = "晚自习3";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+
+            if (i == 11) {
+                String morningAfternoon = "晚自习";
+                nodeName = "晚自习4";
+                CourseNode courseNode = courseNode(node, time, endTime, schoolId, user, courseNodeInit.getId(), nodeName, morningAfternoon);
+                courseNodeList.add(courseNode);
+                time = time + _commonPersistenceMM + min10;
+            }
+        }
+        //根据上午和节次查询是否已经创建了该课节
+//        teachTaskService.selectCourseNodeByMorningAfterAndNodeAndSchoolId(schoolId,courseNode.getMorningAfternoon(),courseNode.getNode());
+        teachTaskService.batchSaveCourseNode(courseNodeList);
+        return ResultEntity.newResultEntity("时间表创建成功", "teachTask/pop/nodeAdd");
+    }
+
+
+    @RequestMapping(value = "/node/detail/pop")
+    public String nodeDetail(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String nodeId = getParamVal(request, "nodeId");
+        //根据nodeId查询所有的courseNode
+
+        List<CourseNode> courseNodeList = teachTaskService.findCourseNodeByNodeId(nodeId);
+        List<CourseNodeView> courseNodeViewList = new ArrayList<>();
+        if (courseNodeList.size() > 0) {
+            for (CourseNode courseNode : courseNodeList) {
+                CourseNodeView courseNodeView = new CourseNodeView();
+                courseNodeView.setCourseNode(courseNode);
+                Long start = courseNode.getStartTime();
+                Long end = courseNode.getEndTime();
+                String _start = null;
+                String _end = null;
+                try {
+                    _start = longToString(start, "HH:mm");
+                    _end = longToString(end, "HH:mm");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                courseNodeView.setStartTime(_start);
+                courseNodeView.setEndTime(_end);
+                courseNodeViewList.add(courseNodeView);
+            }
+        }
+        model.addAttribute("courseNodeViewList", courseNodeViewList);
+        return "teachTask/pop/nodeDetail";
+    }
+
+
+    @RequestMapping(value = "/node/del")
+    public String nodeDel(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+        String schoolId = user.getSchoolId();
+        String nodeId = getParamVal(request, "nodeId");
+        //根据nodeId查询所有的courseNode
+
+        //根据id删除 不做逻辑删除，直接干掉了
+        teachTaskService.delCourseNodeInit(nodeId);
+
+        //再根据nodeId，删除courseNode表中的所有数据，也是直接干掉，不做逻辑删除
+//        teachTaskService.delCourseNodeByNodeInitId(nodeId);
+
+        return "teachTask/node";
+    }
+
+
+    public CourseNode courseNode(Integer node, Long start, Long end, String schoolId, User user, String courseInitId, String nodeName, String morningAfternoon) {
+        CourseNode courseNode = new CourseNode();
+        courseNode.setNode(node);//node
+        courseNode.setStartTime(start);
+        courseNode.setEndTime(end);
+        courseNode.setSchoolId(schoolId);
+        courseNode.setCreateTime(System.currentTimeMillis());
+        courseNode.setUpdateTime(System.currentTimeMillis());
+        courseNode.setUpdateBy(user.getId());
+        courseNode.setId(PrimaryKey.get());
+        courseNode.setDelFlag(0);
+        courseNode.setCourseNodeInitId(courseInitId);
+        courseNode.setMorningAfternoon(morningAfternoon);
+        courseNode.setNodeName(nodeName);
+        return courseNode;
+    }
+
+    /**
+     * 教室类型管理
+     */
+//   课程类型管理的弹窗
+    @RequestMapping(value = "/room/type/pop", method = RequestMethod.GET)
+    public String roomTypePop(HttpServletRequest request, Model model) {
+        User user = getLoginUser();
+
+        List<RoomType> roomTypeList = teachTaskService.roomTypeList(user.getSchoolId());
+
+        model.addAttribute("roomTypeList", roomTypeList);
+        return "teachTask/pop/roomType";
+    }
+
+    //教室类型  添加 删除  更新
+    @RequestMapping(value = "/room/type/add", method = RequestMethod.POST)
+    public String roomTypeAdd(HttpServletRequest request, Model model, RoomType roomType) {
+        User user = getLoginUser();
+        String roomTypeId = getParamVal(request, "id");
+        String doType = getParamVal(request, "type");
+        if (doType != "" && doType.equals("delete")) {
+            roomType.setDelFlag(1);//隐藏
+        }
+        int succ = teachTaskService.saveRoomType(roomType, user);
+        return "teachTask/pop/roomType";
+    }
+
+
+    public static void main(String[] args) {
+        String a = "((((（aaaa";
+        String d = a.replace("（", "(");
+        String[] c = d.split(",");
+        System.out.println(d);
+        System.out.println(a);
+        System.out.println(c.toString());
+    }
+
 }
 

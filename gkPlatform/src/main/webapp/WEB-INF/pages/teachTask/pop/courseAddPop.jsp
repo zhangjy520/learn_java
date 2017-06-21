@@ -9,23 +9,29 @@
     <script type="text/javascript" src="${ctxStaticNew}/js/openDialog.js"></script>
 </head>
 <style>
-    span{display:inline-block;}
-    .popup-main{
+    span {
+        display: inline-block;
+    }
+
+    .popup-main {
         background: #fff;
         padding: 35px 0px 10px 25px;
         font-size: 13px !important;
         color: #525252 !important;
     }
-    table td{
+
+    table td {
         font-size: 13px;
         text-align: right;
         padding: 10px 0;
     }
-    table td span{
+
+    table td span {
         width: 88px;
         text-align: right;
     }
-    table td input[type="text"],table td select{
+
+    table td input[type="text"], table td select {
         width: 150px;
         height: 28px;
         line-height: 28px;
@@ -36,96 +42,88 @@
         border-radius: 2px;
         color: #333;
     }
-    table td span:before{
-        content: '*';
-        color: red;
-        vertical-align: middle;
-        margin-right: 3px;
+
+    table td span:before {
+        /*content: '*';*/
+        /*color: red;*/
+        /*vertical-align: middle;*/
+        /*margin-right: 3px;*/
     }
 </style>
 <body>
-<form action="${ctx}/teach/task/course/update?type=insert" id="courseAdd" method="post" target="hidden_frame">
+<form action="${ctx}/teach/task/course/update?type=insert" id="courseEdit" method="post">
     <div>
         <table>
-            <tabody>
-                <tr>
-                    <td><span>课程名称:</span><input type="text" name="name"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>教室类型:</span>
-                        <select form="courseAdd" name="roomType">
-                            <c:forEach items="${roomTypeList}" var="roomType" varStatus="status">
-                            <option>${roomType.name}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>课程类型:</span>
-                        <select form="courseAdd" name="courseType">
-                            <c:forEach items="${courseTypePageInfo.list}" var="courseType" varStatus="status">
-                            <option name="subjectTypeName"> ${courseType.name}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span style="margin-top:9px;">学年:</span>
-                        <select name="cycleYear">
-                            <c:forEach items="${teachCyclePageInfo.list}" var="teachCycle" varStatus="status">
-                            <option name="teachYear">${teachCycle.cycleYear}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span style="margin-top:9px;">学期:</span>
-                        <select name="semester">
-                            <option name="semester" value="1">第一学期</option>
-                            <option name="semester" value="1">第二学期</option>
-                        </select>
-                    </td>
-                </tr>
-            </tabody>
+            <input type="hidden" value="${course.id}" name="id">
+            <tr>
+                <td><span>课程名称:</span><input type="text" value="${course.name}" name="name"></td>
+            </tr>
+            <tr>
+                <td><span>课程英文名称:</span><input type="text" name="englishName" value="${course.englishName}"></td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="margin-top:9px;">教室类型:</span>
+                    <select form="courseEdit" name="roomType">
+                        <c:forEach items="${roomTypeList}" var="room" varStatus="status">
+                            <option name="roomType"
+                                    <c:if test="${course.roomType == room.id}">selected="selected"</c:if>
+                                    value="${room.id}">${room.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>标准课程类型:</span>
+                    <select form="courseEdit" name="courseType">
+                        <c:forEach items="${standardCourseList}" var="standardCourse" varStatus="status">
+                            <option name="courseType" value="${standardCourse.id}"> ${standardCourse.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="margin-top:9px;">学年:</span>
+                    <select name="cycleYear" form="courseEdit" class="cycleYear">
+                        <c:forEach items="${yearmap}" var="year" varStatus="status">
+                            <option name="teachYear"
+                                    <c:if test="${cycleYear == year}">selected="selected"</c:if>>${year}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="margin-top:9px;">学期:</span>
+                    <select name="semester" form="courseEdit" class="cycleSemester">
+                        <option name="cycleSemester"
+                                <c:if test="${cycleSemester == 1}">selected="selected"</c:if>
+                                value="1">第一学期</option>
+                        <option name="cycleSemester"
+                                <c:if test="${cycleSemester == 2}">selected="selected"</c:if>
+                                value="2">第二学期</option>
+                    </select>
+                </td>
+            </tr>
         </table>
     </div>
 </form>
-<iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
 </body>
 <script>
 
-    $('#hidden_frame').load(function(){
-        var text=$(this).contents().find("body").text();
-        // 根据后台返回值处理结果
-        var j=$.parseJSON(text);
-        if(j.status!=0) {
-            alert(j.msg);
-        } else {
-            alert('导入成功');
-            //location.href='BookResourceList.jsp'
-        }
-    });
     function doSubmit() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
-        if (true) {
-            debugger;
-            $("#courseAdd").submit();
-            return true;
-        } else {
-            layer.msg("输入有误！");
-            return false;
-        }
+        $("#courseEdit").submit();
+        return true;
     }
 
     function doSubmitReturn() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
         var name = $(".name").val();
-        var roomType =$(".roomType").find("option:selected").text();
-        var courseType =$(".courseType").find("option:selected").text();
-        var cycleSemester =$(".cycleSemester").find("option:selected").text();
-        var cycleYear =$(".cycleYear").find("option:selected").text();
+        var roomType = $(".roomType").find("option:selected").text();
+        var courseType = $(".courseType").find("option:selected").text();
+        var cycleSemester = $(".cycleSemester").find("option:selected").text();
+        var cycleYear = $(".cycleYear").find("option:selected").text();
         if (cycleYear == "" || cycleSemester == "" || name == "" || roomType == "" || courseType == "") {
             webToast("所填项均为必填", "top", 2300);
         }
@@ -161,11 +159,6 @@
             }
         });
     }
-    //    将checkbox的值存到域中 通过form提交
-    $('input[type=checkbox]').change(function () {
-        $('#Jszzdm').val($('input[type=checkbox]:checked').map(function () {
-            return this.value
-        }).get().join(','))
-    })
+
 </script>
 </html>

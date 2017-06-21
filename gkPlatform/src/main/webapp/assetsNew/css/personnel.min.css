@@ -105,7 +105,7 @@ main.container {
     display: inline-block;
 }
 
-#ry-manage .search-box .roll-research select,#zh-manage .search-box .roll-research select{
+#ry-manage .search-box .roll-research select,#zh-manage .search-box select{
     height: 30px;
     width: 130px;
     border-radius: 2px;
@@ -330,7 +330,8 @@ main.container {
     background: url(../images/icon-edit.png) no-repeat left 3px
 }
 
-#zh-manage #generated > div:nth-child(2) table tbody td:last-child span.reset {
+#zh-manage #generated > div:nth-child(2) table tbody td:last-child span.reset
+{
     padding-left: 20px;
     cursor: pointer;
     color: #fda635;
@@ -491,7 +492,7 @@ main.container {
 }
 
 #bm-manage .stu-num-manage-menu ul li a.active, #zw-manage .stu-num-manage-menu ul li a.active {
-    color: #525252;
+    color: #54AB37;
     border: 1px solid #ddd;
     border-bottom: 0;
     background: #fff
@@ -667,18 +668,17 @@ table.check tbody {
 table.check tbody td {
     height: 39px
 }
-
-table.check tbody td:last-child span:first-child {
+table.check tbody td:last-child span{
     padding-left: 20px;
     cursor: pointer;
     margin-right: 20px;
+}
+table.check tbody td:last-child span:first-child {
     color: #54ab37;
     background: url(../images/icon-edit.png) no-repeat left 3px
 }
 
 table.check tbody td:last-child span:last-child {
-    padding-left: 20px;
-    cursor: pointer;
     color: #fd3a47;
     background: url(../images/icon-delete.png) no-repeat left 2px
 }
@@ -773,4 +773,21 @@ nav > .container > div > ul > li ul li {
 
 nav > .container > div > ul > li ul li:hover a {
     color: #54ab37 !important;
+}
+
+
+
+.edit-td, .detial-td{
+    padding-left: 20px;
+    cursor: pointer;
+    margin-right: 20px;
+    color: #54ab37;
+    background: url(../images/icon-edit.png) no-repeat left 3px;
+}
+
+.dele-td{
+    padding-left: 20px;
+    cursor: pointer;
+    color: #fd3a47;
+    background: url(../images/icon-delete.png) no-repeat left 1px;
 }

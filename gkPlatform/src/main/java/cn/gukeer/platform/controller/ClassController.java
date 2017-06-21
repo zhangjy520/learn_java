@@ -88,7 +88,6 @@ public class ClassController extends BasicController {
         param.put("schoolId", schoolId);
 
         PageInfo<Map> pageInfo = classService.parentInfoList(param);
-        List<Map> parentList = pageInfo.getList();
 
         model.addAttribute("schoolview", menuTree);
         model.addAttribute("focusNode", "school_" + schoolId);
@@ -175,6 +174,7 @@ public class ClassController extends BasicController {
     }
 
     //    学籍管理-家长信息  新增,修改保存
+    @ResponseBody
     @RequestMapping(value = "/parent/info/add/save", method = RequestMethod.POST)
     public ResponseEntity parentInfoSave(HttpServletRequest request) {
         String prim = getParamVal(request, "prim");
@@ -271,12 +271,12 @@ public class ClassController extends BasicController {
         try {
             String fileName = "家长信息导入模板.xlsx";
             List<IOParentView> list = Lists.newArrayList();
-            String anno = "注释：红色字段为必填项。\n" +
-                    "          1.关系：父亲，母亲，其他\n" +
-                    "          2.家长性别：男  女\n" +
-                    "          3.是否监护人：是  否\n" +
-                    "          4.是否生活在一起：是 否\n";
-            new ExportExcel("班级数据", IOParentView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
+            String anno = "注释：" +
+                    "1.关系：父亲，母亲，其他\n" +
+                    "           2.家长性别：男  女\n" +
+                    "           3.是否监护人：是  否\n" +
+                    "           4.是否生活在一起：是 否\n";
+            new ExportExcel("家长信息", IOParentView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -310,6 +310,10 @@ public class ClassController extends BasicController {
                 Student student = studentMap.get(parentView.getStuNum());//学号：key  学生 value
                 if (GukeerStringUtil.isNullOrEmpty(student))
                     throw new ErrcodeException("学号有误");
+
+                if (!parentView.getStuName().equals(student.getXsxm()))
+                    throw new ErrcodeException("姓名学籍号不匹配");
+
                 Patriarch patriarch = new Patriarch();
                 patriarch.setId(PrimaryKey.get());
                 patriarch.setName(parentView.getParName());
@@ -352,7 +356,8 @@ public class ClassController extends BasicController {
                 continue;
             }
         }
-        patriarchService.batchInsetPatriarch(parentList);
+        if (parentList.size() > 0)
+            patriarchService.batchInsetPatriarch(parentList);
         Long end = System.currentTimeMillis();
         Map res = new HashMap();
         res.put("msg", "导入完成，共" + parentList.size() + "条成功，" + errorParentList.size() + "条失败,耗时" + (end - begin) / 1000 + "秒");
@@ -365,11 +370,10 @@ public class ClassController extends BasicController {
     public void errorParent(HttpServletRequest request, HttpServletResponse response) {
         try {
             String fileName = "错误信息列表.xlsx";
-            String anno = "注释：红色字段为必填项。\n" +
-                    "          1.关系：父亲，母亲，其他\n" +
-                    "          2.家长性别：男  女\n" +
-                    "          3.是否监护人：是  否\n" +
-                    "          4.是否生活在一起：是 否\n";
+            String anno = "注释：1.关系：父亲，母亲，其他\n" +
+                    "           2.家长性别：男  女\n" +
+                    "           3.是否监护人：是  否\n" +
+                    "           4.是否生活在一起：是 否\n";
 
             String msg = getParamVal(request, "msg");
             JsonArray jsonArray = new JsonParser().parse(msg).getAsJsonArray();
@@ -489,8 +493,8 @@ public class ClassController extends BasicController {
         searchParam.add("");
         model.addAttribute("searchParam", searchParam);
 
-        if (StringUtil.isNotEmpty(getParamVal(request,"appId")))
-        request.getSession().setAttribute("xueJId",appid);
+        if (StringUtil.isNotEmpty(getParamVal(request, "appId")))
+            request.getSession().setAttribute("xueJId", appid);
 
         return "class/studentManage";
     }
@@ -1442,13 +1446,13 @@ public class ClassController extends BasicController {
         model.addAttribute("password", password);
 
 //        Map haveAccountMap = getStudentList(request, true, 2);
-        Map haveAccountMap = patriarchService.getParList(param,true,schoolId); //sf 1:学生，2:家长
+        Map haveAccountMap = patriarchService.getParList(param, true, schoolId); //sf 1:学生，2:家长
         model.addAttribute("studentListHave", haveAccountMap.get("parlist"));
         model.addAttribute("pageInfoHave", haveAccountMap.get("pageInfo"));
 
 
 //        Map noAccountMap = getStudentList(request, false, 2);
-        Map noAccountMap = patriarchService.getParList(param,false,schoolId); //sf 1:学生，2:家长
+        Map noAccountMap = patriarchService.getParList(param, false, schoolId); //sf 1:学生，2:家长
         model.addAttribute("studentListNo", noAccountMap.get("parlist"));
         model.addAttribute("pageInfoNo", noAccountMap.get("pageInfo"));
 
@@ -1465,7 +1469,6 @@ public class ClassController extends BasicController {
      * @param request
      * @return
      */
-    @Transactional
     @ResponseBody
     @RequestMapping(value = "/generator/patriarch", method = RequestMethod.POST)
     public ResultEntity generatorPatriarchAccount(HttpServletRequest request) {
@@ -1505,8 +1508,8 @@ public class ClassController extends BasicController {
             //3:更新关联的role_user关联
             List<UserRole> userRoles = new ArrayList<UserRole>();
             List<User> users = new ArrayList<>();
-            if (refIds.size()>0){
-                users = userService.selectUserByCriteria(refIds,3);
+            if (refIds.size() > 0) {
+                users = userService.selectUserByCriteria(refIds, 3);
             }
             for (User user : users) {
                 UserRole userRole = new UserRole();
@@ -1524,6 +1527,7 @@ public class ClassController extends BasicController {
 
     /**
      * 重置student，parent密码
+     *
      * @param request
      * @return
      */
@@ -1589,7 +1593,7 @@ public class ClassController extends BasicController {
 //                    teacherList.add(teacher);
 //                }
             }
-            teacherList = teacherService.selectBatchTeachers(primList,loginUser.getSchoolId());
+            teacherList = teacherService.selectBatchTeachers(primList, loginUser.getSchoolId());
             PageInfo<Teacher> pageInfo = new PageInfo<Teacher>(teacherList);
             model.addAttribute("teacherList", teacherList);
             model.addAttribute("pageInfo", pageInfo);
@@ -1795,12 +1799,15 @@ public class ClassController extends BasicController {
                 gradeClass.setName(classView.getName());
 
                 List<GradeClass> gradeClasses = gradeClassMap.get(gradeClass.getXd() + gradeClass.getNj());
-                for (GradeClass eachClass : gradeClasses) {
-                    if (eachClass.getName().equals(gradeClass.getName())) {
-                        throw new ErrcodeException("已存在同名称班级");
-                        //return ResultEntity.newErrEntity("导入失败，已存在同名称班级");
+                if (!GukeerStringUtil.isNullOrEmpty(gradeClasses)) {
+                    for (GradeClass eachClass : gradeClasses) {
+                        if (eachClass.getName().equals(gradeClass.getName())) {
+                            throw new ErrcodeException("已存在同名称班级");
+                            //return ResultEntity.newErrEntity("导入失败，已存在同名称班级");
+                        }
                     }
                 }
+
                 gradeClass.setId(PrimaryKey.get());
                 gradeClass.setDelFlag(0);
                 gradeClassList.add(gradeClass);
@@ -1811,7 +1818,9 @@ public class ClassController extends BasicController {
             }
 
         }
-        classService.batchInsertGradeClass(gradeClassList);
+        if (gradeClassList.size() > 0) {
+            classService.batchInsertGradeClass(gradeClassList);
+        }
 
         Long end = System.currentTimeMillis();
         Map res = new HashMap();
@@ -1825,7 +1834,7 @@ public class ClassController extends BasicController {
     public void errorClass(HttpServletRequest request, HttpServletResponse response) {
         try {
             String fileName = "错误信息列表.xlsx";
-            String anno = "注释：红色字段为必填项。未填写班级类型，默认为普通班级；未填写入学年度，默认为本年度\n" +
+            String anno = "注释：未填写班级类型，默认为普通班级；未填写入学年度，默认为本年度\n" +
                     "          1.入学年度格式：2016\n" +
                     "          2.年级用大写汉字，如：一年级\n" +
                     "          3.班级类型：普通班级、民族班、体育班级、外语班级、其他特殊班\n";
@@ -1928,7 +1937,6 @@ public class ClassController extends BasicController {
                 student.setCreateBy(user.getId());
                 student.setCreateDate(System.currentTimeMillis());
                 student.setSchoolId(user.getSchoolId());
-                student.setDelFlag(0);
                 student.setXsxm(studentView.getName());
 //                student.setBj(NumberConvertUtil.convertS2I(studentView.getBj()));         //bj暂时无用~
                 if (studentView.getGender() != null && studentView.getGender() != "") {
@@ -2001,7 +2009,9 @@ public class ClassController extends BasicController {
 
         /*for (int i = 0; i < studentList.size(); i++)
             studentService.save(studentList.get(i));*/
-        studentService.batchInsertStudent(studentList);
+        if (studentList.size() > 0) {
+            studentService.batchInsertStudent(studentList);
+        }
 
         Long end = System.currentTimeMillis();
         Map res = new HashMap();
@@ -2015,7 +2025,7 @@ public class ClassController extends BasicController {
     public void errorTeacher(HttpServletRequest request, HttpServletResponse response) {
         try {
             String fileName = "错误信息列表.xlsx";
-            String anno = "注释：红色字段为必填项，不填写在校状态默认为在籍在校\n" +
+            String anno = "注释：不填写在校状态默认为在籍在校\n" +
                     "          1：性别：男、女                                                                                                    2：政治面貌：群众、团员、党员\n" +
                     "          3：来源地区: 区县内、省市内、省市外                                                                     4：本市对待： 是、否\n" +
                     "          5：学生类别：普通学生、随便就读生、残障学生、其他                                             6：有效证件类别：身份证 护照\n" +
@@ -2046,7 +2056,7 @@ public class ClassController extends BasicController {
         try {
             String fileName = "班级导入模板.xlsx";
             List<GradeClass> list = Lists.newArrayList();
-            String anno = "注释：红色字段为必填项。未填写班级类型，默认为普通班级；未填写入学年度，默认为本年度\n" +
+            String anno = "注释：未填写班级类型，默认为普通班级；未填写入学年度，默认为本年度\n" +
                     "          1.入学年度格式：2016\n" +
                     "          2.年级用大写汉字，如：一年级\n" +
                     "          3.班级类型：普通班级、民族班、体育班级、外语班级、其他特殊班\n";
@@ -2069,7 +2079,7 @@ public class ClassController extends BasicController {
         try {
             String fileName = "学生导入模板.xlsx";
             List<Student> list = Lists.newArrayList();
-            String anno = "注释：红色字段为必填项，不填写在校状态默认为在籍在校\n" +
+            String anno = "注释：不填写在校状态默认为在籍在校\n" +
                     "          1：性别：男、女                                                                                                    2：政治面貌：群众、团员、党员\n" +
                     "          3：来源地区: 区县内、省市内、省市外                                                                     4：本市对待： 是、否\n" +
                     "          5：学生类别：普通学生、随便就读生、残障学生、其他                                             6：有效证件类别：身份证 护照\n" +
@@ -2093,6 +2103,13 @@ public class ClassController extends BasicController {
     @RequestMapping(value = "/stuexport")
     public String studentExport(HttpServletRequest request, Model model) {
         String students = getParamVal(request, "students");
+        if (students != "") {
+            try {
+                students = URLDecoder.decode(students, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
         model.addAttribute("students", students);
         return "class/studentExport";
     }
@@ -2107,7 +2124,7 @@ public class ClassController extends BasicController {
     @RequestMapping(value = "/export", method = RequestMethod.POST)
     public void exportFile(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String students = URLDecoder.decode(getParamVal(request, "students"),"UTF-8");
+            String students = URLDecoder.decode(getParamVal(request, "students"), "UTF-8");
             String _header = getParamVal(request, "header");
             String header = "";
 
@@ -2122,27 +2139,17 @@ public class ClassController extends BasicController {
             List<OutputStudentView> stuList = new ArrayList<OutputStudentView>();
             if (students.indexOf("]") > 0) {
                 List<String> searchParam = ConstantUtil.searchParam(students);
-                if(searchParam.size()>=7){
+                if (searchParam.size() >= 7) {
 //                    sid, cid, xd, nj, xq, status, name, pageNum, pageSize);
-                  //  (schoolId, "", "", 0, 0, -1, "", 0, 10);
-                 PageInfo<StudentView> studentSear = studentService.selectStudentByChoose(searchParam.get(0).trim(),searchParam.get(1).trim(),searchParam.get(2).trim(),
-                            NumberConvertUtil.convertS2I(searchParam.get(3).trim()),NumberConvertUtil.convertS2I(searchParam.get(4).trim()),
-                            NumberConvertUtil.convertS2I(searchParam.get(5).trim()),searchParam.get(6).trim(),0,-1);
+                    //  (schoolId, "", "", 0, 0, -1, "", 0, 10);
+                    PageInfo<StudentView> studentSear = studentService.selectStudentByChoose(searchParam.get(0).trim(), searchParam.get(1).trim(), searchParam.get(2).trim(),
+                            NumberConvertUtil.convertS2I(searchParam.get(3).trim()), NumberConvertUtil.convertS2I(searchParam.get(4).trim()),
+                            NumberConvertUtil.convertS2I(searchParam.get(5).trim()), searchParam.get(6).trim(), 0, -1);
                     dataList = studentSear.getList();
                 }
-            }else {
-                dataList = studentService.selectBatchStudents(ConstantUtil.splitWithOutNull(students),getLoginUser().getSchoolId());
+            } else {
+                dataList = studentService.selectBatchStudents(ConstantUtil.splitWithOutNull(students), getLoginUser().getSchoolId());
             }
-
-           /* if (studentId.length > 0) {
-                for (int i = 0; i < studentId.length; i++) {
-                    if (studentId[i] != null && studentId[i] != "") {
-                        String stuId = studentId[i];
-                        Student student = studentService.selectStudentById(stuId);
-                        dataList.add(student);
-                    }
-                }
-            }*/
 
             //获取数据
             if (dataList.size() > 0) {
@@ -2152,7 +2159,7 @@ public class ClassController extends BasicController {
                     String yxzjh = student.getYxzjh();
 //                    String xjh = student.getXjh();
                     String xh = student.getXh();
-                    String jyid = student.getJyid();
+                    String jyid = student.getJyid();//教育id
                     String qgid = student.getQgxjh();
                     String pinyin = student.getXmpy();
                     String gb = student.getGb();
@@ -2186,49 +2193,49 @@ public class ClassController extends BasicController {
                         bjName = gradeClass.getName();
                     }
                     if (xq != null && xq != "") {
-                        xqName = schoolService.selectSchoolTypeById(xq).getName();
+                        xqName = schoolService.selectSchoolTypeById(xq).getName();//校区
                     }
 
                     if (student.getNj() != null && student.getNj() > 0 && student.getNj() < 10) {
-                        njName = ConstantUtil.getValueByKeyAndFlag(student.getNj(), "nj");
+                        njName = ConstantUtil.getValueByKeyAndFlag(student.getNj(), "nj");//年级
                     }
 
                     if (student.getXsxb() != null && student.getXsxb() != 0) {
-                        gender = ConstantUtil.getValueByKeyAndFlag(student.getXsxb(), "xb");
+                        gender = ConstantUtil.getValueByKeyAndFlag(student.getXsxb(), "xb");//性别
                     }
 
                     if (student.getYxzjlx() != null && student.getYxzjlx() != 0) {
-                        yxzjlx = ConstantUtil.getValueByKeyAndFlag(student.getYxzjlx(), "xb");
+                        yxzjlx = ConstantUtil.getValueByKeyAndFlag(student.getYxzjlx(), "cardTyp");//有效证件类型
                     }
 
                     if (student.getRxrq() != null && student.getRxrq() != 0) {
-                        rxnd = DateUtils.millsToyyyyMMdd(student.getRxrq()).toString();
+                        rxnd = DateUtils.millsToyyyyMMdd(student.getRxrq()).toString();//入学年度
                     }
                     if (student.getXslb() != null && student.getXslb() != -1) {
-                        xslb = ConstantUtil.getValueByKeyAndFlag(student.getXslb(), "xslb");
+                        xslb = ConstantUtil.getValueByKeyAndFlag(student.getXslb(), "xslb");//学生类别
                     }
                     if (student.getZzmm() != null && student.getZzmm() != -1) {
-                        zzmm = ConstantUtil.getValueByKeyAndFlag(student.getZzmm(), "zzmm");
+                        zzmm = ConstantUtil.getValueByKeyAndFlag(student.getZzmm(), "zzmm");//政治面貌
                     }
                     if (student.getStatus() != null && student.getStatus() != -1) {
-                        status = ConstantUtil.getValueByKeyAndFlag(student.getStatus(), "zxzt");
+                        status = ConstantUtil.getValueByKeyAndFlag(student.getStatus(), "zxzt");//在校状态
                     }
                     if (student.getHkxz() != null && student.getHkxz() != "") {
-                        hkxz = ConstantUtil.getValueByKeyAndFlag(NumberConvertUtil.convertS2I(student.getHkxz()), "hkxz");
+                        hkxz = ConstantUtil.getValueByKeyAndFlag(NumberConvertUtil.convertS2I(student.getHkxz()), "hkxz");//户口性质
                     }
                     if (student.getSfbshk() != null && student.getSfbshk() != 0) {
-                        sfbshk = ConstantUtil.getValueByKeyAndFlag(student.getSfbshk(), "yorn");
+                        sfbshk = ConstantUtil.getValueByKeyAndFlag(student.getSfbshk(), "yorn");//是否本市户口
                     }
                     if (student.getCsrq() != null && student.getCsrq() != 0) {
-                        csrq = DateUtils.millsToyyyyMMdd(student.getCsrq()).toString();
+                        csrq = DateUtils.millsToyyyyMMdd(student.getCsrq()).toString();//出生日期
                     }
                     if (student.getZslb() != null && student.getZslb() != -1) {
-                        zslb = ConstantUtil.getValueByKeyAndFlag(student.getZslb(), "zslb");
+                        zslb = ConstantUtil.getValueByKeyAndFlag(student.getZslb(), "zslb");//招生类别
                     }
                     if (student.getLydq() != null && student.getLydq() != "-1") {
-                        lydq = ConstantUtil.getValueByKeyAndFlag(NumberConvertUtil.convertS2I(student.getLydq()), "lydq");
+                        lydq = ConstantUtil.getValueByKeyAndFlag(NumberConvertUtil.convertS2I(student.getLydq()), "lydq");//来源地区
                     }
-                    Patriarch fa = patriarchService.findPatriarchByStudentId(student.getId(), 1);
+                    Patriarch fa = patriarchService.findPatriarchByStudentId(student.getId(), 1);//第二个参数为家长标识:patriarch_flag
                     Patriarch ma = patriarchService.findPatriarchByStudentId(student.getId(), 2);
 
                     if (fa != null) {
@@ -2295,7 +2302,6 @@ public class ClassController extends BasicController {
             for (int i = 0; i < head.length; i++) {
                 headerList.add(head[i]);
             }
-
             new ExportExcel("学生信息", headerList, "", 1).setDataListByHeader(stuList, headerList)
                     .write(response, fileName).dispose();
         } catch (Exception e) {

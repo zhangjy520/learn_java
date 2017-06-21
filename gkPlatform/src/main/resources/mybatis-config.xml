@@ -7,7 +7,8 @@
 
     <!-- 打印查询语句,部署到服务器上关闭sql输出 -->
     <settings>
-        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <setting name="callSettersOnNulls" value="true"/>
     </settings>
 
     <plugins>

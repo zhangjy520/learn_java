@@ -22,19 +22,19 @@
             <div class="menuContent">  
                 <div class="userInfoDiv">
                     <ul>
-                        <li class="noHoverLi">首页</li>
-                        <li class="noHoverLi">应用商店</li>
+                       <%-- <li class="noHoverLi">首页</li>--%>
+                      <%--  <li class="noHoverLi">应用商店</li>
                         <li class="noHoverLi">客户端下载</li>
-                        <li class="noHoverLi">消息</li>
+                        <li class="noHoverLi">消息</li>--%>
                         <li id="personMessage">
                             <div id="thisOrange">${loginUser.name}
                                 <image src="${ctxStatic}/image/xiala.png"/>
                             </div>
                             <div class="personInfoLiDiv" id="test">
                                 <ul>
-                                    <li class="usuallyMain" onclick="window.location.href='${ctx}/user/editInfo'">
+                                   <%-- <li class="usuallyMain" onclick="window.location.href='${ctx}/user/editInfo'">
                                         <image class="menuImg" src="${ctxStatic}/image/userInfo.png" /> 用户信息
-                                    </li>
+                                    </li>--%>
                                     <li class="usually" onclick="openDialog('修改密码', '${ctx}/user/editPwd', '500px', '400px')">
                                         <image class="menuImg" src="${ctxStatic}/image/safeMan.png" /> 安全管理
                                     </li>

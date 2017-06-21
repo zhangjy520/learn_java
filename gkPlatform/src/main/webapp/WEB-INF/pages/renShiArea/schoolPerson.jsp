@@ -5,9 +5,19 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>人事管理</title>
+    <title>区级人事管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<style>
+    #ry-manage .search-box .roll-research {
+        vertical-align: middle;
+        float: right;
+    }
+
+    #ry-manage .search-box, #zh-manage .search-box {
+        margin-top: 0 !important;
+    }
+</style>
 <body>
 
 <%@ include file="../common/sonHead/qujiRenShiHead.jsp" %>
@@ -18,7 +28,7 @@
             <ul id="tree1" class="ztree"></ul>
         </aside>
         <main class="col-sm-9" id="ry-manage">
-            <div class="rolls-distribute-add search-box">
+            <div class="rolls-distribute-add search-box ">
                 <button class="add-btn" onclick="exportStu()">
                     导出
                 </button>
@@ -26,7 +36,8 @@
                 <div class="roll-research roll-search">
                     <input type="hidden" id="searchHidden" value="${teacherName}">
                     <button style="width: 32px" onclick="searchTeacher()"></button>
-                    <input class="searchInput" value="${teacherName}" id="searchTeacher" type="text" placeholder="请输入职工姓名"/>
+                    <input class="searchInput" value="${teacherName}" id="searchTeacher" type="text"
+                           placeholder="请输入职工姓名"/>
                 </div>
             </div>
             <table class="table-responsive">
@@ -58,7 +69,7 @@
                         <td>${teacher.bgsdh}</td>
                         <td>${teacher.mobile}</td>
                         <td>
-                            <span onclick="openDialogView('修改信息','${ctx}/renshi/renyuan/edit?id=${teacher.id}','900px','600px')">查看</span>
+                            <span onclick="openDialogView('修改信息','${ctx}/renshi/renyuan/edit?id=${teacher.id}&type=1','900px','600px')">查看</span>
                             <span></span>
                         </td>
 
@@ -78,7 +89,7 @@
     </div>
 </main>
 <script>
-    activeMenu("xiaoji",1);
+    activeMenu("xiaoji", 1);
 
     var menuId = "${choose}";
     var teacherName = encodeURI(encodeURI($("#searchTeacher").val()));
@@ -88,7 +99,7 @@
             pageCount:${pageInfo.pages},//总页数
             current:${pageInfo.pageNum},//当前页面
             backFn: function (p) {
-                window.location.href = "${ctx}/area/school/person/index?teacherName="+teacherName+"&choose=" + menuId+"&pageNum=" + p;
+                window.location.href = "${ctx}/area/school/person/index?teacherName=" + teacherName + "&choose=" + menuId + "&pageNum=" + p;
             }
         });
 
@@ -97,11 +108,11 @@
             if (pageNum <= 0 || pageNum > ${pageInfo.pages}) {
                 layer.msg("请输入正确的页码")
             } else {
-                window.location.href = "${ctx}/area/school/person/index?teacherName="+teacherName+"&choose=" + menuId+"&pageNum=" + $(".go").val();
+                window.location.href = "${ctx}/area/school/person/index?teacherName=" + teacherName + "&choose=" + menuId + "&pageNum=" + $(".go").val();
             }
         });
         </c:if>
-        
+
     });
 
     var zTree;
@@ -128,12 +139,17 @@
     };
     var zNodes1 = [
 
-        {id:"nosearch${currentSchool.id}", pId:"${currentSchool.parentId}", name: "${currentSchool.name}", open: true},
+        {
+            id: "nosearch${currentSchool.id}",
+            pId: "${currentSchool.parentId}",
+            name: "${currentSchool.name}",
+            open: true
+        },
         <c:forEach items='${schoolList}' var='school'>
-            {id: "${school.id}", pId: "nosearch${school.pid}", name: "${school.name}", open: true},
-                <c:forEach items="${school.list}" var="son">
-                     {id: "${son.id}", pId: "nosearch${son.grade}", name: "${son.name}", open: true},
-                </c:forEach>
+        {id: "${school.id}", pId: "nosearch${school.pid}", name: "${school.name}", open: true},
+        <c:forEach items="${school.list}" var="son">
+        {id: "${son.id}", pId: "nosearch${son.grade}", name: "${son.name}", open: true},
+        </c:forEach>
         </c:forEach>
     ];
 
@@ -146,9 +162,9 @@
     /*z-tree*/
     $(".node_name").click(function () {
         menuId = $(this).attr("menuId");
-        if(menuId.indexOf("nosearch")>=0){
+        if (menuId.indexOf("nosearch") >= 0) {
 
-        }else {
+        } else {
             window.location.href = "${ctx}/area/school/person/index?choose=" + menuId;
         }
     });
@@ -166,10 +182,10 @@
             };
         else return {'font-weight': 'normal', color: 'black'};
     }
-    
+
     function searchTeacher() {
         var teacherName = $("#searchTeacher").val();
-        window.location.href = "${ctx}/area/school/person/index?choose=" + menuId+"&teacherName="+encodeURI(encodeURI(teacherName));
+        window.location.href = "${ctx}/area/school/person/index?choose=" + menuId + "&teacherName=" + encodeURI(encodeURI(teacherName));
     }
 
     $(".headerCheck").on("click", function () {
@@ -190,15 +206,15 @@
             }
         });
         if ($("input:checkbox[name='lanmuCheck']:checked").length > 0) {
-            openDialog('导出' + $('input:checkbox[name=lanmuCheck]:checked').length + '位教师数据', '${ctx}/renshi/moban/export?teachers=' + spCodesTemp+'&chooseSchoolId=${choose}', '1000px', '800px');
+            openDialog('导出' + $('input:checkbox[name=lanmuCheck]:checked').length + '位教师数据', '${ctx}/renshi/moban/export?teachers=' + spCodesTemp + '&chooseSchoolId=${choose}', '1000px', '800px');
         }
         else {
             //layer.msg("请选择教师");
             var teacherName = $("#searchTeacher").val();
-            openDialog('导出${pageInfo.total}位教师数据', '${ctx}/renshi/moban/export?teacherName=' + encodeURI(encodeURI(teacherName))+'&chooseSchoolId=${choose}', '1000px', '800px');
+            openDialog('导出${pageInfo.total}位教师数据', '${ctx}/renshi/moban/export?teacherName=' + encodeURI(encodeURI(teacherName)) + '&chooseSchoolId=${choose}', '1000px', '800px');
         }
     }
-    
+
 </script>
 </body>
 </html>

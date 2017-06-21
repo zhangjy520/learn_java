@@ -73,7 +73,7 @@
         <div class="rsTable">
             <table>
                 <tr class="headerTh">
-                    <th width="10%">角色编号</th>
+                   <%-- <th width="10%">角色编号</th>--%>
                     <th width="20%">角色名称</th>
                     <th width="20%">角色标识hasRole</th>
                     <th width="20%">角色描述</th>
@@ -81,7 +81,7 @@
                 </tr>
                 <c:forEach items="${roleList}" var="role">
                     <tr>
-                        <td>${role.id}</td>
+                       <%-- <td>${role.id}</td>--%>
                         <td>${role.name}</td>
                         <td>${role.roleIdentify}</td>
                         <td>${role.remarks}</td>

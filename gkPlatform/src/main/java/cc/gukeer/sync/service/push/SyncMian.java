@@ -5,22 +5,23 @@ import cc.gukeer.sync.dataDefinition.EventType;
 import cc.gukeer.sync.persistence.dao.SyncBaseMapper;
 import cc.gukeer.sync.util.LineToCameUtil;
 import cc.gukeer.sync.util.PropertiesUtil;
+import cn.gukeer.common.tld.GukeerStringUtil;
 import cn.gukeer.common.utils.StringUtils;
 import cn.gukeer.common.utils.syncdata.MD5Util;
-import com.google.gson.*;
+import com.google.gson.Gson;
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessagePostProcessor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.jms.*;
-import java.sql.*;
+import javax.jms.DeliveryMode;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Created by lx on 2017/2/7.
@@ -39,16 +40,22 @@ public class SyncMian {
         String schema = properties.getProperty("sync.jdbc.schema");
         //生成表前缀
         String _tableNamePrefix = properties.getProperty("sync.mark.table.prefix");
+        //教务表特殊推送
+        String specialNamePrefix = properties.getProperty("sync.mark.table.teach");
+
         //订阅该数据的系统的唯一标识
         String _mark = properties.getProperty("sync.mark.plat.id");
         String mark = _mark + ",";
         String notLikeMark = "%" + _mark + ",%";
         //同步表查询条件
         String tableNamePrefix = _tableNamePrefix + "%";
-        List<String> tableNames = getTableNames(schema, tableNamePrefix);
+        List<String> tableNames = getTableNames(schema, tableNamePrefix, specialNamePrefix + "%");
+        boolean flag = true;
         for (String tableName : tableNames) {
             //查询数据
             List<Map<String, Object>> datas = getDatas(tableName, notLikeMark);
+            if (datas.size() > 0)
+                flag = false;
             //获取数据的id集合
             List<String> ids = new ArrayList<>();
             for (Map<String, Object> data : datas) {
@@ -74,20 +81,44 @@ public class SyncMian {
                 }
             } catch (Exception e) {
                 //如果失败，则不标记同步过的数据，直接返回
+              e.printStackTrace();
                 break;
             }
             //标记已经同步过的数据
             try {
-                identityDeletion(tableName, mark, ids, notLikeMark);
+                if (tableName.equals("v_teach_teach_class") || tableName.equals("v_teach_course_manage"))
+                    identityDeletion("sync_teach_ref_course_class", mark, ids, notLikeMark);
+                else
+                    identityDeletion(tableName, mark, ids, notLikeMark);
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+        if (flag)
+            System.out.println("数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕" +
+                    "数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕" +
+                    "数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕" +
+                    "数据已经全部同步完毕数据已经全部同步完毕数据已经全部同步完毕");
         return null;
     }
 
     //获取需要同步的表名
-    public List<String> getTableNames(String schema, String tableNamePrefix) {
-        List<String> tableNames = syncBaseMapper.getTableNames(schema, tableNamePrefix);
+    public List<String> getTableNames(String schema, String tableNamePrefix, String special) {
+
+        //获取需要同步的表   sync_开头但是不是sync_teach开头的表
+        List<String> tableNames = syncBaseMapper.getTableNames(schema, tableNamePrefix, special,"sync_teacher%");
+
+        //获取教务相关的视图
+        tableNames.add("v_teach_cycle"); //教学周期信息表
+        tableNames.add("v_teach_class_room"); //教室信息表
+        tableNames.add("v_teach_course_manage"); //课程管理信息表
+        tableNames.add("v_teach_room_type");//教室类型表
+        tableNames.add("v_teach_teach_class");//教师授课安排信息表
+        tableNames.add("v_teach_course");//课程表
+        tableNames.add("v_teach_course_type");//科目字典基本信息表
+        tableNames.add("v_teach_standard_course");//标准课程信息表
+        tableNames.add("v_teach_daily_hour");//班级课时表
+
         return tableNames;
     }
 
@@ -107,7 +138,10 @@ public class SyncMian {
                 //过滤account为空的字段
                 if (tableName.equals("sync_teacher") || tableName.equals("sync_student") || tableName.equals("sync_patriarch")) {
                     if (column.equals("account")) {
-                        if (StringUtils.isNotEmpty(data.get("account").toString())){
+                        Object account = data.get("account");
+                        if (GukeerStringUtil.isNullOrEmpty(account))
+                            continue;
+                        if (StringUtils.isNotEmpty(account.toString())) {
                             columnMap.put("passAccount", "yes");
                         }
                     }
@@ -121,8 +155,8 @@ public class SyncMian {
                 }
             }
             if (tableName.equals("sync_teacher") || tableName.equals("sync_student") || tableName.equals("sync_patriarch")) {
-                if (columnMap.get("passAccount")!=null) {
-                        datas.add(columnMap);
+                if (columnMap.get("passAccount") != null) {
+                    datas.add(columnMap);
                 }
             } else {
                 datas.add(columnMap);

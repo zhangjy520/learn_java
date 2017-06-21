@@ -314,6 +314,76 @@ public class CourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andEnglishNameIsNull() {
+            addCriterion("english_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameIsNotNull() {
+            addCriterion("english_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameEqualTo(String value) {
+            addCriterion("english_name =", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameNotEqualTo(String value) {
+            addCriterion("english_name <>", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameGreaterThan(String value) {
+            addCriterion("english_name >", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameGreaterThanOrEqualTo(String value) {
+            addCriterion("english_name >=", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameLessThan(String value) {
+            addCriterion("english_name <", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameLessThanOrEqualTo(String value) {
+            addCriterion("english_name <=", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameLike(String value) {
+            addCriterion("english_name like", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameNotLike(String value) {
+            addCriterion("english_name not like", value, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameIn(List<String> values) {
+            addCriterion("english_name in", values, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameNotIn(List<String> values) {
+            addCriterion("english_name not in", values, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameBetween(String value1, String value2) {
+            addCriterion("english_name between", value1, value2, "englishName");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameNotBetween(String value1, String value2) {
+            addCriterion("english_name not between", value1, value2, "englishName");
+            return (Criteria) this;
+        }
+
         public Criteria andCycleIdIsNull() {
             addCriterion("cycle_id is null");
             return (Criteria) this;
@@ -786,6 +856,11 @@ public class CourseExample {
 
         public Criteria andNameLikeInsensitive(String value) {
             addCriterion("upper(name) like", value.toUpperCase(), "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnglishNameLikeInsensitive(String value) {
+            addCriterion("upper(english_name) like", value.toUpperCase(), "englishName");
             return (Criteria) this;
         }
 

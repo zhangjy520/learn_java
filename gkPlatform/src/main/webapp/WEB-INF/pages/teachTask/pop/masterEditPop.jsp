@@ -13,7 +13,6 @@
     <script>
         $(function () {
             var data = ${teacherList};
-            debugger;
             $(".autoComplete").autocomplete(data, {
                 minChars: 1,// 在触发autoComplete前用户至少需要输入的字符数.Default: 1，如果设为0，在输入框内双击或者删除输入框内内容时显示列表
                 max: 100,//下拉显示项目的个数
@@ -53,7 +52,9 @@
     span {
         display: inline-block;
     }
-
+    .m-teacher,.completeTips{
+        padding-left: 10px;
+    }
     .popup-main {
         background: #fff;
         padding: 35px 0px 10px 25px;
@@ -67,12 +68,12 @@
         padding: 10px 0;
     }
 
-    table td span:first-child {
+    table td>span:first-child {
         width: 88px;
         text-align: right;
     }
 
-    table td span:last-child {
+    table td>span:last-child {
         width: 150px;
         height: 28px;
         line-height: 28px;
@@ -91,18 +92,34 @@
         border-radius: 2px;
         color: #333;
     }
+    .checkbox-containt{
+        display: inline-block;
+        width: 350px;
+        vertical-align: top;
+        margin-left: 10px;
+    }
+    .name-containt{
+        width: 80px;
+        line-height: 30px;
+    }
+    .name-containt>input{
+        position: relative;
+        bottom: -2px;
+        margin-right: 5px;
+    }
 </style>
 
 <body>
 <form action="${ctx}/teach/task/master/update?type=update&&id=${classView.classId}" id="courseEdit" method="post">
+    <input type="hidden" value="${cycleId}" class="cycleId">
     <table>
         <tr>
             <td><span>年级班级:</span><span>${classView.xdName}${classView.nj}年级${classView.className}</span></td>
         </tr>
         <tr>
             <td><span>班主任:</span>
-                <div class="row">
-                    <input class="autoComplete" name="teacherName" value="${master}"/><span class="completeTips">请输入系统中存在的信息！</span>
+                <div class="row" style="display: inline-block;margin-left: 12px;">
+                    <input class="autoComplete m-teacher" name="teacherName" value="${master}"/><span class="completeTips">请输入系统中存在的信息！</span>
                     <input type="hidden" name="teacherId" id="personId"/>
                     <input type="hidden" class="teacherIdFromHoutai" value="${teacherIdFromHouTai}"/>
                     <input type="hidden" class="classId" value="${classId}"/>
@@ -112,9 +129,13 @@
         </tr>
         <tr>
             <td><span>副班主任:</span>
-                <c:forEach items="${teacherList}" var="teacher" varStatus="status">
-                    <input type="checkbox" value="${teacher.id}"><span>${teacher.name}</span>
-                </c:forEach>
+                <div class="checkbox-containt">
+                    <c:forEach items="${teacherList}" var="teacher" varStatus="status">
+                        <span class="name-containt">
+                           <input type="checkbox" value="${teacher.id}" <c:if test="${deputyIds.contains(teacher.id)}">checked</c:if>><span>${teacher.name}</span>
+                        </span>
+                    </c:forEach>
+                </div>
             </td>
 
         </tr>
@@ -131,7 +152,9 @@
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
     function doSubmit() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
         if (true) {
-            debugger;
+            var cycleId  = $(".cycleId").val();
+            var cycleYear = $(".cycleYear").find("option:selected").val();
+            var cycleSemester = $(".cycleSemester").find("option:selected").val();
             var classId = $(".classId").val();
             var tempTeacherId = "";
             var teacherIdFromHouTai =$(".teacherIdFromHoutai").val();
@@ -145,9 +168,11 @@
                 tempTeacherId:tempTeacherId,
                 teacherId:teacherId,
                 teacherIdFromHouTai:teacherIdFromHouTai,
-                classId:classId
+                classId:classId,
+                cycleId:cycleId
             }, function (data) {
-
+                setTimeout(function(){parent.location.reload();}, 400);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                setTimeout(function(){top.layer.close()}, 300);
             })
 //            $("#courseEdit").submit();
             return true;

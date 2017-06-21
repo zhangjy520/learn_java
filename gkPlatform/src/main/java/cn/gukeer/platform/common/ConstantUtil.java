@@ -40,7 +40,7 @@ public class ConstantUtil {
     //家长
     public static List<KVEntity> parList = new ArrayList<>();
 
-    public static Map<String,Object> map=new HashMap<String,Object>();
+    public static Map<String, Object> map = new HashMap<String, Object>();
 
     static {
 
@@ -68,9 +68,9 @@ public class ConstantUtil {
         entry = new KVEntity("2", "护照");
         cardTypList.add(entry);
 
-        entry=new KVEntity("1","男");
+        entry = new KVEntity("1", "男");
         xbList.add(entry);
-        entry=new KVEntity("2","女");
+        entry = new KVEntity("2", "女");
         xbList.add(entry);
 
         entry = new KVEntity("0", "在籍在校");
@@ -150,29 +150,29 @@ public class ConstantUtil {
         entry = new KVEntity("2", "省市外");
         lydqList.add(entry);
 
-        entry = new KVEntity("1","父亲");
+        entry = new KVEntity("1", "父亲");
         parList.add(entry);
-        entry = new KVEntity("2","母亲");
+        entry = new KVEntity("2", "母亲");
         parList.add(entry);
-        entry = new KVEntity("3","其他");
+        entry = new KVEntity("3", "其他");
         parList.add(entry);
 
-        map.put("nj",njList);
-        map.put("cardTyp",cardTypList);
-        map.put("zxzt",zxztList);
-        map.put("zslb",zslbList);
-        map.put("xslb",xslbList);
-        map.put("bjlx",bjlxList);
-        map.put("zzmm",zzmmList);
-        map.put("hkxz",hkxzList);
-        map.put("xb",xbList);
-        map.put("xd",xdList);
-        map.put("yorn",yornList);
-        map.put("lydq",lydqList);
-        map.put("par",parList);
+        map.put("nj", njList);
+        map.put("cardTyp", cardTypList);
+        map.put("zxzt", zxztList);
+        map.put("zslb", zslbList);
+        map.put("xslb", xslbList);
+        map.put("bjlx", bjlxList);
+        map.put("zzmm", zzmmList);
+        map.put("hkxz", hkxzList);
+        map.put("xb", xbList);
+        map.put("xd", xdList);
+        map.put("yorn", yornList);
+        map.put("lydq", lydqList);
+        map.put("par", parList);
     }
 
-    public static String getGradeNj (int nj) {
+    public static String getGradeNj(int nj) {
         String val = "";
         for (KVEntity entity : njList) {
             if (entity.getKey().equals(String.valueOf(nj))) {
@@ -198,9 +198,9 @@ public class ConstantUtil {
     * yorn 是否判断
     * lydq 来源地区
     * */
-    public static String getValueByKeyAndFlag (int key,String which) {
+    public static String getValueByKeyAndFlag(int key, String which) {
         String val = "";
-        List<KVEntity> kvEntityList= (List<KVEntity>) map.get(which);
+        List<KVEntity> kvEntityList = (List<KVEntity>) map.get(which);
         for (KVEntity entity : kvEntityList) {
             if (entity.getKey().equals(String.valueOf(key))) {
                 val = entity.getValue();
@@ -210,9 +210,9 @@ public class ConstantUtil {
         return val;
     }
 
-    public static Integer getKeyByValueAndFlag (String value,String which) {
-        int val =0;
-        List<KVEntity> kvEntityList= (List<KVEntity>) map.get(which);
+    public static Integer getKeyByValueAndFlag(String value, String which) {
+        int val = 0;
+        List<KVEntity> kvEntityList = (List<KVEntity>) map.get(which);
         for (KVEntity entity : kvEntityList) {
             if (entity.getValue().equals(value)) {
                 val = Integer.parseInt(entity.getKey());
@@ -222,24 +222,46 @@ public class ConstantUtil {
         return val;
     }
 
-    public static List<String> splitWithOutNull(String param){
+    public static List<String> splitWithOutNull(String param) {
         String[] res = param.split(",");
         List<String> out = new ArrayList<>();
-        for (String v:res) {
+        for (String v : res) {
             if (!StringUtils.isEmpty(v))
                 out.add(v);
         }
         return out;
     }
 
-    public static List searchParam(String paramList){
+    public static List searchParam(String paramList) {
         if (StringUtils.isEmpty(paramList))
             return null;
-        String str = paramList.replace("[","").replace("]","");
-        String[] resS =  str.split(",");
+        String str = paramList.replace("[", "").replace("]", "");
+        String[] resS = str.split(",");
         List resL = new ArrayList();
         resL = Arrays.asList(resS);
         return resL;
+    }
+
+    //自动翻译  初一===初中一年级
+    public static String translate(String origin) {
+        String[] arry1 = {"高一", "高二", "高三", "初一", "初二", "初三", "小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"};
+        String[] arry2 = {"高中1", "高中2", "高中3", "初中1", "初中2", "初中3", "小学1", "小学2", "小学3", "小学4", "小学5", "小学6"};
+        String[] arry3 = {"高一", "高二", "高三", "初中一年级", "初中二年级", "初中三年级", "小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"};
+        int index1 = Arrays.asList(arry1).indexOf(origin);
+        int index2 = Arrays.asList(arry2).indexOf(origin);
+        int index3 = Arrays.asList(arry3).indexOf(origin);
+        if (index1 >= 0) {
+            return arry2[index1];
+        }
+        if (index2 >= 0) {
+            return arry1[index2];
+        }
+        if (index3 >= 0) {
+            return arry1[index3];
+        } else {
+            return null;
+        }
+
     }
 
     public static void main(String[] args) {

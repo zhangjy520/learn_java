@@ -242,9 +242,9 @@
                 var list = res.data.list;
                 if (list.length > 0) {
                     var obj = list[0];
-                    /*$("#guanzhu").html(obj.fans);
+                    $("#guanzhu").html(obj.fans);
                     $("#fensi").html(obj.follow);
-                    $("#dongtai").html(obj.wb_num);*/
+                    $("#dongtai").html(obj.wb_num);
                 }
             },
             error: function (e) {
@@ -252,7 +252,6 @@
             }
         });
     }
-
     function tiezi() {
         $.ajax({
             type: "post",
@@ -272,13 +271,14 @@
 
                 var html = "";
                 for (var i = 0; i < list.length; i++) {
-                    var url = snsUrl + list[i].url + '&' + param + "&picUrl=" + fullPath + "/file/pic/show?picPath=" + res.data.loginUser.photoUrl;
+                    var url = list[i].url + '&' + param + "&picUrl=" + fullPath + "/file/pic/show?picPath=" + res.data.loginUser.photoUrl;
+                    var create_time = getLocalTime(list[i].create_time);
 
                     html += '<li class="row" onclick="window.open(\'' + url + '\')">' +
-                            '<p class="col-sm-3"><span><img src="' + snsUrl + list[i].path + '"/></span></p>' +
+                            '<p class="col-sm-3"><span><img src="' + list[i].path + '"/></span></p>' +
                             '<div class="col-sm-9">' +
                             '<h3><span>【' + list[i].big_title + '】' + list[i].title + '</span></h3>' +
-                            '<p><span>' + list[i].nickname + '&nbsp;发表：' + list[i].create_time + '</span></p>' +
+                            '<p><span>' + list[i].nickname + '&nbsp;发表：' + create_time + '</span></p>' +
                             '<div>' +
                             '<span>阅读（' + list[i].view_count + '）</span>' +
                             '<span>回复（' + list[i].reply_count + '）</span>' +
@@ -314,7 +314,7 @@
                     if (i < 3) {
                         class_name = "hot-topic";
                     }
-                    var url = snsUrl + list[i].url + '&' + param;
+                    var url = list[i].url + '&' + param;
                     html += '<li class="row" onclick="window.open(\'' + url + '\')">' +
                             '<p class="col-sm-1"><span class="' + class_name + '">' + (i + 1) + '</span></p>' +
                             '<div class="col-sm-11">' +
@@ -351,7 +351,7 @@
                 var html = "";
                 for (var i = 0; i < list.length; i++) {
                     var type = list[i].type;
-                    var url = snsUrl + list[i].url + "&" + param + "&picUrl=" + fullPath + "/file/pic/show?picPath=" + loginUser.photoUrl;
+                    var url = list[i].url + "&" + param + "&picUrl=" + fullPath + "/file/pic/show?picPath=" + loginUser.photoUrl;
                     if (type == "feed") {
 
                         var fragment = list[i].topic_name;
@@ -365,12 +365,12 @@
                         if (type == 'image') {
                             pian2 = '<span class="img"></span>';
                         }
-
+                        var create_time = getLocalTime(list[i].create_time);
                         html += '<li class="row" onclick="window.open(\'' + url + '\')">' +
-                                '<div class="col-sm-2"><span><img class="img-responsive" src="' + snsUrl + list[i].path + '"/>' +
+                                '<div class="col-sm-2"><span><img class="img-responsive" src="' + list[i].path + '"/>' +
                                 '</span></div>' +
                                 '<div class="col-sm-10"><h3>' + list[i].nickname + '<i>Lv1实习</i></h3>' +
-                                '<div class="comment-time"><span>' + list[i].create_time + '</span></div>' +
+                                '<div class="comment-time"><span>' + create_time + '</span></div>' +
                                 '<div class="comment-floor"><p>' + pian + list[i].content + '</p></div>' +
                                 '<div class="comment-operation">' + pian2 +
                                 '<div>' +
@@ -389,11 +389,12 @@
                             pian3 = '<div class="floor-box"><h5>@' + list[i].old_nickname + '</h5><p>' + list[i].old_content + '</p><div><span>' + list[i].orignal_time + '</span></div></div>';
                         }
 
+                        var create_time = getLocalTime(list[i].create_time)
                         html += '<li class="row" onclick="window.open(\'' + url + '\')">' +
-                                '<div class="col-sm-2"><span><img class="img-responsive" src="' + snsUrl + list[i].path + '"/>' +
+                                '<div class="col-sm-2"><span><img class="img-responsive" src="' + list[i].path + '"/>' +
                                 '</span></div>' +
                                 '<div class="col-sm-10"><h3>' + list[i].nickname + '<i>Lv1实习</i></h3>' +
-                                '<div class="comment-time"><span>' + list[i].create_time + '</span></div>' +
+                                '<div class="comment-time"><span>' + create_time + '</span></div>' +
                                 '<div class="comment-floor"><p>' + list[i].content + '</p>' + pian3 +
                                 '</div>' +
                                 '<div class="comment-operation">' + pian2 +
@@ -427,9 +428,9 @@
 
                 var html = "";
                 for (var i = 0; i < list.length; i++) {
-                    var url = res.data.snsUrl + list[i].url + '&' + param;
+                    var url = list[i].url + '&' + param;
                     html += '<li onclick="window.open(\'' + url + '\')">' +
-                            '<span><img class="img-responsice" src="' + res.data.snsUrl + list[i].path + '"/></span>' +
+                            '<span><img class="img-responsice" src="' + list[i].path + '"/></span>' +
                             '<div>' +
                             '<p>' + list[i].title + '</p>' +
                             '<span>帖子：' + list[i].post_count + '</span>' +
@@ -457,6 +458,10 @@
                 console.log(e);
             }
         });
+    }
+
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
 </script>
 </body>

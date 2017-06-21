@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
     <result column="cycle_id" property="cycleId" jdbcType="VARCHAR" />
     <result column="short_name" property="shortName" jdbcType="VARCHAR" />
     <result column="course_type" property="courseType" jdbcType="VARCHAR" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, school_id, name, cycle_id, short_name, course_type, room_type, score, pass_score, 
-    del_flag
+    id, school_id, name, english_name, cycle_id, short_name, course_type, room_type, 
+    score, pass_score, del_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.gukeer.platform.persistence.entity.CourseExample" >
     select
@@ -108,13 +109,13 @@
   </delete>
   <insert id="insert" parameterType="cn.gukeer.platform.persistence.entity.Course" >
     insert into teach_course (id, school_id, name, 
-      cycle_id, short_name, course_type, 
-      room_type, score, pass_score, 
-      del_flag)
+      english_name, cycle_id, short_name, 
+      course_type, room_type, score, 
+      pass_score, del_flag)
     values (#{id,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{cycleId,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, #{courseType,jdbcType=VARCHAR}, 
-      #{roomType,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE}, #{passScore,jdbcType=DOUBLE}, 
-      #{delFlag,jdbcType=INTEGER})
+      #{englishName,jdbcType=VARCHAR}, #{cycleId,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
+      #{courseType,jdbcType=VARCHAR}, #{roomType,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE}, 
+      #{passScore,jdbcType=DOUBLE}, #{delFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.gukeer.platform.persistence.entity.Course" >
     insert into teach_course
@@ -127,6 +128,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="englishName != null" >
+        english_name,
       </if>
       <if test="cycleId != null" >
         cycle_id,
@@ -159,6 +163,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
       </if>
       <if test="cycleId != null" >
         #{cycleId,jdbcType=VARCHAR},
@@ -195,6 +202,9 @@
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.englishName != null" >
+        english_name = #{record.englishName,jdbcType=VARCHAR},
+      </if>
       <if test="record.cycleId != null" >
         cycle_id = #{record.cycleId,jdbcType=VARCHAR},
       </if>
@@ -226,6 +236,7 @@
     set id = #{record.id,jdbcType=VARCHAR},
       school_id = #{record.schoolId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
+      english_name = #{record.englishName,jdbcType=VARCHAR},
       cycle_id = #{record.cycleId,jdbcType=VARCHAR},
       short_name = #{record.shortName,jdbcType=VARCHAR},
       course_type = #{record.courseType,jdbcType=VARCHAR},
@@ -245,6 +256,9 @@
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
       </if>
       <if test="cycleId != null" >
         cycle_id = #{cycleId,jdbcType=VARCHAR},
@@ -274,6 +288,7 @@
     update teach_course
     set school_id = #{schoolId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
       cycle_id = #{cycleId,jdbcType=VARCHAR},
       short_name = #{shortName,jdbcType=VARCHAR},
       course_type = #{courseType,jdbcType=VARCHAR},

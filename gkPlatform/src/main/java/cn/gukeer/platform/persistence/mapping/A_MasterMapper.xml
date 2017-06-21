@@ -21,13 +21,14 @@
 
     <!--查询所有班主任的方法-->
     <select id="getAllMasterByGradeClassIds" resultMap="BaseResult" parameterType="java.util.List">
-        SELECT c.`name` AS cname,c.id AS cid,t.id,t.`name` AS tname,ref.`class_id`,ref.`teacher_id`,ref.type,ref.cycle_id AS cycleId,cs.id AS
+        SELECT c.`name` AS cname,c.id AS cid,t.id,t.`name` AS
+        tname,ref.`class_id`,ref.`teacher_id`,ref.type,ref.cycle_id AS cycleId,cs.id AS
         csId,cs.name AS csname
         FROM
         org_grade_class c LEFT JOIN org_class_section cs ON cs.`id`=c.`xd`,
         ref_teacher_class ref ,user_teacher t
         WHERE c.`id` =ref.class_id AND t.id = ref.teacher_id
-        AND  c.xd = #{xdId} AND c.nj = #{nj}
+        AND c.xd = #{xdId} AND c.nj = #{nj}
         AND c.id IN
         <foreach collection="classIdList" item="classId" index="index" open="(" separator="," close=")">
             #{classId}
@@ -63,6 +64,7 @@
         teach_ref_course_class ref,user_teacher t,teach_course tc
         WHERE c.id = ref.class_id AND t.id = ref.teacher_id
         AND tc.id = ref.course_id
+        and tc.cycle_id=#{cycleId}
         AND ref.course_id IN
         <foreach collection="courseClassList" item="courseClass" index="index" open="(" separator="," close=")">
             (#{courseClass.courseId})
@@ -72,20 +74,25 @@
     <select id="findCourseTeacherByCycleIdAndSchoolIdAndName" resultMap="BaseResult"
             parameterType="java.util.List">
         SELECT
-          c.`name` AS cname,c.id,c.nj,c.xd,t.id,t.`name` AS tname,t.no,ref.`class_id`,ref.`teacher_id`,ref.id as
-    refId,ref.course_id AS courseId,cs.name as csname,tc.id,tc.name AS tcname
+        c.`name` AS cname,c.id,c.nj,c.xd,t.id,t.`name` AS tname,t.no,ref.`class_id`,ref.`teacher_id`,ref.id as
+        refId,ref.course_id AS courseId,cs.name as csname,tc.id,tc.name AS tcname
         FROM
         org_grade_class c LEFT JOIN org_class_section cs ON c.xd =cs.id AND cs.`school_id` = #{schoolId},
-    teach_ref_course_class ref,user_teacher t,teach_course tc
+        teach_ref_course_class ref,user_teacher t,teach_course tc
         WHERE c.id = ref.class_id AND t.id = ref.teacher_id
-        AND c.`cycle_id` = #{cycleId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId} and tc.school_id=#{schoolId}
-        AND t.name LIKE #{name}
+        <if test="schoolId != null and schoolId!=''">
+            AND  tc.`cycle_id` = #{cycleId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId} and
+            tc.school_id=#{schoolId}
+        </if>
+        <if test="name != null and name!=''">
+            AND  t.name LIKE #{name}
+        </if>
 
     </select>
 
     <insert id="insertBatchTeacherClass">
         INSERT INTO `ref_teacher_class`
-        ( id,
+        (
         cycle_id,
         `class_id`,
         `teacher_id`,
@@ -94,7 +101,7 @@
         values
         <foreach collection="correctTeacherClassList" item="item" index="index" separator=",">
             (
-            #{item.id},#{item.cycleId},#{item.classId},#{item.teacherId},#{item.type}
+            #{item.cycleId},#{item.classId},#{item.teacherId},#{item.type}
             )
         </foreach>
     </insert>

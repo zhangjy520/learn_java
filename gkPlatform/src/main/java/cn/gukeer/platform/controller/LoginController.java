@@ -152,7 +152,6 @@ public class LoginController extends BasicController {
         } catch (ExcessiveAttemptsException eae) {
             errmsg = "错误次数过多,暂时不能登录";
         } catch (AuthenticationException ae) {
-            //通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
             ae.printStackTrace();
         }
         if (!loginUser.isAuthenticated()) {
@@ -161,7 +160,6 @@ public class LoginController extends BasicController {
                 errmsg = "验证出错,请联系管理员";
             }
             return ResultEntity.newErrEntity(errmsg);
-            //throw new ErrcodeException(errmsg);
         }
 
         WebUtils.getSavedRequest(request);
@@ -169,22 +167,12 @@ public class LoginController extends BasicController {
         System.out.println(loginUser.hasRole("area"));
         if (loginUser.isAuthenticated()) {
             if (loginUser.hasRole(UserRoleType.ROLE_ROOT)) {
-                //url = "root/index";
                 url = "school/index";
             } else if (loginUser.hasRole(UserRoleType.ROLE_ADMIN)) {
                 url = "admin/index";
             } else {
                 url = "home/index";
             }
-//            } else if (loginUser.hasRole(UserRoleType.ROLE_TEACHER)) {
-//                url = "teacher/index";
-//            } else if (loginUser.hasRole(UserRoleType.ROLE_STUDENT)) {
-//                url = "student/index";
-//            } else if (loginUser.hasRole(UserRoleType.ROLE_PATRIARCH)) {
-//                url = "teacher/index";
-//            }
-
-
         }
 
         String ip = getClientIp(request);
@@ -213,7 +201,7 @@ public class LoginController extends BasicController {
             if ("慕课直播".equals(appName)) {
                 url += SnsUtil.getMoocLoginParams(user.getUsername());//慕课url
             } else if ("智能穿戴".equals(appName)) {
-                url += SnsUtil.getThirdPartyParams(user.getSchoolId(), appId, user.getId(), String.valueOf(System.currentTimeMillis()));
+                url += SnsUtil.getThirdPartyParams(user.getSchoolId(), appId, user.getRefId(),user.getUserType(), String.valueOf(System.currentTimeMillis()));
             } else {
                 //这里是第三方应用，参照api进行登录态验证.
                 String snsMac = MD5Utils.md5(SnsUtil.KEY + user.getUsername());
@@ -225,5 +213,6 @@ public class LoginController extends BasicController {
         view.setViewName("redirect:" + url);
         return view;
     }
+
 
 }

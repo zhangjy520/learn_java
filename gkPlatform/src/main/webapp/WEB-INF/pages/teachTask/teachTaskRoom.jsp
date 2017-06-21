@@ -25,7 +25,8 @@
             学期：
             <select name="cycle_semester">
                 <c:forEach var="semester" items="${semesterList}">
-                    <option value="${semester.cycleSemester}" <c:if test="${semester.cycleSemester eq chooseSemester}">selected</c:if>>${semester.cycleSemester}</option>
+                    <option value="${semester.cycleSemester}"
+                            <c:if test="${semester.cycleSemester eq chooseSemester}">selected</c:if>>${semester.cycleSemester}</option>
                 </c:forEach>
             </select>
         </div>
@@ -44,7 +45,7 @@
             <button class="roll-import" onclick="window.location.href='${ctx}/teach/task/room/download'">下载模板</button>
         </div>
         <div class="roll-teatypemanage">
-            <button>教师类型管理</button>
+            <button onclick="openDialog('教室类型管理','${ctx}/teach/task/room/type/pop','500px','352px');">教室类型管理</button>
         </div>
     </div>
     <div>
@@ -59,7 +60,7 @@
                 <th width="4%"><input class="rsCheck headerCheck" type="checkbox"/></th>
                 <th width="4%" style="text-align: center">序号</th>
                 <th width="6%">所在校区</th>
-                <%--     <th width="6%">所在楼</th>--%>
+                <th width="6%">所在楼</th>
                 <th width="6%">楼层</th>
                 <th width="6%">房间号</th>
                 <th width="6%">教室类型</th>
@@ -67,7 +68,7 @@
                 <th width="6%">有效座位数</th>
                 <th width="6%">考试座位数</th>
                 <th width="6%">是否用于选课</th>
-                <th width="6%">备注</th>
+                <%--<th width="6%">备注</th>--%>
                 <th width="15%">操作</th>
             </tr>
             </thead>
@@ -77,6 +78,7 @@
                     <td><input class="rsCheck" name="lanmuCheck" id="${room.id}" type="checkbox"/></td>
                     <td style="text-align: center">${status.index+1+(pageInfo.pageNum-1)*10}</td>
                     <td>${room.schoolTypeName}</td>
+                    <td>${room.teachBuilding}</td>
                     <td>${room.floor}</td>
                     <td>${room.roomNum}</td>
                     <td>${room.roomTypeName}</td>
@@ -95,10 +97,10 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td>${room.remarks}</td>
+                    <%--<td>${room.remarks}</td>--%>
                     <td>
-                        <span onclick="openDialogView('修改信息','${ctx}/teach/task/room/update/index?roomId=${room.id}','700px','600px')">详情</span>
-                        <span onclick="alertTips(400,202,'删除教室','确定要删除${room.roomName}吗?','deleteSure(\'${room.id}\')')">删除</span>
+                        <span onclick="openDialog('修改信息','${ctx}/teach/task/room/update/index?roomId=${room.id}','700px','600px')">编辑</span>
+                        <span onclick="alertTips(400,202,'删除教室','确定要删除教室${room.roomNum}吗?','deleteSure(\'${room.id}\')')">删除</span>
                     </td>
                 </tr>
             </c:forEach>

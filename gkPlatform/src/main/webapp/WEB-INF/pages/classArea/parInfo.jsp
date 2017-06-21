@@ -4,9 +4,32 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>学籍管理</title>
+    <title>区级学籍管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<STYLE>
+    .get-info {
+        padding-left: 20px;
+        cursor: pointer;
+        margin-right: 20px;
+        color: #54ab37;
+        background: url(../../../assetsNew/images/icon-edit.png) no-repeat left 3px;
+    }
+
+    #bm-manage {
+        padding-left: 30px !important;
+    }
+
+    select {
+        width: 120px;
+        height: 28px;
+    }
+
+    select {
+        margin-left: 12px;
+        margin-right: 25px;
+    }
+</STYLE>
 <body>
 
 <%@ include file="../common/sonHead/qujiXuejiHead.jsp" %>
@@ -20,7 +43,7 @@
             <div class="search-box">
                 <div style="float: left">
                     <c:if test="${gukeer:notEmptyString(select.xdList)}">
-                        学段：
+                        学段
                         <select name="xdId">
                             <c:forEach items="${select.xdList}" var="xd">
                                 <option value="${xd.id}"
@@ -30,7 +53,7 @@
                     </c:if>
 
                     <c:if test="${gukeer:notEmptyString(select.njList)}">
-                        年级：
+                        年级
                         <select name="njId">
                             <c:forEach items="${select.njList}" var="nj">
                                 <option value="${nj.njId}"
@@ -40,7 +63,7 @@
                     </c:if>
 
                     <c:if test="${gukeer:notEmptyString(select.bjList)}">
-                        班级 :
+                        班级
                         <select name="bjId">
                             <c:forEach items="${select.bjList}" var="bj">
                                 <option value="${bj.id}"
@@ -51,13 +74,12 @@
                 </div>
                 <div class="roll-research">
                     <button onclick="searchTeacher()"></button>
-                    <input class="searchInput" id="searchTeacher" type="text" placeholder="请输入学生/家长姓名" value="${stuName}"/>
+                    <input class="searchInput" id="searchTeacher" type="text" placeholder="请输入学生/家长姓名"
+                           value="${stuName}"/>
                 </div>
-
             </div>
 
             <section id="generated">
-
                 <div>
                     <table class="normal">
                         <thead>
@@ -82,7 +104,9 @@
                                 <td>${stu.nj}</td>
                                 <td>${stu.className}</td>
                                 <td>${stu.xh}</td>
-                                <td><span onclick="openDialogView('修改','${ctx}/class/parent/info/add/index?prim=${stu.parentId}','500px','550px');">查看</span></td>
+                                <td><span class="get-info"
+                                          onclick="openDialogView('查看','${ctx}/class/parent/info/add/index?prim=${stu.parentId}','500px','630px');">查看</span>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -99,8 +123,8 @@
         </main>
     </div>
     <script type="text/javascript">
-        activeMenu("parInfoMenu", 3);
 
+        activeMenu("parInfoMenu", 3);
         var xdId = $("select[name='xdId']").val();
         var njId = $("select[name='njId']").val();
         var bjId = $("select[name='bjId']").val();
@@ -110,7 +134,6 @@
         /* 初始化分页 */
         $(function () {
             <c:if test="${pageInfo.pages != 0 }">
-
             $(".fenY").createPage({
                 pageCount:${pageInfo.pages},//总页数
                 current:${pageInfo.pageNum},//当前页面
@@ -136,8 +159,7 @@
                     jump(menuId, xdId, njId, bjId, name, $(".go").val());
                 }
             });
-
-        })
+        });
 
         /*z_tree*/
         var zTree;
@@ -163,7 +185,6 @@
             }
         };
         var zNodes1 = [
-
             {
                 id: "nosearch${currentSchool.id}",
                 pId: "${currentSchool.parentId}",
@@ -188,7 +209,6 @@
         $(".node_name").click(function () {
             menuId = $(this).attr("menuId");
             if (menuId.indexOf("nosearch") >= 0) {
-
             } else {
                 jump(menuId, null, null, null, null, 1);
             }
@@ -198,7 +218,7 @@
         function setFontCss(treeId, treeNode) {
             if (treeNode.id == "${chooseSchool.id}")
                 return {
-                    'padding-top': ' 0',
+                    'padding-top': '0',
                     'background-color': '#def7f5',
                     'color': 'black',
                     'height': '25px',
@@ -247,13 +267,12 @@
             jump(menuId, xdId, njId, bjId, null, 1);
         });
 
-
         function searchTeacher() {
+
             xdId = $("select[name='xdId']").val();
             njId = $("select[name='njId']").val();
             bjId = $("select[name='bjId']").val();
             var stuName = $("#searchTeacher").val();
-
             jump(menuId, xdId, njId, bjId, stuName, 1);
         }
     </script>

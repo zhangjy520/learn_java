@@ -160,7 +160,7 @@ public class StudentServiceImpl extends BasicService implements StudentService {
     public List<Student> findNoAccountStudent(String schoolId) {
         StudentExample example = new StudentExample();
         //example.createCriteria().andStudentAccountIsNull().andSchoolIdEqualTo(schoolId);
-        example.createCriteria().andAccountIsNotNull().andSchoolIdEqualTo(schoolId);
+        example.createCriteria().andAccountIsNull().andSchoolIdEqualTo(schoolId);
         List<Student> studentList = studentMapper.selectByExample(example);
         return studentList;
     }
@@ -200,7 +200,7 @@ public class StudentServiceImpl extends BasicService implements StudentService {
 
     @Override
     public List<Map> personCountReport(List<School> schoolList) {
-        return extensionMapper.personCountReport(schoolList);
+        return extensionMapper.personCountReport(schoolList,schoolList.size());
     }
 
     @Override

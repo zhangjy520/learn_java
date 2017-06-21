@@ -1,32 +1,28 @@
 package cn.gukeer.platform.persistence.entity;
 
-import cc.gukeer.sync.annotation.NoSync;
-import cc.gukeer.sync.annotation.PrimaryKey;
-import cc.gukeer.sync.annotation.TableSync;
-
 import java.io.Serializable;
 
-@TableSync(SyncTableName="teach_course_type",TargetName = "sync_teach_course_type")
 public class CourseType implements Serializable {
-    @PrimaryKey
     private String id;
 
     private String name;
 
     private String schoolId;
-    @NoSync
+
     private String createBy;
-    @NoSync
+
     private Long createDate;
-    @NoSync
+
     private String updateBy;
-    @NoSync
+
     private Long updateDate;
-    @NoSync
+
     private Integer delFlag;
-    @NoSync
+
     private String remark;
-    @NoSync
+
+    private String englishName;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -101,6 +97,14 @@ public class CourseType implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName == null ? null : englishName.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -121,7 +125,8 @@ public class CourseType implements Serializable {
             && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
             && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()))
             && (this.getDelFlag() == null ? other.getDelFlag() == null : this.getDelFlag().equals(other.getDelFlag()))
-            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
+            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
+            && (this.getEnglishName() == null ? other.getEnglishName() == null : this.getEnglishName().equals(other.getEnglishName()));
     }
 
     @Override
@@ -137,6 +142,7 @@ public class CourseType implements Serializable {
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
         result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
+        result = prime * result + ((getEnglishName() == null) ? 0 : getEnglishName().hashCode());
         return result;
     }
 
@@ -155,6 +161,7 @@ public class CourseType implements Serializable {
         sb.append(", updateDate=").append(updateDate);
         sb.append(", delFlag=").append(delFlag);
         sb.append(", remark=").append(remark);
+        sb.append(", englishName=").append(englishName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

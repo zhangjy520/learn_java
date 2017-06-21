@@ -75,7 +75,7 @@
         <div class="rsTable">
             <table>
                 <tr class="headerTh">
-                    <td>ID</td>
+                  <%--  <td>ID</td>--%>
                     <td>标题</td>
                     <td>路径</td>
                     <td>权限标识</td>
@@ -83,7 +83,7 @@
                 </tr>
                 <c:forEach items="${menuList}" var="menu">
                     <tr>
-                        <td>${menu.id}</td>
+                       <%-- <td>${menu.id}</td>--%>
                         <td>${menu.name}</td>
                         <td>${menu.href}</td>
                         <td>${menu.permission}</td>

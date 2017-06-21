@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by conn on 2016/8/8.
+ * Created by zjy on 2016/8/8.
  * teacher
  */
 @Controller
@@ -132,19 +132,19 @@ public class HomeController extends BasicController {
         List res = new ArrayList();
         switch (id) {
             case "1":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_topic_hot", HotTopicView.class, 8, 0);//话题
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_topic_hot?username="+getLoginUser().getUsername(), HotTopicView.class, 8, 0);//话题
                 break;
             case "2":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_all", WeiBoView.class, 5, 0);//微博
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_all?username="+getLoginUser().getUsername(), WeiBoView.class, 5, 0);//微博
                 break;
             case "3":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/plate_hot", HotSpotView.class, 5, 0);//板块
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/plate_hot?username="+getLoginUser().getUsername(), HotSpotView.class, 5, 0);//板块
                 break;
             case "4":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/forum_all", AllForumView.class, 5, 0);//帖子
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/forum_all?username="+getLoginUser().getUsername(), AllForumView.class, 5, 0);//帖子
                 break;
             case "5":
-                List<Object> rep = SnsUtil.getSns("/testsns/index.php/Api/Index/fans?" + getLoginUser().getUsername() + "=" + snsMac, FansView.class, 1, 1);//关注，粉丝，动态
+                List<Object> rep = SnsUtil.getSns("/testsns/index.php/Api/Index/fans?username=" + getLoginUser().getUsername() + "=" + snsMac, FansView.class, 1, 1);//关注，粉丝，动态
                 if (rep.size() > 0) {
                     res.add(rep.get(0));
                 } else {

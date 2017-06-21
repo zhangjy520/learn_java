@@ -5,7 +5,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>人员管理</title>
+    <title>区级人事管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <body>
@@ -23,7 +23,7 @@
             <button class="roll-delete" onclick="alertTips(400,200,'删除','确定要删除选中项吗？','sure()')">删除</button>
             <button class="roll-import" onclick="window.location.href='${ctx}/renshi/moban/download'">下载模板</button>
         </div>
-        <div class="roll-research">
+        <div class="roll-research" style="float: right;">
             <button class="summitButton"></button>
             <input type="hidden" id="searchHidden" value="${teacherName}">
             <input class="searchInput" name="zhiGong" type="text" placeholder="请输入职工姓名"/>
@@ -38,7 +38,7 @@
             </style>
             <thead>
             <tr>
-                <th width="4%"><input class="rsCheck headerCheck" type="checkbox"/></th>
+                <th width="2%"><input class="rsCheck headerCheck" type="checkbox"/></th>
                 <th width="4%" style="text-align: center">序号</th>
                 <th width="6%">姓名</th>
                 <th width="4%">性别</th>
@@ -87,7 +87,7 @@
     </div>
 </main>
 <script>
-    activeMenu("quji",1);
+    activeMenu("quji", 1);
     /* 初始化分页 */
     $(function () {
         //搜索框关键字回显

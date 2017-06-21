@@ -76,7 +76,7 @@
         <div class="rsTable">
             <table>
                 <tr class="headerTh">
-                    <th width="5%">序号</th>
+                   <%-- <th width="5%">序号</th>--%>
                     <th width="15%">机构名称</th>
                     <th width="10%">机构标识</th>
                     <th width="10%">所属平台</th>
@@ -86,7 +86,7 @@
                 </tr>
                 <c:forEach items="${schoolList}" var="school">
                     <tr >
-                        <td>${school.id}</td>
+                       <%-- <td>${school.id}</td>--%>
                         <td>${school.schoolName}</td>
                         <td>${school.shortFlag}</td>
                         <td>${school.parentId}</td>

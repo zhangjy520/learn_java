@@ -19,10 +19,8 @@ public class OutputStudentView implements Serializable {
     private String gender;
     private String yxzjlx;
     private String yxzjh;
-    /*private String xjh;*/
     private String xh;
     private String jyid;
-//    private String qgid;
     private String pinyin;
     private String rxnd;
     private String xslb;
@@ -94,7 +92,6 @@ public class OutputStudentView implements Serializable {
         this.name = name;
     }
 
-
     @ExcelField(title = "性别", align = 2, sort = 6, groups = {1, 2}, isnull = 0)
     public String getGender() {
         return gender;
@@ -122,16 +119,7 @@ public class OutputStudentView implements Serializable {
         this.yxzjh = yxzjh;
     }
 
- /*   @ExcelField(title = "学生学籍号", align = 2, sort = 9, groups = {1, 2}, isnull = 0)
-    public String getXjh() {
-        return xjh;
-    }
-
-    public void setXjh(String xjh) {
-        this.xjh = xjh;
-    }*/
-
-    @ExcelField(title = "学生学籍号", align = 2, sort = 10, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "学号", align = 2, sort = 9, groups = {1, 2}, isnull = 0)
     public String getXh() {
         return xh;
     }
@@ -140,7 +128,7 @@ public class OutputStudentView implements Serializable {
         this.xh = xh;
     }
 
-    @ExcelField(title = "教育Id号", align = 2, sort = 11, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "教育Id号", align = 2, sort = 10, groups = {1, 2}, isnull = 0)
     public String getJyid() {
         return jyid;
     }
@@ -149,16 +137,7 @@ public class OutputStudentView implements Serializable {
         this.jyid = jyid;
     }
 
-/*    @ExcelField(title = "全国学籍号", align = 2, sort = 12, groups = {1, 2}, isnull = 0)
-    public String getQgid() {
-        return qgid;
-    }
-
-    public void setQgid(String qgid) {
-        this.qgid = qgid;
-    }*/
-
-    @ExcelField(title = "拼音", align = 2, sort = 13, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "拼音", align = 2, sort = 11, groups = {1, 2}, isnull = 0)
     public String getPinyin() {
         return pinyin;
     }
@@ -167,7 +146,7 @@ public class OutputStudentView implements Serializable {
         this.pinyin = pinyin;
     }
 
-    @ExcelField(title = "入学年度", align = 2, sort = 14, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "入学年度", align = 2, sort = 12, groups = {1, 2}, isnull = 0)
     public String getRxnd() {
         return rxnd;
     }
@@ -176,7 +155,7 @@ public class OutputStudentView implements Serializable {
         this.rxnd = rxnd;
     }
 
-    @ExcelField(title = "学生类别", align = 2, sort = 15, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "学生类别", align = 2, sort = 13, groups = {1, 2}, isnull = 0)
     public String getXslb() {
         return xslb;
     }
@@ -185,7 +164,7 @@ public class OutputStudentView implements Serializable {
         this.xslb = xslb;
     }
 
-    @ExcelField(title = "国别", align = 2, sort = 16, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "国别", align = 2, sort = 14, groups = {1, 2}, isnull = 0)
     public String getGb() {
         return gb;
     }
@@ -194,7 +173,7 @@ public class OutputStudentView implements Serializable {
         this.gb = gb;
     }
 
-    @ExcelField(title = "民族", align = 2, sort = 17, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "民族", align = 2, sort = 15, groups = {1, 2}, isnull = 0)
     public String getMz() {
         return mz;
     }
@@ -203,7 +182,7 @@ public class OutputStudentView implements Serializable {
         this.mz = mz;
     }
 
-    @ExcelField(title = "籍贯", align = 2, sort = 18, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "籍贯", align = 2, sort = 16, groups = {1, 2}, isnull = 0)
     public String getJg() {
         return jg;
     }
@@ -212,7 +191,7 @@ public class OutputStudentView implements Serializable {
         this.jg = jg;
     }
 
-    @ExcelField(title = "政治面貌", align = 2, sort = 19, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "政治面貌", align = 2, sort = 17, groups = {1, 2}, isnull = 0)
     public String getZzmm() {
         return zzmm;
     }
@@ -221,7 +200,7 @@ public class OutputStudentView implements Serializable {
         this.zzmm = zzmm;
     }
 
-    @ExcelField(title = "在校状态", align = 2, sort = 20, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "在校状态", align = 2, sort = 18, groups = {1, 2}, isnull = 0)
     public String getStatus() {
         return status;
     }
@@ -230,7 +209,7 @@ public class OutputStudentView implements Serializable {
         this.status = status;
     }
 
-    @ExcelField(title = "现居住地", align = 2, sort = 21, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "现居住地", align = 2, sort = 19, groups = {1, 2}, isnull = 0)
     public String getXzz() {
         return xzz;
     }
@@ -239,7 +218,7 @@ public class OutputStudentView implements Serializable {
         this.xzz = xzz;
     }
 
-    @ExcelField(title = "户口性质", align = 2, sort = 22, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "户口性质", align = 2, sort = 20, groups = {1, 2}, isnull = 0)
     public String getHkxz() {
         return hkxz;
     }
@@ -248,7 +227,7 @@ public class OutputStudentView implements Serializable {
         this.hkxz = hkxz;
     }
 
-    @ExcelField(title = "来源地区", align = 2, sort = 23, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "来源地区", align = 2, sort = 21, groups = {1, 2}, isnull = 0)
     public String getLydq() {
         return lydq;
     }
@@ -257,7 +236,7 @@ public class OutputStudentView implements Serializable {
         this.lydq = lydq;
     }
 
-    @ExcelField(title = "户口所在地", align = 2, sort = 24, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "户口所在地", align = 2, sort = 22, groups = {1, 2}, isnull = 0)
     public String getHkszdXX() {
         return hkszdXX;
     }
@@ -266,7 +245,7 @@ public class OutputStudentView implements Serializable {
         this.hkszdXX = hkszdXX;
     }
 
-    @ExcelField(title = "是否按照本地户口对待", align = 2, sort = 25, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "是否按照本地户口对待", align = 2, sort = 23, groups = {1, 2}, isnull = 0)
     public String getSfbshk() {
         return sfbshk;
     }
@@ -275,7 +254,7 @@ public class OutputStudentView implements Serializable {
         this.sfbshk = sfbshk;
     }
 
-    @ExcelField(title = "出生日期", align = 2, sort = 26, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "出生日期", align = 2, sort = 24, groups = {1, 2}, isnull = 0)
     public String getCsrq() {
         return csrq;
     }
@@ -284,7 +263,7 @@ public class OutputStudentView implements Serializable {
         this.csrq = csrq;
     }
 
-    @ExcelField(title = "招生类别", align = 2, sort = 27, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "招生类别", align = 2, sort = 25, groups = {1, 2}, isnull = 0)
     public String getZslb() {
         return zslb;
     }
@@ -293,7 +272,7 @@ public class OutputStudentView implements Serializable {
         this.zslb = zslb;
     }
 
-    @ExcelField(title = "父亲姓名", align = 2, sort = 28, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "父亲姓名", align = 2, sort = 26, groups = {1, 2}, isnull = 0)
     public String getFaname() {
         return faname;
     }
@@ -302,7 +281,7 @@ public class OutputStudentView implements Serializable {
         this.faname = faname;
     }
 
-    @ExcelField(title = "父亲职务或职业", align = 2, sort = 29, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "父亲职务或职业", align = 2, sort = 27, groups = {1, 2}, isnull = 0)
     public String getFawork() {
         return fawork;
     }
@@ -311,7 +290,7 @@ public class OutputStudentView implements Serializable {
         this.fawork = fawork;
     }
 
-    @ExcelField(title = "父亲工作单位", align = 2, sort = 30, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "父亲工作单位", align = 2, sort = 28, groups = {1, 2}, isnull = 0)
     public String getFaworkat() {
         return faworkat;
     }
@@ -320,7 +299,7 @@ public class OutputStudentView implements Serializable {
         this.faworkat = faworkat;
     }
 
-    @ExcelField(title = "父亲联系电话", align = 2, sort = 31, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "父亲联系电话", align = 2, sort = 29, groups = {1, 2}, isnull = 0)
     public String getFaphone() {
         return faphone;
     }
@@ -329,7 +308,7 @@ public class OutputStudentView implements Serializable {
         this.faphone = faphone;
     }
 
-    @ExcelField(title = "母亲姓名", align = 2, sort = 32, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "母亲姓名", align = 2, sort = 30, groups = {1, 2}, isnull = 0)
     public String getManame() {
         return maname;
     }
@@ -338,7 +317,7 @@ public class OutputStudentView implements Serializable {
         this.maname = maname;
     }
 
-    @ExcelField(title = "母亲职务或职业", align = 2, sort = 33, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "母亲职务或职业", align = 2, sort = 31, groups = {1, 2}, isnull = 0)
     public String getMawork() {
         return mawork;
     }
@@ -347,7 +326,7 @@ public class OutputStudentView implements Serializable {
         this.mawork = mawork;
     }
 
-    @ExcelField(title = "母亲工作单位", align = 2, sort = 34, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "母亲工作单位", align = 2, sort = 32, groups = {1, 2}, isnull = 0)
     public String getMaworkat() {
         return maworkat;
     }
@@ -356,7 +335,7 @@ public class OutputStudentView implements Serializable {
         this.maworkat = maworkat;
     }
 
-    @ExcelField(title = "母亲联系电话", align = 2, sort = 35, groups = {1, 2}, isnull = 0)
+    @ExcelField(title = "母亲联系电话", align = 2, sort = 33, groups = {1, 2}, isnull = 0)
     public String getMaphone() {
         return maphone;
     }

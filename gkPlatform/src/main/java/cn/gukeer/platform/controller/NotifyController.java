@@ -98,8 +98,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 公告详情页面
-     *
-     * @return
      */
     @RequestMapping(value = "/details/{id}")
     public String details(HttpServletRequest request, Model model, @PathVariable String id) {
@@ -152,7 +150,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 新增公告页面,发布
-     *
      * @return
      */
     @RequiresPermissions("notify:notify:add")
@@ -182,8 +179,6 @@ public class NotifyController extends BasicController {
         }
         model.addAttribute("columId", columId);
         List<Map<Object, Object>> recordList = notifyService.getRecordList(_id);
-        //StringBuilder builderIds = new StringBuilder();
-        //StringBuilder builderNames = new StringBuilder();
         String builderIds = "";
         String builderNames = "";
         if (recordList.size() > 0) {
@@ -201,7 +196,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 新增栏目弹出页面
-     *
      * @return
      */
     @RequestMapping(value = "/lanmu")
@@ -212,7 +206,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 添加用户弹出页面
-     *
      * @return
      */
     @RequestMapping(value = "/user/add")
@@ -223,7 +216,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 选择分组弹出页面
-     *
      * @return
      */
     @RequestMapping(value = "/choosefz")
@@ -244,7 +236,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 栏目管理页面
-     *
      * @return
      */
     @RequiresPermissions("notify:lanmu:view")
@@ -306,7 +297,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 角色分配页面
-     *
      * @return
      */
     @RequiresPermissions("notify:role:view")
@@ -317,9 +307,6 @@ public class NotifyController extends BasicController {
         PageHelper.startPage(pageNum, pageSize);
         String roleId = getParamVal(request, "roleId");
         User loginUser = getLoginUser();
-        /*App app = new App();
-        app.setName("通知公告");
-        List<App> appList = appService.findAppByCriteria(app);*/
         HttpSession session = request.getSession();
         Object appId = session.getAttribute("notifyId");
 
@@ -327,7 +314,6 @@ public class NotifyController extends BasicController {
         if (!GukeerStringUtil.isNullOrEmpty(appId))
             roleList = roleService.findRoleByAppId(appId.toString());//。。。。人事管理
 
-       // List<Role> roleList = roleService.findRoleByAppId(appList.get(0).getId());//。。。。通知公告管理
         model.addAttribute("roleList", roleList);
         List<String> idList = new ArrayList<String>();
         for (Role role : roleList) {
@@ -350,10 +336,6 @@ public class NotifyController extends BasicController {
             List<String> primList = new ArrayList<>();
             for (User user : userList) {
                 primList.add(user.getRefId());
-//                Teacher teacher = teacherService.findTeacherById(user.getRefId());
-//                if (teacher != null) {
-//                    teacherList.add(teacher);
-//                }
             }
             teacherList = teacherService.selectBatchTeachers(primList,loginUser.getSchoolId());
             pageInfo = new PageInfo<Teacher>(teacherList);
@@ -371,7 +353,6 @@ public class NotifyController extends BasicController {
 
     /**
      * 角色分配-添加用户-弹出页面
-     *
      * @return
      */
     @RequestMapping(value = "/roleuser/add")
@@ -471,7 +452,6 @@ public class NotifyController extends BasicController {
             notify.setCreateBy(user.getId());
             notify.setCreateDate(System.currentTimeMillis());
             notifyService.addNotifyBackId(notify);
-            /*back*/
             _id = primary;//获取插入公告的id
         } else {
             //若是对公告进行修改，删除公告通知表notifyRecord表中的相关通知记录！

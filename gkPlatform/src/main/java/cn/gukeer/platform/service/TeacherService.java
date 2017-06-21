@@ -69,4 +69,5 @@ public interface TeacherService {
     //区平台id，机构id集合
     Map teacherReport(String loginSchoolId,List<School> schoolList);
 
+    Course findCourseById(String courseId);
 }

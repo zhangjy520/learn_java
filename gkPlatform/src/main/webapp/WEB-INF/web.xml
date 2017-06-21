@@ -20,6 +20,7 @@
         <param-name>logbackConfigLocation</param-name>
         <param-value>classpath:logback.xml</param-value>
     </context-param>
+
     <listener>
         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
     </listener>
@@ -43,7 +44,7 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/assets/*</url-pattern>
-        <url-pattern>/assetsNew/*</url-pattern>
+       <!-- <url-pattern>/assetsNew/*</url-pattern>-->
         <url-pattern>*.xml</url-pattern>
         <url-pattern>*.txt</url-pattern>
         <url-pattern>*.css</url-pattern>
@@ -65,7 +66,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- Character Encoding  -->
+    <!-- Character Encoding-->
 
     <filter>
         <filter-name>characterEncodingFilter</filter-name>
@@ -84,26 +85,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!--<filter>-->
-        <!--<filter-name>CheckPathFilter</filter-name>-->
-        <!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
-
-       <!--&lt;!&ndash; <init-param>-->
-            <!--<param-name>targetBeanName</param-name>-->
-            <!--<param-value>CheckPathFilter</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>targetFilterLifecycle</param-name>-->
-            <!--<param-value>true</param-value>-->
-        <!--</init-param>&ndash;&gt;-->
-    <!--</filter>-->
-
-    <!--<filter-mapping>-->
-        <!--<filter-name>CheckPathFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
-
-   <!-- <error-page>
+    <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/pages/404.jsp</location>
     </error-page>
@@ -111,5 +93,5 @@
     <error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/pages/500.jsp</location>
-    </error-page>-->
+    </error-page>
 </web-app>

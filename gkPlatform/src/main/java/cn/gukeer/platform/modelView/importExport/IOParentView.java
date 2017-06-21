@@ -19,7 +19,18 @@ public class IOParentView implements Serializable {
     private String guardian;
     private String lifeTogether;
 
-    @ExcelField(title = "学籍号码", align = 2, sort = 1, groups = {1, 2}, isnull = 1)
+
+    @ExcelField(title = "家长姓名", align = 2, sort = 1, groups = {1, 2}, isnull = 1)
+    public String getParName() {
+        return parName;
+    }
+
+    @ExcelField(title = "学生姓名", align = 2, sort = 2, groups = {1, 2}, isnull = 1)
+    public String getStuName() {
+        return stuName;
+    }
+
+    @ExcelField(title = "学籍号码", align = 2, sort = 3, groups = {1, 2}, isnull = 1)
     public String getStuNum() {
         return stuNum;
     }
@@ -28,19 +39,11 @@ public class IOParentView implements Serializable {
         this.stuNum = stuNum;
     }
 
-    @ExcelField(title = "学生姓名", align = 2, sort = 2, groups = {1, 2}, isnull = 1)
-    public String getStuName() {
-        return stuName;
-    }
 
     public void setStuName(String stuName) {
         this.stuName = stuName;
     }
 
-    @ExcelField(title = "家长姓名", align = 2, sort = 3, groups = {1, 2}, isnull = 1)
-    public String getParName() {
-        return parName;
-    }
 
     public void setParName(String parName) {
         this.parName = parName;

@@ -18,10 +18,8 @@ public class IOStudentView implements Serializable {
     private String gender;
     private String yxzjlx;
     private String yxzjh;
-    /*private String xjh;*/
     private String xh;
     private String jyid;
-//    private String qgid;
     private String pinyin;
     private String rxnd;
     private String xslb;
@@ -32,12 +30,10 @@ public class IOStudentView implements Serializable {
     private String status;
     private String xzz;
     private String hkxz;
-    private String txdz;
     private String lydq;
     private String hkszdXX;
     private String sfbshk;
     private String csrq;
-    private String bsxj;
     private String zslb;
 
     @ExcelField(title = "学段", align = 2, sort = 1, groups = {1, 2},isnull=1)
@@ -76,7 +72,6 @@ public class IOStudentView implements Serializable {
         this.name = name;
     }
 
-
     @ExcelField(title = "性别", align = 2, sort = 5, groups = {1, 2},isnull=0)
     public String getGender() {
         return gender;
@@ -104,14 +99,6 @@ public class IOStudentView implements Serializable {
         this.yxzjh = yxzjh;
     }
 
-   /* @ExcelField(title = "学生学籍号", align = 2, sort = 8, groups = {1, 2},isnull=0)
-    public String getXjh() {
-        return xjh;
-    }
-
-    public void setXjh(String xjh) {
-        this.xjh = xjh;
-    }*/
 
     @ExcelField(title = "学籍号", align = 2, sort = 9, groups = {1, 2},isnull=0)
     public String getXh() {

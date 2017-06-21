@@ -1,4 +1,3 @@
-
 <%@ include file="../common/headerXf.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
@@ -22,6 +21,7 @@
     </div>
     <section id="generated" class="row">
         <div class="row" style="margin-top: 12px;">
+            <span style="color: red">提示：重置密码默认为${password}</span>
             <input type="hidden" id="searchHidden" value="${teacherName}"/>
             <button class="summitButton"></button>
             <input class="searchInput" type="text" name="zhiGong" placeholder="请输入职工姓名"/>
@@ -67,7 +67,6 @@
             </table>
         </div>
         <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <span>提示：重置密码默认为${password}</span>
             <c:if test="${gukeer:notEmptyString(pageInfoHave.pages)}">
                 <div class="fenYDetail">共${pageInfoHave.total}条记录，本页${pageInfoHave.size}条</div>
             </c:if>
@@ -126,7 +125,7 @@
 </main>
 <script>
 
-    activeMenu("zhmenu",0);
+    activeMenu("zhmenu", 0);
 
     var name = $("#searchHidden").val();
     $(function () {

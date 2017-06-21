@@ -70,7 +70,7 @@ public class IOTeacherView implements Serializable {
     public String getName() {
         return name;
     }
-    @ExcelField(title = "职工编号", align = 2, sort = 2, groups = {1, 2})
+    @ExcelField(title = "职工编号", align = 2, sort = 2, groups = {1, 2},isnull=1)
     public String getNo() {
         return no;
     }

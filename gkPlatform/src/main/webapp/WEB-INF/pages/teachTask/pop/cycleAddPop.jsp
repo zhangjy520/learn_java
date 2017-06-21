@@ -59,40 +59,48 @@
         border-radius: 2px;
         color: #333;
     }
+    .cla-type-containt{
+        width: 380px;
+        margin-left: 50px;
+    }
+    .cla-type-containt span{
+        width: 102px;
+        line-height: 30px;
+        font-size: 12px;
+    }
+    .cla-type-containt input{
+        margin-right: 5px;
+        position: relative;
+        top:2px;
+    }
 </style>
 <body>
 <%--<form action="${ctx}/teach/task/cycle/do" class="cycleAdd" method="post">--%>
 <div>
-    <%--<ul>--%>
-    <%--<li><span>学年:</span><input type="text" name="teachCycle.cycleYear"></li>--%>
-    <%--<li><span>学期:</span><input type="text" name="teachCycle.cycleSemester"></li>--%>
-    <%--<li><span>开始:</span><input type="text" name="teachCycle.beginDate"></li>--%>
-    <%--<li><span>结束:</span><input type="text" name="teachCycle.endDate"></li>--%>
-    <%--<li><span>总周次:</span><input type="text" name="teachCycle.weekCount"></li>--%>
-    <%--</ul>--%>
     <table>
         <tr>
-            <td><span>学年:</span><input type="text" name="cycleYear" class="cycleYear"></td>
+            <td><span>学年:</span><input type="text" name="cycleYear" class="cycleYear" required><i>请填写如下格式:2016-2017</i></td>
         </tr>
         <tr>
-            <td><span>学期:</span><input type="text" name="teachCycle.cycleSemester" class="cycleSemester"></td>
+            <td><span>学期:</span><input type="text" name="teachCycle.cycleSemester" class="cycleSemester" required><i>填写数字1或2，1表示第一学期</i></td>
         </tr>
         <tr>
-            <td><span>开始:</span>
-                <input class="hello laydate-icon start" name="beginDate" onclick="laydate()">
+            <td><span>开始周:</span>
+                <input class="start" type="text" name="beginDate"  style="margin-left: 8px;" required><i>填写数字,例如1表示开始周为第一周</i>
                 <%--<span class="laydate-icon" onclick="laydate({elem: '#hello1'});"></span>--%>
             </td>
         </tr>
         <tr>
-            <td><span>结束:</span><input class="hello laydate-icon end" name="beginDate" onclick="laydate()"></td>
+            <td><span>结束周:</span><input class="end" type="text" name="beginDate" required><i>填写数字,例如1表示结束周为第一周</i></td>
         </tr>
         <tr>
-            <td><span>总周次:</span><input type="text" name="weekCount" class="weekCount"></td>
+            <td><span>总周次:</span><input type="text" name="weekCount" class="weekCount" required><i>填写数字,例如10表示一共10周</i></td>
         </tr>
     </table>
 </div>
-<div>
+<div  class="cla-type-containt">
     <input type="hidden" value="${cycleId}" class="cycleId">
+    同步数据 <i>（若没有上一学期数据,请不要勾选）</i><br>
     <input type="checkbox" class="room" value="教室管理"><span>教室管理</span>
     <input type="checkbox"  class="course" value="课节设置"><span>课节设置</span>
     <input type="checkbox"  class="course" value="课程安排"><span>课程安排</span>
@@ -101,13 +109,12 @@
     <input type="checkbox" class="room" value="班级教室安排"><span>班级教室安排</span>
     <input type="checkbox" class="room" value="科目课时安排"><span>科目课时安排</span>
 </div>
-<%--</form>--%>
 </body>
 <script>
     function doSubmit() {
         var synInfo = "";
         var inputs =  $('input[type=checkbox]:checked');
-        console.log(inputs.length);
+//        console.log(inputs.length);
         $('input[type=checkbox]:checked').each(function (i) {
             var oneText = $(this).val();
             synInfo +=","+oneText;
@@ -120,6 +127,7 @@
         var weekCount = $(".weekCount").val();
         if (cycleYear == "" || cycleSemester == "" || start == "" || end == "" || weekCount == "") {
             webToast("所填项均为必填", "top", 2300);
+            return;
         }
         $.post("${ctx}/teach/task/cycle/do", {
             cycleYear: cycleYear,
@@ -133,7 +141,7 @@
             if (data.code == 0) {
                 webToast(data.msg, "top", 5000);
                 setTimeout(function(){parent.location.reload();}, 5000);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function(){top.layer.close(index)}, 5000);
+                setTimeout(function(){top.layer.close()}, 5000);
                 return true;
             } else {
                 webToast(data.msg, "top", 5000);
@@ -143,43 +151,5 @@
             }
         });
     }
-    $('input[type=checkbox]').change(function () {
-        $('#Jszzdm').val($('input[type=checkbox]:checked').map(function () {
-            return this.value
-        }).get().join(','))
-    });
-
-    laydate({
-        elem: '.hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-    });
-    //    将checkbox的值存到域中 通过form提交
-
-
-    var start = {
-        elem: '.start',
-        format: 'YYYY/MM/DD hh:mm:ss',
-        min: laydate.now(), //设定最小日期为当前日期
-        max: '2099-06-16 23:59:59', //最大日期
-        istime: true,
-        istoday: false,
-        choose: function (datas) {
-            end.min = datas; //开始日选好后，重置结束日的最小日期
-            end.start = datas //将结束日的初始值设定为开始日
-        }
-    };
-    var end = {
-        elem: '.end',
-        format: 'YYYY/MM/DD hh:mm:ss',
-        min: laydate.now(),
-        max: '2099-06-16 23:59:59',
-        istime: true,
-        istoday: false,
-        choose: function (datas) {
-            start.max = datas; //结束日选好后，重置开始日的最大日期
-        }
-    };
-    laydate(start);
-    laydate(end);
 </script>
 </html>

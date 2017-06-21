@@ -101,6 +101,22 @@
         var firstPhoto = $(".slider ul li:first img").attr("src");
         $(".zoompic img").attr("src",firstPhoto );
     })
+
+    $(".zoompic>img").click(function(){
+        var imgSrc=$(".zoompic>img").attr("src");
+        $('body').append("<div id='showBigPic' style='z-index:999;position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.4)'>" +
+                "<div id='modalBox' style='width:100%;height:100%;display: flex;align-items: center;justify-content: center'>" +
+               // "<div id='closeModal' style='color:#efefef;font-size: 15px;position:absolute;top:20px;right:20px;'>close</div>"+
+                "<img src='"+imgSrc+"' style='display:block;margin:0 auto;width:auto;'>" +
+                "</div>" +
+                "</div>")
+    });
+
+    $(document).on("click","#showBigPic",function(){
+        console.log('click');
+        $("#showBigPic").remove();
+    });
+
     function savemyapp(id) {
         $.ajax({
             url: '${ctx}/app/savemyapp',

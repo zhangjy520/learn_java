@@ -17,8 +17,21 @@ public class IOCMasterView implements Serializable {
     private Integer cycleSemester;
 
 
+    @ExcelField(title = "学年", align = 2, sort = 1, groups = {1, 2})
+    public String getCycleYear() {
+        return cycleYear;
+    }
 
-    @ExcelField(title = "学段", align = 2, sort = 1, groups = {1, 2})
+    public void setCycleYear(String cycleYear) {
+        this.cycleYear = cycleYear;
+    }
+
+    @ExcelField(title = "学期", align = 2, sort = 2, groups = {1, 2})
+    public Integer getCycleSemester() {
+        return cycleSemester;
+    }
+
+    @ExcelField(title = "学段", align = 2, sort = 3, groups = {1, 2})
     public String getXdName() {
         return xdName;
     }
@@ -27,7 +40,7 @@ public class IOCMasterView implements Serializable {
         this.xdName = xdName;
     }
 
-    @ExcelField(title = "年级", align = 2, sort = 2, groups = {1, 2})
+    @ExcelField(title = "年级", align = 2, sort = 4, groups = {1, 2})
     public Integer getNj() {
         return nj;
     }
@@ -37,7 +50,7 @@ public class IOCMasterView implements Serializable {
     }
 
 
-    @ExcelField(title = "班级", align = 2, sort = 3, groups = {1, 2})
+    @ExcelField(title = "班级", align = 2, sort = 5, groups = {1, 2})
     public String getBj() {
         return bj;
     }
@@ -46,7 +59,7 @@ public class IOCMasterView implements Serializable {
         this.bj = bj;
     }
 
-    @ExcelField(title = "班主任", align = 2, sort = 4, groups = {1, 2})
+    @ExcelField(title = "班主任", align = 2, sort = 6, groups = {1, 2})
     public String getMasterName() {
         return masterName;
     }
@@ -55,7 +68,7 @@ public class IOCMasterView implements Serializable {
         this.masterName = masterName;
     }
 
-    @ExcelField(title = "副班主任", align = 2, sort = 5, groups = {1, 2})
+    @ExcelField(title = "副班主任", align = 2, sort = 7, groups = {1, 2})
     public String getDeputymasterName() {
         return deputymasterName;
     }
@@ -64,19 +77,6 @@ public class IOCMasterView implements Serializable {
         this.deputymasterName = deputymasterName;
     }
 
-    @ExcelField(title = "学年", align = 2, sort = 6, groups = {1, 2})
-    public String getCycleYear() {
-        return cycleYear;
-    }
-
-    public void setCycleYear(String cycleYear) {
-        this.cycleYear = cycleYear;
-    }
-
-    @ExcelField(title = "学期", align = 2, sort = 7, groups = {1, 2})
-    public Integer getCycleSemester() {
-        return cycleSemester;
-    }
 
     public void setCycleSemester(Integer cycleSemester) {
         this.cycleSemester = cycleSemester;

@@ -41,4 +41,9 @@ public class MD5Util {
 
 		return md5StrBuff.toString();
     }
-    }
+
+	public static void main(String[] args) {
+		System.out.println(go("37"+"18"+"690"+"1"+"1495070775271"+"CD93nWSNVSFk86b"));
+
+	}
+}

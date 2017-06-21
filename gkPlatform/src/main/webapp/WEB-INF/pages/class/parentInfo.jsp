@@ -12,7 +12,13 @@
     <link rel="stylesheet" href="${ctxStaticNew}/css/schoolRollManage.min.css"/>
 </head>
 <body>
+<style>
+    table th:nth-child(2), table td:nth-child(2), table th:nth-child(1), table td:nth-child(1) {
+        text-align: center;
+    }
 
+
+</style>
 <%@ include file="../common/sonHead/xuejiHead.jsp" %>
 
 <main class="container">
@@ -44,9 +50,7 @@
             </div>
             <div>
                 <table>
-                    <style>table th:nth-child(2), table td:nth-child(2), table th:nth-child(1), table td:nth-child(1) {
-                        text-align: center;
-                    }</style>
+
                     <thead>
                     <tr>
                         <th width="4%"><input type="checkbox" id="choseAll"/></th>
@@ -77,8 +81,8 @@
                             </td>
                             <td>${parent.parentPhone}</td>
                             <td>
-                                <span onclick="openDialogView('修改','${ctx}/class/parent/info/add/index?prim=${parent.parentId}','500px','550px');">详情</span>
-                                <span onclick="alertTips('400px','200px','删除学生','确定要删除${parent.parentName}吗？','deleteParent(\'${parent.parentId}\')')"> 删除 </span>
+                                <span onclick="openDialogView('编辑','${ctx}/class/parent/info/add/index?prim=${parent.parentId}','500px','650px');">编辑</span>
+                                <span onclick="alertTips('400px','200px','删除家长','确定要删除${parent.parentName}吗？','deleteParent(\'${parent.parentId}\')')"> 删除 </span>
                             </td>
                         </tr>
                     </c:forEach>
@@ -388,10 +392,10 @@
     function exportPar() {
         var check =getChecked();
         if (check == ""){
-            layer.msg("您未选择家长，将到处当前条件的所有家长");
+           // layer.msg("您未选择家长，将到处当前条件的所有家长");
         }
         else{
-            layer.msg("即将导出您选择的家长");
+            //layer.msg("即将导出您选择的家长");
         }
 
         var form=$("<form>");//定义一个form表单

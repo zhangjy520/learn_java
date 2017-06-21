@@ -47,7 +47,6 @@ $(function() {
 						setTimeout(function(){parent.location.reload();}, 400);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
 						setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
 						}
-
 				  },
 				  cancel: function(index){
 					  top.layer.close(index);

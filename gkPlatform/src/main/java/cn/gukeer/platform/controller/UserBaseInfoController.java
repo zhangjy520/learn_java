@@ -3,14 +3,8 @@ package cn.gukeer.platform.controller;
 import cn.gukeer.common.controller.BasicController;
 import cn.gukeer.common.entity.ResultEntity;
 import cn.gukeer.common.security.AESencryptor;
-import cn.gukeer.platform.persistence.entity.School;
-import cn.gukeer.platform.persistence.entity.Student;
-import cn.gukeer.platform.persistence.entity.Teacher;
-import cn.gukeer.platform.persistence.entity.User;
-import cn.gukeer.platform.service.SchoolService;
-import cn.gukeer.platform.service.StudentService;
-import cn.gukeer.platform.service.TeacherService;
-import cn.gukeer.platform.service.UserService;
+import cn.gukeer.platform.persistence.entity.*;
+import cn.gukeer.platform.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +31,9 @@ public class UserBaseInfoController extends BasicController {
     TeacherService teacherService;
 
     @Autowired
+    PatriarchService patriarchService;
+
+    @Autowired
     SchoolService schoolService;
 
     @RequestMapping(value = "/editInfo", method = RequestMethod.GET)
@@ -50,26 +47,34 @@ public class UserBaseInfoController extends BasicController {
         Integer type = getLoginUser().getUserType();
         String sid = getLoginUser().getSchoolId();
         School school = schoolService.selectSchoolById(sid);
+        account = getLoginUser().getUsername();
         if (type == 1) {
             String id = getLoginUser().getRefId();
             Teacher teacher = teacherService.findTeacherById(id);
             if (teacher != null) {
                 name = teacher.getName();
-                account = teacher.getAccount();
-                phone = teacher.getPhone();
+                phone = teacher.getMobile();
             }
             _type = "教师";
+
+            if ("管理员".equals(getLoginUser().getName()))
+                _type = "管理员";
+
         } else if (type == 2) {
             String id = getLoginUser().getRefId();
             Student student = studentService.selectStudentById(id);
             if (student != null) {
                 name = student.getXsxm();
-                account = student.getAccount();
                 phone = student.getPhone();
             }
             _type = "学生";
-        }else if(type ==3){
-            account = getLoginUser().getUsername();
+        } else if (type == 3) {
+            String id = getLoginUser().getRefId();
+            Patriarch parent = patriarchService.findPatriarchById(id);
+
+            if (parent != null) {
+                phone = parent.getPhone();
+            }
             _type = "家长";
         }
         headUrl = getLoginUser().getPhotoUrl();
@@ -97,13 +102,18 @@ public class UserBaseInfoController extends BasicController {
             if (type == 1) {
                 Teacher teacher = new Teacher();
                 teacher.setId(id);
-                teacher.setPhone(phone);
+                teacher.setMobile(phone);
                 teacherService.save(teacher);
             } else if (type == 2) {
                 Student student = new Student();
                 student.setId(id);
                 student.setPhone(phone);
                 studentService.save(student);
+            } else if (type == 3) {
+                Patriarch patriarch =new Patriarch();
+                patriarch.setId(id);
+                patriarch.setPhone(phone);
+                patriarchService.updatePatriarch(patriarch);
             }
             User user = getLoginUser();
             user.setPhotoUrl(url);

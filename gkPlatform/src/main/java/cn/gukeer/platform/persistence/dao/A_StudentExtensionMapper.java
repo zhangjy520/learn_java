@@ -25,7 +25,7 @@ public interface A_StudentExtensionMapper {
 
     int batchInsetPatriarch(List<Patriarch> patriarchList);
 
-    List<StudentView> selectBatchStudents(@Param("idList") List<String> stuIds,@Param("schoolId") String schoolId);
+    List<StudentView> selectBatchStudents(@Param("idList") List<String> stuIds, @Param("schoolId") String schoolId);
 
     List<Map> getParList(Map map);
 
@@ -35,7 +35,7 @@ public interface A_StudentExtensionMapper {
     List<Map> genderReport(@Param("schoolList") List<School> schoolList);
 
     //班级人数情况折线图
-    List<Map> personCountReport(@Param("schoolList") List<School> schoolList);
+    List<Map> personCountReport(@Param("schoolList") List<School> schoolList, @Param("size") int size);
 
     //来源地区饼状图
     List<Map> lydqReport(@Param("schoolList") List<School> schoolList);

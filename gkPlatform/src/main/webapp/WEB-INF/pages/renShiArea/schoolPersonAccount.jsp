@@ -5,9 +5,22 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>人事管理</title>
+    <title>区级人事管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<style>
+    #js-manage main {
+        padding-top: 0 !important;
+    }
+
+    .right {
+        float: right;
+    }
+
+    #ry-manage .search-box .roll-research button {
+        margin-right: 0 !important;
+    }
+</style>
 <body>
 
 <%@ include file="../common/sonHead/qujiRenShiHead.jsp" %>
@@ -19,20 +32,21 @@
         </aside>
         <main class="col-sm-9" id="ry-manage">
             <div class="rolls-distribute-add search-box">
-              <%--  <button class="add-btn" onclick="exportStu()">
-                    导出
-                </button>--%>
+                <%--  <button class="add-btn" onclick="exportStu()">
+                      导出
+                  </button>--%>
 
-                <div class="roll-research roll-search">
+                <div class="roll-research roll-search right">
                     <input type="hidden" id="searchHidden" value="${teacherName}">
                     <button style="width: 32px" onclick="searchTeacher()"></button>
-                    <input class="searchInput" value="${teacherName}" id="searchTeacher" type="text" placeholder="请输入职工姓名"/>
+                    <input class="searchInput" value="${teacherName}" id="searchTeacher" type="text"
+                           placeholder="请输入职工姓名"/>
                 </div>
             </div>
             <table class="table-responsive">
                 <thead>
                 <tr>
-                    <th width="4%"><input class="rsCheck headerCheck" type="checkbox"/></th>
+                    <%--<th width="4%"><input class="rsCheck headerCheck" type="checkbox"/></th>--%>
                     <th width="6%">序号</th>
                     <th width="20%">姓名</th>
                     <th width="20%">用户名</th>
@@ -44,7 +58,7 @@
                 <tbody>
                 <c:forEach items="${teacherList}" var="teacher" varStatus="status">
                     <tr>
-                        <td><input class="rsCheck" name="lanmuCheck" id="${teacher.id}" type="checkbox"/></td>
+                            <%--<td><input class="rsCheck" name="lanmuCheck" id="${teacher.id}" type="checkbox"/></td>--%>
                         <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
                         <td>${teacher.name}</td>
                         <td>${teacher.account}</td>
@@ -70,7 +84,7 @@
     </div>
 </main>
 <script>
-    activeMenu("xiaoji",2);
+    activeMenu("xiaoji", 2);
 
     var menuId = "${choose}";
     var teacherName = encodeURI(encodeURI($("#searchTeacher").val()));
@@ -80,7 +94,7 @@
             pageCount:${pageInfo.pages},//总页数
             current:${pageInfo.pageNum},//当前页面
             backFn: function (p) {
-                window.location.href = "${ctx}/area/school/person/account/index?teacherName="+teacherName+"&choose=" + menuId+"&pageNum=" + p;
+                window.location.href = "${ctx}/area/school/person/account/index?teacherName=" + teacherName + "&choose=" + menuId + "&pageNum=" + p;
             }
         });
 
@@ -89,11 +103,11 @@
             if (pageNum <= 0 || pageNum > ${pageInfo.pages}) {
                 layer.msg("请输入正确的页码")
             } else {
-                window.location.href = "${ctx}/area/school/person/account/index?teacherName="+teacherName+"&choose=" + menuId+"&pageNum=" + $(".go").val();
+                window.location.href = "${ctx}/area/school/person/account/index?teacherName=" + teacherName + "&choose=" + menuId + "&pageNum=" + $(".go").val();
             }
         });
         </c:if>
-        
+
     });
 
     var zTree;
@@ -120,12 +134,17 @@
     };
     var zNodes1 = [
 
-        {id:"nosearch${currentSchool.id}", pId:"${currentSchool.parentId}", name: "${currentSchool.name}", open: true},
+        {
+            id: "nosearch${currentSchool.id}",
+            pId: "${currentSchool.parentId}",
+            name: "${currentSchool.name}",
+            open: true
+        },
         <c:forEach items='${schoolList}' var='school'>
-            {id: "${school.id}", pId: "nosearch${school.pid}", name: "${school.name}", open: true},
-                <c:forEach items="${school.list}" var="son">
-                     {id: "${son.id}", pId: "nosearch${son.grade}", name: "${son.name}", open: true},
-                </c:forEach>
+        {id: "${school.id}", pId: "nosearch${school.pid}", name: "${school.name}", open: true},
+        <c:forEach items="${school.list}" var="son">
+        {id: "${son.id}", pId: "nosearch${son.grade}", name: "${son.name}", open: true},
+        </c:forEach>
         </c:forEach>
     ];
 
@@ -138,9 +157,9 @@
     /*z-tree*/
     $(".node_name").click(function () {
         menuId = $(this).attr("menuId");
-        if(menuId.indexOf("nosearch")>=0){
+        if (menuId.indexOf("nosearch") >= 0) {
 
-        }else {
+        } else {
             window.location.href = "${ctx}/area/school/person/account/index?choose=" + menuId;
         }
     });
@@ -158,10 +177,10 @@
             };
         else return {'font-weight': 'normal', color: 'black'};
     }
-    
+
     function searchTeacher() {
         var teacherName = $("#searchTeacher").val();
-        window.location.href = "${ctx}/area/school/person/account/index?choose=" + menuId+"&teacherName="+encodeURI(encodeURI(teacherName));
+        window.location.href = "${ctx}/area/school/person/account/index?choose=" + menuId + "&teacherName=" + encodeURI(encodeURI(teacherName));
     }
 
     $(".headerCheck").on("click", function () {
@@ -172,25 +191,25 @@
         }
     });
 
-/*    function exportStu() {
-        var spCodesTemp = "";
-        $("input:checkbox[name='lanmuCheck']:checked").each(function (i) {
-            if (0 == i) {
-                spCodesTemp = $(this).attr("id");
-            } else {
-                spCodesTemp += ("," + $(this).attr("id"));
-            }
-        });
-        if ($("input:checkbox[name='lanmuCheck']:checked").length > 0) {
-            openDialog('导出' + $('input:checkbox[name=lanmuCheck]:checked').length + '位教师数据', '${ctx}/renshi/moban/export?teachers=' + spCodesTemp+'&chooseSchoolId=${choose}', '1000px', '800px');
-        }
-        else {
-            //layer.msg("请选择教师");
-            var teacherName = $("#searchTeacher").val();
-            openDialog('导出${pageInfo.total}位教师数据', '${ctx}/renshi/moban/export?teacherName=' + encodeURI(encodeURI(teacherName))+'&chooseSchoolId=${choose}', '1000px', '800px');
-        }
-    }*/
-    
+    /*    function exportStu() {
+     var spCodesTemp = "";
+     $("input:checkbox[name='lanmuCheck']:checked").each(function (i) {
+     if (0 == i) {
+     spCodesTemp = $(this).attr("id");
+     } else {
+     spCodesTemp += ("," + $(this).attr("id"));
+     }
+     });
+     if ($("input:checkbox[name='lanmuCheck']:checked").length > 0) {
+     openDialog('导出' + $('input:checkbox[name=lanmuCheck]:checked').length + '位教师数据', '${ctx}/renshi/moban/export?teachers=' + spCodesTemp+'&chooseSchoolId=${choose}', '1000px', '800px');
+     }
+     else {
+     //layer.msg("请选择教师");
+     var teacherName = $("#searchTeacher").val();
+     openDialog('导出${pageInfo.total}位教师数据', '${ctx}/renshi/moban/export?teacherName=' + encodeURI(encodeURI(teacherName))+'&chooseSchoolId=${choose}', '1000px', '800px');
+     }
+     }*/
+
 </script>
 </body>
 </html>

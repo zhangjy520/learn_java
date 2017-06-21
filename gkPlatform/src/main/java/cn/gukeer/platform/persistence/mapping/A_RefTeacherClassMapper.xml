@@ -12,10 +12,15 @@
         FROM ref_teacher_class ref
 
         WHERE ref.type =1
-        AND ref.cycle_id =#{cycleId}
-        AND ref.class_id IN
-        <foreach item="classId" index="index" collection="list" open="(" separator="," close=")">
-            #{classId}
-        </foreach>
+        <if test="cycleId != null and cycleId !='' ">
+            AND ref.cycle_id =#{cycleId}
+        </if>
+
+        <if test="list != null and list.size>0 ">
+            AND ref.class_id IN
+            <foreach item="classId" index="index" collection="list" open="(" separator="," close=")">
+                #{classId}
+            </foreach>
+        </if>
     </select>
 </mapper>

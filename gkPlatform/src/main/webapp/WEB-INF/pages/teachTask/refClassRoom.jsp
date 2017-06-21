@@ -5,39 +5,61 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>班级教室安排</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<style>
+    #zh-manage .search-box{
+        margin-top: 0 !important;
+    }
+    #zh-manage .search-box ul{
+        border: none;
+    }
+    .stu-num-manage-menu{
+        display: inline-block;
+    }
+    .stu-num-manage-menu ul{
+        margin-bottom: 0 !important;
+        height: auto !important;
+    }
+    .roll-operation{
+        vertical-align: middle !important;
+    }
+</style>
 <body>
 <%@ include file="../common/sonHead/teachTaskHead.jsp" %>
 <main class="container" id="zh-manage">
-    <div class="stu-num-manage-menu">
-        <ul>
-            学年:
-            <select name="cycleYear">
-                <c:forEach items="${yearList}" var="teachCycle" varStatus="status">
-                    <option
-                            <c:if test="${cycleYear eq teachCycle}">selected</c:if>
-                            value="${teachCycle}">${teachCycle}</option>
-                </c:forEach>
-            </select>
-            学期：
-            <select name="cycleSemester" style="height: 30px;" class="cycleSemester">
-                <option
-                        <%--<c:if test="${teachCycle.cycleSemester eq cycleSemester}">selected</c:if> --%>value="1" class="cycleSemester1">第一学期
-                </option>
-                <option
-                        <%--<c:if test="${teachCycle.cycleSemester eq cycleSemester}">selected</c:if>--%> value="2" class="cycleSemester2">第二学期
-                </option>
-            </select>
-        </ul>
+    <div class="search-box">
+        <div class="stu-num-manage-menu">
+            <ul>
+                学年:
+                <select name="cycleYear">
+                    <c:forEach items="${yearList}" var="teachCycle" varStatus="status">
+                        <option
+                                <c:if test="${cycleYear eq teachCycle}">selected</c:if>
+                                value="${teachCycle}">${teachCycle}</option>
+                    </c:forEach>
+                </select>
+                学期：
+                学期：
+                <select name="cycleSemester" class="cycleSemester">
+                    <c:forEach items="${semesterList}" var="cycle">
+                        <option name="cycleSemester" value="${cycle.cycleSemester}"
+                                <c:if test="${cycleSemester ==cycle.cycleSemester}">selected</c:if>
+                                value="${cycle.cycleSemester}">${cycle.cycleSemester}
+                        </option>
+                    </c:forEach>
+                </select>
+            </ul>
+        </div>
+        <div class="roll-operation">
+            <button onclick="openDialog('导入数据','${ctx}/class/fileImport?url=${ctx}/teach/task/ref/class/room/import','500px','350px')" style="float: left">
+                导入
+            </button>
+            <button onclick="window.location.href='${ctx}/teach/task/ref/class/room/download'" style="float: left">下载模板</button>
+        </div>
     </div>
-    <div class="roll-operation">
-        <button onclick="openDialog('导入数据','${ctx}/class/fileImport?url=${ctx}/teach/task/ref/class/room/import','500px','350px')">
-            导入
-        </button>
-        <button onclick="window.location.href='${ctx}/teach/task/ref/class/room/download'">下载模板</button>
-    </div>
+
     <section id="generated" class="row">
 
         <div class="row">
@@ -64,7 +86,12 @@
                         <td>${refClassRoom.schoolTypeName}</td>
                         <td>${refClassRoom.teachBuildingName}</td>
                         <td>${refClassRoom.roomNum}</td>
-                        <td><span onclick="window.location.href='${ctx}/teach/task/ref/class/room/edit/pop?refId=${refClassRoom.refId}'">编辑</span></td>
+                        <td><span class="edit-td"
+                                onclick="window.location.href='${ctx}/teach/task/ref/class/room/edit/pop?refId=${refClassRoom.refId}'"
+                                <%--onclick="openDialog('编辑课程',--%>
+                                        <%--'${ctx}/teach/task/ref/class/room/edit/pop?id=${refClassRoom.refId}&&type=edit','500px','360px');"--%>
+                        >编辑</span>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

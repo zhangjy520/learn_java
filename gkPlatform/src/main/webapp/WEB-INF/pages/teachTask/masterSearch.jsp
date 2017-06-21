@@ -6,7 +6,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>班主任管理</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <style>
@@ -132,13 +132,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="fenye" style="padding: 0;">
-            <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
-                <div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>
-            </c:if>
-            <div class="fenY2" id="fenY2">
-            </div>
-        </div>
+        <%--<div class="fenye" style="padding: 0;">--%>
+            <%--<c:if test="${pageInfo!=null&&pageInfo.pages != 0}">--%>
+                <%--<div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>--%>
+            <%--</c:if>--%>
+            <%--<div class="fenY2" id="fenY2">--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </section>
 </main>
 <script>
@@ -157,17 +157,7 @@
             var cycleSemester = $(".cycleSemester").find("option:selected").val();
             window.location.href = "${ctx}/teach/task/master/search?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
         });
-        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
-        $(".fenY2").createPage({
-            pageCount:${pageInfo.pages},//总页数
-            current:${pageInfo.pageNum},//当前页面
-            backFn: function (p) {
-                var cycleSemester = $("select[name='cycleSemester']").val();
-                var cycleYear = $("select[name='cycleYear']").val();
-                window.location.href = "${ctx}/teach/task/master/search?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
-            }
-        });
-        </c:if>
+
         $(".headerCheck").on("click", function () {
             if (this.checked == true) {
                 $("input[type='checkbox']").prop("checked", true);
@@ -175,18 +165,7 @@
                 $("input[type='checkbox']").prop("checked", false);
             }
         });
-        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
-        $(".gotoPage").click(function () {
-            var pageNum = $(".fenY2go").val();
-            if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
-                layer.msg("请输入正确的页码")
-            } else {
-                var cycleSemester = $("select[name='cycleSemester']").val();
-                var cycleYear = $("select[name='cycleYear']").val();
-                window.location.href = "${ctx}/teach/task/master/search?pageNum=" + $(".fenY2go").val() + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
-            }
-        });
-        </c:if>
+
     });
     function reSetPass(id) {
         $.post("${ctx}/renshi/account/password/update", {

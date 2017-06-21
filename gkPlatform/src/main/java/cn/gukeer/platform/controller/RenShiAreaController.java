@@ -9,7 +9,6 @@ import cn.gukeer.platform.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
- * Created by conn on 2016/8/8.
+ * Created by zjy on 2016/8/8.
  * teacher
  */
 @Controller
@@ -50,7 +49,7 @@ public class RenShiAreaController extends BasicController {
     RoleService roleService;
 
     //区级人事管理-人员管理页面
-    @RequiresPermissions(value = {"renShi", "renShi:renYuan:view"}, logical = Logical.OR)
+    @RequiresPermissions("renShi:area:quji")
     @RequestMapping(value = "/renyuan/index")
     public String rsIndex(HttpServletRequest request, Model model) {
         int pageNum = getPageNum(request);
@@ -82,7 +81,6 @@ public class RenShiAreaController extends BasicController {
     }
 
     //区级人事管理-账号管理页面
-    @RequiresPermissions("renshi:account:view")
     @RequestMapping(value = "/account/index")
     public String rsAccountIndex(HttpServletRequest request, Model model) {
         String schoolId = getLoginUser().getSchoolId();
@@ -121,7 +119,6 @@ public class RenShiAreaController extends BasicController {
     }
 
     //区级人事管理-部门管理页面
-    @RequiresPermissions("renShi:bumen:view")
     @RequestMapping(value = "/bumen/index")
     public String rsBuMenIndex(HttpServletRequest request, Model model) {
         String departmentId = getParamVal(request, "departmentId");
@@ -145,7 +142,7 @@ public class RenShiAreaController extends BasicController {
         _teacher.setName(teacherName);
         _teacher.setSchoolId(user.getSchoolId());
 
-        PageInfo<Teacher> pageInfo = teacherService.findTeacherByDepartmentId(departmentId, _teacher, pageNum, pageSize); //teacherMapper.selectByExample(example);
+        PageInfo<Teacher> pageInfo = teacherService.findTeacherByDepartmentId(departmentId, _teacher, pageNum, pageSize);
         List<Teacher> teacherList = pageInfo.getList();
         List<TeacherView> teacherViewList = new ArrayList<TeacherView>();
         for (Teacher teacher : teacherList) {
@@ -174,7 +171,7 @@ public class RenShiAreaController extends BasicController {
     }
 
     //角色分配
-    @RequiresPermissions("renShi:role:view")
+    @RequiresPermissions("renShi:area:role")
     @RequestMapping(value = "/rolefp/index")
     public String rsRoleFpIndex(HttpServletRequest request, Model model) {
         int pageSize = getPageSize(request);
@@ -198,7 +195,7 @@ public class RenShiAreaController extends BasicController {
         if (idList.size() > 0) {
             Role role = new Role();
             role.setId(roleId);
-            userRoleList = userService.findUserRoleByCriteria(idList, role, getLoginUser().getSchoolId());//List<Integer> ids, Role role,String schoolId
+            userRoleList = userService.findUserRoleByCriteria(idList, role, getLoginUser().getSchoolId());
         }
         if (userRoleList.size() > 0) {
             List<String> userIds = new ArrayList<String>();
@@ -210,10 +207,6 @@ public class RenShiAreaController extends BasicController {
             List<Teacher> teacherList = new ArrayList<Teacher>();
             for (User user : userList) {
                 teacherIdList.add(user.getRefId());
-//                Teacher teacher = teacherService.findTeacherById(user.getRefId());
-//                if (teacher != null) {
-//                    teacherList.add(teacher);
-//                }
             }
             teacherList = teacherService.selectBatchTeachers(teacherIdList, getLoginUser().getSchoolId());
             PageInfo<Teacher> pageInfo = new PageInfo<Teacher>(teacherList);
@@ -245,15 +238,11 @@ public class RenShiAreaController extends BasicController {
     //校级管理-机构管理-机构详情
     @RequestMapping(value = "/school/detail/{id}", method = RequestMethod.GET)
     public String getSchoolDetail(@PathVariable("id") String id, Model model) {
-        School res = schoolService.selectSchoolById(id);
-        List<AreaSchoolView> a = schoolService.getSchoolObjectTreeMenu(id, new Department());
-        List<AreaSchoolView> b = schoolService.getSchoolObjectTreeMenu(id, new Title());
-        // return ResultEntity.newResultEntity(res);
-        model.addAttribute("school", id);
         return "renShiArea/test";
     }
 
     //校级管理-人员管理
+    @RequiresPermissions("renShi:area:xiao")
     @RequestMapping(value = "/school/person/index")
     public String schoolPerson(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
         int pageSize = getPageSize(request);
@@ -375,6 +364,7 @@ public class RenShiAreaController extends BasicController {
     }
 
     //统计报表
+    @RequiresPermissions("renShi:area:birt")
     @RequestMapping(value = "/birt/index")
     public String birtIndex(HttpServletRequest request, Model model) {
         User user = getLoginUser();

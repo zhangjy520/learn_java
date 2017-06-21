@@ -84,7 +84,7 @@
             padding: 0 10px;
             tab-index: 2em;
         }
-        table td span:before{
+        .necessary:before{
             content: '*';
             color: red;
             vertical-align: middle;
@@ -133,7 +133,7 @@
 <body>
 <div class="container">
     <form method="post" action="${ctx}/teach/task/room/update" id="inputForm">
-        <input type="hidden" name="roomId" value="${room.id}">
+        <input type="hidden" name="id" value="${room.id}">
         <%--<ul>--%>
             <%--<li>--%>
                 <%--<span class="fSpan">--%>
@@ -201,7 +201,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <span>所在校区</span>
+                        <span class="necessary">所在校区</span>
                         <select name="schoolTypeSelect">
                             <c:forEach items="${schoolTypeList}" var="schoolType">
                             <option <c:if test="${room.schoolType eq schoolType.id}">selected</c:if> value="${schoolType.id}">${schoolType.name}</option>
@@ -211,43 +211,42 @@
                         <input name="schoolTypeName" type="hidden"/>
                     </td>
                     <td>
-                        <span>教室类型</span>
+                        <span class="necessary">教室类型</span>
                         <select name="roomTypeSelect" id="">
                             <c:forEach items="${roomTypeList}" var="roomType">
                             <option <c:if test="${room.roomType eq roomType.id}">selected</c:if> value="${roomType.id}">${roomType.name}</option>
                             </c:forEach>
-                        </select>
                         <input name="roomType" type="hidden"/>
                         <input name="roomTypeName" type="hidden"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <span>所在楼</span>
-                        <input type="text">
+                        <span class="necessary">所在楼</span>
+                        <input type="text" name="teachBuilding" value="${room.teachBuilding}">
                     </td>
                     <td>
-                        <span>容纳人数</span>
+                        <span class="necessary">容纳人数</span>
                         <input type="text" name="count" value="${room.count}">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <span>楼层</span>
+                        <span class="necessary">楼层</span>
                         <input type="text" name="floor" value="${room.floor}">
                     </td>
                     <td>
-                        <span>有效座位数</span>
+                        <span class="necessary">有效座位数</span>
                         <input type="text" name="availableSeat" value="${room.availableSeat}">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <span>教室</span>
+                        <span class="necessary">房间号</span>
                         <input type="text" name="roomNum" value="${room.roomNum}">
                     </td>
                     <td>
-                        <span>考试座位数</span>
+                        <span class="necessary">考试座位数</span>
                         <input type="text" name="examSeat" value="${room.examSeat}">
                     </td>
                 </tr>
@@ -255,9 +254,9 @@
                     <td style="text-align: left; padding: 20px 0 20px 0;">
                         <span>是否用于选课</span>
                         <label name="yes" for="yes" style="margin-left: 12px;"></label>
-                        <input type="radio" name="courseSelect" value="1" id="yes">是
+                        <input type="radio" name="courseSelect" value="1" id="yes" <c:if test="${room.courseSelect==1}"></c:if>>是
                         <label name="no" for="no" style="margin-left: 50px;"></label>
-                        <input type="radio" name="courseSelect" value="2" id="no">否
+                        <input type="radio" name="courseSelect" value="2" id="no" <c:if test="${room.courseSelect==2}">checked</c:if>>否
                     </td>
                     <td></td>
                 </tr>

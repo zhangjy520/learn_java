@@ -88,6 +88,14 @@
             padding-right: 15px;
         }
 
+        li > label {
+            width: 100px;
+        }
+
+        input[type='text'], select {
+            height: 28px;
+            outline: none;
+        }
     </style>
     <script type="text/javascript" src="${ctxStatic}/js/jquery-1.7.2.js"></script>
     <script>
@@ -98,8 +106,12 @@
                 url: "${ctx}/class/student/info/" + id,
                 dataType: "json",
                 success: function (data) {
-                    $("input[name='stuName']").val(data.xsxm);
-                    $("input[name='stuInfo']").val(data.sectionName + data.schoolTypeName + data.nj + "年级" + data.className);
+                    if (data !=null){
+                        $("input[name='stuName']").val(data.xsxm);
+                        $("input[name='stuInfo']").val(data.sectionName + data.schoolTypeName + data.nj + "年级" + data.className);
+                    }else {
+                        alert("无此学籍号相关信息");
+                    }
                 },
                 error: function (e) {
                     alert(JSON.stringify(e));
@@ -119,8 +131,12 @@
     <div>
         <ul>
             <li>
-                <label><a class="red">*</a>学籍号码：</label>
-                <input type="" name="stuNum" value="${parentInfo.xh}"/>
+                <label>
+                    <c:if test="${gukeer:emptyString(parentInfo)}">
+                        <a class="red">*</a>
+                    </c:if>
+                    学籍号码：</label>
+                <input type="text" name="stuNum"   <c:if test="${gukeer:notEmptyString(parentInfo)}">disabled</c:if> value="${parentInfo.xh}"/>
                 <c:if test="${gukeer:emptyString(parentInfo)}">
                     <button type="button" onclick="queryStudent()">查询</button>
                 </c:if>
@@ -147,7 +163,7 @@
                 <input type="text" name="parentName" value="${parentInfo.parentName}"/>
             </li>
             <li>
-                <label>关系：</label>
+                <label><a class="red">*</a>关系：</label>
                 <select name="relation">
                     <option
                             <c:if test="${parentInfo.patriarch_flag == 1}">selected</c:if> value="1">父亲
@@ -169,7 +185,7 @@
                 <input type="text" value="${parentInfo.work_at}" name="workAt"/>
             </li>
             <li>
-                <label>家长性别：</label>
+                <label><a class="red">*</a>家长性别：</label>
                 <select name="gender">
                     <option
                             <c:if test="${parentInfo.parentGender == 1}">selected</c:if> value="1">男
@@ -183,19 +199,24 @@
                 <label>是否为监护人：</label>
                 <input type="radio"
                        <c:if test="${parentInfo.sfjhr == 1}">checked</c:if> name="guardian" value="1"/>是
-                <input type="radio"
+                <input style="margin-left: 110px;" type="radio"
                        <c:if test="${parentInfo.sfjhr == 2}">checked</c:if> name="guardian" value="2"/>否
             </li>
             <li>
-                <label>联系电话：</label>
+                <label><a class="red">*</a>联系电话：</label>
                 <input type="text" value="${parentInfo.parentPhone}" name="parentPhone"/>
             </li>
             <li>
-                <label>是否生活在一起：</label>
-                <input type="radio"
-                       <c:if test="${parentInfo.sfyqsh == 1}">checked</c:if> name="lifeTogether" value="1"/>是
-                <input type="radio"
-                       <c:if test="${parentInfo.sfyqsh == 2}">checked</c:if> name="lifeTogether" value="2"/>否
+                <label style="width: 105px;">是否生活在一起：</label>
+                <span style="margin-right: 52px;">
+                   <input type="radio"
+                          <c:if test="${parentInfo.sfyqsh == 1}">checked</c:if> name="lifeTogether" value="1"/>是
+                </span>
+                <span style="margin-left: 40px;">
+                    <input style="margin-left:20px;" type="radio"
+                           <c:if test="${parentInfo.sfyqsh == 2}">checked</c:if> name="lifeTogether" value="2"/>否
+                </span>
+
             </li>
 
         </ul>

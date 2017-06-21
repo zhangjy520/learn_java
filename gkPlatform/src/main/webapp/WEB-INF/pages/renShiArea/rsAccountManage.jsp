@@ -5,9 +5,21 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>人员管理</title>
+    <title>区级人事管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
+<style>
+    #zh-manage .stu-num-manage-menu ul li a.active {
+        color: #54ab37 !important;
+        border: 1px solid #ddd;
+        border-bottom: 0;
+        background: #fff;
+    }
+
+    #zh-manage .stu-num-manage-menu ul li a:hover {
+        color: #54ab37 !important;
+    }
+</style>
 <body>
 
 <%@ include file="../common/sonHead/qujiRenShiHead.jsp" %>
@@ -21,6 +33,7 @@
     </div>
     <section id="generated" class="row">
         <div class="row">
+            <span style="color: red">提示：重置密码默认为${password}</span>
             <input type="hidden" id="searchHidden" value="${teacherName}"/>
             <button class="summitButton"></button>
             <input class="searchInput" type="text" name="zhiGong" placeholder="请输入职工姓名"/>
@@ -66,7 +79,7 @@
             </table>
         </div>
         <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <span>提示：重置密码默认为${password}</span>
+
             <c:if test="${gukeer:notEmptyString(pageInfoHave.pages)}">
                 <div class="fenYDetail">共${pageInfoHave.total}条记录，本页${pageInfoHave.size}条</div>
             </c:if>
@@ -124,7 +137,7 @@
     </section>
 </main>
 <script>
-    activeMenu("quji",2);
+    activeMenu("quji", 2);
     var name = $("#searchHidden").val();
     $(function () {
         <c:if test="${pageInfoHave.pages != 0}">

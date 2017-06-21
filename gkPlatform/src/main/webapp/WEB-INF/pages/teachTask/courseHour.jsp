@@ -10,7 +10,7 @@
 <%@ include file="../common/headerXf.jsp" %>
 <html>
 <head>
-    <title>科目课时安排</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <style>
@@ -62,13 +62,6 @@
         padding-left: 15px;
     }
 
-    .course ul li a.active {
-        color: #525252;
-        border: 3px solid #ddd;
-        border-bottom: 0;
-        background: #fff;
-    }
-
     .course ul li a {
         display: inline-block;
         width: 135px;
@@ -81,12 +74,14 @@
     }
 
     .course ul li a.active {
-        color: #525252;
+        color: #54ab37;
         border: 1px solid #ddd;
         border-bottom: 0;
         background: #fff;
     }
-
+    .course ul li a:hover{
+        color: #54ab37;
+    }
     .course {
         margin-top: 30px
     }
@@ -98,6 +93,47 @@
 
     .course ul li {
         float: left
+    }
+
+    #zh-manage .search-box{
+        margin-top: 0 !important;
+    }
+    .course ul{
+        border: none;
+    }
+    .course ul li a{
+        border-bottom: 1px solid #ddd;
+    }
+    .stu-num-manage-menu{
+        display: inline-block;
+    }
+    .course ul{
+        margin-bottom: 0 !important;
+    }
+    .roll-operation{
+        vertical-align: middle !important;
+    }
+    .btn-containt input{
+        border: 1px solid #54ab37;
+        border-radius: 2px;
+        background: #54AB37;
+        color: #fff;
+        width: 70px;
+        height: 30px;
+        line-height: 26px;
+        margin: 20px 0 0 0;
+    }
+    .cla-hour-containt{
+        margin-top: 40px;
+    }
+    .cla-hour-containt span{
+        margin-bottom: 20px;
+    }
+    .cla-hour-containt span input{
+        height: 30px;
+        line-height: 30px;
+        margin-left: 10px;
+        padding-left: 10px;
     }
 </style>
 
@@ -124,7 +160,7 @@
         </div>
     </div>
     <div class="course">
-        <ul id="ullll">
+        <ul id="aul">
             <c:forEach items="${courseList}" var="course" varStatus="status">
                 <li><a href="#"
                        <c:if test="${course.id==courseId}">class="active"</c:if> va="${course.id}"
@@ -132,20 +168,17 @@
             </c:forEach>
         </ul>
     </div>
-    <div>
+    <div class="cla-hour-containt">
         <c:forEach items="${courseClassViewList}" varStatus="status" var="courseClassView">
-            <span class="njBanji"
-                  value="${courseClassView.classSectionId}"> <span  value="${status.count+1}" class="tdForNj" style="display: none"></span></span>
-                  ${courseClassView.classSection}${courseClassView.nj}年级:<span class="spanForEdit" >${courseClassView.courseHour}</span>
-            <input type="hidden" value="${courseClassView.courseHour}" class="inputForEdit">
-
+            <c:if test="${courseClassView.classSection!=null}">
+            <span class="njBanji" value="${courseClassView.classSectionId}"> <span  valu="${courseClassView.nj}" class="tdForNj" style="display: none"></span>
+            ${courseClassView.classSection}${courseClassView.nj}年级:<input type="text" value="${courseClassView.courseHour}"></span><%--<span  value="${status.count+1}" class="tdForNj" style="display: none"></span>--%></span>
+               <br>
+            </c:if>
         </c:forEach>
     </div>
-    <div>
-        <c:if test="${inputLength=='>0'}">
-            <input type="button" onclick="edit(this)" class="edit" value="编辑">
-            <input type="hidden" onclick="save(this)" class="save" value="保存">
-        </c:if>
+    <div class="btn-containt">
+        <input type="button" onclick="save()" class="save" value="保存">
     </div>
 </main>
 </body>
@@ -157,7 +190,7 @@
             var courseId = $('.active').val();
             window.location.href = "${ctx}/teach/task/course/hour?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
         });
-    })
+    });
 
     $(".acourse").click(function () {
         $(this).addClass('active');
@@ -167,31 +200,30 @@
         var cycleSemester = $(".cycleSemester").find("option:selected").val();
         var courseId = $(this).attr("va");
         window.location.href = "${ctx}/teach/task/course/hour?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester + "&&courseId=" + courseId;
-    })
+    });
 
-    function edit(thisInput) {
-        $(".edit").hide();
-        $(".save").attr("type", "hidden");
-        $(".save").attr("type", "button");
-//        $(".saveOrEdit").val("保存");
-        $(".save").show();
-        $(".spanForEdit").hide();
-        $(".inputForEdit").attr("type", "text");
-    }
 
     function save() {
-        var courseId = $('#ullll').find('.active').attr('va');
+        debugger;
+        var cycleYear = $(".cycleYear").find("option:selected").val();
+        var cycleSemester = $(".cycleSemester").find("option:selected").val();
+        var courseId = $('#aul').find('.active').attr('va');
         var sectionIdSpan = $('.njBanji');
+        console.log(sectionIdSpan.length);
         var sectionIdAndCourseHour = "";
         sectionIdSpan.each(function (i) {
-            console.log($(this).children("span").attr("value"));
-            sectionIdAndCourseHour += "," + $(this).attr("value")+":"+$(this).children("span").attr("value")+ ":" + $(this).siblings("input").val();
-        })
+            console.log($(this).siblings("input").val());
+            sectionIdAndCourseHour += "," + $(this).attr("value") + ":" + $(this).children("span").attr("valu") + ":" + $(this).children("input").val();
+        });
         $.post("${ctx}/teach/task/course/hour/edit", {
             sectionIdAndCourseHour: sectionIdAndCourseHour,
-            courseId:courseId
+            courseId: courseId,
+            cycleYear:cycleYear,
+            cycleSemester:cycleSemester
         }, function (data) {
-
+            setTimeout(function () {
+                window.location.reload()
+            }, 2000);
         })
     }
 

@@ -183,7 +183,7 @@ public class ExportExcel {
         // Create title
         if (StringUtils.isNotBlank(title)) {
             Row titleRow = sheet.createRow(rownum++);
-            titleRow.setHeightInPoints(30);
+            titleRow.setHeightInPoints(40);
             Cell titleCell = titleRow.createCell(0);
             titleCell.setCellStyle(styles.get("title"));
             titleCell.setCellValue(title);
@@ -196,10 +196,12 @@ public class ExportExcel {
 
         if (type == 2) {
             Row introRow = sheet.createRow(rownum++);
-            introRow.setHeightInPoints(90);
+            introRow.setHeightInPoints(40);
             Cell introCell = introRow.createCell(0);
+            styles.get("intro").setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             introCell.setCellStyle(styles.get("intro"));
             introCell.setCellValue(new XSSFRichTextString(anno));       //HSSFRichTextString
+
             sheet.addMergedRegion(new CellRangeAddress(introRow.getRowNum(),
                     introRow.getRowNum(), introRow.getRowNum() - 1, headerList.size() - 1));
         }
@@ -326,7 +328,7 @@ public class ExportExcel {
         headerFont2.setFontHeightInPoints((short) 10);
         headerFont2.setBoldweight(Font.BOLDWEIGHT_BOLD);
         headerFont2.setColor(IndexedColors.WHITE.getIndex());
-        headerFont2.setColor(IndexedColors.RED.index);
+        headerFont2.setColor(IndexedColors.WHITE.index);
         style.setFont(headerFont2);
         styles.put("header2", style);
 
@@ -519,27 +521,32 @@ public class ExportExcel {
      * @return
      */
     public <E> ExportExcel setDataListByHeader(List<E> list, List<String> headerList) {
-        for (E e : list) {
-            int colunm = 0;
-            Row row = this.addRow();
-            StringBuilder sb = new StringBuilder();
-            Object val = null;
-            Method[] method = e.getClass().getDeclaredMethods();
-            for (String head : headerList) {
-                for (Method m : method) {
-                    if (m.getName().indexOf("get") != -1) {
-                        ExcelField myAnnotation = m.getAnnotation(ExcelField.class);
-                        if (myAnnotation.title().equals(head)) {
-                            val = Reflections.invokeMethod(e, m.getName(), new Class[]{}, new Object[]{});
-                            this.addCell(row, colunm++, val, 2, IOStudentView.class);
-                            sb.append(val + ", ");
+        try {
+            for (E e : list) {
+                int colunm = 0;
+                Row row = this.addRow();
+                StringBuilder sb = new StringBuilder();
+                Object val = null;
+                Method[] method = e.getClass().getDeclaredMethods();
+                for (String head : headerList) {
+                    for (Method m : method) {
+                        if (m.getName().indexOf("get") != -1) {
+                            ExcelField myAnnotation = m.getAnnotation(ExcelField.class);
+                            if (myAnnotation.title().equals(head)) {
+                                val = Reflections.invokeMethod(e, m.getName(), new Class[]{}, new Object[]{});
+                                this.addCell(row, colunm++, val, 2, e.getClass());
+                                sb.append(val + ", ");
+                            }
                         }
                     }
                 }
-            }
 
-            log.debug("Write success: [" + row.getRowNum() + "] " + sb.toString());
+                log.debug("Write success: [" + row.getRowNum() + "] " + sb.toString());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
         return this;
     }
 }

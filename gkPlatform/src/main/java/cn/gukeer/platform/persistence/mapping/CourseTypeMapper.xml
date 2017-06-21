@@ -11,6 +11,7 @@
     <result column="update_date" property="updateDate" jdbcType="BIGINT" />
     <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, school_id, create_by, create_date, update_by, update_date, del_flag, remark
+    id, name, school_id, create_by, create_date, update_by, update_date, del_flag, remark, 
+    english_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.gukeer.platform.persistence.entity.CourseTypeExample" >
     select
@@ -107,12 +109,12 @@
   <insert id="insert" parameterType="cn.gukeer.platform.persistence.entity.CourseType" >
     insert into teach_course_type (id, name, school_id, 
       create_by, create_date, update_by, 
-      update_date, del_flag, remark
-      )
+      update_date, del_flag, remark, 
+      english_name)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=BIGINT}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=BIGINT}, #{delFlag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{updateDate,jdbcType=BIGINT}, #{delFlag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{englishName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.gukeer.platform.persistence.entity.CourseType" >
     insert into teach_course_type
@@ -144,6 +146,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -172,6 +177,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -205,6 +213,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.englishName != null" >
+        english_name = #{record.englishName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -220,7 +231,8 @@
       update_by = #{record.updateBy,jdbcType=VARCHAR},
       update_date = #{record.updateDate,jdbcType=BIGINT},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      english_name = #{record.englishName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -252,6 +264,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -264,7 +279,8 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=BIGINT},
       del_flag = #{delFlag,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

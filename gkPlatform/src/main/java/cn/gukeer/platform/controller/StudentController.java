@@ -177,6 +177,11 @@ StudentController extends BasicController {
         if (!nj.equals("0"))        //如果有选中的nj
             nownj = nowxq + "nianji" + nj;
 
+        if ("1".equals(request.getParameter("type"))) {
+            //若type是1，只是查看人员信息，输入框全部disabled
+            model.addAttribute("disabled", "disabled");
+        }
+
         model.addAttribute("nowxd", nowxd);
         model.addAttribute("nowxq", nowxq);
         model.addAttribute("nownj", nownj);

@@ -42,7 +42,7 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
     DepartmentService departmentService;
 
     @Autowired
-    CourseClassMapper courseClassMapper;
+    CourseMapper courseMapper;
 
     @Override
     public PageInfo<Teacher> findAllList(int pageNum, int pageSize, String schoolId, String teacherName) {
@@ -367,6 +367,11 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
     @Override
     public Map teacherReport(String loginSchoolId, List<School> schoolList) {
         return teacherExtensionMapper.teacherReport(loginSchoolId, schoolList);
+    }
+
+    @Override
+    public Course findCourseById(String courseId) {
+        return courseMapper.selectByPrimaryKey(courseId);
     }
 
 

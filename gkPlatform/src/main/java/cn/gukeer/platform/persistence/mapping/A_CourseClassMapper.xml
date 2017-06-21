@@ -51,7 +51,8 @@
 
     <select id="findRefCourseClassByCycleIdCourseId" resultMap="BaseResult" parameterType="java.util.List">
         SELECT
-        c.`name` AS cname,c.id AS cid,c.nj AS nj,c.xd,
+        c.`name` AS cname,c.id AS cid,
+        c.nj AS nj,c.xd,
         ref.`class_id`,ref.id AS refId,ref.course_id AS courseId,ref.course_hour AS courseHour,
         cs.name AS csname,cs.id AS csId,
         tc.id AS tcID,tc.name AS tcname
@@ -66,11 +67,18 @@
     <update id="updateCourseClassByList">
         <foreach collection="courseClassList" item="courseClass" index="index" separator=" " open="(" close=")">
             UPDATE teach_ref_course_class
-            <set>
-                course_hour=${courseClass.courseHour}
-            </set>
+            <if test="courseClass != null">
+                <set>
+                    course_hour=${courseClass.courseHour}
+                </set>
+            </if>
             where id = #{courseClass.id}
         </foreach>
     </update>
+
+    <delete id="batchDelByCourseId">
+        DELETE  FROM teach_ref_course_class
+            WHERE course_id= #{courseId}
+    </delete>
 
 </mapper>

@@ -86,9 +86,6 @@
     .delete {
         background: url("../../../../assetsNew/images/icon-delete.png") no-repeat left;
     }
-    /*#tttbody input{*/
-        /*display: none;*/
-    /*}*/
 </style>
 <body>
 <main class="container" id="zh-manage">
@@ -113,15 +110,15 @@
                     <form action="${ctx}/teach/task/course/type/update?type=update&&id=${type.id}" method="post"
                           class="typeUpdateForm">
                         <tr>
-                            <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
+                            <td>${status.count}</td>
                             <td class="categoryTd${status.index+1+(pageInfo.pageNum-1)*10} span-p">
-                                    <input class=""  name="name" style="outline: none;height: 30px;"/>
-                                    <span class="showInfo hs">${type.name}</span>
+                                <input class="" name="name" style="outline: none;height: 30px;"/>
+                                <span class="showInfo hs">${type.name}</span>
                             </td>
                             <td>
                                 <span data-url="${ctx}/teach/task/course/type/update/one?typeId=${type.id}"
                                       class="modifyOne"
-                                      <%--onclick="update('${status.index+1+(pageInfo.pageNum-1)*10}','${type.id}','${type.name}')"--%>>修改</span>
+                                    <%--onclick="update('${status.index+1+(pageInfo.pageNum-1)*10}','${type.id}','${type.name}')"--%>>修改</span>
                                 <span class="deleOne"
                                       onclick="alertTips('400px','200px','删除课程类型','确定要删除${type.name}课程吗？','deleteSure(\'${type.id}\')')"> 删除</span>
                             </td>
@@ -137,17 +134,19 @@
 <script>
 
     $("#tttbody input").hide();
-//    增加
+    //增加
     $('.addnew').on('click', function () {
+        debugger;
         $('.span-p span').removeClass('hs');
         $('.tttable').append('<tr><td></td><td class="span-p"><input type="text" style="outline: none;height: 30px;" class="focuss" name="saveOne"><span class="showInfo hs"></span></td><td><span class="saveOne" style="margin-right: 20px;cursor: pointer">保存</span><span class="deleOne" style="cursor: pointer">删除</span></td></tr>');
         $('.hs').hide();
         changeIndex();
     });
-//    保存
-    $('#tttbody').on('click', '.saveOne',function(){
+
+    //    保存
+    $('#tttbody').on('click', '.saveOne', function () {
         debugger;
-        if($('input[name=saveOne]').length>1){
+        if ($('input[name=saveOne]').length > 1) {
             webToast("请保存上一条数据后再添加下一条数据", "top", 2300);
         }
         $(this).parents('tr').children().eq(1).children('input').hide();
@@ -155,8 +154,7 @@
         console.log($(this));
         console.log($(this).parent().prev().children('input').val());
         var oneCourse = $(this).parent().prev().children('input').val();
-//                $(this).parents('td').siblings().children('input').val();
-        if(oneCourse ==""){
+        if (oneCourse == "") {
             webToast("名称不能为空", "top", 2300);
             setTimeout(function () {
                 parent.location.reload();
@@ -189,18 +187,12 @@
         })
 
         $(this).text('修改');
-
         changeIndex();
     });
 
-//    删除
-    $('#tttbody').on('click', '.deleOne',function(){
-        $(this).parents('tr').remove();
-        changeIndex();
-    });
 
-//    编辑
-    $('#tttbody').on('click', '.modifyOne',function(){
+    //    编辑
+    $('#tttbody').on('click', '.modifyOne', function () {
         $(this).parents('tr').children().eq(1).children('span').hide();
         $(this).parents('tr').children().eq(1).children('input').show().val($(this).parents('tr').children().eq(1).children('span').text());
         var dataUrl = $(".modifyOne").attr('data-url');
@@ -208,7 +200,7 @@
         console.log($(this).parent().prev().children('input').val());
         var oneCourse = $(this).parent().prev().children('input').val();
 //                $(this).parents('td').siblings().children('input').val();
-        if(oneCourse ==""){
+        if (oneCourse == "") {
             webToast("名称不能为空", "top", 2300);
             setTimeout(function () {
                 parent.location.reload();
@@ -219,103 +211,81 @@
         $(this).removeClass('saveOne').addClass('modifyOneagain');
         $(this).removeClass('modifyOne');
         changeIndex();
+    })
 
-    });
 
-    $('#tttbody').on('click', '.modifyOneagain',function(){
-        var dataUrl = $(".modifyOneagain").attr('data-url');
-        var oneCourse = $(this).parent().prev().children('input').val();
-        $.post(dataUrl, {
-            oneCourse: oneCourse,
+
+    //增加一个
+    function saveOne(em) {
+        console.log($(em).parent().prev().children('input').val());
+        var oneCourse = $(em).parent().prev().children('input').val();
+        $.post("${ctx}/teach/task/course/type/add/one", {
+            oneCourse: oneCourse
         }, function (data) {
-            if (data.code == 0) {
-                webToast(data.msg, "top", 2300);
-                $(".saveOne").removeClass('saveOne').addClass('modifyOne');
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close(index)
-                }, 5000);
-            } else {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close()
-                }, 5000);
-            }
+
         })
-
-    })
-    function update(index, id) {
-        $('input').removeAttr('id');
-        $('.tttable').append('<tr><td></td><td><input type="text" style="border: none; outline: none;height: 30px;" id="focuss"  name="add"></td><td><span style="margin-right: 20px;cursor: pointer" onclick="saveOne(this)">保存</span><span style="cursor: pointer">取消</span></td></tr>');
-        document.getElementById('focuss').focus();
-        changeIndex();
-    };
-
-    //    序号调整
-    function changeIndex() {
-        $('#tttbody tr').each(function (a, b) {
-            var c = a + 1;
-            $(b).children().eq(0).text(c);
-        });
     }
 
 
-    function doSubmit() {
-        debugger;
-        var inputs = $('input[name=add]');
-        var tempAdd = "";
-        var tempUpdate = "";
+        $('#tttbody').on('click', '.modifyOneagain', function () {
+            var dataUrl = $(".modifyOneagain").attr('data-url');
+            var oneCourse = $(this).parent().prev().children('input').val();
+            $.post(dataUrl, {
+                oneCourse: oneCourse,
+            }, function (data) {
+                if (data.code == 0) {
+                    webToast(data.msg, "top", 2300);
+                    $(".saveOne").removeClass('saveOne').addClass('modifyOne');
+                    setTimeout(function () {
+                        parent.location.reload();
+                    }, 5000);
+                    /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                    setTimeout(function () {
+                        top.layer.close(index)
+                    }, 5000);
+                } else {
+                    webToast(data.msg, "top", 5000);
+                    setTimeout(function () {
+                        parent.location.reload();
+                    }, 5000);
+                    /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                    setTimeout(function () {
+                        top.layer.close()
+                    }, 5000);
+                }
+            })
 
-        inputs.each(function (i) {
-            var oneCourse=$(this).val();
-            tempAdd += "," + oneCourse;
         })
 
-        var inputsUpdate = $('input[name=add]');
-        inputsUpdate.each(function (i) {
-            var oneCourse=$(this).val();
-            tempUpdate += "," + oneCourse;
-        })
 
-        $.post("${ctx}/teach/task/course/type/batch",{
-            tempAdd:tempAdd,
-            tempUpdate:tempUpdate
-        },function (data) {
 
-        });
-    }
-
-    function deleteSure(id) {
-        closeAlertDiv();
-        $.post("${ctx}/teach/task/course/type/update", {
-            id: id,
-            type: "delete"
-        }, function (retJson) {
-        }, "json");
-        setTimeout(function () {
-            layer.msg('删除成功', {
-                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-            }, function () {
-                window.location.reload();
-                parent.location.reload();
+        function changeIndex() {
+            $('#tttbody tr').each(function (a, b) {
+                var c = a + 1;
+                $(b).children().eq(0).text(c);
             });
-        }, 300)
-    }
+        }
 
-    var strPath = window.document.location.pathname;
-    var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
-    //    将checkbox的值存到域中 通过form提交
-    $('input[type=checkbox]').change(function () {
-        $('#Jszzdm').val($('input[type=checkbox]:checked').map(function () {
-            return this.value
-        }).get().join(','))
-    })
+        function deleteSure(id) {
+            closeAlertDiv();
+            $.post("${ctx}/teach/task/course/type/update", {
+                id: id,
+                type: "delete"
+            }, function (retJson) {
+
+            });
+
+            setTimeout(function () {
+                layer.msg('删除成功', {
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    window.location.reload();
+                    parent.location.reload();
+                });
+            }, 300)
+
+        }
+
+
 </script>
 </html>

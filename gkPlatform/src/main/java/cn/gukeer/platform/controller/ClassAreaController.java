@@ -10,6 +10,8 @@ import cn.gukeer.platform.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +48,7 @@ public class ClassAreaController extends BasicController {
 
 
     //学生信息
+    @RequiresPermissions("class:area:stuinfo")
     @RequestMapping(value = "/stuinfo/index")
     public String stuInfo(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
 
@@ -79,7 +82,6 @@ public class ClassAreaController extends BasicController {
         Map param = new HashMap();
         param.put("pageSize", pageSize);
         param.put("pageNum", pageNum);
-        param.put("pageNum", chooseSchoolId);
 
         if (StringUtil.isNotEmpty(stuName) && stuName.indexOf("%") < 0)
             param.put("stuName", "%" + stuName + "%");
@@ -106,13 +108,14 @@ public class ClassAreaController extends BasicController {
         model.addAttribute("currentSchool", res.get("loginSchool"));//当前登录用户所在的机构信息
         model.addAttribute("stuName", stuName);//搜索的stuName;
 
-        if (StringUtil.isNotEmpty(getParamVal(request,"appId")))
-            request.getSession().setAttribute("xueJId",getParamVal(request,"appId"));
+        if (StringUtil.isNotEmpty(getParamVal(request, "appId")))
+            request.getSession().setAttribute("xueJId", getParamVal(request, "appId"));
 
         return "classArea/stuInfo";
     }
 
-    //学生信息
+    //家长信息
+    @RequiresPermissions("class:area:parinfo")
     @RequestMapping(value = "/parinfo/index")
     public String parInfo(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
 
@@ -143,11 +146,13 @@ public class ClassAreaController extends BasicController {
         }
         //------------------------------------------end-----------------------------
         Map param = new HashMap();
-        param.put("stuName","%"+stuName+"%");
-        param.put("schoolId",chooseSchoolId);
-        param.put("xd",select.get("xdChoose"));
-        param.put("nj",select.get("njChoose"));
-        param.put("classId",bj);
+        param.put("stuName", "%" + stuName + "%");
+        param.put("schoolId", chooseSchoolId);
+
+        param.put("xd", select.get("xdChoose"));
+        param.put("nj", select.get("njChoose"));
+
+        param.put("classId", bj);
         PageInfo<Map> pageInfo = classService.parentInfoList(param);
 
         model.addAttribute("select", select);
@@ -163,6 +168,7 @@ public class ClassAreaController extends BasicController {
 
 
     //统计报表
+    @RequiresPermissions("class:area:birt")
     @RequestMapping(value = "/birt/index")
     public String birtIndex(HttpServletRequest request, Model model) {
         User user = getLoginUser();
@@ -172,17 +178,34 @@ public class ClassAreaController extends BasicController {
         List<School> sonSchoolList = schoolService.getSonSchoolList(user.getSchoolId());
         sonSchoolList.add(loginSchool);
 
-        List<Map> birt1 = studentService.genderReport(sonSchoolList);
-        Map birt2 = studentService.lydqReport(sonSchoolList);
-        List<Map> birt3 = studentService.personCountReport(sonSchoolList);
+        List<Map> birtGender = studentService.genderReport(sonSchoolList);//性别人数柱状图
+        Map birtLydq = studentService.lydqReport(sonSchoolList);//来源地区饼状图
+        List<Map> birtLine = studentService.personCountReport(sonSchoolList);//班级人数情况折线图
 
-        model.addAttribute("birt1",birt1);
-        model.addAttribute("birt2",birt2);
-        model.addAttribute("birt3",birt3);
-        return "renShiArea/test" ;
+        //区域学生统计
+        Map personCount = new HashMap();
+        int count = 0;
+        for (Map map : birtGender) {
+            Object countAll = map.get("countAll");
+            count += Integer.valueOf(countAll.toString());
+            personCount.put(map.get("sectionName"), countAll);
+        }
+        personCount.put("allStu", count);
+
+        //折线图横坐标小学1转为小学1年级
+        for (int i = 0; i < birtLine.size(); i++) {
+            birtLine.get(i).put("indexName", ConstantUtil.translate(birtLine.get(i).get("indexName").toString()));
+        }
+
+        model.addAttribute("personCount", personCount);
+        model.addAttribute("birtGender", birtGender);
+        model.addAttribute("birtLydq", birtLydq);
+        model.addAttribute("birtLine", birtLine);
+        return "classArea/birt";
     }
 
     //角色分配
+    @RequiresPermissions("class:area:role")
     @RequestMapping(value = "/rolefp/index")
     public String rsRoleFpIndex(HttpServletRequest request, Model model) {
         int pageNum = getPageNum(request);
@@ -295,7 +318,7 @@ public class ClassAreaController extends BasicController {
         List<ClassSection> sectionList = classService.getAllClassSectionBySchoolId(chooseSchoolId); //学段list
 
         if (sectionList.size() == 0)
-            return null;
+            return new HashedMap();
 
         ClassSection chooseXd = new ClassSection();//根据选择的学段，得到学制，得到年级列表
         for (ClassSection section : sectionList) {
@@ -307,7 +330,7 @@ public class ClassAreaController extends BasicController {
             chooseXd = sectionList.get(0);
 
         if (GukeerStringUtil.isNullOrEmpty(chooseXd.getSectionYear()))
-            return null;
+            return new HashedMap();
 
         //nj list
         List<Map> njList = new ArrayList<>();//根据选择的学段生成的年级列表

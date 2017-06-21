@@ -224,19 +224,34 @@
     <select id="teacherReport" resultType="java.util.Map">
         SELECT
         SUM(CASE WHEN gender='1' THEN 1 ELSE 0 END) man,
+        TRUNCATE(SUM(CASE WHEN gender='1' THEN 1 ELSE 0 END)/COUNT(*),4)*100 manc,
         SUM(CASE WHEN gender='2' THEN 1 ELSE 0 END) woman,
+        TRUNCATE(SUM(CASE WHEN gender='2' THEN 1 ELSE 0 END)/COUNT(*),4)*100 womanc,
         SUM(CASE WHEN zzmm='其他' OR zzmm IS NULL THEN 1 ELSE 0 END) zzmm1,
+        TRUNCATE(SUM(CASE WHEN zzmm='其他' OR zzmm IS NULL THEN 1 ELSE 0 END)/COUNT(*),4)*100 zzmm1c,
         SUM(CASE WHEN zzmm='中共党员' THEN 1 ELSE 0 END) zzmm2,
+        TRUNCATE(SUM(CASE WHEN zzmm='中共党员' THEN 1 ELSE 0 END)/COUNT(*),4)*100 zzmm2c,
         SUM(CASE WHEN zzmm='共青团员' THEN 1 ELSE 0 END) zzmm3,
+        TRUNCATE(SUM(CASE WHEN zzmm='共青团员' THEN 1 ELSE 0 END)/COUNT(*),4)*100 zzmm3c,
         SUM(CASE WHEN zzmm='群众' THEN 1 ELSE 0 END) zzmm4,
+        TRUNCATE(SUM(CASE WHEN zzmm='群众' THEN 1 ELSE 0 END)/COUNT(*),4)*100 zzmm4c,
         SUM(CASE WHEN zgxl ='小学' OR zgxl IS NULL THEN 1 ELSE 0 END) xl1,
+        TRUNCATE(SUM(CASE WHEN zgxl ='小学' OR zgxl IS NULL THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl1c,
         SUM(CASE WHEN zgxl ='初中' THEN 1 ELSE 0 END) xl2,
+        TRUNCATE(SUM(CASE WHEN zgxl ='初中' THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl2c,
         SUM(CASE WHEN zgxl ='中职/高中' THEN 1 ELSE 0 END) xl3,
+        TRUNCATE(SUM(CASE WHEN zgxl ='中职/高中' THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl3c,
         SUM(CASE WHEN zgxl ='专科' THEN 1 ELSE 0 END) xl4,
+        TRUNCATE(SUM(CASE WHEN zgxl ='专科' THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl4c,
         SUM(CASE WHEN zgxl ='本科' THEN 1 ELSE 0 END) xl5,
+        TRUNCATE(SUM(CASE WHEN zgxl ='本科' THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl5c,
         SUM(CASE WHEN zgxl ='硕士研究生' THEN 1 ELSE 0 END) xl6,
+        TRUNCATE(SUM(CASE WHEN zgxl ='硕士研究生' THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl6c,
         SUM(CASE WHEN zgxl ='博士研究生' THEN 1 ELSE 0 END) xl7,
-        (SELECT COUNT(*) FROM user_teacher u1 WHERE u1.`school_id` = #{loginSchoolId})AS countp,
+        TRUNCATE(SUM(CASE WHEN zgxl ='博士研究生' THEN 1 ELSE 0 END)/COUNT(*),4)*100 xl7c,
+        (SELECT COUNT(*) FROM user_teacher u1 WHERE u1.`school_id` = #{loginSchoolId}) AS countp,
+        TRUNCATE((SELECT COUNT(*) FROM user_teacher u1 WHERE u1.`school_id` = #{loginSchoolId})/COUNT(*),4)*100 AS
+        countpc,
         COUNT(*) countAll
         FROM user_teacher u WHERE u.`school_id` IN
         <foreach item="school" index="index" collection="allSchool" open="(" separator="," close=")">
@@ -246,10 +261,10 @@
 
     <!--&lt;!&ndash;查询所有班主任的方法&ndash;&gt;-->
     <!--<select id="finaAllMasterByParam" resultMap="ExtensionBaseResultMap" parameterType="java.util.Map">-->
-        <!--SELECT c.`name`,t.`name`-->
-        <!--FROM org_grade_class c,ref_teacher_class ref,user_teacher t-->
-        <!--WHERE c.id = ref.class_id AND t.id = ref.teacher_id-->
-        <!--AND c.`id` = #{njId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId}-->
+    <!--SELECT c.`name`,t.`name`-->
+    <!--FROM org_grade_class c,ref_teacher_class ref,user_teacher t-->
+    <!--WHERE c.id = ref.class_id AND t.id = ref.teacher_id-->
+    <!--AND c.`id` = #{njId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId}-->
     <!--</select>-->
 
 

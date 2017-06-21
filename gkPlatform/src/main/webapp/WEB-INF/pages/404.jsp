@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="${ctxStaticNew}/images/logo.png"/>
     <title>提示</title>
     <style>
         body>div{margin-top:12%;text-align:center;}

@@ -25,7 +25,7 @@
         teach_ref_class_room ref
         WHERE ref.room_id IN
         <foreach collection="classRoomListByschoolId" index="index" item="classRoom" open="(" close=")" separator=",">
-            (#{classRoom.roomId})
+            (#{classRoom.id})
         </foreach>
     </select>
 
@@ -47,22 +47,22 @@
 
 
     <select id="getRefClassRoomList" resultMap="ExtensionBaseResultMapView">
-        SELECT section.`id` AS sectionId,section.`name` AS sectionName,class.`id` AS cid,class.`name` AS cname,class.nj,room.`room_id` AS roomId,room.teach_building AS buildingName,room.`room_num` AS roomNum,stype.`id` AS typeId,stype.`name` AS typeName,ref.id AS refId
+        SELECT section.`id` AS sectionId,section.`name` AS sectionName,class.`id` AS cid,class.`name` AS cname,class.nj,room.`id` AS roomId,room.teach_building AS buildingName,room.`room_num` AS roomNum,stype.`id` AS typeId,stype.`name` AS typeName,ref.id AS refId
         FROM teach_ref_class_room ref,
               org_grade_class class LEFT JOIN org_class_section section ON class.`xd`=section.`id` AND section.`school_id`=#{schoolId},
               teach_class_room room LEFT JOIN org_school_type stype ON room.`school_type`= stype.`id` AND stype.`school_id`=#{schoolId}
         WHERE
-              class.`id`=ref.`grade_class` AND  room.`room_id`=ref.`room_id`
+              class.`id`=ref.`grade_class` AND  room.`id`=ref.`room_id`
         AND ref.`cycle_id`=#{cycleId} AND stype.`school_id`= #{schoolId} AND class.`school_id`=#{schoolId} AND room.`school_id`=#{schoolId}
     </select>
 
     <select id="findRefClassRoomViewByRefId" resultMap="ExtensionBaseResultMapView">
-        SELECT section.`id` AS sectionId,section.`name` AS sectionName,class.`id` AS cid,class.`name` AS cname,class.nj,room.`room_id` AS roomId,room.teach_building AS buildingName,room.`room_num` AS roomNum,stype.`id` AS typeId,stype.`name` AS typeName,ref.id AS refId
+        SELECT section.`id` AS sectionId,section.`name` AS sectionName,class.`id` AS cid,class.`name` AS cname,class.nj,room.`id` AS roomId,room.teach_building AS buildingName,room.`room_num` AS roomNum,stype.`id` AS typeId,stype.`name` AS typeName,ref.id AS refId
         FROM teach_ref_class_room ref,
         org_grade_class class LEFT JOIN org_class_section section ON class.`xd`=section.`id` ,
         teach_class_room room LEFT JOIN org_school_type stype ON room.`school_type`= stype.`id`
         WHERE
-        class.`id`=ref.`grade_class` AND  room.`room_id`=ref.`room_id`
+        class.`id`=ref.`grade_class` AND  room.`id`=ref.`room_id`
         AND ref.`id`=#{refId}
     </select>
 

@@ -4,14 +4,63 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>学籍管理</title>
+    <title>区级学籍管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
     <style>
         .la_input {
-            border-bottom: 5px green solid;
-            font-size: 16px;
+            border-left: 2px #54AB37 solid;
+            font-size: 14px;
             text-align: center;
-            padding-top: 22px;
+            padding-left: 6px;
+        }
+
+        #bm-manage {
+            padding-left: 30px !important;
+        }
+
+        #bm-manage .stu-num-manage-menu ul li a:hover {
+            color: #54ab37;
+        }
+
+        input[type='text'], select {
+            width: 120px;
+            height: 28px;
+            outline: none;
+        }
+
+        .get-info {
+            padding-left: 20px;
+            cursor: pointer;
+            margin-right: 20px;
+            color: #54ab37;
+            background: url(../../../assetsNew/images/icon-edit.png) no-repeat left 3px;
+        }
+
+        #column-manage-menu {
+            overflow: hidden;
+        }
+
+        #column-manage-menu > div {
+            margin: 0 40px 40px 0;
+
+        }
+
+        #column-manage-menu > div > span {
+            margin-bottom: 20px;
+        }
+
+        select {
+            margin-left: 12px;
+            margin-right: 25px;
+        }
+
+        .left {
+            float: left;
+            margin-right: 200px;
+        }
+
+        .info {
+            font-size: 13px;
         }
     </style>
 </head>
@@ -28,7 +77,7 @@
             <div class="search-box">
                 <div style="float: left">
                     <c:if test="${gukeer:notEmptyString(select.xdList)}">
-                        学段：
+                        学段
                         <select name="xdId">
                             <c:forEach items="${select.xdList}" var="xd">
                                 <option value="${xd.id}"
@@ -38,7 +87,7 @@
                     </c:if>
 
                     <c:if test="${gukeer:notEmptyString(select.njList)}">
-                        年级：
+                        年级
                         <select name="njId">
                             <c:forEach items="${select.njList}" var="nj">
                                 <option value="${nj.njId}"
@@ -48,7 +97,7 @@
                     </c:if>
 
                     <c:if test="${gukeer:notEmptyString(select.bjList)}">
-                        班级 :
+                        班级
                         <select name="bjId">
                             <c:forEach items="${select.bjList}" var="bj">
                                 <option value="${bj.id}"
@@ -77,13 +126,13 @@
                     <table class="normal">
                         <thead>
                         <tr>
-                            <th width="10%">序号</th>
+                            <th width="6%">序号</th>
                             <th width="10%">姓名</th>
                             <th width="10%">性别</th>
-                            <th width="20%">学籍号</th>
+                            <th width="15%">学籍号</th>
                             <th width="20%">学校</th>
                             <th width="20%">班级</th>
-                            <th width="10%">操作</th>
+                            <th width="15%">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,8 +155,8 @@
                                 <td>${stu.xh}</td>
                                 <td>${stu.schoolName}</td>
                                 <td>${stu.sectionName}${stu.nj}年级${stu.className}</td>
-                                <td><span
-                                        onclick="openDialogView('查看','${ctx}/student/edit?id=${stu.id}','900px','650px');">查看</span>
+                                <td><span class="get-info"
+                                          onclick="openDialogView('查看','${ctx}/student/edit?id=${stu.id}&type=1','900px','650px');">查看</span>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -128,33 +177,41 @@
                     ${schoolTypeList}----
                     ${sectionList}
                    --%>
-                    <span class="la_input">基本信息</span>
-                        <div class="info">
-                            校名：${chooseSchool.name}<br><br>
-                            传真：${chooseSchool.fax}<br><br>
-                            英文名：${chooseSchool.ename}<br><br>
-                            邮箱：${chooseSchool.email}<br><br>
-                            校长：${chooseSchool.master}<br><br>
-                            邮编：${chooseSchool.zipCode}<br><br>
-                            地址：${chooseSchool.address}<br><br>
-                            电话：${chooseSchool.phone}
+                    <div>
+                        <span class="la_input">基本信息</span>
+                        <div class="info" style="overflow: hidden;">
+                            <div class="left">
+                                校名：${chooseSchool.name}<br><br>
+                                传真：${chooseSchool.fax}<br><br>
+                                英文名：${chooseSchool.ename}<br><br>
+                                邮箱：${chooseSchool.email}
+                            </div>
+                            <div class="left">
+                                校长：${chooseSchool.master}<br><br>
+                                邮编：${chooseSchool.zipCode}<br><br>
+                                地址：${chooseSchool.address}<br><br>
+                                电话：${chooseSchool.phone}
+                            </div>
                         </div>
-
-                    <span class="la_input">学段信息</span>
+                    </div>
+                    <div>
+                        <span class="la_input">学段信息</span>
                         <div class="info">
                             已启用学段：
                             <c:forEach items="${sectionList}" var="section">
                                 ${section.name}&nbsp;&nbsp;
                             </c:forEach>
                         </div>
-
+                    </div>
+                    <div>
                         <span class="la_input">校区信息</span>
                         <div class="info">
                             已设校区：
                             <c:forEach items="${schoolTypeList}" var="schoolType">
-                                   ${schoolType.name}&nbsp;&nbsp;
+                                ${schoolType.name}&nbsp;&nbsp;
                             </c:forEach>
                         </div>
+                    </div>
                 </div>
             </section>
 
@@ -162,11 +219,10 @@
     </div>
     <script type="text/javascript">
         activeMenu("stuInfoMenu", 0);
-
         var xdId = $("select[name='xdId']").val();
         var njId = $("select[name='njId']").val();
         var bjId = $("select[name='bjId']").val();
-        var name = $("#searchHidden").val();
+        var name = $("#searchTeacher").val();
         var menuId = "${chooseSchool.id}";
 
         /* 初始化分页 */
@@ -199,7 +255,7 @@
                 }
             });
 
-        })
+        });
 
         /*z_tree*/
         var zTree;
@@ -225,7 +281,6 @@
             }
         };
         var zNodes1 = [
-
             {
                 id: "nosearch${currentSchool.id}",
                 pId: "${currentSchool.parentId}",

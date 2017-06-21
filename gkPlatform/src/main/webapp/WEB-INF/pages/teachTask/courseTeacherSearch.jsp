@@ -5,7 +5,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>任课教师搜索</title>
+    <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <body>
@@ -13,7 +13,7 @@
 <main class="container" id="zh-manage">
     <div class="stu-num-manage-menu">
         学年：
-        <select name="cycleYear">
+        <select name="cycleYear" class="cycleYear">
             <c:forEach items="${yearList}" var="year">
                 <option name="cycleYear"
                         <c:if test="${cycleYear ==year}">selected</c:if>  >${year}</option>
@@ -69,9 +69,9 @@
 <script>
     $(function () {
         $("select").change(function () {
-            var cycleSemester = $("select[name='cycleSemester']").val();
-            var cycleYear = $("select[name='cycleYear']").text();
-            window.location.href = "${ctx}/teach/task/master/search?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
+            var cycleYear = $(".cycleYear").find("option:selected").text();
+            var cycleSemester = $(".cycleSemester").find("option:selected").val();
+            window.location.href = "${ctx}/teach/task/course/teacher/search?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
         });
 
         $(".headerCheck").on("click", function () {

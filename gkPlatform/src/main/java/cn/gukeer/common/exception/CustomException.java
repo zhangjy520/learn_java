@@ -6,11 +6,13 @@ package cn.gukeer.common.exception;
 public class CustomException extends RuntimeException{
     private boolean checkErrHandle = true;
 
-    public CustomException() {
+    public CustomException(){
+
     }
 
     public CustomException(String message) {
         super(message);
+
     }
 
     public CustomException(String message, Throwable cause) {
