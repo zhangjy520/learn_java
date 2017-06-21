@@ -14,7 +14,6 @@
     <script src="${ctx}/static/js/action.js"></script>
 </head>
 <body>
-
 <main class="container">
     <div id="document-content">
         <%@include file="../../common/docLeftMenu.jsp" %>

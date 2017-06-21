@@ -46,7 +46,7 @@
     .col-xs-9>div{padding-top:24px !important;margin:0 !important;border-bottom: 1px solid #ddd}
     .col-xs-9 div>p{font-size:14px !important;text-indent:0em !important;margin-bottom:20px;}
     .col-xs-9 div>p span:last-child{color:#333;}
-    .col-xs-9 div>p span:first-child{color:#888;text-align: right;width:150px;margin-right:30px;}
+    .col-xs-9 div>p span:first-child{color:#888;text-align: right;width:18%;margin-right:30px;}
     .col-xs-9 div>p img{vertical-align:top;}
     .col-xs-9 div>p>input[type=text]{padding-left:3px;border:2px solid #ddd;width:300px;height:44px;border-radius:3px;outline: none;}
     .col-xs-9 div>p>input[type=text]:focus{border-color: #54AB37}

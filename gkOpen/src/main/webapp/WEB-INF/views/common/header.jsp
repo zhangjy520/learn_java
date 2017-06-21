@@ -103,7 +103,7 @@
         }
 
         if ("${codeback}" == "codeback" || "${question}" == "question") {
-            $("#tech").addClass('active');
+            $("#document").addClass('active');
         }
 
         <%--if("${basic}" == "basic"||"${PWDPage}" == "PWDPage"--%>

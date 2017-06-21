@@ -25,7 +25,10 @@
         top: 2px;
         margin-right: 5px;
     }
-
+    label{
+        max-width: 80%;
+        vertical-align: top;
+    }
     .col-xs-9 > h1 > label {
         font-size: 14px;
         color: #333;

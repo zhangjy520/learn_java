@@ -15,6 +15,13 @@
     img {
         border: 1px solid #ddd;
     }
+    #check-detail{
+        height: auto;
+    }
+
+    .layui-layer-btn{
+        background: #fff;
+    }
 </style>
 <body>
 <main id="check-detail">
@@ -119,6 +126,7 @@
                     <aside><span>应用介绍:</span></aside>
                     <div>
                         <span style="width:700px; word-wrap: break-word;">${appInfo.app.appAbstruct}</span>
+
                     </div>
                 </li>
 
@@ -136,6 +144,13 @@
                 </li>
             </ul>
         </section>
+
+
+
+
+
+
+
         <!--<h3>开发者信息</h3>-->
         <section id="content2">
             <c:if test="${empty appInfo.personal}">
@@ -257,14 +272,14 @@
                 });
             }
         })
-    })
+    });
     $('.check-btn2').click(function () {
         layer.open({
             title: '提示信息',
             shadeClose: true,
             shade: 0.6,
             btn: ['确认', '取消'],
-            area: ['380px', '310px'],
+            area: ['390px', '410px'],
             content: '<textarea id="textRemark" style="border-radius:5px;padding:5px;outline: none;" cols="45" rows="11" placeholder="请输入不通过的原因"></textarea>',
             move: false,
             btn1: function () {
@@ -283,7 +298,7 @@
                 });
             }
         })
-    })
+    });
 
     $('#aside li').click(function () {
         var data = $(this).attr('data');
@@ -294,7 +309,7 @@
                 $(key).show();
                 $(key).siblings().hide();
             }
-        })
+        });
         $(this).addClass('active').siblings().removeClass('active')
     })
 </script>

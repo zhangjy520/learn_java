@@ -96,6 +96,17 @@
         color: #71b83d !important;
         font-size: 13px !important;
     }
+    .col-md-12{
+        padding: 0;
+    }
+    #complete-data
+    .company-msg,
+    #complete-data
+    .legal-person-msg,
+    #complete-data
+    .personal-msg{
+        padding-left: 0;
+    }
 </style>
 <!--导航栏-->
 <!--注册流程-->
@@ -126,7 +137,7 @@
                     <span>企业名称：</span>
                     <input type="text" name="company.businessName" id="company_name" datatype="*"/>
                 </div>
-                <section class="validTip" style="left:277px;top:118px;"></section>
+                <section class="validTip" style="left:200px;top:118px;"></section>
                 <div>
                     <span>企业地址：</span>
                     <select id="cmbProvince" name="cmbProvince"></select>
@@ -135,23 +146,22 @@
                     <script type="text/javascript">
                         addressInit('cmbProvince', 'cmbCity', 'cmbArea');
                     </script>
-                    <p><span></span><input type="text" datatype="*" name="cmbAddress"
-                                           value="${sessionScope.personal.address}" id="address"/></p>
+                    <p><span></span><input type="text" datatype="*" name="cmbAddress" value="${sessionScope.personal.address}" id="address"/></p>
                     <section class="validTip" style="left:200px;top:118px;"></section>
                 </div>
                 <div class="company-phone">
                     <span>企业电话：</span>
                     <input type="text" name="company.companyPhone" id="company_phoneNumber" datatype="*"/>
                 </div>
-                <p class="validTip" style="left:277px;top:424px;"></p>
+                <p class="validTip" style="left:200px;top:424px;"></p>
                 <div><span>营业执照注册号：</span><input type="text" name="company.licenceNum" datatype="n15-15"
                                                  errormsg="请输入正确的营业执照注册号码" id="licence_num"/></div>
-                <p class="validTip" style="left:277px;top:521px;"></p>
+                <p class="validTip" style="left:200px;top:521px;"></p>
                 <div>
                     <span>营业执照所在地：</span>
                     <input type="text" name="company.licenceSite" id="licence_site" datatype="*"/>
                 </div>
-                <p class="validTip" style="left:277px;top:637px;"></p>
+                <p class="validTip" style="left:200px;top:637px;"></p>
                 <div>
 
                     <div class="license">
@@ -163,7 +173,7 @@
 
                         <img alt="" id="wm1" width="144px" height="90px" src=""/>
                         <div class="col-md-12">
-                            <div id="container1" style="margin: 23px 0px 12px 192px;">
+                            <div id="container1" style="margin: 23px 0px 12px 206px;">
                                 <a class="btn btn-default btn-lg " id="pickfiles1" href="#">
                                     <i class="glyphicon glyphicon-plus"></i>
                                     <span style="width:44px;">选择文件</span>
@@ -194,54 +204,70 @@
 
             </div>
             <div class="legal-person-msg">
-                <h3>法人信息</h3>
+                <h3 style="color: #333;">法人信息</h3>
                 <div class="legal-person-name">
                     <span>法人姓名：</span>
                     <input type="text" name="company.corporateName" class="textbox" datatype="*"
                            id="corporate_name"/>
                 </div>
-                <p class="validTip" style="left:277px;bottom:963px;z-index:999"></p>
+                <p class="validTip" style="left:200px;bottom:988px;z-index:999"></p>
                 <div class="ID-card">
                     <span>身份证号码：</span>
                     <input type="text" name="company.corporateIdentity"
                            datatype="sfz" errormsg="请输入正确的身份证号" id="corporate_identity"/>
                 </div>
-                <p class="validTip" style="left:277px;bottom:827px;z-index:999"></p>
+                <p class="validTip" style="left:200px;bottom:852px;z-index:999"></p>
 
                 <div>
                     <%--<form  id="corporate_photo_form" encType="multipart/form-data"   target="hidden_frame">--%>
-                    <div class="license" style="margin-bottom:60px;margin-top:80px;">
+                    <div class="license" style="margin-top: 30px;display: inline-block;">
                         <span style="vertical-align: top;">身份证照片或扫描件：</span>
-
-                        <input type="hidden" name="accessories.identityPhoto" id="tosql2"/>
-                        <img id="wm2" width="144px" height="90px"/>
-                        <div class="col-md-12">
-                            <div id="container2" style="margin: 23px 0px 12px 192px;">
-                                <a class="btn btn-default btn-lg " id="pickfiles2" href="#">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span style="width:44px;">选择文件</span>
-                                </a>
+                        
+                        <div style="display: inline-block;">
+                            <input type="hidden" name="accessories.identityPhoto" id="tosql2"/>
+                            <img id="wm2" width="144px" height="90px"/>
+                            <div class="col-md-12">
+                                <div id="container2" style="margin: 23px 0;">
+                                    <a class="btn btn-default btn-lg " id="pickfiles2" href="#">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span style="width:44px;">选择文件</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div style="margin: 23px 0px 23px 207px;color:#999;">
+
+                        <div style="display: inline-block;">
+                            <input type="hidden" name="accessories.identityPhoto" id="tosqq"/>
+                            <img alt="" id="wmm" width="144px" height="90px" />
+                            <div class="col-md-12">
+                                <div id="containerr" style="margin: 23px 0;">
+                                    <a class="btn btn-default btn-lg " id="pickfiless" href="#" >
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span style="width:44px;">选择文件</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin: 0 0px 0 207px;color:#999;">
                             <p style="margin:0;">请上传原件照片或扫描件，或者复印件加盖企业公章后的扫描件</p>
                             <p style="margin:0;"> 支持.jpg .jpeg .bmp .gif .png格式照片，大小不超过2M。</p>
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
             <div class="personal-msg">
-                <h3>个人信息</h3>
+                <h3 style="color: #333;">个人信息</h3>
                 <div class="developer-name">
                     <span>联系人姓名：</span>
                     <input type="text" name="company.developerName" id="name" datatype="*"/>
                 </div>
-                <p class="validTip" style="left:277px;bottom:337px;"></p>
+                <p class="validTip" style="left:200px;bottom:338px;"></p>
                 <div>
                     <span>手机号码：</span>
                     <input type="text" name="company.developerPhone" datatype="m" errormsg="请输入正确的手机号码" id="phone"/>
                 </div>
-                <p class="validTip" style="left:277px;bottom:238px;"></p>
+                <p class="validTip" style="left:200px;bottom:238px;"></p>
                 <div class="security-code">
                     <span>短信验证码：</span>
                     <input type="text" placeholder="验证码为6位数字" datatype="n6-6" errormsg="验证码错误" name="codeInput"

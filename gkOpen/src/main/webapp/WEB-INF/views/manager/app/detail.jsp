@@ -173,7 +173,6 @@
                             <aside><span>版本号:</span></aside>
                             <div><span>${app.version}</span></div>
                         </li>
-                        <%--<li><aside><span>应用简介:</span></aside><div><span>${app.appAbbreviation}</span></div></li>--%>
                         <li>
                             <aside><span>应用介绍:</span></aside>
                             <div>${app.appAbstruct}</div>
@@ -212,23 +211,6 @@
                         </li>
                         <li>
                             <aside><span>应用截图:</span></aside>
-                            <%--<div id="container">--%>
-                            <%--<div id="list">--%>
-                            <%--<c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">--%>
-                            <%----%>
-                            <%--<img src="${appScreenShot}" alt="应用截图" height="320px" width="320px" />--%>
-
-                            <%--<img src="${appScreenShot}" alt="应用截图" width="320px" height="320px" />--%>
-
-                            <%--</c:forEach>--%>
-                            <%--</div>--%>
-                            <%--<div id="buttons">--%>
-                            <%--<c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">--%>
-                            <%--<span index="${status.index+1+(appPageInfo.pageNum-1)*10}" class="on"></span>--%>
-                            <%--</c:forEach>--%>
-                            <%--</div>--%>
-
-
                             <div id="container">
                                 <div id="list">
                                     <c:forEach items="${appScreenShotList}" var="appScreenShot" varStatus="status">
@@ -261,8 +243,7 @@
                         </li>
                     </ul>
                 </section>
-                <footer>
-                </footer>
+
             </main>
         </section>
     </div>
@@ -271,45 +252,5 @@
 <%@ include file="../../common/footer.jsp" %>
 </body>
 <script>
-    <%--window.onload = function () {--%>
-    <%--var len = '${appListSize}';      //图片的数量--%>
-    <%--$('#buttons span').removeClass('on'); //初始化--%>
-    <%--$('#buttons span').eq(0).addClass('on');--%>
-    <%--var index = 0;--%>
-    <%--var timer = setInterval(function () {--%>
-    <%--index++;--%>
-    <%--if (index == len) {--%>
-    <%--index = 0--%>
-    <%--}--%>
-    <%--$('#list').animate({'left': index * (-320)}, 1000);--%>
-    <%--$('#buttons span').removeClass('on');--%>
-    <%--$('#buttons span').eq(index).addClass('on');--%>
-    <%--}, 2000);--%>
-
-    <%--$('#container').on('mouseover', function () {--%>
-    <%--clearInterval(timer)--%>
-    <%--});--%>
-    <%--$('#buttons span').removeClass('on'); //初始化--%>
-    <%--$('#buttons span').eq(0).addClass('on');--%>
-    <%--$('#container').on('mouseout', function () {--%>
-    <%--clearInterval(timer)--%>
-    <%--timer = setInterval(function () {--%>
-    <%--index++;--%>
-    <%--if (index == len) {--%>
-    <%--index = 0--%>
-    <%--}--%>
-    <%--$('#list').animate({'left': index * (-320)}, 1000);--%>
-    <%--$('#buttons span').removeClass('on');--%>
-    <%--$('#buttons span').eq(index).addClass('on');--%>
-    <%--}, 2000);--%>
-    <%--});--%>
-    <%--$('#buttons span').each(function (a, ele) {--%>
-    <%--$(this).on("click", function () {--%>
-    <%--$('#list').animate({'left': a * (-320)}, 1000);--%>
-    <%--$(this).addClass('on').siblings().removeClass('on')--%>
-    <%--index = a;--%>
-    <%--})--%>
-    <%--});--%>
-    <%--}--%>
 </script>
 </html>

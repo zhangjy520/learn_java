@@ -159,9 +159,9 @@ public class RegisterController extends BasicController {
             openUser.setRandom(random);
 
             //审核状态【1提交等待审核，2审核成功，3审核失败，4删除，5修改i信息等待审核】
-            openUser.setStatus(0);
+//            openUser.setStatus(0);
             //激活状态  【0未激活, 1激活, 2冻结】
-            openUser.setRegisterStatus(0);
+            openUser.setRegisterStatus(RegisterStatusType.UNACTIVATE.getStatenum());
             openUser.setCreateDate(new Date().getTime());
             openUser.setPassword(AESencryptor.encryptCBCPKCS5Padding(password));
             String content = getMailContent(request, openUser);
@@ -207,22 +207,29 @@ public class RegisterController extends BasicController {
     @RequestMapping(value = "/activate", method = RequestMethod.GET)
     public String activate(HttpServletRequest request, HttpServletResponse response, Model model) {
         ResultEntity resultEntity = null;
+
         //获取get请求的所有参数名并遍历得到的参数名的值
         String email = request.getParameter("email");
         String checksum = request.getParameter("checksum");
+
+        //查看用户是否存在
         OpenUser openUser = openUserService.queryUserByUserNameEmail(email);
         if (null == openUser) {
             model.addAttribute("error", "当前邮箱未通过注册");
             return "error";
         }
-        int registerStatus = openUser.getRegisterStatus();
-        if (registerStatus == RegisterStatusType.ACTIVATE.getStatenum()) {
+
+        //查看用户是否已经激活账号
+        if (openUser.getRegisterStatus() == RegisterStatusType.ACTIVATE.getStatenum()) {
             try {
-                response.getWriter().write("该邮箱已经激活，请前往网站首页登陆");
-            } catch (IOException e) {
+                model.addAttribute("error", "该邮箱已经激活，请前往网站首页登陆");
+                return "error";
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        //加密串返回的的验证  以及超时验证
         long currentTimeSendEmail = openUser.getCurrentTimeSendemail();
         String random = openUser.getRandom();
         String md5_code = MD5Utils.md5(ProjectConfig.SECRET_STR + email + random + currentTimeSendEmail);
@@ -236,7 +243,7 @@ public class RegisterController extends BasicController {
                     openUser.setCreateDate(nowCurrentTime);
                     String content = getMailContent(request, openUser);
                     mailUtils.sendMail(openUser, request, content, "教育云开放平台激活邮件");
-                    model.addAttribute("error", "注册时间已经超过24小时，请前往邮箱查收激活邮件重新激活账号");
+                    model.addAttribute("error", "注册时间已经超过24小时，请前往邮箱查收新的激活邮件重新激活账号");
                     return "error";
                 } else {
                     openUser.setRegisterStatus(RegisterStatusType.ACTIVATE.getStatenum());
@@ -284,28 +291,35 @@ public class RegisterController extends BasicController {
                               Model model) {
         String loginUserId = request.getParameter("loginUserId");
         OpenUser openUser = openUserService.getOpenUserById(loginUserId);
+
+        //地址拼接
         String cmbProvince = request.getParameter("cmbProvince");
         String cmbCity = request.getParameter("cmbCity");
         String cmbArea = request.getParameter("cmbArea");
         String cmbAddress = request.getParameter("cmbAddress");
         String address = cmbProvince + cmbCity + cmbArea + cmbAddress;
+
         //保存图片信息到图片表
         try {
             accessories.setId(PrimaryKey.get());
             accessoriesService.save(accessories);
             if (openUser.getUserType() == LoginUserType.PERSONAL.getStatenum()) {
+
                 //保存个人详细信息
                 personal.setAddress(address);
                 personal.setAccessoriesId(accessories.getId());
                 personal.setId(PrimaryKey.get());
                 personalService.save(personal);
+
                 openUser.setPersonalId(personal.getId());
                 openUser.setRegisterStatus(RegisterStatusType.WRITE.getStatenum());
                 openUser.setStatus(CheckStateType.AUDITING.getStatenum());
                 openUser.setDelFlag(0);
                 openUser.setCreateDate(System.currentTimeMillis());
                 openUser.setUpdateDate(System.currentTimeMillis());
+
                 openUserService.updateOpenUser(openUser);
+
                 request.getSession().setAttribute("status", openUser.getStatus());
                 return "redirect:/registerLogin?username=" + openUser.getUsername() + "&&password=" + openUser.getPassword();
             } else {
@@ -314,11 +328,13 @@ public class RegisterController extends BasicController {
                 company.setAccessoriesId(accessories.getId());
                 company.setId(PrimaryKey.get());
                 companyService.save(company);
+
                 openUser.setCompanyId(company.getId());
                 openUser.setRegisterStatus(RegisterStatusType.WRITE.getStatenum());
                 openUser.setStatus(CheckStateType.AUDITING.getStatenum());
                 openUser.setDelFlag(0);
                 openUser.setUpdateDate(System.currentTimeMillis());
+
                 openUserService.updateOpenUser(openUser);
                 request.getSession().setAttribute("status", openUser.getStatus());
                 return "redirect:/registerLogin?username=" + openUser.getUsername() + "&&password=" + openUser.getPassword();

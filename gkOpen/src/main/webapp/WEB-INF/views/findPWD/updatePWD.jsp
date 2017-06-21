@@ -37,6 +37,7 @@
         left: 376px;
         top: 2px;
     }
+
     /*.validTip span{width:120px !important;}*/
 </style>
 <!--注册流程-->
@@ -54,8 +55,12 @@
         <p class="validTip" style=""></p>
         <div style="position:relative;">
             <span>确认密码：</span>
-            <input type="password" recheck="newPassword" datatype="*6-16" errormsg='您两次输入的密码不一致，请重试'
-                   id="confirmNewPassword" placeholder="请输入6-16位字符"/>
+            <input type="password" placeholder="请输入6-16位字符"
+                   datatype="*6-16"
+                   errormsg='两次密码输入必须一致' value=""
+                   id="confirmNewPassword"
+                   onload="javascript:document.password.reset()"
+            />
         </div>
         <p class="validTip" style=""></p>
 
@@ -80,8 +85,8 @@
                 <span>15311427437</span>
             </div>
             <%--<div>--%>
-                <%--<span>邮箱</span>:--%>
-                <%--<span>Gukeerkeji@163.com</span>--%>
+            <%--<span>邮箱</span>:--%>
+            <%--<span>Gukeerkeji@163.com</span>--%>
             <%--</div>--%>
             <div>
                 <span>工作时间</span>:
@@ -122,15 +127,22 @@
         var userEmail = $("#userEmail").val();
         var password = $("#confirmNewPassword").val();
         if(userEmail == '' || password == '') return;
+        if(userEmail == password ){
+            $('#confirmNewPassword').attr('errormsg','信息通过验证');
+        }
+
+//        if (userEmail == '' || password == '') return;
+
         $.post("${ctx}/pwd/update", {
             password: password,
             userEmail: userEmail
         }, function (data) {
-            alert();
             if (data.code == 0) {
-                webToast(data.msg, "top", 3000);
+                webToast(data.msg, "top", 300);
+                window.open(data.data);
             } else if (data.code == -1) {
-                webToast(data.msg, "top", 3000);
+                webToast(data.msg, "top", 300);
+                window.location.reload();
             }
         });
     })

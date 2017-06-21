@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.open.persistence.dao.DictMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.open.persistence.entity.Dict" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="DECIMAL" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, value, label, type, description, sort, parent_id, create_by, create_date, update_by, 
+    update_date, remarks, del_flag, mark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.open.persistence.entity.DictExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_dict
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dict
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_dict
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.open.persistence.entity.DictExample" >
+    delete from sys_dict
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.open.persistence.entity.Dict" >
+    insert into sys_dict (id, value, label, 
+      type, description, sort, 
+      parent_id, create_by, create_date, 
+      update_by, update_date, remarks, 
+      del_flag, mark)
+    values (#{id,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{parentId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=BIGINT}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{mark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.open.persistence.entity.Dict" >
+    insert into sys_dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="label != null" >
+        label,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_dict
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.value != null" >
+        value = #{record.value,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null" >
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=DECIMAL},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null" >
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.mark != null" >
+        mark = #{record.mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_dict
+    set id = #{record.id,jdbcType=VARCHAR},
+      value = #{record.value,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=DECIMAL},
+      parent_id = #{record.parentId,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=BIGINT},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=BIGINT},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      mark = #{record.mark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.open.persistence.entity.Dict" >
+    update sys_dict
+    <set >
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.open.persistence.entity.Dict" >
+    update sys_dict
+    set value = #{value,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=DECIMAL},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=BIGINT},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

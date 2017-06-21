@@ -69,7 +69,7 @@
                 <p>提示：当前信息都为必填，请注意填写</p>
                 <h3>应用信息</h3>
                 <ul>
-                    <input type="hidden"  value="${platform.id}" id="platformId">
+                    <input type="hidden" value="${platform.id}" id="platformId">
                     <li>
                         <span style="margin-top:9px;">名称:</span>
                         <input type="text" name="platform.name" id="platformName" value="${platform.name}">
@@ -99,7 +99,8 @@
                     <li>
                         <span>介绍:</span>
                         <textarea cols="53" rows="10" name="platform.introduce"
-                                  style="resize: none;border:1px solid #ddd;" id="platformIntroduce">${platform.introduce}</textarea>
+                                  style="resize: none;border:1px solid #ddd;"
+                                  id="platformIntroduce">${platform.introduce}</textarea>
                         <i>请填写应用介绍，审核通过后将在应用商店该应用详情中体现，便于师生了解该服务概况，不超过500个字</i>
                     </li>
                 </ul>
@@ -133,25 +134,19 @@
         if (platformIntroduce == "") {
             webToast("平台介绍不能为空", "top", 2300);
         }
-        var url="";
+        var url = "";
         var id = $("#platformId").val();
-        if (id !=null){
-            url= "/platform/update";
-        }else {
-            url = "/platform/add";
-        }
-        $.post(postPath + url, {
-            id:id,
-            platformName: platformName,
+        $.post(postPath + "/platform/save", {
+            id: id,
+            name: platformName,
             urlVisit: urlVisit,
             urlApp: urlApp,
-            platformIntroduce: platformIntroduce
+            introduce: platformIntroduce
         }, function (data) {
             if (data.code == 0) {
-                alert(data.msg);
-                window.location.href = postPath + "/" + data.data;
+                window.location.href = postPath + "/platform/index";
             } else {
-                alert(data.msg);
+                window.location.href = postPath + "/platform/index";
             }
         });
     }

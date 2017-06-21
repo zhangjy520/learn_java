@@ -27,10 +27,11 @@
         </section>
     </div>
     <div class="footer-footer">
+        <p class="footer-p">教育云开放平台概述</p>
         <p>
             <a href="${ctx}/document/index">教育云平台简介</a>|
-            <a href="${ctx}/document/service">服务条款</a>|
-            <a href="${ctx}/tech/index">技术中心</a>
+            <a href="${ctx}/document/service">登录服务协议</a>|
+            <a href="${ctx}/tech/index">支持中心</a>
         </p>
 
         <div>©2014-2016Beijing Search Champion Technology Co.,Ltd. 北京科技有限公司</div>

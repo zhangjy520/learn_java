@@ -6,6 +6,7 @@ import cc.gukeer.common.security.AESencryptor;
 import cc.gukeer.common.utils.NumberConvertUtil;
 import cc.gukeer.open.common.CheckStateType;
 import cc.gukeer.open.common.LoginUserType;
+import cc.gukeer.open.common.MessageIsRead;
 import cc.gukeer.open.modelView.OpenMessageView;
 import cc.gukeer.open.persistence.entity.*;
 import cc.gukeer.open.service.*;
@@ -224,7 +225,7 @@ public class ManageController extends BasicController {
         List<OpenMessage> list = messagePageInfo.getList();
         List<OpenMessage> unReadCountList = new ArrayList<>();
         for (OpenMessage openMessage : list) {
-            if (openMessage.getIsread() == 0) {
+            if (openMessage.getIsread() == MessageIsRead.UNREAD.getStatenum()) {
                 unReadCountList.add(openMessage);
             }
         }
@@ -241,7 +242,7 @@ public class ManageController extends BasicController {
 
         String id = request.getParameter("messageId");
         OpenMessage openMessage = messageService.findByMessageId(id);
-        openMessage.setIsread(1);
+        openMessage.setIsread(MessageIsRead.READED.getStatenum());
         OpenUser user = getLoginUser();
         int readed = messageService.updateByPrimarykey(openMessage);
 
@@ -294,7 +295,7 @@ public class ManageController extends BasicController {
         List<OpenMessage> list = messagePageInfo.getList();
         List<OpenMessage> unReadCountList = new ArrayList<>();
         for (OpenMessage openMessage : list) {
-            if (openMessage.getIsread() == 0) {
+            if (openMessage.getIsread() == MessageIsRead.UNREAD.getStatenum()) {
                 unReadCountList.add(openMessage);
             }
         }

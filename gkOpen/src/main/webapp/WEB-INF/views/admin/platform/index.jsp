@@ -96,9 +96,9 @@
                             </c:if>
                             <td>
                                 <span class="app1"
-                                      onclick="window.location.href='${ctx}/platform/add/page?id='+'${platform.id}'">修改/查看信息</span>
+                                      onclick="window.location.href='${ctx}/platform/detail/page?id=${platform.id}'">修改/查看信息</span>
                                 <c:if test="${platform.delFlag==0}">
-                                    <span class="app3" data-url="${ctx}/platform/del?id=${platform.id}">删除</span>
+                                    <span class="app3" data-url="${ctx}/platform/save?id=${platform.id}&&flag=del">删除</span>
                                 </c:if>
                                 <c:if test="${platform.initStatus==0}">
                                     <span class="app2" onclick="window.location.href='${ctx}/platform/init?id='+'${platform.id}'">初始化</span>
@@ -138,20 +138,11 @@
             content: '<p style="color:#525252;font-size:14px;">您确定删除该应用？</p>',
             move: false,
             btn1: function () {
-                console.log(url);
                 window.location.href = url;
             }
         })
     })
 
-    <%--$(".gotoPage").click(function (){--%>
-    <%--var pageNum = $(".go").val();--%>
-    <%--if (pageNum <= 0 || pageNum >${appPageInfo.pages}){--%>
-    <%--layer.msg("请输入正确的页码")--%>
-    <%--} else {--%>
-    <%--window.location.href = "${ctx}/manager/index?pageNum="+$(".go").val()+"&pageSize=10";--%>
-    <%--}--%>
-    <%--});--%>
 
     $(function () {
         var table = $('table');

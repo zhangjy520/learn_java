@@ -4,8 +4,7 @@ package cc.gukeer.open.controller;
 import cc.gukeer.common.controller.BasicController;
 import cc.gukeer.common.entity.ResultEntity;
 import cc.gukeer.common.utils.NumberConvertUtil;
-import cc.gukeer.open.common.CheckStateType;
-import cc.gukeer.open.common.LoginUserType;
+import cc.gukeer.open.common.*;
 import cc.gukeer.open.common.dwr.MessagePush;
 import cc.gukeer.open.modelView.AppAllInfoView;
 import cc.gukeer.open.modelView.CompanyAllInfoView;
@@ -109,20 +108,20 @@ public class CheckController extends BasicController {
                 openUserService.updateCheckState(CheckStateType.AUDIT_SUCCESS.getStatenum(), userId);
                 messageService.deleteMessage(userId);
                 OpenMessage openMessage = new OpenMessage();
-                openMessage.setIsread(0);
+                openMessage.setIsread(MessageIsRead.UNREAD.getStatenum());
                 openMessage.setStatus(CheckStateType.AUDIT_SUCCESS.getStatenum());
                 //0为用户
-                openMessage.setMessageType(0);
+                openMessage.setMessageType(LoginUserType.PERSONAL.getStatenum());
                 openUserService.addMessage(userId, openMessage);
             } else {
                 messageService.deleteMessage(userId);
                 openUserService.updateCheckState(CheckStateType.AUDIT_FAIL.getStatenum(), userId);
                 OpenMessage openMessage = new OpenMessage();
                 openMessage.setText(text);
-                openMessage.setIsread(0);
+                openMessage.setIsread(MessageIsRead.UNREAD.getStatenum());
                 openMessage.setStatus(CheckStateType.AUDIT_FAIL.getStatenum());
                 //0为用户
-                openMessage.setMessageType(0);
+                openMessage.setMessageType(LoginUserType.PERSONAL.getStatenum());
                 openUserService.addMessage(userId, openMessage);
             }
             return ResultEntity.newResultEntity("操作成功");
@@ -142,25 +141,25 @@ public class CheckController extends BasicController {
             String userId = app.getUserId();
             if (isPass.equals("Pass")) {
                 int  checkStatus = app.getCheckStatus();
-                if (checkStatus == 5){
+                if (checkStatus == CheckStateType.UPDATE_AUDITING.getStatenum()){
                     //在此时查询ref_app_class表，若有数据，则将ref_app_class的app_status修改为2（修改待推送状态）
                     List<RefPlatformApp> refPlatformApps = refPlatformService.findRefplatformByAppId(appId);
                     if (refPlatformApps.size()>0){
                         for (RefPlatformApp refPlatformApp:refPlatformApps){
-                            refPlatformApp.setAppStatus(2);
-                            refPlatformApp.setOptStatus(0);//设置为0的目的是由任务进行自动监测
+                            refPlatformApp.setAppStatus(RefAppPushStatus.UPDATE_PUSH.getStatenum());
+                            refPlatformApp.setOptStatus(RefAppPushOptStatus.FAIL.getStatenum());//设置为0的目的是由任务进行自动监测
                             int succ = refPlatformService.updateRefPlatformByPrimarykey(refPlatformApp);
                         }
                     }
                 }
                 appService.updateStatus(appId, CheckStateType.AUDIT_SUCCESS.getStatenum());
                 OpenMessage openMessage = new OpenMessage();
-                openMessage.setIsread(0);
+                openMessage.setIsread(MessageIsRead.UNREAD.getStatenum());
                 openMessage.setAppId(appId);
                 openMessage.setAppName(app.getName());
                 openMessage.setStatus(CheckStateType.AUDIT_SUCCESS.getStatenum());
                 //1为应用
-                openMessage.setMessageType(1);
+                openMessage.setMessageType(MessageType.APP.getStatenum());
                 openUserService.addMessage(userId, openMessage);
                 MessagePush messagePush = new MessagePush();
                 try {
@@ -174,11 +173,11 @@ public class CheckController extends BasicController {
                 OpenMessage openMessage = new OpenMessage();
                 openMessage.setText(text);
                 openMessage.setAppId(appId);
-                openMessage.setIsread(0);
+                openMessage.setIsread(MessageIsRead.UNREAD.getStatenum());
                 openMessage.setAppName(app.getName());
                 openMessage.setStatus(CheckStateType.AUDIT_FAIL.getStatenum());
                 //1为应用
-                openMessage.setMessageType(1);
+                openMessage.setMessageType(MessageType.APP.getStatenum());
                 appService.updateStatus(appId, CheckStateType.AUDIT_FAIL.getStatenum());
                 //首先查询该信息存不存在，若存在更新操作
 //                openUserService.findMessageBy

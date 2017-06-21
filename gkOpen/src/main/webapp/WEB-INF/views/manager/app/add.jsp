@@ -40,18 +40,10 @@
 
     <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
     <script src="${ctx}/static/js/alertPopShow.js"></script>
-    <%--多图片引入文件--%>
-    <%--<link rel="stylesheet" type="text/css" href="${ctx}/static/css/webuploader.css">--%>
-    <%--<link rel="stylesheet" type="text/css" href="${ctx}/static/css/diyUpload.css">--%>
-    <%--<script type="text/javascript" src="${ctx}/static/js/webuploader.html5only.min.js"></script>--%>
-    <%--<script type="text/javascript" src="${ctx}/static/js/diyUpload.js"></script>--%>
     <script type="text/javascript" src="${ctx}/static/js/drag.js"></script>
     <script src="${ctx}/static/another-js/tinymce.min.js"></script>
-    <!--引入JS-->
 </head>
 <body style="position: relative;">
-<!--导航栏-->
-<!--开放文档-->
 <style>
     .col-xs-9 > h1 > input {
         margin-left: 10px;
@@ -79,6 +71,23 @@
         margin: 0 5px 2px 0;
         vertical-align: middle;
     }
+
+    .removeBtn {
+        display: block;
+        width: 15px;
+        height: 15px;
+        line-height: 15px;
+        border-radius: 50%;
+        background: red;
+        text-align: center;
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        z-index: 999;
+        cursor: pointer;
+        color: white;
+        font-size: 12px;
+    }
 </style>
 <main class="container">
     <div id="document-content">
@@ -89,7 +98,7 @@
                 <ul>
                     <li><span style="margin-top:9px;">应用名称:</span>
                         <input type="text" name="app.name" id="appName">
-                        <i></i>
+                        <i>名称不能为空且不能大于6个字</i>
                     </li>
                     <li><span style="margin-top:9px;">应用版本:</span>
                         <input type="text" id="version" name="app.demoAccount"/>
@@ -163,7 +172,7 @@
                             <input type="hidden" name="app.logo" id="tosql4"/>
                             <img alt="" id="wm00" width="100px" height="100px" src=""/>
                             <div class="col-md-12" style="position:static;">
-                                <div id="container14" style="margin: 23px 0px 23px -15px;">
+                                <div id="container14" style="margin: 23px 0px 0px -15px;">
                                     <a class="btn btn-default btn-lg " id="pickfiles14">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         <span>选择文件</span>
@@ -171,7 +180,6 @@
                                 </div>
                             </div>
                             <input type="hidden" class="urls">
-                            <%--<i>请上传图标，支持jgp，jpeg，png格式的图片，宽100px*高100px，大小不超过500k</i>--%>
                         </div>
                     </li>
                     <li>
@@ -187,8 +195,7 @@
 
                 </ul>
                 <footer>
-                    <%--<button class="save" onclick="saveOrSubmit(0)">保存不提交</button>--%>
-                    <button class="submit" onclick="saveOrSubmit(1)">提交审核</button>
+                    <button class="submit" onclick="saveOrSubmit()">提交审核</button>
                 </footer>
             </section>
         </section>
@@ -199,15 +206,40 @@
 <script>
     var strPath = window.document.location.pathname;
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
-    function saveOrSubmit(status) {
+
+    function rmPic(obj) {
+        $(obj).parent().parent("li").remove();
+        changeP();
+    }
+    function changeP() {
+        $(".item").each(function (a, b) {
+            $(".item").eq(a).attr("index", a);
+            var L = $(b).parent().offset().left;
+            var T = $(b).parent().offset().top;
+            $(".item").eq(a).css({
+                "left": L,
+                "top": T
+            })
+        })
+    }
+    function saveOrSubmit() {
         var appName = $("#appName").val();
+        if (appName == null || appName == "" || appName.length > 6) {
+            webToast("名称不能为空且不能大于6个字", "top", 3000);
+        }
         var appAbstruct = tinyMCE.activeEditor.getContent();
-        console.log(appAbstruct);
+        if (appAbstruct == null || appAbstruct == "" || appAbstruct.length > 500) {
+            webToast("介绍不能为空且不能超过500字", "top", 3000);
+        }
         var inputs = $("input[name='app']:checked");
-        var targetUser = null;
+
+        var targetUser="";
         inputs.each(function (i) {
-            var _targrtUser = $(this).val();
-            targetUser += ',' + _targrtUser;
+            if(i=0){
+                targetUser = $(this).val();
+            }else {
+                targetUser += ',' + $(this).val();
+            }
         })
         var arrindex = [];
         $(".item").each(function (i) {
@@ -217,25 +249,48 @@
         $(".multifyImg2").each(function (i) {
             arrsrc[i] = $($(".multifyImg2")[i]).attr("src");
         });
+        if (arrsrc == null || arrsrc.length == 0) {
+            webToast("请上传应用截图", "top", 3000);
+        }
         var logo = $("#tosql3").val();
+        if (logo == null || logo == "") {
+            webToast("请上传logo图片", "top", 3000);
+        }
         var version = $("#version").val();
-        var myselect = $('#myselect option:selected').val();
+        if (version == null || version == "") {
+            webToast("版本号不能为空", "top", 3000);
+        }
+        var myselectCategory = $('#myselect option:selected').val();
+        if (myselectCategory == null || myselectCategory == "") {
+            webToast("类别不能为空", "top", 3000);
+        }
+
         var isFree = $("input[name='app.isFree']:checked").val();
+        if (isFree == null || isFree == "") {
+            webToast("是否免费不能为空", "top", 3000);
+        }
+
+
         var rank = $("input[name='app.rank']:checked").val();
+        if (rank == null || rank == "") {
+            webToast("级别不能为空", "top", 3000);
+        }
+
+
         var multifyInput2 = $(".urls").val();
+
         var demoUrl = $("#demoUrl").val();
         var demoAccount = $("#demoAccount").val();
         $.post(postPath + "/app/save", {
-            status: status,
-            appName: appName,
-            rank: rank,
+            name: appName,
+            appRank: rank,
             appAbstruct: appAbstruct,
             logo: logo,
-            myselect: myselect,
+            category: myselectCategory,
             targetUser: targetUser,
             isFree: isFree,
-            multifyInput2: multifyInput2,
-            demoUrl: demoUrl,
+//            multifyInput2: multifyInput2,
+            appUrl: demoUrl,
             demoAccount: demoAccount,
             version: version,
             arrsrc: arrsrc.toString(),
@@ -243,9 +298,9 @@
         }, function (data) {
             if (data.code == 0) {
                 webToast(data.msg, "top", 5000);
-                window.location.href = postPath  +"/manager/index";
+                window.location.href = postPath + "/manager/index";
             } else {
-                webToast(data.msg, "top",5000);
+                webToast(data.msg, "top", 5000);
             }
         });
     }

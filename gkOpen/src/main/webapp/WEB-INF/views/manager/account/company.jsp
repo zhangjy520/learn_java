@@ -69,7 +69,7 @@
 
     .col-xs-9 div > p>span:nth-child(2){
         display: inline-block;
-        width: 500px;
+        width: 70%;
         word-wrap: break-word;
         word-break: break-all;
         vertical-align: top;
@@ -90,7 +90,7 @@
     .col-xs-9 div > p span:first-child {
         color: #888;
         text-align: right;
-        width: 135px;
+        width: 18%;
         margin-right: 20px;
     }
 
@@ -289,7 +289,7 @@
                         <span class="change">${company.developerPhone}</span>
                         <input type="hidden" value="${company.developerPhone}" class="forUpdate required"
                                id="phone" name="company.developerPhone" style="height: 42px;"/>
-                        <span style="height: 42px;">
+                        <span>
                             <input type="button" style="display: none;width:180px;height: 42px;"
                                    class="forUpdate required" datatype="m" errormsg="请输入正确的手机号码"
                                    onclick="sendCode(this)" value="免费获取验证码" id="getCode">

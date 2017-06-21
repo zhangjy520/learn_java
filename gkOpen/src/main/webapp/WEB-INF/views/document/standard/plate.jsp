@@ -32,7 +32,7 @@
     <div id="document-content">
         <%@include file="../../common/docLeftMenu.jsp"%>
         <section class="col-xs-9">
-            <h1 style="margin-top:20px;margin-bottom:10px;">空间动态模板技术规范</h1>
+            <h1 style="margin-bottom:10px;">空间动态模板技术规范</h1>
             <div>
                 <h4>第三方自定义开发文档</h4>
                 <p>为方便第三方的开发，保证开发过程中页面的完整、美化、及合理性，防止页面中CSS，JS文件和原有的文件发生冲突，特列出以下说明：</p>

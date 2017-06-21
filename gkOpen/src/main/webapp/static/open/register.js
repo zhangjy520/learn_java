@@ -95,6 +95,9 @@ function sendCode(sendCodeBtn) {
     function time(o) {
         var t = 0;
         if (wait == 0) {
+            o.style.border = '1px solid #54ab37';
+            o.style.color = '#54ab37';
+            o.style.background = '#fff';
             o.removeAttribute("disabled");
             if (t == 0) {
                 o.value = "免费获证码";
@@ -108,7 +111,6 @@ function sendCode(sendCodeBtn) {
             o.style.border = 'none';
             o.style.color = '#fff';
             o.style.background = '#ddd';
-
             wait--;
             setTimeout(function () {
                     time(o)
@@ -296,16 +298,16 @@ function saveinfo() {
         }, function (data) {
             if (data.code == 0) {
                 /*webToast("提交成功请耐心等待审核", "top", 2300);*/
+                webToast("提交成功请耐心等待审核", "top", 2300);
                 setTimeout(function () {
                         $("#save-detail").submit();
-                        // webToast( "top", 2300);
-                        if (data == "false") {
-                            webToast("请检查信息是否填写完整或者填写格式是否正确", "top", 2300);
-                        }
+                        // if (data == "false") {
+                        //     webToast("提交成功请耐心等待审核", "top", 2300);
+                        // }
                     },
                     2300)
             } else {
-                webToast("提交成功请耐心等待审核", "top", 2300);
+                webToast("验证码不正确", "top", 2300);
             }
         }
     );

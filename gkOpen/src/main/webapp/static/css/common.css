@@ -175,6 +175,9 @@ nav.container > div span.login {
   text-align: center;
 }
 #footer .footer-footer p{color:#fff;}
+#footer .footer-footer .footer-p{
+  font-size: 15px;
+}
 #footer .footer-footer p a{
   color:#fff;
   font-size:15px;

@@ -70,10 +70,7 @@
             $("#gkSummarize").removeClass('active');
             $("#service").addClass('active');
         }
-        <%--if("${codeback}" == "codeback") {--%>
-            <%--$("#gkSummarize").removeClass('active');--%>
-            <%--$("#back").addClass('active');--%>
-        <%--}--%>
+
         if("${plate}" == "plate") {
             $("#gkSummarize").removeClass('active');
             $("#plate").addClass('active');
@@ -85,6 +82,10 @@
         if("${api}" == "api") {
             $("#gkSummarize").removeClass('active');
             $("#api").addClass('active');
+        }
+        if("${codeback}" == "codeback") {
+            $("#gkSummarize").removeClass('active');
+            $("#codeback").addClass('active');
         }
 
 

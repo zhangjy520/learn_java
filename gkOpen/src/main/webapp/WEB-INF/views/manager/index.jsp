@@ -35,7 +35,7 @@
 
                     <label for="c3"><input type="radio" name="check1" id="c3" <c:if test="${appStatus == 1}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=1'">&nbsp;审核中</label>
 
-                    <%--<label for="c4"><input type="radio" name="check1" id="c4" <c:if test="${status2 == 0}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=' + 0">&nbsp;未提交审核</label>--%>
+                    <label for="c4"><input type="radio" name="check1" id="c4" <c:if test="${appStatus == 5}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=5'">&nbsp;修改待审核</label>
 
                     <label for="c5"><input type="radio" name="check1" id="c5" <c:if test="${appStatus == 3}">checked</c:if> onclick="window.location.href='${ctx}/manager/index?status=3'">&nbsp;审核不通过</label>
 

@@ -6,40 +6,11 @@
   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" autowire="no">
         <property name="triggers">
             <list>
-                <!--<ref bean="push"/>-->
-                <!--初次推送-->
                 <ref bean="pushAppToPlatform"/>
-                <!--修改后推送-->
-               <!-- <ref bean="appUpdatePushToPlatform"/>
-                &lt;!&ndash;失败再次推送&ndash;&gt;-->
-                <!--<ref bean="failToPushAgain"/>-->
             </list>
         </property>
     </bean>
-   <!-- <bean id="syncpush" class="cc.gukeer.syncdata.service.push.SyncMian" />-->
     <bean id="appPush" class="cc.gukeer.push.AppPush" />
-    <!-- 每1分钟查询一次数据库信息 -->
-    <!--<bean id="push" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail">
-            <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-                <property name="targetObject">
-                    <ref bean="syncpush" />
-                </property>
-                <property name="targetMethod">
-                    <value>execute</value>
-                </property>
-                <property name="concurrent">
-                    <value>true</value>
-                </property>
-            </bean>
-        </property>
-        <property name="cronExpression">
-            <value>0 */1 * * * ?</value>&lt;!&ndash; 每天的每分钟 &ndash;&gt;
-        </property>
-    </bean>-->
-
-   <!-- <bean id="syncpush" class="cc.gukeer.syncdata.service.push.SyncMian" />-->
-
     <!--初次推送的任务 -->
     <bean id="pushAppToPlatform" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail">
@@ -59,59 +30,4 @@
             <value>0 */1 * * * ?</value><!-- 每天的每分钟 -->
         </property>
     </bean>
-
-    <!--应用更新迭代后的再次推送的任务 -->
-    <!--<bean id="appUpdatePushToPlatform" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
-        <!--<property name="jobDetail">-->
-            <!--<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
-                <!--<property name="targetObject">-->
-                    <!--<ref bean="appPush" />-->
-                <!--</property>-->
-                <!--<property name="targetMethod">-->
-                    <!--<value>updateAppToPush</value>-->
-                <!--</property>-->
-                <!--<property name="concurrent">-->
-                    <!--<value>true</value>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</property>-->
-        <!--<property name="cronExpression">-->
-            <!--<value>0 */1 * * * ?</value>&lt;!&ndash; 每天的每分钟 &ndash;&gt;-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <!--应用推送失败后的再次推送的任务-->
-    <!--<bean id="failToPushAgain" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
-        <!--<property name="jobDetail">-->
-            <!--<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
-                <!--<property name="targetObject">-->
-                    <!--<ref bean="appPush" />-->
-                <!--</property>-->
-                <!--<property name="targetMethod">-->
-                    <!--<value>failToPushAgain</value>-->
-                <!--</property>-->
-                <!--<property name="concurrent">-->
-                    <!--<value>true</value>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</property>-->
-        <!--<property name="cronExpression">-->
-            <!--<value>0 */1 * * * ?</value>&lt;!&ndash; 每天的每分钟 &ndash;&gt;-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <!--定时器配置 lazy-init='false'-->
-    <!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" autowire="no">-->
-        <!--<property name="triggers">-->
-            <!--<list>-->
-
-                <!--&lt;!&ndash;初次推送&ndash;&gt;-->
-                <!--<ref bean="pushAppToPlatform"/>-->
-                <!--&lt;!&ndash;修改后推送&ndash;&gt;-->
-                <!--&lt;!&ndash;<ref bean="appUpdatePushToPlatform"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;失败再次推送&ndash;&gt;-->
-                <!--&lt;!&ndash;<ref bean="failToPushAgain"/>&ndash;&gt;-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
 </beans>

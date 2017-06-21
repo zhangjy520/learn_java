@@ -17,8 +17,7 @@ function draggg() {
 					left : this.box.offset().left,
 					top : this.box.offset().top
 				});
-				this.drag() ;
-
+				this.drag();
 			},
 			this.move = function(callback) {  // 移动
 				$(this).stop(true).animate({
@@ -49,7 +48,6 @@ function draggg() {
 						} else {
 							direction = "normal";
 						}
-
 						this.swap(currentItem, direction) ;
 					}
 				}) ;

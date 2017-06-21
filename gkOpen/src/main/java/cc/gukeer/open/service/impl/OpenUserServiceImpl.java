@@ -186,11 +186,17 @@ public class OpenUserServiceImpl extends BasicService implements OpenUserService
     public int updateOpenUserById(OpenUser openUser,String openUserId) {
         OpenUserExample openUserExample = new OpenUserExample();
         openUserExample.createCriteria().andIdEqualTo(openUserId);
-        int result = openUserMapper.updateByExampleSelective(openUser,openUserExample);
-        if (result > 0) {
-            return 1;
-        }else {
-            return 0;
-        }
+        return openUserMapper.updateByExampleSelective(openUser,openUserExample);
+    }
+
+    @Override
+    public OpenUser queryUserByToken(String token) {
+        OpenUserExample example = new OpenUserExample();
+        example.createCriteria().andLoginMarkEqualTo(token);
+
+       List<OpenUser> openUserList=  openUserMapper.selectByExample(example);
+        if (openUserList.size()>0)
+            return openUserList.get(0);
+        return null;
     }
 }

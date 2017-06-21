@@ -29,10 +29,16 @@
                 /assets/** = anon
                 /rpc/** = anon
                 /login = anon
+
+                <!-- /user/index=authc
+                 /admin/index=authc-->
+
+
                 /login/registerLogin = anon
                 /doLogin = anon
                 /doLogout = logout
                 /layout/** = anon
+                <!--/** = user-->
                 <!-- authc -->
                 /admin/** = role[admin]
                 /check/** = role[admin]
@@ -109,7 +115,7 @@
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager"
           class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-        <!--  <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>-->
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 

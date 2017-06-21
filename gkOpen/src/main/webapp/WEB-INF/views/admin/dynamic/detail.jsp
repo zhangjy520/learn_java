@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
-<%@ include file="../common/header.jsp" %>
-<%@ include file="../login/login.jsp" %>
+<%@ include file="../../common/header.jsp" %>
+<%@ include file="../../login/login.jsp" %>
 <%@ include file="/base.jsp" %>
 <!DOCTYPE html>
 <html lang="en">

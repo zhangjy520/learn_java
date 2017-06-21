@@ -23,4 +23,6 @@
         <constructor-arg index="3" value="${redis.timeout}" type="int"/>
         <constructor-arg index="4" value="${redis.password}"/>
     </bean>
+
+    <bean class="cc.gukeer.common.service.DictionaryService"/>
 </beans>

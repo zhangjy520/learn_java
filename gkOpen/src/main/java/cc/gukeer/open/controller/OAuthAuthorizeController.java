@@ -82,25 +82,24 @@ public class OAuthAuthorizeController extends BasicController {
                 return res;
             }
 
-            //Subject subject = SecurityUtils.getSubject();
             //如果用户没有登录，跳转到登陆页面
-           //if (!subject.isAuthenticated()) {
 //            Object obj = oAuthService.getCacheByKey(AESencryptor.encryptCBCPKCS5Padding(Constants.OAUTH_USER_CACHE_KEY+clientId));
             Object obj = getSubject(request.getSession(),clientId);
             if (GlobalUtils.isNullOrEmptyObj(obj)){
                 if (!login(request,clientId)) {
-                     if ("PC".equalsIgnoreCase(request.getParameter("source"))){
-                         String loginUrl = request.getRequestURL().toString();
-                         loginUrl = loginUrl.substring(0,loginUrl.length()-10);
-                         Map map = new HashMap();
-                         map.put("login",false);
-                         map.put("url",loginUrl+"/authLogin/authLogin");
-                         return ResultEntity.newResultEntity(map);//直接返回json字符串
-                     }else if("APP".equalsIgnoreCase(request.getParameter("source"))){
+                    //String source = request.getParameter("source");
+                    /* if (StringUtils.isEmpty(source) || "PC".equalsIgnoreCase(source)){
                          Map map = new HashMap();
                          map.put("login",false);
                          return ResultEntity.newResultEntity(map);//直接返回json字符串
-                     }
+                     }else if("APP".equalsIgnoreCase(source)){
+                         Map map = new HashMap();
+                         map.put("login",false);
+                         return ResultEntity.newResultEntity(map);//直接返回json字符串
+                     }*/
+                    Map map = new HashMap();
+                    map.put("login",false);
+                    return ResultEntity.newResultEntity(map);//直接返回json字符串
                 }
             }
 

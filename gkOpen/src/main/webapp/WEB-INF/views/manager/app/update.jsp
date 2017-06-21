@@ -170,7 +170,22 @@
         right: 20px;
     }
 
-
+    .removeBtn {
+        display: block;
+        width: 15px;
+        height: 15px;
+        line-height: 15px;
+        border-radius: 50%;
+        background: red;
+        text-align: center;
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        z-index: 999;
+        cursor: pointer;
+        color: white;
+        font-size: 12px;
+    }
 </style>
 <main class="container">
     <div id="document-content">
@@ -334,9 +349,11 @@
                         <input type="hidden" id="id" name="app.demoAccount" value="${app.id}"/>
                     </li>
                 </ul>
-                <footer>
-                    <button class="save" onclick="update()">修改</button>
-                </footer>
+                <c:if test="${status==5}">
+                    <footer>
+                        <button class="save" onclick="update()">修改</button>
+                    </footer>
+                </c:if>
             </section>
         </section>
 
@@ -349,6 +366,21 @@
 <script>
     var strPath = window.document.location.pathname;
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
+    function rmPic(obj) {
+        $(obj).parent().parent("li").remove();
+        changeP();
+    }
+    function changeP() {
+        $(".item").each(function (a, b) {
+            $(".item").eq(a).attr("index", a);
+            var L = $(b).parent().offset().left;
+            var T = $(b).parent().offset().top;
+            $(".item").eq(a).css({
+                "left": L,
+                "top": T
+            })
+        })
+    }
     function update() {
         var id = $("#id").val();
         var appName = $("#appName").val();
@@ -373,14 +405,14 @@
         var rank = $("input[name='app.appRank']:checked").val();
         var demoUrl = $("#demoUrl").val();
         var demoAccount = $("#demoAccount").val();
-        $.post(postPath + "/app/update", {
+        $.post(postPath + "/app/save", {
             id: id,
             status: status,
-            appName: appName,
+            name: appName,
             abbreviation: abbreviation,
             appAbstruct: appAbstruct,
             logo: logo,
-            myselect: myselect,
+            category: myselect,
 //            targetUser: targetUser,
             isFree: isFree,
             rank: rank,

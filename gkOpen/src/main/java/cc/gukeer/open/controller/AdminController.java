@@ -74,9 +74,12 @@ public class AdminController extends BasicController {
         if (delFlag == null) {
             delFlag = "0";
         }
+
+        //所有用户
         PageInfo<UserBaseInfoView> userBasePageInfo =
                 openUserService.getUserByCheckState(userStatus, userPageNum, pageSize);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         //时间类型的转换
         List<UserBaseInfoView> userBaseInfoList = userBasePageInfo.getList();
         for (UserBaseInfoView userBaseInfo : userBaseInfoList) {
@@ -85,6 +88,8 @@ public class AdminController extends BasicController {
             String res = simpleDateFormat.format(date);
             userBaseInfo.setTime(res);
         }
+
+        //所有应用
         PageInfo<AppBaseInfoView> appBasePageInfo =
                 appService.getAppBaseInfoByStatus(appStatus, appPageNum, pageSize,NumberConvertUtil.convertS2I(delFlag));
         ////时间类型的转换
@@ -95,6 +100,7 @@ public class AdminController extends BasicController {
             String res = simpleDateFormat.format(date);
             appBaseInfo.setTime(res);
         }
+
         model.addAttribute("userBasePageInfo", userBasePageInfo);
         model.addAttribute("appBasePageInfo", appBasePageInfo);
         model.addAttribute("show", show);
@@ -133,33 +139,6 @@ public class AdminController extends BasicController {
         return null;
     }
 
-    @RequestMapping(value = "/dynamic/publish", method = RequestMethod.POST)
-    public String dynamicPUblish(HttpServletRequest request, Model model, HttpServletResponse response) {
-        String hr = request.getParameter("hr");
-        if (null == hr) {
-            return "error";
-        }
-        String content = request.getParameter("content");
-        if (null == content) {
-            return "error";
-        }
-        Dynamic dynamic = new Dynamic();
-        dynamic.setId(PrimaryKey.get());
-        dynamic.setContent(content);
-        dynamic.setTitle(hr);
-        dynamic.setDelFlag(0);
-        dynamic.setReleaseTime(new Date().getTime());
-        int succ = dynamicService.insertDynamic(dynamic);
-        if (succ == 1) {
-            try {
-                response.getWriter().print("保存成功");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        model.addAttribute("adminDynamic", "adminDynamic");
-        return "admin/dynamic";
-    }
 
     @RequestMapping(value = "/sync", method = RequestMethod.GET)
     public String sync(HttpServletRequest request, Model model) {
@@ -194,16 +173,18 @@ public class AdminController extends BasicController {
     }
 
     /**
-     * 应用推送的首页  应该是查所有应用  而不是中间表
+     * 应用推送的首页  查所有应用
      */
     @RequestMapping(value = "/push/index", method = RequestMethod.GET)
     public String push(HttpServletRequest request, Model model) {
         int appPageNum = getPageNum(request);
         int pageSize = getPageSize(request);
-        //2审核状态  1表示删除标识
+
         PageInfo<AppBaseInfoView> pageInfo = appService.findAppBaseInfoContainDel(appPageNum, pageSize);
+
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("appPush", "appPush");
+
         return "admin/push";
     }
 }

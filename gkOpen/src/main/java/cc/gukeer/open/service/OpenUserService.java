@@ -34,4 +34,6 @@ public interface OpenUserService {
 	int addMessage(String userId, OpenMessage openMessage);
 
 	int updateOpenUserById(OpenUser openUser,String openUserId);
+
+	OpenUser queryUserByToken(String token);
 }

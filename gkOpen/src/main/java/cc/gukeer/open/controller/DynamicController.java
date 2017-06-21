@@ -3,6 +3,7 @@ package cc.gukeer.open.controller;
 import cc.gukeer.common.controller.BasicController;
 import cc.gukeer.common.entity.ResultEntity;
 import cc.gukeer.common.tld.DateTimeUtil;
+import cc.gukeer.common.utils.PrimaryKey;
 import cc.gukeer.open.persistence.entity.Dynamic;
 import cc.gukeer.open.persistence.entity.extension.ExtentionDynamic;
 import cc.gukeer.open.service.DynamicService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,7 +78,9 @@ public class DynamicController extends BasicController {
             }
             int succ = 0;
             for (int i = 1; i < idArray.length; i++) {
-                succ = dynamicService.delDynamicByPrimaryId(idArray[i]);
+                Dynamic dynamic = new Dynamic();
+                dynamic.setId(idArray[i]);
+                succ = dynamicService.save(dynamic);
             }
             if (succ == 1) {
                 return ResultEntity.newResultEntity("删除成功", "dynamic/index");
@@ -87,10 +92,23 @@ public class DynamicController extends BasicController {
         }
     }
 
-    @RequestMapping(value = "/del/one", method = RequestMethod.GET)
-    public String dynamicDelOne(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id");
-        dynamicService.delDynamicByPrimaryId(id);
+
+    @RequestMapping(value = "/save", method = RequestMethod.GET)
+    public String dynamicPUblish(HttpServletRequest request, Model model) {
+        String id = getParamVal(request, "id");
+        String hr = getParamVal(request,"hr");
+        String content = getParamVal(request,"content");
+
+        Dynamic dynamic = new Dynamic();
+        if (id != ""){
+            dynamic.setId(id);
+        }else {
+            dynamic.setTitle(hr);
+            dynamic.setContent(content);
+        }
+
+        dynamicService.save(dynamic);
+        model.addAttribute("adminDynamic", "adminDynamic");
         return "redirect:/dynamic/index";
     }
 

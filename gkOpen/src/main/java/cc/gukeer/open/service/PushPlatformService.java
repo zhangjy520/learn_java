@@ -14,15 +14,9 @@ public interface PushPlatformService {
 
     List<Platform> findPlatformByInitStatus();
 
-    int insertPlatform(Platform platform);
-
-    int delPlatformById(String id);
+    int save(Platform platform);
 
     Platform findPlatformById(String id);
-
-    int selectCount(String random);
-
-    int updatePlatform(Platform platform);
 
     List<Platform> findPlatformBydelflag();
 

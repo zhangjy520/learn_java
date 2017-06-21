@@ -11,9 +11,7 @@ import java.util.List;
 public interface DynamicService {
     PageInfo<Dynamic> findDynamicBydelFlag(Integer pageNum, Integer pageSize);
 
-    int insertDynamic(Dynamic dynamic);
-
-    int delDynamicByPrimaryId(String id);
+    int save(Dynamic dynamic);
 
     List<Dynamic> findAllDynamic();
 

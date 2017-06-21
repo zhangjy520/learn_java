@@ -1,5 +1,7 @@
 package cc.gukeer.open.service.impl;
 
+import cc.gukeer.common.utils.PrimaryKey;
+import cc.gukeer.open.common.CheckStateType;
 import cc.gukeer.open.common.LoginUserType;
 import cc.gukeer.open.modelView.AppAllInfoView;
 import cc.gukeer.open.modelView.AppBaseInfoView;
@@ -9,10 +11,12 @@ import cc.gukeer.open.persistence.entity.*;
 import cc.gukeer.open.service.AppService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lx on 2016/11/25.
@@ -33,13 +37,63 @@ public class AppServiceImpl implements AppService {
     @Autowired
     AccessoriesMapper accessoriesMapper;
 
-    @Override
-    public int save(App app) {
-        int succ = appMapper.insert(app);
+    public int save(App app, String arrsrc, String arrindex) {
+        int succ = 0;
+        app.setUpdateDate(System.currentTimeMillis());
+
+        if (StringUtils.isEmpty(app.getId())) {
+            app.setId(PrimaryKey.get());
+            app.setCheckStatus(CheckStateType.AUDITING.getStatenum());//设置为提交状态
+            app.setDelFlag(0);
+            app.setCreateDate(System.currentTimeMillis());
+
+            //图片排序
+            app = image(app, arrsrc, arrindex);
+
+            //产生client_id
+            String client_id = RandomStringUtils.random(8, true, true);
+            app.setClientSecret(RandomStringUtils.random(6, true, true));
+
+            //clent_id唯一性判断
+            AppExample appExample = new AppExample();
+            appExample.createCriteria().andClientIdEqualTo(client_id);
+            while (appMapper.countByExample(appExample) > 0) {
+                client_id = RandomStringUtils.random(8, true, true);
+            }
+            app.setClientId(client_id);
+            //保存应用
+            succ = appMapper.insert(app);
+        } else {
+            //更新应用
+
+            //图片排序
+            app = image(app, arrsrc, arrindex);
+            app.setCheckStatus(CheckStateType.UPDATE_AUDITING.getStatenum());//设置为提交状态
+            succ = appMapper.updateByPrimaryKeySelective(app);
+        }
+
+        //保存后状态返回
         if (succ > 0) {
-            return 1;
+            return succ;
         }
         return 0;
+    }
+
+    public static Map sortMap(Map oldMap) {
+        ArrayList<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(oldMap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+
+            @Override
+            public int compare(Map.Entry<String, Integer> arg0,
+                               Map.Entry<String, Integer> arg1) {
+                return arg0.getValue() - arg1.getValue();
+            }
+        });
+        Map newMap = new TreeMap();
+        for (int i = 0; i < list.size(); i++) {
+            newMap.put(list.get(i).getKey(), list.get(i).getValue());
+        }
+        return newMap;
     }
 
     public PageInfo<App> findAllComming(int pageNum, int pageSize, int status) {
@@ -69,7 +123,7 @@ public class AppServiceImpl implements AppService {
         AppExample.Criteria criteria = appExample.createCriteria();
         if (status != 0) {
             criteria.andCheckStatusEqualTo(status);
-        }else{
+        } else {
             criteria.andDelFlagEqualTo(0);
         }
         criteria.andUserIdEqualTo(openUser.getId());
@@ -152,17 +206,6 @@ public class AppServiceImpl implements AppService {
         return pageInfo;
     }
 
-    public int updateAppById(App app) {
-        //注意调用此方法时如果有字段为空就会更新失败  此时的做法便是将空字段设置为null 再调用此方法
-        int updateSucc = appMapper.updateByPrimaryKeySelective(app);
-        System.out.println(updateSucc);
-        if (updateSucc > 0) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
     public PageInfo<AppBaseInfoView> getAppAllInfoByPushStatus(int pageNum, int size, int appPageNum, int pageSize) {
         PageHelper.startPage(appPageNum, pageSize);
         List<AppBaseInfoView> appBaseInfoViews = a_appExtentionMapper.findAppByPushStatus(2);
@@ -230,6 +273,37 @@ public class AppServiceImpl implements AppService {
         List<AppBaseInfoView> appBaseInfoViews = a_appExtentionMapper.findAppBaseInfoContainDel();
         PageInfo<AppBaseInfoView> pageInfo = new PageInfo<>(appBaseInfoViews);
         return pageInfo;
+    }
+
+    @Override
+    public void updateAppById(App app) {
+        appMapper.updateByPrimaryKeySelective(app);
+    }
+
+    public App image(App app, String arrsrc, String arrindex) {
+        //分成数组形式
+        String[] src = null;
+        String[] index = null;
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(arrsrc) &&
+                org.apache.commons.lang3.StringUtils.isNotEmpty(arrindex)) {
+            src = arrsrc.split(",");
+            index = arrindex.split(",");
+
+            Integer[] intIndex = new Integer[index.length];
+            for (int i = 0; i < index.length; i++) {
+                System.out.println(Integer.parseInt(index[i]));
+                intIndex[i] = Integer.parseInt(index[i]);
+            }
+
+            //将图片对应的路径和调整后的index放入map
+            Map<String, Integer> map = new TreeMap<>();
+            for (int j = 0; j < src.length; j++) {
+                map.put(src[j], intIndex[j]);
+            }
+            sortMap(map);//根据map的key排序
+            app.setAppScreenshot(map.toString());
+        }
+        return app;
     }
 
 }

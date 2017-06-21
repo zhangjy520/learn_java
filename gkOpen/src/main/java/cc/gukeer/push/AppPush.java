@@ -3,7 +3,7 @@ package cc.gukeer.push;
 import cc.gukeer.common.security.MD5Utils;
 import cc.gukeer.common.utils.HttpClientUtil;
 import cc.gukeer.common.utils.LoggerWrapper;
-import cc.gukeer.open.common.LoginUserType;
+import cc.gukeer.open.common.*;
 import cc.gukeer.open.persistence.dao.*;
 import cc.gukeer.open.persistence.entity.*;
 import com.alibaba.fastjson.JSON;
@@ -20,7 +20,6 @@ import java.util.Map;
 /**
  * Created by LL on 2017/2/27.
  */
-@Service
 public class AppPush extends LoggerWrapper {
     @Autowired
     RefPlatformAppMapper refPlatformAppMapper;
@@ -37,9 +36,8 @@ public class AppPush extends LoggerWrapper {
 
 
     public void pushAppToPlatform() {
-
         RefPlatformAppExample refPlatformAppExample = new RefPlatformAppExample();
-        refPlatformAppExample.createCriteria().andOptStatusEqualTo(0);
+        refPlatformAppExample.createCriteria().andOptStatusEqualTo(RefAppPushOptStatus.FAIL.getStatenum());
         //首先根据操作的状态查询中间表的数据库
         List<RefPlatformApp> refPlatformApps = refPlatformAppMapper.selectByExample(refPlatformAppExample);
         //遍历得到平台数据推送的地址和应用详情数据数据
@@ -53,7 +51,7 @@ public class AppPush extends LoggerWrapper {
                 app = appMapper.selectByPrimaryKey(appId);
                 Platform platform = platformMapper.selectByPrimaryKey(platformId);
                 int initStatus = platform.getInitStatus();
-                if (initStatus == 1) {
+                if (initStatus == PlatformInitStatus.INITED.getStatenum()) {
                     String urlApp = platform.getUrlApp();
                     String userId = app.getUserId();
                     String companName = null;
@@ -87,13 +85,13 @@ public class AppPush extends LoggerWrapper {
                     Integer appStatus = refPlatformApp.getAppStatus();
 
                     //这个状态对应的是发送给云平台中应用上下线的状态
-                    if (appStatus == 4) {
-                        app.setCheckStatus(2);//在已经上线平台进行下线
+                    if (appStatus == RefAppPushStatus.FORBIDDEN.getStatenum()) {
+                        app.setCheckStatus(CheckStateType.FORBIDDEN.getStatenum());//在已经上线平台进行下线
                     }
 
-                    if (appStatus == 2) {
+                    if (appStatus == RefAppPushStatus.UPDATE_PUSH.getStatenum()) {
                         app.setCheckStatus(1);//云平台上线
-                    } else if (app.getCheckStatus() == 2) {
+                    } else if (app.getCheckStatus() == CheckStateType.AUDIT_SUCCESS.getStatenum()) {
                         app.setCheckStatus(1);//上线
                     }
                     map.put("app", appJson);
@@ -111,14 +109,14 @@ public class AppPush extends LoggerWrapper {
 //                    refPlatformApp.setAppStatus(1);
                     //推送返回数据的处理
                     if (code == 0) {
-                        refPlatformApp.setOptStatus(1);
+                        refPlatformApp.setOptStatus(RefAppPushOptStatus.SUCC.getStatenum());
                         refPlatformApp.setDataStatus(0);
                         refPlatformApp.setSyncStatus(0);
                         refPlatformApp.setUpdateTime(new Date().getTime());
                         int update = refPlatformAppMapper.updateByPrimaryKeySelective(refPlatformApp);
 
                     } else {
-                        refPlatformApp.setOptStatus(0);
+                        refPlatformApp.setOptStatus(RefAppPushOptStatus.FAIL.getStatenum());
 //                        refPlatformApp.setAppStatus(1);
                         refPlatformApp.setSyncStatus(0);
                         refPlatformApp.setUpdateTime(new Date().getTime());

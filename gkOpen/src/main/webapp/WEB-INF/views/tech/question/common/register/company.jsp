@@ -40,7 +40,7 @@
                 <img src="${ctx}/static/images/personQUestion1.png">
             </div>
             <div>
-                <p>2、用户注册时，在开发者类型中选择企业即可，按照系统提示的信息进行邮箱和密码的正确填写，确认无误后选择同意遵守教育云平台协议，点击下一步。</p>
+                <p>2、用户注册时，在开发者类型中选择企业即可，按照系统提示的信息进行邮箱和密码的正确填写，确认无误后选择同意遵守教育云开放平台协议，点击下一步。</p>
                 <img src="${ctx}/static/images/personalImg2.png">
             </div>
             <div>

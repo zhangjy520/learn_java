@@ -19,6 +19,9 @@
     .document-grade-1>li{
         margin: 0 !important;
     }
+    .document-grade-1>li>ul{
+
+    }
 </style>
 <body>
 <main class="container">
@@ -32,7 +35,7 @@
                         <li><a href="#" data="normal-q2" id="loginQuestion">登录注册</a></li>
                         <li><a href="#" data="normal-q3" id="userQuestion">用户审核</a></li>
                         <li><a href="#" data="normal-q4" id="appQuestion">应用审核</a></li>
-                        <li><a href="#" data="normal-q5" id="otherQuestion">其他</a></li>
+                        <%--<li><a href="#" data="normal-q5" id="otherQuestion">其他</a></li>--%>
                     </ul>
                 </li>
             </ul>

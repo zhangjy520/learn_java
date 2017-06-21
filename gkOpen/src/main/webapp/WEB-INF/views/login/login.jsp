@@ -61,6 +61,7 @@
 
     var strPath = window.document.location.pathname;
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
+
     function login() {
         var remember  = 0;
             if (document.getElementById("rememberme").checked) {
@@ -71,7 +72,7 @@
 
         var username = $("#username").val();
         var password = $("#password").val();
-        $.post(postPath + "/doLogin", {
+        $.get(postPath + "/doLogin", {
             username: username,
             password: password,
             remember:remember

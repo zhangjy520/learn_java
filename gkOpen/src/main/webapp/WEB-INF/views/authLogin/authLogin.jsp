@@ -25,7 +25,7 @@
             <input class="form-control noAuto" placeholder="请输入密码" id="password" name="password" type="password"
                    value="">
 <br>
-            是否确定使用如上账号访问${client.name}？
+            是否确定使用如上账号访问${client}？
             <br>
         <input type="submit" id="loginButton" value="授权并登录"/>
         </div>

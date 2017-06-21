@@ -1,14 +1,17 @@
 package cc.gukeer.open.service.impl;
 
+import cc.gukeer.common.utils.PrimaryKey;
 import cc.gukeer.open.persistence.dao.DynamicMapper;
 import cc.gukeer.open.persistence.entity.Dynamic;
 import cc.gukeer.open.persistence.entity.DynamicExample;
 import cc.gukeer.open.service.DynamicService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,31 +33,20 @@ public class DynamicServiceImpl implements DynamicService {
 
     }
 
-    @Override
-    public int insertDynamic(Dynamic dynamic) {
-       int succ =  dynamicMapper.insertSelective(dynamic);
-        if (succ>0){
-            return 1;
+    public int save(Dynamic dynamic) {
+       int succ =  0;
+        if (StringUtils.isNotEmpty(dynamic.getId())){
+            dynamic.setDelFlag(1);
+            succ = dynamicMapper.updateByPrimaryKeySelective(dynamic);
+        }else {
+            dynamic.setId(PrimaryKey.get());
+            dynamic.setDelFlag(0);
+            dynamic.setReleaseTime(new Date().getTime());
+            succ = dynamicMapper.insertSelective(dynamic);
         }
-        return 0;
+       return succ;
     }
 
-    @Override
-    public int delDynamicByPrimaryId(String id) {
-        DynamicExample dynamicExample = new DynamicExample();
-        dynamicExample.createCriteria().andIdEqualTo(id);
-        Dynamic dynamic = dynamicMapper.selectByPrimaryKey(id);
-        dynamic.setDelFlag(1);
-        if (dynamic != null){
-            int succ = dynamicMapper.updateByPrimaryKeySelective(dynamic);
-            if (succ >0){
-                return 1;
-            }else {
-                return 0;
-            }
-        }
-        return 0;
-    }
 
     @Override
     public List<Dynamic> findAllDynamic() {
@@ -87,9 +79,6 @@ public class DynamicServiceImpl implements DynamicService {
         DynamicExample dynamicExample = new DynamicExample();
         dynamicExample.createCriteria().andIdEqualTo(id);
         Dynamic dynamic = dynamicMapper.selectByPrimaryKey(id);
-        if (dynamic !=null){
-            return dynamic;
-        }
-        return  null;
+        return dynamic;
     }
 }

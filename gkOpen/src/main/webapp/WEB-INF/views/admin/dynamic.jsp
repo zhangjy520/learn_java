@@ -27,7 +27,7 @@
 <%@ include file="../common/admin/menu.jsp" %>
 <main id="pf-state">
     <p class="operation">
-        <button class="publish" data-url="${ctx}/admin/dynamic/publish">发布</button>
+        <button class="publish" data-url="${ctx}/dynamic/save">发布</button>
         <button class="delete">删除</button></p>
     </p>
     <section>
@@ -44,22 +44,6 @@
             </tr>
             </thead>
             <tbody>
-            <%--<c:forEach items="${listView}" var="dynamic" varStatus="status">
-                <tr>
-                    <td><input type="checkbox" name="tableHeaderCheckBox" value="${dynamic.dynamic.id}"></td>
-                    <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
-                    <td><a href="${ctx}/dynamic/detail?id=${dynamic.dynamic.id}">${dynamic.dynamic.title}</a></td>
-                    <td>
-                        <p>${dynamic.releaseTimeExt}&nbsp;&nbsp;</p>
-                    </td>
-                    <td>
-                        <span class="deleteSingle" data-url="${ctx}/dynamic/del/one?id=${dynamic.dynamic.id}"
-                              >删除</span>
-                        <input type="hidden" id="ids">
-                    </td>
-                </tr>
-            </c:forEach>--%>
-
             <c:forEach items="${pageInfo.list}" var="dynamic" varStatus="status">
                 <tr>
                     <td><input type="checkbox" name="tableHeaderCheckBox" value="${dynamic.id}"></td>
@@ -69,7 +53,7 @@
                         <p>${gukeer:millsToyyyyMMdd(dynamic.releaseTime)}&nbsp;&nbsp;</p>
                     </td>
                     <td>
-                        <span class="deleteSingle" data-url="${ctx}/dynamic/del/one?id=${dynamic.id}"
+                        <span class="deleteSingle" data-url="${ctx}/dynamic/save?id=${dynamic.id}"
                         >删除</span>
                         <input type="hidden" id="ids">
                     </td>
@@ -153,7 +137,7 @@
                     alert("内容不能为空且不能低于50字");
                     return false;
                 }
-                $.post("${ctx}/admin/dynamic/publish", {
+                $.get(url, {
                     hr: hr,
                     content: text
                 }, function (data) {

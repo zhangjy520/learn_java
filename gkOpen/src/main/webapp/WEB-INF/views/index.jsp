@@ -21,16 +21,10 @@
     <meta name="renderer" content="webkit">
     <script src="${ctx}/static/js/bannerShow.js"></script>
     <script src="${ctx}/static/open/register.js"></script>
-    <%--<script type='text/javascript' src='${ctx}/dwr/engine.js'></script>--%>
-    <%--<script type='text/javascript' src='${ctx}/dwr/util.js'></script>--%>
-    <%--<script type='text/javascript' src='${ctx}/dwr/interface/SendPush.js'></script>--%>
 </head>
 <body>
 
 <style>
-    ul {
-        margin: 0 !important;
-    }
     .web_toast{
         display: block !important;
         top: 130px !important;
@@ -38,14 +32,8 @@
 </style>
 <div style="width:100%;">
     <section>
-        <div class="bs-content" <%--style="height:685px;"--%>>
-            <%--<ul class="bs-box">--%>
-            <%--<li style=" opacity: 1;filter:alpha(opacity=100);">--%>
-            <%--<a href="" style="background:url(${ctx}/static/images/slider1.jpg) center top no-repeat">--%>
+        <div class="bs-content">
             <img style="width:100%;max-height:685px;" src="${ctx}/static/images/slider1.jpg" alt="">
-            <%--</a>--%>
-            <%--</li>--%>
-            <%--</ul>--%>
         </div>
     </section>
     <div id="platformStatus" class="clearfix">
@@ -72,22 +60,18 @@
         <h1>产品服务</h1>
         <section class="clearfix">
             <a href="${ctx}/document/index">
-                <%--<img src="${ctx}/static/images/index-icon1.png" alt="">--%>
                 <div></div>
                 <span>概述</span>
             </a>
             <a href="${ctx}/document/join/register">
-                <%--<img src="${ctx}/static/images/index-icon2.png" alt="">--%>
                 <div></div>
                 <span>接入指南</span>
             </a>
             <a href="${ctx}/document/treaty">
-                <%--<img src="${ctx}/static/images/index-icon3.png" alt="">--%>
                 <div></div>
                 <span>标准规范</span>
             </a>
             <a href="${ctx}/document/api">
-                <%--<img src="${ctx}/static/images/index-icon4.png" alt="">--%>
                 <div></div>
                 <span>API索引</span>
             </a>
@@ -118,6 +102,33 @@
     if (exception.length>0){
         webToast(data.msg, "top", 3000);
     }
+
+    $(function () {
+//        $('.mask-bg').fadeIn(300);
+//        $('.mask-content input[type=text]').focus();
+
+            var remember  = 0;
+            if (document.getElementById("rememberme").checked) {
+                remember = 1;
+            } else {
+                remember = 0;
+            }
+
+            var username = $("#username").val();
+            var password = $("#password").val();
+            $.post(postPath + "/doLogin", {
+                username: username,
+                password: password,
+                remember:remember
+            }, function (data) {
+                $("#loginButton").attr("disabled", false);
+                if (data.code == 0) {
+                    window.location.replace(data.data);
+                } else {
+                    $("#alert").text(data.msg);
+                }
+            });
+    })
 
 
 </script>

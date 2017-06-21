@@ -56,7 +56,9 @@ public class ShiroAuthRealm extends AuthorizingRealm {
                 }
             }
 
+
             simpleAuthorInfo.addStringPermissions(permissions);*/
+
         } else {
             throw new AuthorizationException();
         }
@@ -87,6 +89,9 @@ public class ShiroAuthRealm extends AuthorizingRealm {
         }else {
             throw new IncorrectCredentialsException();
         }
+
+
+
 
     }
 

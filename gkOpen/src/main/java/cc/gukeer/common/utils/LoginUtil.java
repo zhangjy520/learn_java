@@ -35,7 +35,7 @@ public class LoginUtil {
             cookie.setMaxAge(24 * 60 * 60 * 365);
         } else {
             cookie = new Cookie("yoyomvploginuser", "");
-            cookie.setMaxAge(0);//不设置时间的话，无法存入本地COOKIE
+            cookie.setMaxAge(999999);//不设置时间的话，无法存入本地COOKIE
         }
         cookie.setPath("/");
         response.addCookie(cookie);

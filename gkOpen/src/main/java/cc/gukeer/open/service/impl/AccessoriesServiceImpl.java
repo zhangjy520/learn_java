@@ -40,12 +40,8 @@ public class AccessoriesServiceImpl implements AccessoriesService {
     }
 
     public int updateAccessoriesByPrimaryKeySelective(Accessories accessories) {
-        int  result = accessoriesMapper.updateByPrimaryKeySelective(accessories);
-        if (result > 0) {
-            return result;
-        } else {
-            return  0;
-        }
+        return accessoriesMapper.updateByPrimaryKeySelective(accessories);
+
     }
 
     @Override

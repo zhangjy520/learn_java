@@ -129,10 +129,13 @@ public class ResetPWDController extends BasicController {
         }
         OpenUser openUser = openUserService.queryUserByUserNameEmail(username);
         openUser.setPassword( AESencryptor.encryptCBCPKCS5Padding(password));
+        String name = request.getServerName();
+        int port = request.getServerPort();
+        String comtext = request.getContextPath();
         if (openUserService.updateOpenUser(openUser)){
-            return ResultEntity.newResultEntity();
+            return ResultEntity.newResultEntity("修改成功","http://"+ name + ":" + port+comtext);
         }else {
-            return ResultEntity.newErrEntity();
+            return ResultEntity.newErrEntity("修改失败");
         }
     }
 

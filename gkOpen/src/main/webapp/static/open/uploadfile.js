@@ -42,14 +42,14 @@ $(function () {
                     var progress = new FileProgress(file, 'fsUploadProgress');
                     progress.setStatus("等待...");
                 });
-                $('#indicatorContainer').radialIndicator();
-                $('#indicatorContainer').radialIndicator({
-                    barColor: '#87CEEB',
-                    barWidth: 10,
-                    initValue: 40,
-                    roundCorner: true,
-                    percentage: true
-                });
+                // $('#indicatorContainer').radialIndicator();
+                // $('#indicatorContainer').radialIndicator({
+                //     barColor: '#87CEEB',
+                //     barWidth: 10,
+                //     initValue: 40,
+                //     roundCorner: true,
+                //     percentage: true
+                // });
             },
             'BeforeUpload': function (up, file) {
                 file.name = file.name.replace(/\,/g, "").replace(/\=/g, "");
@@ -248,14 +248,14 @@ $(function () {
                     var progress = new FileProgress(file, 'fsUploadProgress');
                     progress.setStatus("等待...");
                 });
-                $('#indicatorContainer').radialIndicator();
+               /* $('#indicatorContainer').radialIndicator();
                 $('#indicatorContainer').radialIndicator({
                     barColor: '#87CEEB',
                     barWidth: 10,
                     initValue: 40,
                     roundCorner: true,
                     percentage: true
-                });
+                });*/
             },
             'BeforeUpload': function (up, file) {
                 file.name = file.name.replace(/\,/g, "").replace(/\=/g, "");
@@ -1011,46 +1011,19 @@ $(function () {
                         q: 100,   // 新图的图像质量，取值范围：1-100
                         format: 'jpg'  // 新图的输出格式，取值范围：jpg，gif，png，webp等
                     }, file);
-                    // if($(".multifyImg2").length == 0 ){
-                    // $('<!--<input type="hidden" name="accessories.worksScan" class="multifyInput"/>--><img width="144px" height="90px" class="multifyImg2"/>').insertAfter($("#multifySpan2"));
-                    // $("#wm00").hide();
-                    // $('<li style="float: left"><img width="144px" height="90px" class="multifyImg2"/></li>').appendTo($("#multifyUl"));
-                    // $(".no-img").css({"float":"none","margin-left":"80px"});
                     $("#wm00").hide();
                     $("gallery").hide();
                     $(".updateScreenShotShowLi").hide();
-
-                    // }else {
-                    // $('<!--<input type="hidden" name="accessories.worksScan" class="multifyInput"/>--><img width="144px" height="90px" class="multifyImg2"/>').
-                    // insertAfter(document.getElementsByClassName("multifyImg2")[document.getElementsByClassName("multifyImg2").length-1]);
                     var divs = $(".item").length;
                     if (divs >= 9) {
                         webToast("已经超过最大上传张数，此处最多可上传9张图片", "top",5000);
-                        // alert("");
                         return false;
                     }
-                    $('<li class="item-containt" style="float: left;width: 150px;height: 100px;margin: 5px;background: #ccc;"><div class="item"style="width: 150px;height: 100px;"><img style="width: 150px;height: 100px;" class="multifyImg2"/></div></li>').appendTo($(".multifyUl"));
+
+                    $('<li class="item-containt" style="float: left;width: 150px;height: 100px;margin: 5px;background: #ccc;"><div class="item"style="width: 150px;height: 100px;"><img style="width: 150px;height: 100px;" class="multifyImg2"/><div class="removeBtn" onclick="rmPic(this)">—</div></div></li>').appendTo($(".multifyUl"));
                     $(".no-img").css({"margin-left": "105px"});
-                    // }
                     var imgs = document.getElementsByClassName("multifyImg2"), img = imgs[imgs.length - 1];
-                    // var inputs =document.getElementsByClassName("multifyInput"),input =inputs[inputs.length-1];
-// =======
-//                 if($(".multifyImg2").length == 0 ){
-//                     $('<!--<input type="hidden" name="accessories.worksScan" class="multifyInput"/>--><img width="144px" height="90px" class="multifyImg2"/>').insertAfter($("#multifySpan2"));
-//                     $("#wm00").hide();
-//                 }else {
-//                     $('<!--<input type="hidden" name="accessories.worksScan" class="multifyInput"/>--><img width="144px" height="90px" class="multifyImg2"/>').
-//                     insertAfter(document.getElementsByClassName("multifyImg2")[document.getElementsByClassName("multifyImg2").length-1]);
-//                 }
-//                 var imgs =document.getElementsByClassName("multifyImg2"),img=imgs[imgs.length-1];
-//                 // var inputs =document.getElementsByClassName("multifyInput"),input =inputs[inputs.length-1];
-// >>>>>>> 051f86a0a7e901a1571bd5eb000cb59975aefa55
-
-
                     $(img).attr("src", url);
-                    // $(input).attr("src",url);
-
-
                     var _url = $("#urls").val() + url + ",";
                     $("#urls").val(_url);
                 } else {
