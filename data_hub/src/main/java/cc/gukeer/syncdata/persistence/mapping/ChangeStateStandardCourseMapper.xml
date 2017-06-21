@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.syncdata.persistence.dao.ChangeStateStandardCourseMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourse" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sync_id" property="syncId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="sys" property="sys" jdbcType="INTEGER" />
+    <result column="is_dictionary" property="isDictionary" jdbcType="INTEGER" />
+    <result column="course_code_id" property="courseCodeId" jdbcType="VARCHAR" />
+    <result column="course_code_name" property="courseCodeName" jdbcType="VARCHAR" />
+    <result column="event" property="event" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="sync_date" property="syncDate" jdbcType="VARCHAR" />
+    <result column="sync_del_flag" property="syncDelFlag" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sync_id, name, english_name, school_id, sys, is_dictionary, course_code_id, course_code_name, 
+    event, source, sync_date, sync_del_flag, update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from change_state_teach_standard_course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from change_state_teach_standard_course
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from change_state_teach_standard_course
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourseExample" >
+    delete from change_state_teach_standard_course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourse" >
+    insert into change_state_teach_standard_course (id, sync_id, name, 
+      english_name, school_id, sys, 
+      is_dictionary, course_code_id, course_code_name, 
+      event, source, sync_date, 
+      sync_del_flag, update_date)
+    values (#{id,jdbcType=VARCHAR}, #{syncId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{englishName,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, #{sys,jdbcType=INTEGER}, 
+      #{isDictionary,jdbcType=INTEGER}, #{courseCodeId,jdbcType=VARCHAR}, #{courseCodeName,jdbcType=VARCHAR}, 
+      #{event,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{syncDate,jdbcType=VARCHAR}, 
+      #{syncDelFlag,jdbcType=VARCHAR}, #{updateDate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourse" >
+    insert into change_state_teach_standard_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="syncId != null" >
+        sync_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="sys != null" >
+        sys,
+      </if>
+      <if test="isDictionary != null" >
+        is_dictionary,
+      </if>
+      <if test="courseCodeId != null" >
+        course_code_id,
+      </if>
+      <if test="courseCodeName != null" >
+        course_code_name,
+      </if>
+      <if test="event != null" >
+        event,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="syncDate != null" >
+        sync_date,
+      </if>
+      <if test="syncDelFlag != null" >
+        sync_del_flag,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="syncId != null" >
+        #{syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="sys != null" >
+        #{sys,jdbcType=INTEGER},
+      </if>
+      <if test="isDictionary != null" >
+        #{isDictionary,jdbcType=INTEGER},
+      </if>
+      <if test="courseCodeId != null" >
+        #{courseCodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCodeName != null" >
+        #{courseCodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null" >
+        #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDate != null" >
+        #{syncDate,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDelFlag != null" >
+        #{syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourseExample" resultType="java.lang.Integer" >
+    select count(*) from change_state_teach_standard_course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update change_state_teach_standard_course
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncId != null" >
+        sync_id = #{record.syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.englishName != null" >
+        english_name = #{record.englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sys != null" >
+        sys = #{record.sys,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDictionary != null" >
+        is_dictionary = #{record.isDictionary,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseCodeId != null" >
+        course_code_id = #{record.courseCodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseCodeName != null" >
+        course_code_name = #{record.courseCodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.event != null" >
+        event = #{record.event,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncDate != null" >
+        sync_date = #{record.syncDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncDelFlag != null" >
+        sync_del_flag = #{record.syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update change_state_teach_standard_course
+    set id = #{record.id,jdbcType=VARCHAR},
+      sync_id = #{record.syncId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      english_name = #{record.englishName,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=VARCHAR},
+      sys = #{record.sys,jdbcType=INTEGER},
+      is_dictionary = #{record.isDictionary,jdbcType=INTEGER},
+      course_code_id = #{record.courseCodeId,jdbcType=VARCHAR},
+      course_code_name = #{record.courseCodeName,jdbcType=VARCHAR},
+      event = #{record.event,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      sync_date = #{record.syncDate,jdbcType=VARCHAR},
+      sync_del_flag = #{record.syncDelFlag,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourse" >
+    update change_state_teach_standard_course
+    <set >
+      <if test="syncId != null" >
+        sync_id = #{syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="sys != null" >
+        sys = #{sys,jdbcType=INTEGER},
+      </if>
+      <if test="isDictionary != null" >
+        is_dictionary = #{isDictionary,jdbcType=INTEGER},
+      </if>
+      <if test="courseCodeId != null" >
+        course_code_id = #{courseCodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCodeName != null" >
+        course_code_name = #{courseCodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null" >
+        event = #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDate != null" >
+        sync_date = #{syncDate,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDelFlag != null" >
+        sync_del_flag = #{syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateStandardCourse" >
+    update change_state_teach_standard_course
+    set sync_id = #{syncId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=VARCHAR},
+      sys = #{sys,jdbcType=INTEGER},
+      is_dictionary = #{isDictionary,jdbcType=INTEGER},
+      course_code_id = #{courseCodeId,jdbcType=VARCHAR},
+      course_code_name = #{courseCodeName,jdbcType=VARCHAR},
+      event = #{event,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      sync_date = #{syncDate,jdbcType=VARCHAR},
+      sync_del_flag = #{syncDelFlag,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

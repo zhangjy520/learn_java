@@ -1,19 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: lx
-  Date: 2017/4/12
-  Time: 18:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="common/base.jsp" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>推送对象绑定</title>
     <%@ include file="common/resouces.jsp" %>
     <link rel="stylesheet" href="${ctxStatic}/css/zTreeStyle.css">
-    <script src="${ctxStatic}/js/bootstrap-table.js"></script>
-    <script src="${ctxStatic}/js/bootstrap-table-zh-CN.js"></script>
 </head>
 <style>
 
@@ -72,8 +63,8 @@
                     <td>${ObjView.platName}</td>
                     <td>${ObjView.queueName}</td>
                     <td>
-                <c:forEach items="${result}" var="result" varStatus="status">
-                        <%--${result.PlatAppId}&&${ObjView.id}--%>
+               <%-- <c:forEach items="${result}" var="result" varStatus="status">
+                        &lt;%&ndash;${result.PlatAppId}&&${ObjView.id}&ndash;%&gt;
                     <c:if test="${result.PlatAppId eq ObjView.queueId}">
 
                     <div>
@@ -84,7 +75,7 @@
                     <span>------${result.ObjTableName}</span>
                     <div>
                         </c:if>
-                </c:forEach>
+                </c:forEach>--%>
                     <button type="button" class="btn btn-info bbtn" data-toggle="modal" data-target="#${ObjView.id}" >绑定推送对象</button>
                         <div>
                             <div id="${ObjView.id}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -134,11 +125,6 @@
  }
 
     $("#menu_2").addClass("active");
-     function pushobj (a) {
-         var id = a.name;
-         var id_text = '.'+id;
-         $(id_text).submit();
-     }
 </script>
 </body>
 </html>

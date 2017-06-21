@@ -4,6 +4,7 @@ import cc.gukeer.datahub.modeView.QueueObjView;
 import cc.gukeer.datahub.persistence.entity.PushObj;
 import cc.gukeer.syncdata.persistence.entity.DetailObj;
 import cc.gukeer.syncdata.persistence.entity.DetailObjColumn;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import java.util.Map;
 public interface PushObjService {
     //获取所有push_obj
     List<PushObj> getAllPushObj();
+
+    PageInfo<PushObj> getAllPushObj(int pageSize, int pageNum);
 
     //删除对象绑定
     void deleteQueObj(String platAppId);
@@ -33,6 +36,8 @@ public interface PushObjService {
     PushObj selectPushObjByKey(String id);
 
     List<Map<String, String>> getTableName();
+
+    PageInfo<Map<String, String>> getTableName(int pageNum, int pageSize);
 
     List<Map<String, String>> selectFiled(String name);
 

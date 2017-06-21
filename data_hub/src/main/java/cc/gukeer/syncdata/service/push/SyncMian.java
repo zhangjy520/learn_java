@@ -1,9 +1,11 @@
 package cc.gukeer.syncdata.service.push;
 
 
+import cc.gukeer.common.utils.GsonUtil;
 import cc.gukeer.common.utils.PrimaryKey;
 import cc.gukeer.datahub.persistence.dao.*;
 import cc.gukeer.datahub.persistence.entity.*;
+import cc.gukeer.datahub.service.SyncService;
 import cc.gukeer.syncdata.dataDefinition.EventData;
 import cc.gukeer.syncdata.dataDefinition.EventType;
 import cc.gukeer.syncdata.modeView.ObjDetail;
@@ -13,7 +15,7 @@ import cc.gukeer.syncdata.persistence.entity.*;
 import cc.gukeer.syncdata.util.Gziputil;
 import cc.gukeer.syncdata.util.LineToCameUtil;
 import cc.gukeer.syncdata.util.MD5Util;
-import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,9 @@ public class SyncMian {
     @Autowired
     A_RouteOtherMapper a_routeOtherMapper;
 
+    @Autowired
+    SyncService syncService;
+
     //入口方法
     //需要加事务
     public void execute() {
@@ -103,20 +108,19 @@ public class SyncMian {
                         }
                         //获取数据
                         List<Map<String, Object>> datas = getDatas(tableName, mark, source, objInfo);
-
+                        System.out.println("表明是" + tableName);
                         if (datas.size() == 0) {
                             continue;
                         }
                         //获取数据的id集合
                         List<String> ids = new ArrayList<>();
 
-                        if (!tableName.equals("change_state_ref_teacher_class")){
+                        if (!tableName.equals("change_state_ref_teacher_class")) {
                             for (Map<String, Object> data : datas) {
                                 if (data.get("syncId") != null)
                                     ids.add(data.get("syncId").toString());
                             }
                         }
-
 
 
                         //序列化数据
@@ -232,18 +236,17 @@ public class SyncMian {
                         if (objDetail.getObjNmae() != null) {
                             mark = __mark + "." + objDetail.getObjNmae();
                         }
-                        int pageNum = 0;
-                        int pageSize = 10;
+                        int pageNum = 1;
+                        int pageSize = 2000;
                         while (true) {
                             List<Map<String, Object>> datas = getInitDatas(tableName, source, objInfo, pageNum, pageSize);
-                            pageNum = pageNum + pageSize;
+//                            pageNum = pageNum + pageSize;
+                            pageNum = pageNum + 1;
                             //获取数据的id集合
                             List<String> ids = new ArrayList<>();
                             for (Map<String, Object> data : datas) {
-                                ids.add(data.get("syncId").toString());
-                            }
-                            if (datas.size() == 0) {
-                                continue;
+                                if (!tableName.equals("change_state_ref_teacher_class"))
+                                    ids.add(data.get("syncId").toString());
                             }
                             //序列化数据
                             Map<String, Object> datasJson = formatDatas(datas, tableName);
@@ -274,7 +277,8 @@ public class SyncMian {
                                         routePatriarch.setSyncDelFlag(mark);
                                         list.add(routePatriarch);
                                     }
-                                    a_routePatriarchMapper.insertBatch(list);
+                                    if (list.size() > 0)
+                                        a_routePatriarchMapper.insertBatch(list);
                                 } else if (tableName.equals("change_state_user_student")) {
                                     List<RouteStudent> list = new ArrayList<RouteStudent>();
                                     for (String id : ids) {
@@ -284,7 +288,8 @@ public class SyncMian {
                                         routeStudent.setSyncDelFlag(mark);
                                         list.add(routeStudent);
                                     }
-                                    a_routeStudentMapper.insertBatch(list);
+                                    if (list.size() > 0)
+                                        a_routeStudentMapper.insertBatch(list);
 
                                 } else if (tableName.equals("change_state_user_teacher")) {
                                     List<RouteTeacher> list = new ArrayList<RouteTeacher>();
@@ -295,7 +300,8 @@ public class SyncMian {
                                         routeTeacher.setSyncDelFlag(mark);
                                         list.add(routeTeacher);
                                     }
-                                    a_routeTeacherMapper.insertBatch(list);
+                                    if (list.size() > 0)
+                                        a_routeTeacherMapper.insertBatch(list);
                                 } else if (tableName.equals("change_state_ref_teacher_class")) {
                                     List<RouteTeacherClass> list = new ArrayList<RouteTeacherClass>();
                                     for (Map<String, Object> data : datas) {
@@ -306,7 +312,8 @@ public class SyncMian {
                                         routeTeacherClass.setSyncDelFlag(mark);
                                         list.add(routeTeacherClass);
                                     }
-                                    a_routeTeacherClassMapper.insertBatch(list);
+                                    if (list.size() > 0)
+                                        a_routeTeacherClassMapper.insertBatch(list);
                                 } else {
                                     List<RouteOther> list = new ArrayList<RouteOther>();
                                     for (String id : ids) {
@@ -316,10 +323,11 @@ public class SyncMian {
                                         routeOther.setSyncDelFlag(mark);
                                         list.add(routeOther);
                                     }
-                                    a_routeOtherMapper.insertBatch(list);
+                                    if (list.size() > 0)
+                                        a_routeOtherMapper.insertBatch(list);
                                 }
                                 //如果数据量少于2000 则退出
-                                if (datas.size() < pageSize - 1) {
+                                if (datas.size() < pageSize) {
                                     break;
                                 }
                                 //标记数据的逻辑
@@ -352,12 +360,13 @@ public class SyncMian {
         }
         DetailObjExample detailObjExample = new DetailObjExample();
         detailObjExample.createCriteria().andIdIn(detailObjIds);
+        detailObjExample.setOrderByClause("mark+\"\"");
         List<DetailObj> detailObjs = detailObjMapper.selectByExample(detailObjExample);
         if (detailObjs == null || detailObjIds.size() == 0) {
             return null;
         }
         //已选对象下的表的id集合
-        Set<String> pushObjIds = new HashSet<>();
+        List<String> pushObjIds = new ArrayList<>();
         for (DetailObj detailObj : detailObjs) {
             pushObjIds.add(detailObj.getPushObjId());
         }
@@ -376,6 +385,7 @@ public class SyncMian {
                     List<String> columnsNames = syncBaseMapper.getColumns(detailObjId);
                     objDetail.setColumnNames(columnsNames);
                     objDetails.add(objDetail);
+                    // System.out.println("这里是"+detailObj.getName());
                 }
             }
             objInfo.setObjDetail(objDetails);
@@ -444,8 +454,10 @@ public class SyncMian {
     //init时根据表名获取数据
     public List<Map<String, Object>> getInitDatas(String tableName, String source, ObjInfo objInfo, int pageNum, int pageSize) {
         //********需要优化 直接查出sync的集合
-        PageHelper.startPage(pageNum, pageSize);
-        List<Map<String, Object>> _datas = syncBaseMapper.getInitDatas(tableName, source);
+
+        PageInfo<Map<String, Object>> pageInfo = syncService.getInitDatas(tableName, source, pageNum, pageSize);
+        List<Map<String, Object>> _datas = pageInfo.getList();
+
         List<Map<String, Object>> datas = new ArrayList<>();
         for (Map<String, Object> data : _datas) {
             Map<String, Object> columnMap = new HashMap<>();
@@ -458,7 +470,7 @@ public class SyncMian {
                 for (ObjDetail objDetail : objDetails) {
                     List<String> columns = objDetail.getColumnNames();
                     for (String s : columns) {
-                        if (s.equals(column)) {
+                        if (s.equals(_column)) {
                             columnMap.put(column, data.get(_column));
                         }
                     }
@@ -541,7 +553,8 @@ public class SyncMian {
     //转json
     public String eventDataToJson(EventData eventData) {
        /* Gson gson = new GsonBuilder().disableHtmlEscaping().create();*/
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
+        Gson gson = GsonUtil.noneIntDouble();
         String datasJson = gson.toJson(eventData);
         return datasJson;
     }

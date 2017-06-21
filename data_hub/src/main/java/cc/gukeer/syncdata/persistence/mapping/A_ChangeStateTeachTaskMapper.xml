@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.syncdata.persistence.dao.A_ChangeStateTeachTaskMapper">
+
+    <!--教学周期信息表  change_state_teach_cycle-->
+    <insert id="batchInsertCycle">
+        INSERT INTO `change_state_teach_cycle`
+        (`id`,
+        `sync_id`,
+        `name`,
+        `start_week`,
+        `end_week`,
+        `xn`,
+        `xq`,
+        `school_id`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.name},#{item.startWeek},
+            #{item.endWeek},#{item.xn},#{item.xq},#{item.schoolId},
+            #{item.event},#{item.source},#{item.syncDate},#{item.syncDelFlag},
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--教室信息表   change_state_teach_class_room-->
+    <insert id="batchInsertClassRoom">
+        INSERT INTO `change_state_teach_class_room`
+        (`id`,
+        `sync_id`,
+        `classroom_type_id`,
+        `classroom_type_name`,
+        `area_id`,
+        `area`,
+        `no`,
+        `layer`,
+        `number`,
+        `actnum`,
+        `testnum`,
+        `rnrs`,
+        `sfxk`,
+        `school_id`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.classroomTypeId},#{item.classroomTypeName},
+            #{item.areaId},#{item.area},#{item.no},#{item.layer},
+            #{item.number},#{item.actnum},#{item.testnum},#{item.rnrs},
+            #{item.sfxk},#{item.schoolId},#{item.event},#{item.source},
+            #{item.syncDate},#{item.syncDelFlag},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--课程管理信息表 change_state_teach_course_manage-->
+    <insert id="batchInsertCourseManage">
+        INSERT INTO `change_state_teach_course_manage`
+        (`id`,
+        `sync_id`,
+        `course_id`,
+        `xn`,
+        `xq`,
+        `course_time`,
+        `class_type`,
+        `period_id`,
+        `class_id`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.courseId},#{item.xn},
+            #{item.xq},#{item.courseTime},#{item.classType},#{item.periodId},
+            #{item.classId},#{item.event},#{item.source},#{item.syncDate},
+            #{item.syncDelFlag},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--教室类型表 change_state_teach_room_type-->
+    <insert id="batchInsertRoomType">
+        INSERT INTO `change_state_teach_room_type`
+        (`id`,
+        `sync_id`,
+        `class_room_type_name`,
+        `school_id`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.classRoomTypeName},#{item.schoolId},
+            #{item.event},#{item.source},#{item.syncDate},#{item.syncDelFlag},
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--教师授课安排信息 change_state_teach_teach_class-->
+    <insert id="batchInsertTeachManage">
+        INSERT INTO `change_state_teach_teach_class`
+        (`id`,
+        `sync_id`,
+        `teacher_id`,
+        `class_id`,
+        `subject_id`,
+        `school_id`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.teacherId},#{item.classId},
+            #{item.subjectId},#{item.schoolId},#{item.event},#{item.source},
+            #{item.syncDate},#{item.syncDelFlag},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--课程表 change_state_teach_course-->
+    <insert id="batchInsertCourse">
+        INSERT INTO `change_state_teach_course`
+        (`id`,
+        `sync_id`,
+        `school_id`,
+        `name`,
+        `short_name`,
+        `course_standard_id`,
+        `cycle_id`,
+        `score`,
+        `pass_score`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.schoolId},#{item.name},
+            #{item.shortName},#{item.courseStandardId},#{item.cycleId},#{item.score},
+            #{item.passScore},#{item.event},#{item.source},#{item.syncDate},
+            #{item.syncDelFlag},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--科目类别表  change_state_teach_course_type-->
+    <insert id="batchInsertCourseType">
+        INSERT INTO `change_state_teach_course_type`
+        (`id`,
+        `sync_id`,
+        `name`,
+        `school_id`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.name},#{item.schoolId},
+            #{item.event},#{item.source},#{item.syncDate},#{item.syncDelFlag},
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--标准课程信息表  change_state_teach_standard_course-->
+    <insert id="batchInsertStandardCourse">
+        INSERT INTO `change_state_teach_standard_course`
+        (`id`,
+        `sync_id`,
+        `name`,
+        `english_name`,
+        `school_id`,
+        `sys`,
+        `is_dictionary`,
+        `course_code_id`,
+        `course_code_name`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.name},#{item.englishName},
+            #{item.schoolId},#{item.sys},#{item.isDictionary},#{item.courseCodeId},
+            #{item.courseCodeName},#{item.event},#{item.source},#{item.syncDate},
+            #{item.syncDelFlag},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--班级课时信息表 change_state_teach_daily_hour-->
+    <insert id="batchInsertDailyHour">
+        INSERT INTO `change_state_teach_daily_hour`
+        (`id`,
+        `sync_id`,
+        `school_id`,
+        `class_id`,
+        `skts`,
+        `swks`,
+        `xwks`,
+        `kjc`,
+        `period_id`,
+        `xn`,
+        `xq`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`,
+        `update_date`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.syncId},#{item.schoolId},#{item.classId},
+            #{item.skts},#{item.swks},#{item.xwks},#{item.kjc},
+            #{item.periodId},#{item.xn},#{item.xq},#{item.event},
+            #{item.source},#{item.syncDate},#{item.syncDelFlag},#{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--部门表 change_state_org_department-->
+    <insert id="batchInsertDepartment">
+        insert into change_state_org_department (id, sync_id, school_id, parent_id,
+        no, name, short_name,
+        master_id, master_name, update_date,
+        event, source, sync_del_flag,
+        sync_date)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.parentId,jdbcType=VARCHAR},
+            #{item.no,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.shortName,jdbcType=VARCHAR},
+            #{item.masterId,jdbcType=VARCHAR}, #{item.masterName,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
+            #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
+            #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <!--班级表 change_state_org_grade_class-->
+    <insert id="batchInsertGradeClass">
+
+        insert into change_state_org_grade_class (id, sync_id,school_id, name,
+        xd, nj, bh, bjlx,
+        xq, rxnd, master_id,
+        master_name, update_date, event,
+        source, sync_del_flag, sync_date
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+            #{item.xd,jdbcType=VARCHAR}, #{item.nj,jdbcType=INTEGER}, #{item.bh,jdbcType=INTEGER}, #{item.bjlx,jdbcType=INTEGER},
+            #{item.xq,jdbcType=VARCHAR}, #{item.rxnd,jdbcType=BIGINT}, #{item.masterId,jdbcType=INTEGER},
+            #{item.masterName,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR},
+            #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+    <!--家长表 change_state_user_patriarch-->
+    <insert id="batchInsertParent">
+        insert into change_state_user_patriarch (id, sync_id,school_id, name,
+        student_id, work, work_at,
+        phone, gender, sfjhr,account,
+        sfyqsh, patriarch_flag, update_date,
+        event, source, sync_del_flag,
+        sync_date)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+            #{item.studentId,jdbcType=VARCHAR}, #{item.work,jdbcType=VARCHAR}, #{item.workAt,jdbcType=VARCHAR},
+            #{item.phone,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER}, #{item.sfjhr,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
+            #{item.sfyqsh,jdbcType=INTEGER}, #{item.patriarchFlag,jdbcType=INTEGER}, #{item.updateDate,jdbcType=BIGINT},
+            #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
+            #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <!--教师班级关联表 change_state_ref_teacher_class-->
+    <insert id="batchInsertRefTeacher">
+        insert into change_state_ref_teacher_class (id, sync_teacher_id, type,
+        sync_class_id, event, update_date,
+        source, sync_date, sync_del_flag
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR},#{item.syncTeacherId,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER},
+            #{item.syncClassId,jdbcType=VARCHAR}, #{item.event,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
+            #{item.source,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}, #{item.syncDelFlag,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <!--机构表 change_state_org_school-->
+    <insert id="batchInsertSchool">
+        insert into change_state_org_school (id, sync_id, parent_id,
+        name, ename, xz, type,grade,
+        logo, bg_picture, address,
+        short_flag, update_date, event,
+        source, sync_del_flag, sync_date
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},#{item.parentId,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR}, #{item.ename,jdbcType=VARCHAR}, #{item.xz,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER},
+            #{item.grade,jdbcType=INTEGER},#{item.logo,jdbcType=VARCHAR}, #{item.bgPicture,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR},
+            #{item.shortFlag,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR},
+            #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+    <!--校区表 change_state_org_school_type-->
+    <insert id="batchInsertSchoolType">
+        insert into change_state_org_school_type (id, sync_id, school_id,
+        name, email, phone,
+        update_date, event, source,
+        sync_del_flag, sync_date)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},#{item.schoolId,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR},
+            #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR},
+            #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <!--学段表 change_state_org_class_section-->
+    <insert id="batchInsertSection">
+        insert into change_state_org_class_section (id, sync_id,school_id, name,
+        short_name, limit_age, section_year,
+        update_date, event, source,
+        sync_del_flag, sync_date)values
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+            #{item.shortName,jdbcType=VARCHAR}, #{item.limitAge,jdbcType=INTEGER}, #{item.sectionYear,jdbcType=INTEGER},
+            #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR},
+            #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+
+    </insert>
+
+    <!--学生表 change_state_user_student-->
+    <insert id="batchInsertStudent">
+        insert into change_state_user_student (id, sync_id, school_id,class_id,
+        xsxm, xszp, phone,
+        csrq, rxrq, xsxb, xssg,
+        xh, xjh, qgxjh, jyid,
+        syd, yxzjlx, yxzjh,
+        jbs, sfsbt, sbtxh,
+        xslb, gb, mz, jg,
+        zzmm, zslb, lydq, hkszd,
+        xjzd, hkxz, status,account,
+        update_date, event, source,
+        sync_del_flag, sync_date)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.classId,jdbcType=VARCHAR},
+            #{item.xsxm,jdbcType=VARCHAR}, #{item.xszp,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR},
+            #{item.csrq,jdbcType=BIGINT}, #{item.rxrq,jdbcType=BIGINT}, #{item.xsxb,jdbcType=INTEGER}, #{item.xssg,jdbcType=VARCHAR},
+            #{item.xh,jdbcType=VARCHAR}, #{item.xjh,jdbcType=VARCHAR}, #{item.qgxjh,jdbcType=VARCHAR}, #{item.jyid,jdbcType=VARCHAR},
+            #{item.syd,jdbcType=VARCHAR}, #{item.yxzjlx,jdbcType=INTEGER}, #{item.yxzjh,jdbcType=VARCHAR},
+            #{item.jbs,jdbcType=VARCHAR}, #{item.sfsbt,jdbcType=INTEGER}, #{item.sbtxh,jdbcType=INTEGER},
+            #{item.xslb,jdbcType=INTEGER}, #{item.gb,jdbcType=VARCHAR}, #{item.mz,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR},
+            #{item.zzmm,jdbcType=INTEGER}, #{item.zslb,jdbcType=INTEGER}, #{item.lydq,jdbcType=VARCHAR}, #{item.hkszd,jdbcType=VARCHAR},
+            #{item.xjzd,jdbcType=VARCHAR}, #{item.hkxz,jdbcType=VARCHAR}, #{item.status,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
+            #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR},
+            #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <!--教职工表 change_state_user_teacher-->
+    <insert id="batchInsertTeacher">
+        insert into change_state_user_teacher (id, sync_id, school_id,
+        department_id, name, gender,
+        identity, is_manage, title_id,
+        no, phone, mobile,
+        email, start_work, head_url,
+        zc, sfzrjs, jg, zzmm,
+        rjxk, xq, zgxl, zgbyxx,
+        lwxsj, sfhq, sfbzr,account,
+        wyyz, zyjsgwfl, update_date,
+        event, source, sync_del_flag,
+        sync_date)values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},#{item.schoolId,jdbcType=VARCHAR},
+            #{item.departmentId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER},
+            #{item.identity,jdbcType=VARCHAR}, #{item.isManage,jdbcType=INTEGER}, #{item.titleId,jdbcType=VARCHAR},
+            #{item.no,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR},
+            #{item.email,jdbcType=VARCHAR}, #{item.startWork,jdbcType=BIGINT}, #{item.headUrl,jdbcType=VARCHAR},
+            #{item.zc,jdbcType=VARCHAR}, #{item.sfzrjs,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR}, #{item.zzmm,jdbcType=VARCHAR},
+            #{item.rjxk,jdbcType=VARCHAR}, #{item.xq,jdbcType=VARCHAR}, #{item.zgxl,jdbcType=VARCHAR}, #{item.zgbyxx,jdbcType=VARCHAR},
+            #{item.lwxsj,jdbcType=BIGINT}, #{item.sfhq,jdbcType=VARCHAR}, #{item.sfbzr,jdbcType=VARCHAR},#{item.account,jdbcType=VARCHAR},
+            #{item.wyyz,jdbcType=VARCHAR}, #{item.zyjsgwfl,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
+            #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
+            #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <!--职位表 change_state_org_title-->
+    <insert id="batchInsertTitle">
+        insert into change_state_org_title (id, sync_id,school_id, mc,
+        jb, px, update_date,
+        event, source, sync_del_flag,
+        sync_date)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.mc,jdbcType=VARCHAR},
+            #{item.jb,jdbcType=VARCHAR}, #{item.px,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
+            #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
+            #{item.syncDate,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <!--用户表 change_state_sys_user-->
+    <insert id="batchInsertUser">
+        insert into change_state_sys_user (id, sync_id, school_id,username,
+        password, ref_id, user_type,
+        photo_url, update_date, event,
+        source, sync_del_flag, sync_date
+        )
+        values
+        <foreach collection="list" index="index" separator="," item="item">
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.username,jdbcType=VARCHAR},
+            #{item.password,jdbcType=VARCHAR}, #{item.refId,jdbcType=VARCHAR}, #{item.userType,jdbcType=INTEGER},
+            #{item.photoUrl,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR},
+            #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+</mapper>

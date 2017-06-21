@@ -1,3 +1,8 @@
+/**
+ * 登录状态验证
+ * @author zjy
+ * @version 2017-04-25
+ */
 package cc.gukeer.common.interceptor;
 
 import cc.gukeer.common.utils.GukeerStringUtil;
@@ -32,11 +37,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        //System.out.println("bbbbbbbbbbb");
+
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //System.out.println("aaaaa");
+
     }
 }

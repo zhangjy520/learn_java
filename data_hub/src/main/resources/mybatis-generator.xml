@@ -403,7 +403,12 @@
         selectByExampleQueryId="true">
         <property name="useActualColumnNames" value="false"/>
         </table>-->
-        <table schema="gk_open" tableName="change_state_org_school" domainObjectName="ChangeStateSchool"
+
+
+        <!--教务-->
+<!--
+        &lt;!&ndash;教学周期信息&ndash;&gt;
+        <table schema="gk_open" tableName="change_state_teach_cycle" domainObjectName="ChangeStateCycle"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"
@@ -411,5 +416,83 @@
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>
         </table>
+
+        &lt;!&ndash;教室信息&ndash;&gt;
+        <table schema="gk_open" tableName="change_state_teach_class_room" domainObjectName="ChangeStateClassRoom"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        &lt;!&ndash;课程管理信息&ndash;&gt;
+        <table schema="gk_open" tableName="change_state_teach_course_manage" domainObjectName="ChangeStateCourseManage"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        &lt;!&ndash;教室类型&ndash;&gt;
+        <table schema="gk_open" tableName="change_state_teach_room_type" domainObjectName="ChangeStateClassRoomType"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        &lt;!&ndash;教师授课安排信息&ndash;&gt;
+        <table schema="gk_open" tableName="change_state_teach_teach_class" domainObjectName="ChangeStateTeachMange"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+        <!--<table schema="gk_open" tableName="change_state_teach_course" domainObjectName="ChangeStateCourse"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        <table schema="gk_open" tableName="change_state_teach_course_type" domainObjectName="ChangeStateCourseType"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+         <table schema="gk_open" tableName="change_state_teach_standard_course" domainObjectName="ChangeStateStandardCourse"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        -->
+
+      <!--  <table schema="gk_open" tableName="change_state_teach_daily_hour" domainObjectName="ChangeStateDailyHour"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+
+
+
     </context>
 </generatorConfiguration>

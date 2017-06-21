@@ -1,0 +1,28 @@
+TRUNCATE TABLE change_state_org_class_section;
+TRUNCATE TABLE change_state_org_department;
+TRUNCATE TABLE change_state_org_grade_class;
+TRUNCATE TABLE change_state_org_school;
+TRUNCATE TABLE change_state_org_school_type;
+TRUNCATE TABLE change_state_org_title;
+TRUNCATE TABLE change_state_ref_teacher_class;
+TRUNCATE TABLE change_state_sys_user;
+TRUNCATE TABLE change_state_teach_class_room;
+TRUNCATE TABLE change_state_teach_course;
+TRUNCATE TABLE change_state_teach_course_manage;
+TRUNCATE TABLE change_state_teach_course_type;
+TRUNCATE TABLE change_state_teach_cycle;
+TRUNCATE TABLE change_state_teach_room_type;
+TRUNCATE TABLE change_state_teach_standard_course;
+TRUNCATE TABLE change_state_teach_teach_class;
+TRUNCATE TABLE change_state_user_patriarch;
+TRUNCATE TABLE change_state_user_student;
+TRUNCATE TABLE change_state_user_teacher;
+
+
+---------------------------------------
+
+TRUNCATE TABLE route_other;
+TRUNCATE TABLE route_patriarch;
+TRUNCATE TABLE route_student;
+TRUNCATE TABLE route_teacher;
+TRUNCATE TABLE route_teacher_class;

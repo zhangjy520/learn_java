@@ -44,13 +44,6 @@ public class AdminController extends BasicController {
     @Autowired
     SyncMian syncMian;
 
-    @Transactional
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public void testTruc(HttpServletRequest request){
-        pushObjService.deletePushObj("77");
-        System.out.println(2/0);
-        pushObjService.deletePushObj("88");
-    }
 
     @RequestMapping(value = "/queue", method = RequestMethod.GET)
     public String queue() {
@@ -83,9 +76,11 @@ public class AdminController extends BasicController {
     }
 
     @RequestMapping(value = "/pushObj", method = RequestMethod.GET)
-    public String pushObj(Model model) {
-        List<PushObj> pushObjList = pushObjService.getAllPushObj();
-        model.addAttribute("pushObjList", pushObjList);
+    public String pushObj(Model model, HttpServletRequest request) {
+        int pageNum = getPageNum(request);
+        int pageSize = getPageSize(request);
+        PageInfo<PushObj> pushObjList = pushObjService.getAllPushObj(pageSize, pageNum);
+        model.addAttribute("pageInfo", pushObjList);
         return "pushobj";
     }
 
@@ -162,16 +157,19 @@ public class AdminController extends BasicController {
             syncMian.init(id);
             refPlatformService.updateInitData(id, 1);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return "redirect:/admin/sync";
     }
 
     @RequestMapping(value = "/push/select", method = RequestMethod.GET)
-    public String detailSelect(Model model) {
-        List<Map<String, String>> pushObjTableList = pushObjService.getTableName();
+    public String detailSelect(Model model,HttpServletRequest request) {
+        int pageNum = getPageNum(request);
+        int pageSize = getPageSize(request);
 
-        model.addAttribute("pushObjTableList", pushObjTableList);
+        //List<Map<String, String>> pushObjTableList = pushObjService.getTableName();
+        PageInfo<Map<String, String>> pageInfo = pushObjService.getTableName(pageNum,pageSize);
+        model.addAttribute("pageInfo", pageInfo);
 
         return "pushobjObject";
     }
@@ -240,6 +238,7 @@ public class AdminController extends BasicController {
         String pushObjId = request.getParameter("tableId");
         String name = request.getParameter("objectName");
         String belong = request.getParameter("tableName");
+        String sort = request.getParameter("sort");
         String columnName = request.getParameter("filed");
 
         DetailObj existDetailObj = pushObjService.selectDetailObjByName(name);
@@ -248,6 +247,7 @@ public class AdminController extends BasicController {
             saveDetail.setId(id);
             saveDetail.setPushObjId(pushObjId);
             saveDetail.setName(name);
+            saveDetail.setMark(sort);
 
             id = pushObjService.detailObjSave(saveDetail);//保持修改并删除列
 

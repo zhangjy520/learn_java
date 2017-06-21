@@ -1,76 +1,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: 马立立
-  Date: 2017/5/2
-  Time: 14:32
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="common/base.jsp" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>推送对象管理</title>
     <%@ include file="common/resouces.jsp" %>
-    <script src="${ctxStatic}/js/bootstrap-table.js"></script>
-    <script src="${ctxStatic}/js/bootstrap-table-zh-CN.js"></script>
-    <script src="${ctxStatic}/js/jquery.min.js"></script>
 </head>
-<style>
-    div{
-        color: #525252;
-    }
-    select,input[type='text']{
-        height: 30px;
-        color: #525252;
-        font-size: 14px;
-    }
 
-    input[type='text']{
-        padding-left: 10px;
-    }
-    option{
-        height: 30px !important;
-        line-height: 30px !important;
-    }
-    #tableDate{
-        margin-top: 10px;
-    }
-    input[type='checkbox']{
-        position: relative;
-        bottom: -2px;
-    }
-</style>
 <body>
 <%@ include file="common/layout/menu.jsp" %>
 <div class="container">
     <main id="main-tab">
-<<<<<<< HEAD
-        <input type="button" value="保存" onclick="checkRight()" />
-            <div style="margin-top: 20px;">
-                <span>表名:</span>
-                <select id="NameTable">
-                    <c:forEach var="pushObjTable" items="${pushObjTableList}" varStatus="status">
-                        <option <c:if test="${pushObjTable.id eq detailObj.pushObjId}">selected</c:if>
-                                   value="${pushObjTable.id }">
-                                ${pushObjTable.tableName}
-                        </option>
-                    </c:forEach>
-                </select>
-                <span style="margin-left: 20px;">对象名:</span>
-                <input type="text"id="objectName" name="objectName" value="${detailObj.name}" >
-                <input type="text" value="${pushObjTableList.get(0).id}" id="tableId" name="tableId"  style="display:none;">
-                <input type="text" id="tableName" name="tableName" value="${pushObjTableList.get(0).tableName}" style="display: none"  >
-                <input type="text" id="filed" name="filed" value="${columnList}" style="display: none">
-                <input style="display: none" type="text" name="objectId" id="objectId" value="${detailObj.id}">
-            </div>
-            <div id="tableDate">
-                <c:forEach items="${pushObjFieldLists}"  var="pushObjFieldList"  varStatus="status">
-                    <div style="display: inline-block;width:200px;">
-                        <input type="checkbox" name="box" onclick="hit()"
-                               value="${pushObjFieldList.filed}">
-                        <span> ${pushObjFieldList.filed}</span>
-=======
         <table id="table" class="table" style="margin-top: 30px;">
             <tbody>
 
@@ -91,6 +31,8 @@
                         <input type="text" id="tableName" name="tableName" value="${pushObjTableList.get(0).objTableName}" style="display: none"  >
                         <input type="text" id="filed" name="filed" value="${columnList}" style="display: none">
                         <input style="display: none" type="text" name="objectId" id="objectId" value="${detailObj.id}">
+                        <label>推送顺序</label>
+                        <input id="sort" type="text" value="${detailObj.mark}"/>
                     </div>
                     <div id="tableDate">
                         <c:forEach items="${pushObjFieldLists}"  var="pushObjFieldList"  varStatus="status">
@@ -103,10 +45,9 @@
                     </div>
                     <div>
                         <input type="button" value="保存" onclick="checkRight()" />
->>>>>>> e99c16d9dc356b450a71ba4718bb32ec7cedc2ba
                     </div>
-                </c:forEach>
-            </div>
+            </tbody>
+        </table>
     </main>
 </div>
 <script>
@@ -124,7 +65,7 @@
         var obj=document.getElementsByName('box');
         var s='';
         for(var i=0; i<obj.length; i++){
-            if(obj[i].checked) s+=',' + obj[i].value; //如果选中，将value添加到变量s中
+            if(obj[i].checked) s+=','+obj[i].value; //如果选中，将value添加到变量s中
         }
         $("#filed").attr("value",s);
     }
@@ -176,18 +117,21 @@
         var tableId = $("#tableId").val();
 
         var tableName=$("#tableName").val();
+        var sort=$("#sort").val();
         var filed = $("#filed").val();
         $.post("${ctx}/admin/detail/objInsert?id=${detailObj.id}",{
             objectName:ObjectName,
             objectId:objectId,
             tableId:tableId,
             tableName:tableName,
+            sort:sort,
             filed:filed
         }, function (data) {
-            if(data=="false"){
-                alert("已有该对象名");
-            }else{
+            if(data.code== "0"){
+                alert(data.msg);
                 window.location.href="${ctx}/admin/push/select";
+            }else{
+                alert(data.msg);
             }
         })
     }

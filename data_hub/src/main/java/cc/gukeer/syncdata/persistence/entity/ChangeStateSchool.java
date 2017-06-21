@@ -7,8 +7,6 @@ public class ChangeStateSchool implements Serializable {
 
     private String syncId;
 
-    private String schoolId;
-
     private String parentId;
 
     private String name;
@@ -55,14 +53,6 @@ public class ChangeStateSchool implements Serializable {
 
     public void setSyncId(String syncId) {
         this.syncId = syncId == null ? null : syncId.trim();
-    }
-
-    public String getSchoolId() {
-        return schoolId;
-    }
-
-    public void setSchoolId(String schoolId) {
-        this.schoolId = schoolId == null ? null : schoolId.trim();
     }
 
     public String getParentId() {
@@ -199,7 +189,6 @@ public class ChangeStateSchool implements Serializable {
         ChangeStateSchool other = (ChangeStateSchool) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getSyncId() == null ? other.getSyncId() == null : this.getSyncId().equals(other.getSyncId()))
-            && (this.getSchoolId() == null ? other.getSchoolId() == null : this.getSchoolId().equals(other.getSchoolId()))
             && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getEname() == null ? other.getEname() == null : this.getEname().equals(other.getEname()))
@@ -223,7 +212,6 @@ public class ChangeStateSchool implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getSyncId() == null) ? 0 : getSyncId().hashCode());
-        result = prime * result + ((getSchoolId() == null) ? 0 : getSchoolId().hashCode());
         result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getEname() == null) ? 0 : getEname().hashCode());
@@ -250,7 +238,6 @@ public class ChangeStateSchool implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", syncId=").append(syncId);
-        sb.append(", schoolId=").append(schoolId);
         sb.append(", parentId=").append(parentId);
         sb.append(", name=").append(name);
         sb.append(", ename=").append(ename);

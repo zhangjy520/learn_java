@@ -1,29 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: lx
-  Date: 2017/4/14
-  Time: 14:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="common/base.jsp" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>同步管理</title>
     <%@ include file="common/resouces.jsp" %>
-    <link rel="stylesheet" href="${ctxStatic}/css/pageDevide.min.css"/>
-    <script src="${ctxStatic}/js/pageDevide.js"></script>
-    <link rel="stylesheet" href="${ctxStatic}/css/bootstrap-table.css"/>
-    <script src="${ctxStatic}/js/bootstrap-table.js"></script>
-    <script src="${ctxStatic}/js/bootstrap-table-zh-CN.js"></script>
 <body>
 <style>
     .label{
         font-weight: normal;
     }
-    span{
+/*    span{
         background: #fff !important;
-    }
+    }*/
     .label-primary {
         color: #00b4ef;
     }
@@ -99,7 +87,8 @@
                                 <input type="text" id="${syncView.refPlatformApp.id}" class="form-control" placeholder="add queue name..." >
                                 <span class="input-group-btn">
                                     <button  class="btn btn-default" onclick="add(this)" type="button" name="${syncView.refPlatformApp.id}">添加</button>
-                                </span> 
+                                </span>
+                            </div>
                         </td>
                     </c:if>
                     <td>${syncView.password}</td>
@@ -124,10 +113,14 @@
             </c:forEach>
             </tbody>
         </table>
-        <div class="clear">
+    <div>
+        <p>每条显示${syncViews.pageSize}条，共${syncViews.pages}页，共${syncViews.total}条记录</p>
+        <div class="fenY" id="fenYDiv"></div>
+    </div>
+        <%--<div>
             <p style="font-size: 12px; float: left;color: #666;">每条显示${syncViews.pageSize}条，共${syncViews.pages}页，共${syncViews.total}条记录</p>
             <div class="fenY" id="fenYDiv" style="display:inline-block;float: right" ></div>
-        </div>
+        </div>--%>
     <script>
         $("#menu_3").addClass("active");
         function add(a){

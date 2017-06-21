@@ -13,6 +13,8 @@ import cc.gukeer.syncdata.persistence.entity.DetailObj;
 import cc.gukeer.syncdata.persistence.entity.DetailObjColumn;
 import cc.gukeer.syncdata.persistence.entity.DetailObjColumnExample;
 import cc.gukeer.syncdata.persistence.entity.DetailObjExample;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +46,24 @@ public class PushObjServiceImpl implements PushObjService {
     public List<PushObj> getAllPushObj() {
         PushObjExample pushObjExample = new PushObjExample();
         pushObjExample.createCriteria();
+        pushObjExample.setOrderByClause("obj_table_name");
+
         List<PushObj> pushObjList = pushObjMapper.selectByExample(pushObjExample);
         return pushObjList;
+    }
+
+    @Override
+    public PageInfo<PushObj> getAllPushObj(int pageSize, int pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        PushObjExample pushObjExample = new PushObjExample();
+        pushObjExample.createCriteria();
+        pushObjExample.setOrderByClause("obj_table_name");
+
+        List<PushObj> pushObjList = pushObjMapper.selectByExample(pushObjExample);
+        PageInfo<PushObj> pageInfo = new PageInfo<PushObj>(pushObjList);
+
+        return pageInfo;
     }
 
     @Override
@@ -128,6 +146,14 @@ public class PushObjServiceImpl implements PushObjService {
     @Override
     public List<Map<String, String>> getTableName() {
         return a_pushObjMapper.getTableName();
+    }
+
+    @Override
+    public PageInfo<Map<String, String>> getTableName(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Map<String, String>> list = a_pushObjMapper.getTableName();
+        PageInfo<Map<String,String>> pageInfo = new PageInfo<Map<String,String>>(list);
+        return pageInfo;
     }
 
 

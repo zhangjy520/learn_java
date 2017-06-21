@@ -13,6 +13,8 @@
         </list>
     </property>
 </bean>
+
+    <bean class="cc.gukeer.common.utils.SpringContextUtil" lazy-init="false" />
     <import resource="application-jms.xml"/>
     <import resource="syncScon-quartz.xml"/>
 </beans>

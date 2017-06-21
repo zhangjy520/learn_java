@@ -24,24 +24,29 @@
                 <li id="menu_3"><a href="${ctx}/admin/sync">同步管理</a></li>
                 <li id="menu_4"><a href="${ctx}/admin/pushObj">表管理</a></li>
                 <li id="menu_5"><a href="${ctx}/admin/push/select">推送对象管理</a> </li>
-                <%--<li class="dropdown">--%>
-                <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>--%>
-                <%--<ul class="dropdown-menu">--%>
-                <%--<li><a href="#">Action</a></li>--%>
-                <%--<li><a href="#">Another action</a></li>--%>
-                <%--<li><a href="#">Something else here</a></li>--%>
-                <%--<li role="separator" class="divider"></li>--%>
-                <%--<li><a href="#">Separated link</a></li>--%>
-                <%--<li role="separator" class="divider"></li>--%>
-                <%--<li><a href="#">One more separated link</a></li>--%>
-                <%--</ul>--%>
-                <%--</li>--%>
+
+            <%--        <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+                </ul>
+                </li>--%>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="${ctx}/doLogout">退出登录</a></li>
-                <li><a>管理员</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理员<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="${ctx}/doLogout">退出登录</a></li>
+                    </ul>
+                </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </div>
+    </div>
 </nav>

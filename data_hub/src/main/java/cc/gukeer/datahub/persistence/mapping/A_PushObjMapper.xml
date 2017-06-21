@@ -6,7 +6,7 @@
 		  	push_obj.obj_table_name AS tableName,
 				detail_obj.`name` AS  ObjectName
 			FROM detail_obj LEFT JOIN push_obj
-			ON detail_obj.push_obj_id = push_obj.id
+			ON detail_obj.push_obj_id = push_obj.id ORDER BY tableName
   </select>
 
 

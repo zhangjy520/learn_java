@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.gukeer.syncdata.persistence.dao.ChangeStateClassRoomMapper" >
+  <resultMap id="BaseResultMap" type="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoom" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sync_id" property="syncId" jdbcType="VARCHAR" />
+    <result column="classroom_type_id" property="classroomTypeId" jdbcType="VARCHAR" />
+    <result column="classroom_type_name" property="classroomTypeName" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="no" property="no" jdbcType="VARCHAR" />
+    <result column="layer" property="layer" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="actnum" property="actnum" jdbcType="INTEGER" />
+    <result column="testnum" property="testnum" jdbcType="INTEGER" />
+    <result column="rnrs" property="rnrs" jdbcType="INTEGER" />
+    <result column="sfxk" property="sfxk" jdbcType="INTEGER" />
+    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="event" property="event" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="sync_date" property="syncDate" jdbcType="VARCHAR" />
+    <result column="sync_del_flag" property="syncDelFlag" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sync_id, classroom_type_id, classroom_type_name, area_id, area, no, layer, number, 
+    actnum, testnum, rnrs, sfxk, school_id, event, source, sync_date, sync_del_flag, 
+    update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoomExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from change_state_teach_class_room
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from change_state_teach_class_room
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from change_state_teach_class_room
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoomExample" >
+    delete from change_state_teach_class_room
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoom" >
+    insert into change_state_teach_class_room (id, sync_id, classroom_type_id, 
+      classroom_type_name, area_id, area, 
+      no, layer, number, 
+      actnum, testnum, rnrs, 
+      sfxk, school_id, event, 
+      source, sync_date, sync_del_flag, 
+      update_date)
+    values (#{id,jdbcType=VARCHAR}, #{syncId,jdbcType=VARCHAR}, #{classroomTypeId,jdbcType=VARCHAR}, 
+      #{classroomTypeName,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{no,jdbcType=VARCHAR}, #{layer,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, 
+      #{actnum,jdbcType=INTEGER}, #{testnum,jdbcType=INTEGER}, #{rnrs,jdbcType=INTEGER}, 
+      #{sfxk,jdbcType=INTEGER}, #{schoolId,jdbcType=VARCHAR}, #{event,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{syncDate,jdbcType=VARCHAR}, #{syncDelFlag,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoom" >
+    insert into change_state_teach_class_room
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="syncId != null" >
+        sync_id,
+      </if>
+      <if test="classroomTypeId != null" >
+        classroom_type_id,
+      </if>
+      <if test="classroomTypeName != null" >
+        classroom_type_name,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="layer != null" >
+        layer,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="actnum != null" >
+        actnum,
+      </if>
+      <if test="testnum != null" >
+        testnum,
+      </if>
+      <if test="rnrs != null" >
+        rnrs,
+      </if>
+      <if test="sfxk != null" >
+        sfxk,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="event != null" >
+        event,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="syncDate != null" >
+        sync_date,
+      </if>
+      <if test="syncDelFlag != null" >
+        sync_del_flag,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="syncId != null" >
+        #{syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomTypeId != null" >
+        #{classroomTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomTypeName != null" >
+        #{classroomTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="layer != null" >
+        #{layer,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="actnum != null" >
+        #{actnum,jdbcType=INTEGER},
+      </if>
+      <if test="testnum != null" >
+        #{testnum,jdbcType=INTEGER},
+      </if>
+      <if test="rnrs != null" >
+        #{rnrs,jdbcType=INTEGER},
+      </if>
+      <if test="sfxk != null" >
+        #{sfxk,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null" >
+        #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDate != null" >
+        #{syncDate,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDelFlag != null" >
+        #{syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoomExample" resultType="java.lang.Integer" >
+    select count(*) from change_state_teach_class_room
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update change_state_teach_class_room
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncId != null" >
+        sync_id = #{record.syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classroomTypeId != null" >
+        classroom_type_id = #{record.classroomTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classroomTypeName != null" >
+        classroom_type_name = #{record.classroomTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.no != null" >
+        no = #{record.no,jdbcType=VARCHAR},
+      </if>
+      <if test="record.layer != null" >
+        layer = #{record.layer,jdbcType=INTEGER},
+      </if>
+      <if test="record.number != null" >
+        number = #{record.number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actnum != null" >
+        actnum = #{record.actnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.testnum != null" >
+        testnum = #{record.testnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.rnrs != null" >
+        rnrs = #{record.rnrs,jdbcType=INTEGER},
+      </if>
+      <if test="record.sfxk != null" >
+        sfxk = #{record.sfxk,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.event != null" >
+        event = #{record.event,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncDate != null" >
+        sync_date = #{record.syncDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncDelFlag != null" >
+        sync_del_flag = #{record.syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update change_state_teach_class_room
+    set id = #{record.id,jdbcType=VARCHAR},
+      sync_id = #{record.syncId,jdbcType=VARCHAR},
+      classroom_type_id = #{record.classroomTypeId,jdbcType=VARCHAR},
+      classroom_type_name = #{record.classroomTypeName,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      no = #{record.no,jdbcType=VARCHAR},
+      layer = #{record.layer,jdbcType=INTEGER},
+      number = #{record.number,jdbcType=VARCHAR},
+      actnum = #{record.actnum,jdbcType=INTEGER},
+      testnum = #{record.testnum,jdbcType=INTEGER},
+      rnrs = #{record.rnrs,jdbcType=INTEGER},
+      sfxk = #{record.sfxk,jdbcType=INTEGER},
+      school_id = #{record.schoolId,jdbcType=VARCHAR},
+      event = #{record.event,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      sync_date = #{record.syncDate,jdbcType=VARCHAR},
+      sync_del_flag = #{record.syncDelFlag,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoom" >
+    update change_state_teach_class_room
+    <set >
+      <if test="syncId != null" >
+        sync_id = #{syncId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomTypeId != null" >
+        classroom_type_id = #{classroomTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomTypeName != null" >
+        classroom_type_name = #{classroomTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
+        no = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="layer != null" >
+        layer = #{layer,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="actnum != null" >
+        actnum = #{actnum,jdbcType=INTEGER},
+      </if>
+      <if test="testnum != null" >
+        testnum = #{testnum,jdbcType=INTEGER},
+      </if>
+      <if test="rnrs != null" >
+        rnrs = #{rnrs,jdbcType=INTEGER},
+      </if>
+      <if test="sfxk != null" >
+        sfxk = #{sfxk,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null" >
+        event = #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDate != null" >
+        sync_date = #{syncDate,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDelFlag != null" >
+        sync_del_flag = #{syncDelFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateClassRoom" >
+    update change_state_teach_class_room
+    set sync_id = #{syncId,jdbcType=VARCHAR},
+      classroom_type_id = #{classroomTypeId,jdbcType=VARCHAR},
+      classroom_type_name = #{classroomTypeName,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      no = #{no,jdbcType=VARCHAR},
+      layer = #{layer,jdbcType=INTEGER},
+      number = #{number,jdbcType=VARCHAR},
+      actnum = #{actnum,jdbcType=INTEGER},
+      testnum = #{testnum,jdbcType=INTEGER},
+      rnrs = #{rnrs,jdbcType=INTEGER},
+      sfxk = #{sfxk,jdbcType=INTEGER},
+      school_id = #{schoolId,jdbcType=VARCHAR},
+      event = #{event,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      sync_date = #{syncDate,jdbcType=VARCHAR},
+      sync_del_flag = #{syncDelFlag,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

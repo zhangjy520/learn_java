@@ -1,19 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: lx
-  Date: 2017/4/12
-  Time: 18:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="common/base.jsp" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>队列信息</title>
     <%@ include file="common/resouces.jsp" %>
-    <%--<link rel="stylesheet" href="${ctxStatic}/css/bootstrap-table.css"/>--%>
-    <script src="${ctxStatic}/js/bootstrap-table.js"></script>
-    <script src="${ctxStatic}/js/bootstrap-table-zh-CN.js"></script>
     <script src="${ctxStatic}/js/echarts.simple.min.js"></script>
 
 </head>
@@ -33,7 +23,7 @@
 <script type="text/javascript">
     $(function () {
         $("#menu_1").addClass("active");
-        $.getJSON("http://114.215.29.139:11060/queue/json?callback=?",
+        $.getJSON("http://1.189.113.29:6379/queue/json?callback=?",
                 function (data) {
                     $('#table').bootstrapTable({
                         columns: [{

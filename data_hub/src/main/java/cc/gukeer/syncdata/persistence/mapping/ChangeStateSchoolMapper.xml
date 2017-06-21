@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="cc.gukeer.syncdata.persistence.entity.ChangeStateSchool" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="sync_id" property="syncId" jdbcType="VARCHAR" />
-    <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="ename" property="ename" jdbcType="VARCHAR" />
@@ -80,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, sync_id, school_id, parent_id, name, ename, xz, type, grade, logo, bg_picture, 
-    address, short_flag, update_date, event, source, sync_del_flag, sync_date
+    id, sync_id, parent_id, name, ename, xz, type, grade, logo, bg_picture, address, 
+    short_flag, update_date, event, source, sync_del_flag, sync_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateSchoolExample" >
     select
@@ -115,18 +114,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateSchool" >
-    insert into change_state_org_school (id, sync_id, school_id, 
-      parent_id, name, ename, 
-      xz, type, grade, logo, 
-      bg_picture, address, short_flag, 
-      update_date, event, source, 
-      sync_del_flag, sync_date)
-    values (#{id,jdbcType=VARCHAR}, #{syncId,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, 
-      #{xz,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, 
-      #{bgPicture,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{shortFlag,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=BIGINT}, #{event,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
-      #{syncDelFlag,jdbcType=VARCHAR}, #{syncDate,jdbcType=BIGINT})
+    insert into change_state_org_school (id, sync_id, parent_id, 
+      name, ename, xz, type, 
+      grade, logo, bg_picture, 
+      address, short_flag, update_date, 
+      event, source, sync_del_flag, 
+      sync_date)
+    values (#{id,jdbcType=VARCHAR}, #{syncId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, #{xz,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{grade,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, #{bgPicture,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{shortFlag,jdbcType=VARCHAR}, #{updateDate,jdbcType=BIGINT}, 
+      #{event,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{syncDelFlag,jdbcType=VARCHAR}, 
+      #{syncDate,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateSchool" >
     insert into change_state_org_school
@@ -136,9 +135,6 @@
       </if>
       <if test="syncId != null" >
         sync_id,
-      </if>
-      <if test="schoolId != null" >
-        school_id,
       </if>
       <if test="parentId != null" >
         parent_id,
@@ -192,9 +188,6 @@
       </if>
       <if test="syncId != null" >
         #{syncId,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolId != null" >
-        #{schoolId,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null" >
         #{parentId,jdbcType=VARCHAR},
@@ -258,9 +251,6 @@
       <if test="record.syncId != null" >
         sync_id = #{record.syncId,jdbcType=VARCHAR},
       </if>
-      <if test="record.schoolId != null" >
-        school_id = #{record.schoolId,jdbcType=VARCHAR},
-      </if>
       <if test="record.parentId != null" >
         parent_id = #{record.parentId,jdbcType=VARCHAR},
       </if>
@@ -315,7 +305,6 @@
     update change_state_org_school
     set id = #{record.id,jdbcType=VARCHAR},
       sync_id = #{record.syncId,jdbcType=VARCHAR},
-      school_id = #{record.schoolId,jdbcType=VARCHAR},
       parent_id = #{record.parentId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       ename = #{record.ename,jdbcType=VARCHAR},
@@ -340,9 +329,6 @@
     <set >
       <if test="syncId != null" >
         sync_id = #{syncId,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolId != null" >
-        school_id = #{schoolId,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=VARCHAR},
@@ -395,7 +381,6 @@
   <update id="updateByPrimaryKey" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateSchool" >
     update change_state_org_school
     set sync_id = #{syncId,jdbcType=VARCHAR},
-      school_id = #{schoolId,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       ename = #{ename,jdbcType=VARCHAR},
