@@ -12,7 +12,7 @@
                 onrendered: function (canvas) {
                     var dataUrl = canvas.toDataURL('image/png');
                     var formData = new FormData(); //模拟表单对象
-                    前段.append("imgData", convertBase64UrlToBlob(dataUrl)); //写入数据
+                    formData.append("imgData", convertBase64UrlToBlob(dataUrl)); //写入数据
                     var xhr = new XMLHttpRequest(); //数据传输方法
                     xhr.open("POST", "http://localhost:8080/pdf"); //配置传输方式及地址
                     xhr.send(formData);
