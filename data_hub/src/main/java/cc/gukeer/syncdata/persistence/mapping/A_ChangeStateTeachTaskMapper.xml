@@ -13,6 +13,7 @@
         `xn`,
         `xq`,
         `school_id`,
+        `term_begin_time`,
         `event`,
         `source`,
         `sync_date`,
@@ -22,7 +23,7 @@
         <foreach collection="list" item="item" index="index" separator=",">
             (
             #{item.id},#{item.syncId},#{item.name},#{item.startWeek},
-            #{item.endWeek},#{item.xn},#{item.xq},#{item.schoolId},
+            #{item.endWeek},#{item.xn},#{item.xq},#{item.schoolId},#{item.termBeginTime},
             #{item.event},#{item.source},#{item.syncDate},#{item.syncDelFlag},
             #{item.updateDate}
             )
@@ -254,7 +255,8 @@
         sync_date)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.parentId,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.parentId,jdbcType=VARCHAR},
             #{item.no,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.shortName,jdbcType=VARCHAR},
             #{item.masterId,jdbcType=VARCHAR}, #{item.masterName,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
             #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
@@ -273,8 +275,10 @@
         )
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
-            #{item.xd,jdbcType=VARCHAR}, #{item.nj,jdbcType=INTEGER}, #{item.bh,jdbcType=INTEGER}, #{item.bjlx,jdbcType=INTEGER},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+            #{item.xd,jdbcType=VARCHAR}, #{item.nj,jdbcType=INTEGER}, #{item.bh,jdbcType=INTEGER},
+            #{item.bjlx,jdbcType=INTEGER},
             #{item.xq,jdbcType=VARCHAR}, #{item.rxnd,jdbcType=BIGINT}, #{item.masterId,jdbcType=INTEGER},
             #{item.masterName,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR},
             #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}
@@ -292,9 +296,11 @@
         sync_date)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
             #{item.studentId,jdbcType=VARCHAR}, #{item.work,jdbcType=VARCHAR}, #{item.workAt,jdbcType=VARCHAR},
-            #{item.phone,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER}, #{item.sfjhr,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
+            #{item.phone,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER},
+            #{item.sfjhr,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
             #{item.sfyqsh,jdbcType=INTEGER}, #{item.patriarchFlag,jdbcType=INTEGER}, #{item.updateDate,jdbcType=BIGINT},
             #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
             #{item.syncDate,jdbcType=BIGINT})
@@ -327,8 +333,10 @@
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},#{item.parentId,jdbcType=VARCHAR},
-            #{item.name,jdbcType=VARCHAR}, #{item.ename,jdbcType=VARCHAR}, #{item.xz,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER},
-            #{item.grade,jdbcType=INTEGER},#{item.logo,jdbcType=VARCHAR}, #{item.bgPicture,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR}, #{item.ename,jdbcType=VARCHAR}, #{item.xz,jdbcType=VARCHAR},
+            #{item.type,jdbcType=INTEGER},
+            #{item.grade,jdbcType=INTEGER},#{item.logo,jdbcType=VARCHAR}, #{item.bgPicture,jdbcType=VARCHAR},
+            #{item.address,jdbcType=VARCHAR},
             #{item.shortFlag,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR},
             #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}
             )
@@ -342,7 +350,7 @@
         update_date, event, source,
         sync_del_flag, sync_date)
         VALUES
-        <foreach collection="list" item="item" index="index" separator="," >
+        <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},#{item.schoolId,jdbcType=VARCHAR},
             #{item.name,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR},
             #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR},
@@ -357,7 +365,8 @@
         update_date, event, source,
         sync_del_flag, sync_date)values
         <foreach collection="list" item="item" separator="," index="index">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},
             #{item.shortName,jdbcType=VARCHAR}, #{item.limitAge,jdbcType=INTEGER}, #{item.sectionYear,jdbcType=INTEGER},
             #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR},
             #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT})
@@ -380,15 +389,21 @@
         sync_del_flag, sync_date)
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.classId,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.classId,jdbcType=VARCHAR},
             #{item.xsxm,jdbcType=VARCHAR}, #{item.xszp,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR},
-            #{item.csrq,jdbcType=BIGINT}, #{item.rxrq,jdbcType=BIGINT}, #{item.xsxb,jdbcType=INTEGER}, #{item.xssg,jdbcType=VARCHAR},
-            #{item.xh,jdbcType=VARCHAR}, #{item.xjh,jdbcType=VARCHAR}, #{item.qgxjh,jdbcType=VARCHAR}, #{item.jyid,jdbcType=VARCHAR},
+            #{item.csrq,jdbcType=BIGINT}, #{item.rxrq,jdbcType=BIGINT}, #{item.xsxb,jdbcType=INTEGER},
+            #{item.xssg,jdbcType=VARCHAR},
+            #{item.xh,jdbcType=VARCHAR}, #{item.xjh,jdbcType=VARCHAR}, #{item.qgxjh,jdbcType=VARCHAR},
+            #{item.jyid,jdbcType=VARCHAR},
             #{item.syd,jdbcType=VARCHAR}, #{item.yxzjlx,jdbcType=INTEGER}, #{item.yxzjh,jdbcType=VARCHAR},
             #{item.jbs,jdbcType=VARCHAR}, #{item.sfsbt,jdbcType=INTEGER}, #{item.sbtxh,jdbcType=INTEGER},
-            #{item.xslb,jdbcType=INTEGER}, #{item.gb,jdbcType=VARCHAR}, #{item.mz,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR},
-            #{item.zzmm,jdbcType=INTEGER}, #{item.zslb,jdbcType=INTEGER}, #{item.lydq,jdbcType=VARCHAR}, #{item.hkszd,jdbcType=VARCHAR},
-            #{item.xjzd,jdbcType=VARCHAR}, #{item.hkxz,jdbcType=VARCHAR}, #{item.status,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
+            #{item.xslb,jdbcType=INTEGER}, #{item.gb,jdbcType=VARCHAR}, #{item.mz,jdbcType=VARCHAR},
+            #{item.jg,jdbcType=VARCHAR},
+            #{item.zzmm,jdbcType=INTEGER}, #{item.zslb,jdbcType=INTEGER}, #{item.lydq,jdbcType=VARCHAR},
+            #{item.hkszd,jdbcType=VARCHAR},
+            #{item.xjzd,jdbcType=VARCHAR}, #{item.hkxz,jdbcType=VARCHAR},
+            #{item.status,jdbcType=INTEGER},#{item.account,jdbcType=VARCHAR},
             #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR},
             #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT})
         </foreach>
@@ -413,9 +428,12 @@
             #{item.identity,jdbcType=VARCHAR}, #{item.isManage,jdbcType=INTEGER}, #{item.titleId,jdbcType=VARCHAR},
             #{item.no,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR},
             #{item.email,jdbcType=VARCHAR}, #{item.startWork,jdbcType=BIGINT}, #{item.headUrl,jdbcType=VARCHAR},
-            #{item.zc,jdbcType=VARCHAR}, #{item.sfzrjs,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR}, #{item.zzmm,jdbcType=VARCHAR},
-            #{item.rjxk,jdbcType=VARCHAR}, #{item.xq,jdbcType=VARCHAR}, #{item.zgxl,jdbcType=VARCHAR}, #{item.zgbyxx,jdbcType=VARCHAR},
-            #{item.lwxsj,jdbcType=BIGINT}, #{item.sfhq,jdbcType=VARCHAR}, #{item.sfbzr,jdbcType=VARCHAR},#{item.account,jdbcType=VARCHAR},
+            #{item.zc,jdbcType=VARCHAR}, #{item.sfzrjs,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR},
+            #{item.zzmm,jdbcType=VARCHAR},
+            #{item.rjxk,jdbcType=VARCHAR}, #{item.xq,jdbcType=VARCHAR}, #{item.zgxl,jdbcType=VARCHAR},
+            #{item.zgbyxx,jdbcType=VARCHAR},
+            #{item.lwxsj,jdbcType=BIGINT}, #{item.sfhq,jdbcType=VARCHAR},
+            #{item.sfbzr,jdbcType=VARCHAR},#{item.account,jdbcType=VARCHAR},
             #{item.wyyz,jdbcType=VARCHAR}, #{item.zyjsgwfl,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
             #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
             #{item.syncDate,jdbcType=BIGINT})
@@ -430,7 +448,8 @@
         sync_date)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.mc,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.mc,jdbcType=VARCHAR},
             #{item.jb,jdbcType=VARCHAR}, #{item.px,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT},
             #{item.event,jdbcType=VARCHAR}, #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR},
             #{item.syncDate,jdbcType=BIGINT})
@@ -446,11 +465,71 @@
         )
         values
         <foreach collection="list" index="index" separator="," item="item">
-            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR}, #{item.schoolId,jdbcType=VARCHAR},#{item.username,jdbcType=VARCHAR},
+            (#{item.id,jdbcType=VARCHAR}, #{item.syncId,jdbcType=VARCHAR},
+            #{item.schoolId,jdbcType=VARCHAR},#{item.username,jdbcType=VARCHAR},
             #{item.password,jdbcType=VARCHAR}, #{item.refId,jdbcType=VARCHAR}, #{item.userType,jdbcType=INTEGER},
             #{item.photoUrl,jdbcType=VARCHAR}, #{item.updateDate,jdbcType=BIGINT}, #{item.event,jdbcType=VARCHAR},
             #{item.source,jdbcType=VARCHAR}, #{item.syncDelFlag,jdbcType=VARCHAR}, #{item.syncDate,jdbcType=BIGINT}
             )
         </foreach>
     </insert>
+
+    <!--课节表change_state_course_node-->
+    <insert id="batchInsertCourseNode">
+        insert into change_state_teach_course_node (`id`,
+        `sync_id`,
+        `school_id`,
+        `course_node_init_id`,
+        `cycle_id`,
+        `cycle_year`,
+        `cycle_semester`,
+        `node`,
+        `node_name`,
+        `start_time`,
+        `end_time`,
+        `morning_afternoon`,
+        `week`,
+        `summer_winter_time`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`)
+        values
+        <foreach collection="list" index="index" separator="," item="item">
+            (#{item.id},#{item.syncId},#{item.schoolId},#{item.courseNodeInitId},
+            #{item.cycleId},#{item.cycleYear},#{item.cycleSemester},#{item.node},
+            #{item.nodeName},#{item.startTime},#{item.endTime},#{item.morningAfternoon},
+            #{item.week},#{item.summerWinterTime},#{item.event},#{item.source},
+            #{item.syncDate},#{item.syncDelFlag}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--课节表change_state_course_node_init-->
+    <insert id="batchInsertCourseNodeInit">
+        insert into change_state_teache_course_node_init (`id`,
+        `sync_id`,
+        `school_id`,
+        `name`,
+        `cycle_id`,
+        `cycle_year`,
+        `cycle_semester`,
+        `start_week`,
+        `end_week`,
+        `event`,
+        `source`,
+        `sync_date`,
+        `sync_del_flag`)
+        values
+        <foreach collection="list" index="index" separator="," item="item">
+            (#{item.id},#{item.syncId},#{item.schoolId},#{item.name},
+            #{item.cycleId},#{item.cycleYear},#{item.cycleSemester},#{item.startWeek},
+            #{item.endWeek},#{item.event},#{item.source},#{item.syncDate},
+            #{item.syncDelFlag}
+            )
+        </foreach>
+    </insert>
+
+
 </mapper>

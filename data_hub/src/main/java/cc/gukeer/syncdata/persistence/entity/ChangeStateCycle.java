@@ -19,6 +19,8 @@ public class ChangeStateCycle implements Serializable {
 
     private String schoolId;
 
+    private Long termBeginTime;
+
     private String event;
 
     private String source;
@@ -95,6 +97,14 @@ public class ChangeStateCycle implements Serializable {
         this.schoolId = schoolId == null ? null : schoolId.trim();
     }
 
+    public Long getTermBeginTime() {
+        return termBeginTime;
+    }
+
+    public void setTermBeginTime(Long termBeginTime) {
+        this.termBeginTime = termBeginTime;
+    }
+
     public String getEvent() {
         return event;
     }
@@ -155,6 +165,7 @@ public class ChangeStateCycle implements Serializable {
             && (this.getXn() == null ? other.getXn() == null : this.getXn().equals(other.getXn()))
             && (this.getXq() == null ? other.getXq() == null : this.getXq().equals(other.getXq()))
             && (this.getSchoolId() == null ? other.getSchoolId() == null : this.getSchoolId().equals(other.getSchoolId()))
+            && (this.getTermBeginTime() == null ? other.getTermBeginTime() == null : this.getTermBeginTime().equals(other.getTermBeginTime()))
             && (this.getEvent() == null ? other.getEvent() == null : this.getEvent().equals(other.getEvent()))
             && (this.getSource() == null ? other.getSource() == null : this.getSource().equals(other.getSource()))
             && (this.getSyncDate() == null ? other.getSyncDate() == null : this.getSyncDate().equals(other.getSyncDate()))
@@ -174,6 +185,7 @@ public class ChangeStateCycle implements Serializable {
         result = prime * result + ((getXn() == null) ? 0 : getXn().hashCode());
         result = prime * result + ((getXq() == null) ? 0 : getXq().hashCode());
         result = prime * result + ((getSchoolId() == null) ? 0 : getSchoolId().hashCode());
+        result = prime * result + ((getTermBeginTime() == null) ? 0 : getTermBeginTime().hashCode());
         result = prime * result + ((getEvent() == null) ? 0 : getEvent().hashCode());
         result = prime * result + ((getSource() == null) ? 0 : getSource().hashCode());
         result = prime * result + ((getSyncDate() == null) ? 0 : getSyncDate().hashCode());
@@ -196,6 +208,7 @@ public class ChangeStateCycle implements Serializable {
         sb.append(", xn=").append(xn);
         sb.append(", xq=").append(xq);
         sb.append(", schoolId=").append(schoolId);
+        sb.append(", termBeginTime=").append(termBeginTime);
         sb.append(", event=").append(event);
         sb.append(", source=").append(source);
         sb.append(", syncDate=").append(syncDate);

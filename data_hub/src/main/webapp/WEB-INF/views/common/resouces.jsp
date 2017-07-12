@@ -16,3 +16,4 @@
 <link rel="stylesheet" href="${ctxStatic}/css/bootstrap-table.css"/>
 <script src="${ctxStatic}/js/bootstrap-table.js"></script>
 <script src="${ctxStatic}/js/bootstrap-table-zh-CN.js"></script>
+<script src="${ctxStatic}/js/easyform.js"></script>

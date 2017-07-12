@@ -23,7 +23,7 @@
 <script type="text/javascript">
     $(function () {
         $("#menu_1").addClass("active");
-        $.getJSON("http://1.189.113.29:6379/queue/json?callback=?",
+        $.getJSON("http://121.42.173.162:11060/queue/json?callback=?",
                 function (data) {
                     $('#table').bootstrapTable({
                         columns: [{

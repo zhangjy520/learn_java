@@ -97,6 +97,12 @@ public class DataSaveServiceImpl implements DataSaveService {
     @Autowired
     ChangeStateRefTeacherMapper refTeacherMapper;
 
+    @Autowired
+    ChangeStateCourseNodeMapper courseNodeMapper;
+
+    @Autowired
+    ChangeStateCourseNodeInitMapper courseNodeInitMapper;
+
     @Override
     public int routeInit(List<? extends Object> viewList, Integer type) {
 
@@ -933,6 +939,80 @@ public class DataSaveServiceImpl implements DataSaveService {
             return refTeacherMapper.insert(teacherClass);
 
         return refTeacherMapper.updateByExample(teacherClass, changeStateRefTeacherExample);
+    }
+
+    @Override
+    public int batchInsertCourseNode(List<ChangeStateCourseNode> list, String source) {
+        for (ChangeStateCourseNode courseNode : list) {
+            courseNode.setId(PrimaryKey.get());
+            courseNode.setSource(source);
+        }
+        teachTaskMapper.batchInsertCourseNode(list);
+        return list.size();
+    }
+
+    @Override
+    public int batchDeleteCourseNode(List<ChangeStateCourseNode> list) {
+        List<String> idList = new ArrayList<>();
+        for (ChangeStateCourseNode courseNode : list) {
+            idList.add(courseNode.getSyncId());
+        }
+        ChangeStateCourseNodeExample example = new ChangeStateCourseNodeExample();
+        example.createCriteria().andSyncIdIn(idList);
+
+        return courseNodeMapper.deleteByExample(example);
+    }
+
+    @Override
+    public int updateCourseNode(ChangeStateCourseNode courseNode, String source) {
+        ChangeStateCourseNodeExample example = new ChangeStateCourseNodeExample();
+        example.createCriteria().andSyncIdEqualTo(courseNode.getSyncId());
+
+        courseNode.setId(PrimaryKey.get());
+        courseNode.setSource(source);
+
+        List<ChangeStateCourseNode> res = courseNodeMapper.selectByExample(example);
+        if (res.size() == 0)
+            return courseNodeMapper.insert(courseNode);
+
+        return courseNodeMapper.updateByExample(courseNode, example);
+    }
+
+    @Override
+    public int batchInsertCourseNodeInit(List<ChangeStateCourseNodeInit> list, String source) {
+        for (ChangeStateCourseNodeInit courseNodeInit : list) {
+            courseNodeInit.setId(PrimaryKey.get());
+            courseNodeInit.setSource(source);
+        }
+        teachTaskMapper.batchInsertCourseNodeInit(list);
+        return list.size();
+    }
+
+    @Override
+    public int batchDeleteCourseNodeInit(List<ChangeStateCourseNodeInit> list) {
+        List<String> idList = new ArrayList<>();
+        for (ChangeStateCourseNodeInit courseNodeInit : list) {
+            idList.add(courseNodeInit.getSyncId());
+        }
+        ChangeStateCourseNodeInitExample example = new ChangeStateCourseNodeInitExample();
+        example.createCriteria().andSyncIdIn(idList);
+
+        return courseNodeInitMapper.deleteByExample(example);
+    }
+
+    @Override
+    public int updateCourseNodeInit(ChangeStateCourseNodeInit courseNodeInit, String source) {
+        ChangeStateCourseNodeInitExample example = new ChangeStateCourseNodeInitExample();
+        example.createCriteria().andSyncIdEqualTo(courseNodeInit.getSyncId());
+
+        courseNodeInit.setId(PrimaryKey.get());
+        courseNodeInit.setSource(source);
+
+        List<ChangeStateCourseNodeInit> res = courseNodeInitMapper.selectByExample(example);
+        if (res.size() == 0)
+            return courseNodeInitMapper.insert(courseNodeInit);
+
+        return courseNodeInitMapper.updateByExample(courseNodeInit, example);
     }
 
 

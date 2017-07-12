@@ -66,4 +66,10 @@ public interface A_ChangeStateTeachTaskMapper {
     //用户表 change_state_sys_user
     int batchInsertUser(List<ChangeStateUser> list);
 
+    //课节表change_state_course_node
+    int batchInsertCourseNode(List<ChangeStateCourseNode> list);
+
+    //课节表change_state_course_node_init
+    int batchInsertCourseNodeInit(List<ChangeStateCourseNodeInit> list);
+
 }

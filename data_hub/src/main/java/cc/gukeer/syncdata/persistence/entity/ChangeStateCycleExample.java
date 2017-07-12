@@ -634,6 +634,66 @@ public class ChangeStateCycleExample {
             return (Criteria) this;
         }
 
+        public Criteria andTermBeginTimeIsNull() {
+            addCriterion("term_begin_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeIsNotNull() {
+            addCriterion("term_begin_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeEqualTo(Long value) {
+            addCriterion("term_begin_time =", value, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeNotEqualTo(Long value) {
+            addCriterion("term_begin_time <>", value, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeGreaterThan(Long value) {
+            addCriterion("term_begin_time >", value, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("term_begin_time >=", value, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeLessThan(Long value) {
+            addCriterion("term_begin_time <", value, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeLessThanOrEqualTo(Long value) {
+            addCriterion("term_begin_time <=", value, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeIn(List<Long> values) {
+            addCriterion("term_begin_time in", values, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeNotIn(List<Long> values) {
+            addCriterion("term_begin_time not in", values, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeBetween(Long value1, Long value2) {
+            addCriterion("term_begin_time between", value1, value2, "termBeginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermBeginTimeNotBetween(Long value1, Long value2) {
+            addCriterion("term_begin_time not between", value1, value2, "termBeginTime");
+            return (Criteria) this;
+        }
+
         public Criteria andEventIsNull() {
             addCriterion("event is null");
             return (Criteria) this;

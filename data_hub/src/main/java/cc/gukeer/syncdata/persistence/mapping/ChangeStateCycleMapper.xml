@@ -10,6 +10,7 @@
     <result column="xn" property="xn" jdbcType="VARCHAR" />
     <result column="xq" property="xq" jdbcType="INTEGER" />
     <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="term_begin_time" property="termBeginTime" jdbcType="BIGINT" />
     <result column="event" property="event" jdbcType="VARCHAR" />
     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="sync_date" property="syncDate" jdbcType="VARCHAR" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, sync_id, name, start_week, end_week, xn, xq, school_id, event, source, sync_date, 
-    sync_del_flag, update_date
+    id, sync_id, name, start_week, end_week, xn, xq, school_id, term_begin_time, event, 
+    source, sync_date, sync_del_flag, update_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateCycleExample" >
     select
@@ -112,14 +113,14 @@
   <insert id="insert" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateCycle" >
     insert into change_state_teach_cycle (id, sync_id, name, 
       start_week, end_week, xn, 
-      xq, school_id, event, 
-      source, sync_date, sync_del_flag, 
-      update_date)
+      xq, school_id, term_begin_time, 
+      event, source, sync_date, 
+      sync_del_flag, update_date)
     values (#{id,jdbcType=VARCHAR}, #{syncId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{startWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER}, #{xn,jdbcType=VARCHAR}, 
-      #{xq,jdbcType=INTEGER}, #{schoolId,jdbcType=VARCHAR}, #{event,jdbcType=VARCHAR}, 
-      #{source,jdbcType=VARCHAR}, #{syncDate,jdbcType=VARCHAR}, #{syncDelFlag,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=BIGINT})
+      #{xq,jdbcType=INTEGER}, #{schoolId,jdbcType=VARCHAR}, #{termBeginTime,jdbcType=BIGINT}, 
+      #{event,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{syncDate,jdbcType=VARCHAR}, 
+      #{syncDelFlag,jdbcType=VARCHAR}, #{updateDate,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="cc.gukeer.syncdata.persistence.entity.ChangeStateCycle" >
     insert into change_state_teach_cycle
@@ -147,6 +148,9 @@
       </if>
       <if test="schoolId != null" >
         school_id,
+      </if>
+      <if test="termBeginTime != null" >
+        term_begin_time,
       </if>
       <if test="event != null" >
         event,
@@ -188,6 +192,9 @@
       </if>
       <if test="schoolId != null" >
         #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="termBeginTime != null" >
+        #{termBeginTime,jdbcType=BIGINT},
       </if>
       <if test="event != null" >
         #{event,jdbcType=VARCHAR},
@@ -239,6 +246,9 @@
       <if test="record.schoolId != null" >
         school_id = #{record.schoolId,jdbcType=VARCHAR},
       </if>
+      <if test="record.termBeginTime != null" >
+        term_begin_time = #{record.termBeginTime,jdbcType=BIGINT},
+      </if>
       <if test="record.event != null" >
         event = #{record.event,jdbcType=VARCHAR},
       </if>
@@ -269,6 +279,7 @@
       xn = #{record.xn,jdbcType=VARCHAR},
       xq = #{record.xq,jdbcType=INTEGER},
       school_id = #{record.schoolId,jdbcType=VARCHAR},
+      term_begin_time = #{record.termBeginTime,jdbcType=BIGINT},
       event = #{record.event,jdbcType=VARCHAR},
       source = #{record.source,jdbcType=VARCHAR},
       sync_date = #{record.syncDate,jdbcType=VARCHAR},
@@ -302,6 +313,9 @@
       <if test="schoolId != null" >
         school_id = #{schoolId,jdbcType=VARCHAR},
       </if>
+      <if test="termBeginTime != null" >
+        term_begin_time = #{termBeginTime,jdbcType=BIGINT},
+      </if>
       <if test="event != null" >
         event = #{event,jdbcType=VARCHAR},
       </if>
@@ -329,6 +343,7 @@
       xn = #{xn,jdbcType=VARCHAR},
       xq = #{xq,jdbcType=INTEGER},
       school_id = #{schoolId,jdbcType=VARCHAR},
+      term_begin_time = #{termBeginTime,jdbcType=BIGINT},
       event = #{event,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
       sync_date = #{syncDate,jdbcType=VARCHAR},

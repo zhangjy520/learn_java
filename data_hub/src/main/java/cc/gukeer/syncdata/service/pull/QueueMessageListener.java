@@ -409,6 +409,48 @@ public class QueueMessageListener extends DataSaveServiceImpl implements Session
                 this.routeInit(viewList, 0);
             }
 
+            if ("sync_teach_course_node".equals(tableName)) {
+                Gson gson = GsonUtil.noneIntDouble();
+                List<ChangeStateCourseNode> viewList = gson.fromJson(gson.toJson(dataList),
+                        new com.google.gson.reflect.TypeToken<List<ChangeStateCourseNode>>() {
+                        }.getType());
+
+                if (EventType.INSERT.equals(eventType)) {
+                    this.batchInsertCourseNode(viewList, source);
+                }
+                if (EventType.MODIFY.equals(eventType)) {
+                    for (ChangeStateCourseNode courseNode : viewList) {
+                        this.updateCourseNode(courseNode, source);
+                    }
+                }
+                if (EventType.DELETE.equals(eventType)) {
+                    this.batchDeleteCourseNode(viewList);
+                }
+                //初始化路由表
+                this.routeInit(viewList, 0);
+            }
+
+            if ("sync_teach_course_node_init".equals(tableName)) {
+                Gson gson = GsonUtil.noneIntDouble();
+                List<ChangeStateCourseNodeInit> viewList = gson.fromJson(gson.toJson(dataList),
+                        new com.google.gson.reflect.TypeToken<List<ChangeStateCourseNodeInit>>() {
+                        }.getType());
+
+                if (EventType.INSERT.equals(eventType)) {
+                    this.batchInsertCourseNodeInit(viewList, source);
+                }
+                if (EventType.MODIFY.equals(eventType)) {
+                    for (ChangeStateCourseNodeInit courseNodeInit : viewList) {
+                        this.updateCourseNodeInit(courseNodeInit, source);
+                    }
+                }
+                if (EventType.DELETE.equals(eventType)) {
+                    this.batchDeleteCourseNodeInit(viewList);
+                }
+                //初始化路由表
+                this.routeInit(viewList, 0);
+            }
+
             if ("sync_patriarch".equals(tableName)) {
                 Gson gson = GsonUtil.noneIntDouble();
                 List<ChangeStatePatriarch> viewList = gson.fromJson(gson.toJson(dataList),

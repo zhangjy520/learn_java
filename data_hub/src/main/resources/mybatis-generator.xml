@@ -491,7 +491,14 @@
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
-
+        <table schema="gk_open" tableName="change_state_teach_cycle" domainObjectName="ChangeStateCycle"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
 
 
     </context>

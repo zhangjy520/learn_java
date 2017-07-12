@@ -171,4 +171,20 @@ public interface DataSaveService {
 
     int updateTeacherClass(ChangeStateRefTeacher teacherClass, String source);//修改
 
+
+    //课节change_state_teach_course_node
+    int batchInsertCourseNode(List<ChangeStateCourseNode> list, String source);//批量插入
+
+    int batchDeleteCourseNode(List<ChangeStateCourseNode> list);//批量删除
+
+    int updateCourseNode(ChangeStateCourseNode courseNode, String source);//修改
+
+
+    //课节课时change_state_teach_course_node_init
+    int batchInsertCourseNodeInit(List<ChangeStateCourseNodeInit> list, String source);//批量插入
+
+    int batchDeleteCourseNodeInit(List<ChangeStateCourseNodeInit> list);//批量删除
+
+    int updateCourseNodeInit(ChangeStateCourseNodeInit courseNodeInit, String source);//修改
+
 }

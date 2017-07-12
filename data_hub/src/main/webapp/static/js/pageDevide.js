@@ -13,9 +13,9 @@ if(args.current!=args.pageCount&&args.current<args.pageCount-2&&args.pageCount!=
 {obj.append('<a href="javascript:;" class="tcdNumber">'+args.pageCount+'</a>');}
 if(args.current<args.pageCount){obj.append('<a href="javascript:;" class="nextPage">>></a>');}
 else{obj.remove('.nextPage');obj.append('<span class="disabled">>></span>');}
-//        todo 输入框和跳转按钮
+/*//        todo 输入框和跳转按钮
         obj.append('<input type="text" maxlength="2" class="go">');
-        obj.append('<button class="gotoPage">go</button>');
+        obj.append('<button class="gotoPage">go</button>');*/
 //        TODO end
     })();},
     bindEvent:function(obj,args){return(function(){obj.on("click","a.tcdNumber",function()

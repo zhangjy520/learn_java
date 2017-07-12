@@ -40,6 +40,9 @@
         background: rgba(0, 189, 239, .5);
         border:none;
     }
+    .modal-body p{
+        margin:0 0 -3px !important;
+    }
 </style>
 <body>
 <%@ include file="common/layout/menu.jsp" %>
