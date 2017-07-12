@@ -45,6 +45,16 @@
         FROM
         org_grade_class c LEFT JOIN org_class_section cs ON c.xd=cs.`id`
         WHERE  c.`school_id`=#{schoolId}
-        GROUP BY bh
+
+    </select>
+
+    <select id="findByClassId" resultType="cn.gukeer.platform.persistence.entity.extention.GradeClassExtention">
+      SELECT
+            ocs.name xdName, ogc.nj, ogc.name,ogc.xd,ogc.id
+        FROM
+            org_grade_class ogc,
+            org_class_section ocs
+        WHERE
+            ogc.xd = ocs.id AND ogc.id = #{classId}
     </select>
 </mapper>

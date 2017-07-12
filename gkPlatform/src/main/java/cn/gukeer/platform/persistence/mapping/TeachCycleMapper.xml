@@ -7,6 +7,7 @@
     <result column="cycle_name" property="cycleName" jdbcType="VARCHAR" />
     <result column="cycle_year" property="cycleYear" jdbcType="VARCHAR" />
     <result column="cycle_semester" property="cycleSemester" jdbcType="INTEGER" />
+    <result column="term_begin_time" property="termBeginTime" jdbcType="BIGINT" />
     <result column="begin_date" property="beginDate" jdbcType="BIGINT" />
     <result column="end_date" property="endDate" jdbcType="BIGINT" />
     <result column="week_count" property="weekCount" jdbcType="INTEGER" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, school_id, cycle_name, cycle_year, cycle_semester, begin_date, end_date, week_count, 
-    del_flag, create_date, update_date, create_by, update_by, remark
+    id, school_id, cycle_name, cycle_year, cycle_semester, term_begin_time, begin_date, 
+    end_date, week_count, del_flag, create_date, update_date, create_by, update_by, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.gukeer.platform.persistence.entity.TeachCycleExample" >
     select
@@ -112,15 +113,17 @@
   </delete>
   <insert id="insert" parameterType="cn.gukeer.platform.persistence.entity.TeachCycle" >
     insert into teach_cycle (id, school_id, cycle_name, 
-      cycle_year, cycle_semester, begin_date, 
-      end_date, week_count, del_flag, 
-      create_date, update_date, create_by, 
-      update_by, remark)
+      cycle_year, cycle_semester, term_begin_time, 
+      begin_date, end_date, week_count, 
+      del_flag, create_date, update_date, 
+      create_by, update_by, remark
+      )
     values (#{id,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, #{cycleName,jdbcType=VARCHAR}, 
-      #{cycleYear,jdbcType=VARCHAR}, #{cycleSemester,jdbcType=INTEGER}, #{beginDate,jdbcType=BIGINT}, 
-      #{endDate,jdbcType=BIGINT}, #{weekCount,jdbcType=INTEGER}, #{delFlag,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT}, #{createBy,jdbcType=VARCHAR}, 
-      #{updateBy,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{cycleYear,jdbcType=VARCHAR}, #{cycleSemester,jdbcType=INTEGER}, #{termBeginTime,jdbcType=BIGINT}, 
+      #{beginDate,jdbcType=BIGINT}, #{endDate,jdbcType=BIGINT}, #{weekCount,jdbcType=INTEGER}, 
+      #{delFlag,jdbcType=INTEGER}, #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.gukeer.platform.persistence.entity.TeachCycle" >
     insert into teach_cycle
@@ -139,6 +142,9 @@
       </if>
       <if test="cycleSemester != null" >
         cycle_semester,
+      </if>
+      <if test="termBeginTime != null" >
+        term_begin_time,
       </if>
       <if test="beginDate != null" >
         begin_date,
@@ -183,6 +189,9 @@
       </if>
       <if test="cycleSemester != null" >
         #{cycleSemester,jdbcType=INTEGER},
+      </if>
+      <if test="termBeginTime != null" >
+        #{termBeginTime,jdbcType=BIGINT},
       </if>
       <if test="beginDate != null" >
         #{beginDate,jdbcType=BIGINT},
@@ -231,6 +240,9 @@
       <if test="record.cycleSemester != null" >
         cycle_semester = #{record.cycleSemester,jdbcType=INTEGER},
       </if>
+      <if test="record.termBeginTime != null" >
+        term_begin_time = #{record.termBeginTime,jdbcType=BIGINT},
+      </if>
       <if test="record.beginDate != null" >
         begin_date = #{record.beginDate,jdbcType=BIGINT},
       </if>
@@ -270,6 +282,7 @@
       cycle_name = #{record.cycleName,jdbcType=VARCHAR},
       cycle_year = #{record.cycleYear,jdbcType=VARCHAR},
       cycle_semester = #{record.cycleSemester,jdbcType=INTEGER},
+      term_begin_time = #{record.termBeginTime,jdbcType=BIGINT},
       begin_date = #{record.beginDate,jdbcType=BIGINT},
       end_date = #{record.endDate,jdbcType=BIGINT},
       week_count = #{record.weekCount,jdbcType=INTEGER},
@@ -297,6 +310,9 @@
       </if>
       <if test="cycleSemester != null" >
         cycle_semester = #{cycleSemester,jdbcType=INTEGER},
+      </if>
+      <if test="termBeginTime != null" >
+        term_begin_time = #{termBeginTime,jdbcType=BIGINT},
       </if>
       <if test="beginDate != null" >
         begin_date = #{beginDate,jdbcType=BIGINT},
@@ -334,6 +350,7 @@
       cycle_name = #{cycleName,jdbcType=VARCHAR},
       cycle_year = #{cycleYear,jdbcType=VARCHAR},
       cycle_semester = #{cycleSemester,jdbcType=INTEGER},
+      term_begin_time = #{termBeginTime,jdbcType=BIGINT},
       begin_date = #{beginDate,jdbcType=BIGINT},
       end_date = #{endDate,jdbcType=BIGINT},
       week_count = #{weekCount,jdbcType=INTEGER},

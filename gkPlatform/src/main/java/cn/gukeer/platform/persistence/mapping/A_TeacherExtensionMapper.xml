@@ -40,6 +40,46 @@
         ORDER BY t.`create_date` DESC
     </select>
 
+    <select id="findTeacherViewList" resultType="java.util.Map">
+        SELECT
+        *
+        FROM
+        v_teacher_school v
+        WHERE v.`delFlag` = 0
+        AND v.`schoolId` = #{schoolId}
+        <if test="departIds != null and departIds.size() > 0">
+            AND v.`departmentId` IN
+            <foreach item="id" index="index" collection="departIds" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="teacherName != null and teacherName!=''">
+            AND v.`name` LIKE #{teacherName}
+        </if>
+
+
+    </select>
+
+    <select id="findTeacherViewByTitle" resultType="java.util.Map">
+        SELECT
+        *
+        FROM
+        v_teacher_school v
+        WHERE 1=1
+        <if test="titleId != null and titleId!=''">
+            AND v.`titleId` = #{titleId}
+        </if>
+        <if test="teacherName != null and teacherName!=''">
+            AND v.`name` LIKE #{teacherName}
+        </if>
+        <if test="schoolId != null and schoolId!=''">
+            AND v.`schoolId` = #{schoolId}
+        </if>
+        <if test="loginSchoolId != null and loginSchoolId!=''">
+            AND v.`schoolId` != #{loginSchoolId}
+        </if>
+        AND v.`delFlag` = 0
+    </select>
 
     <update id="createAccount" parameterType="String">
       UPDATE `user_teacher`
@@ -58,14 +98,10 @@
         and t1.del_flag = 0
     </select>
 
-    <insert id="saveTeacherClass">
-        INSERT INTO ref_teacher_class
-        VALUES (#{teacherId},#{type},#{classId})
-    </insert>
 
     <delete id="delTeacherClass">
         DELETE from ref_teacher_class
-        where teacher_id = #{teacherId} and type = #{type} and class_id = #{classId};
+        where teacher_id = #{teacherId} and type = #{type} and class_id = #{classId}
     </delete>
 
 
@@ -186,40 +222,6 @@
         AND NAME LIKE #{teacherName}
     </select>
 
-    <select id="selectByByTYSC" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT
-        t.`id`,
-        t.`school_id`,
-        s.`name` AS schoolName,
-        t.`name`,
-        t.`quan_pin` AS quanPin,
-        t.`gender`,
-        t.`identity`,
-        t.`account` AS account,
-        t.`is_manage` AS isManage,
-        t.`no`,
-        t.`phone`,
-        t.`mobile`,
-        t.`email`,
-        t.`bgsdh` as workPhone,
-        t.`start_work` AS startWork,
-        t.`create_by`,
-        t.`create_date`,
-        t.`update_by`,
-        t.`update_date`,
-        t.`remarks`,
-        t.`del_flag`
-        FROM user_teacher t,org_school s WHERE
-        t.`school_id`=s.`id` and t.del_flag=0
-        AND t.`school_id`=#{schoolId}
-        <if test="teacherId != null and teacherId!=-1">
-            AND t.`id`=#{teacherId}
-        </if>
-        <if test="teacherName != null and teacherName!=''">
-            AND t.`name` like #{teacherName}
-        </if>
-        ORDER BY t.`create_date` DESC
-    </select>
 
     <select id="teacherReport" resultType="java.util.Map">
         SELECT
@@ -259,19 +261,4 @@
         </foreach>
     </select>
 
-    <!--&lt;!&ndash;查询所有班主任的方法&ndash;&gt;-->
-    <!--<select id="finaAllMasterByParam" resultMap="ExtensionBaseResultMap" parameterType="java.util.Map">-->
-    <!--SELECT c.`name`,t.`name`-->
-    <!--FROM org_grade_class c,ref_teacher_class ref,user_teacher t-->
-    <!--WHERE c.id = ref.class_id AND t.id = ref.teacher_id-->
-    <!--AND c.`id` = #{njId} AND c.`school_id` = #{schoolId} AND t.`school_id` = #{schoolId}-->
-    <!--</select>-->
-
-
-    <select id="findTeacherByName" resultMap="ExtensionBaseResultMap">
-        SELECT *
-        FROM user_teacher ut
-        WHERE ut.name LIKE  concat('%',#{name},'%')
-        AND ut.`school_id` = #{schoolId}
-    </select>
 </mapper>

@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -620,13 +621,17 @@ public class RenShiManageController extends BasicController {
     @RequestMapping(value = "/moban/download")
     public void exportMoban(HttpServletResponse response) {
         try {
-            boolean flag = userService.isAreaAdmin(getLoginUser().getSchoolId());
+            Subject subject = getSubject();
+            boolean flag = subject.hasRole("area");
+
             String fileName = "人事导入模板.xlsx";
+            String anno = "注释：1.日期格式：yyyymmdd,例如：20160901\n";
+
             if (flag) {
                 fileName = "区级人事导入模板.xlsx";
             }
-            String anno = "注释：1.日期格式：yyyymmdd,例如：20160901\n";
-            new ExportExcel("人员数据", IOTeacherView.class, 2, anno, 1).setDataList(new ArrayList()).write(response, fileName).dispose();
+            new ExportExcel(flag, "人员数据", IOTeacherView.class, 2, anno, 1).setDataList(new ArrayList()).write(response, fileName).dispose();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -731,6 +736,7 @@ public class RenShiManageController extends BasicController {
         try {
 
             String fileName = "错误信息列表.xlsx";
+
             String anno = "注释：1.日期格式：yyyymmdd,例如：20160901\n";
             String msg = getParamVal(request, "msg");
             JsonArray jsonArray = new JsonParser().parse(msg).getAsJsonArray();
@@ -739,7 +745,7 @@ public class RenShiManageController extends BasicController {
                 IOTeacherView importBundling = GsonUtil.fromJson(jsonElement.getAsJsonObject(), IOTeacherView.class);
                 exportFile.add(importBundling);
             }
-            new ExportExcel("人事信息", IOTeacherView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
+            new ExportExcel(getSubject().hasRole("area"), "人事信息", IOTeacherView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }

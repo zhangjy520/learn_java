@@ -324,18 +324,26 @@
                 <span class="fSpan">最高专业：</span>
                 <input ${disabled} type="text" name="zgzy" value="${teacher.highJob}"/>
             </li>
-            <li>
-                <span class="fSpan">评职详细：</span>
-                <input ${disabled} type="text" name="pzxx" value="${teacher.pzxx}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">评职详细：</span>
+                    <input ${disabled} type="text" name="pzxx" value="${teacher.pzxx}"/>
+                </li>
+            </shiro:hasRole>
+
             <li>
                 <span class="fSpan">家庭住址详细：</span>
                 <input ${disabled} type="text" name="jtzzxx" value="${teacher.address}"/>
             </li>
-            <li>
-                <span class="fSpan">骨干教师级别：</span>
-                <input ${disabled} type="text" name="ggjsjb" value="${gukeer:intToString(teacher.ggjsjb)}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">骨干教师级别：</span>
+                    <input ${disabled} type="text" name="ggjsjb" value="${gukeer:intToString(teacher.ggjsjb)}"/>
+                </li>
+            </shiro:hasRole>
+
             <li>
                 <span class="fSpan">合同开始时间：</span>
                 <input ${disabled} type="text" id="beginDate"
@@ -346,14 +354,18 @@
                 <span class="fSpan">曾用名：</span>
                 <input ${disabled} type="text" name="cym" value="${teacher.cym}"/>
             </li>
-            <li>
-                <span class="fSpan">家庭邮编：</span>
-                <input ${disabled} type="text" name="jtyb" value="${teacher.jtyb}"/>
-            </li>
-            <li>
-                <span class="fSpan">是否专任教师：</span>
-                <input ${disabled} type="text" name="sfzrjs" value="${gukeer:intToString(teacher.sfzrjs)}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">家庭邮编：</span>
+                    <input ${disabled} type="text" name="jtyb" value="${teacher.jtyb}"/>
+                </li>
+                <li>
+                    <span class="fSpan">是否专任教师：</span>
+                    <input ${disabled} type="text" name="sfzrjs" value="${gukeer:intToString(teacher.sfzrjs)}"/>
+                </li>
+            </shiro:hasRole>
+
             <li>
                 <span class="fSpan">身份：</span>
                 <input ${disabled} type="text" name="shenfen" value="${teacher.sf}"/>
@@ -370,26 +382,34 @@
                 <span class="fSpan">学位数量：</span>
                 <input ${disabled} type="text" name="xwsl" value="${teacher.xwsl}"/>
             </li>
-            <li>
-                <span class="fSpan">任教学科级别：</span>
-                <input ${disabled} type="text" name="rjxkjb" value="${teacher.rjxkjb}"/>
-            </li>
-            <li>
-                <span class="fSpan">校区：</span>
-                <input ${disabled} type="text" name="xq" value="${teacher.xq}"/>
-            </li>
-            <li>
-                <span class="fSpan">任教学科：</span>
-                <input ${disabled} type="text" name="rjxk" value="${teacher.rjxk}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">任教学科级别：</span>
+                    <input ${disabled} type="text" name="rjxkjb" value="${teacher.rjxkjb}"/>
+                </li>
+                <li>
+                    <span class="fSpan">校区：</span>
+                    <input ${disabled} type="text" name="xq" value="${teacher.xq}"/>
+                </li>
+
+                <li>
+                    <span class="fSpan">任教学科：</span>
+                    <input ${disabled} type="text" name="rjxk" value="${teacher.rjxk}"/>
+                </li>
+            </shiro:hasRole>
+
             <li>
                 <span class="fSpan">实职级别：</span>
                 <input ${disabled} type="text" name="szjb" value="${teacher.szjb}"/>
             </li>
-            <li>
-                <span class="fSpan">工资岗位(副)：</span>
-                <input ${disabled} type="text" name="gzgwf" value="${teacher.gzgwf}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">工资岗位(副)：</span>
+                    <input ${disabled} type="text" name="gzgwf" value="${teacher.gzgwf}"/>
+                </li>
+            </shiro:hasRole>
 
         </ul>
         <ul>
@@ -428,10 +448,14 @@
                 <span class="fSpan">薪资：</span>
                 <input ${disabled} type="text" name="xinzhi" value="${gukeer:intToString(teacher.salary)}"/>
             </li>
-            <li>
-                <span class="fSpan">岗位分类(副)：</span>
-                <input ${disabled} type="text" name="gwflf" value="${teacher.gwflf}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">岗位分类(副)：</span>
+                    <input ${disabled} type="text" name="gwflf" value="${teacher.gwflf}"/>
+                </li>
+            </shiro:hasRole>
+
             <li>
                 <span class="fSpan">籍贯：</span>
                 <input ${disabled} type="text" name="jg" value="${teacher.jg}"/>
@@ -483,24 +507,28 @@
                 <span class="fSpan">原专业：</span>
                 <input ${disabled} type="text" name="yzy" value="${teacher.yzy}"/>
             </li>
-            <li>
-                <span class="fSpan">评职时间：</span>
-                <input ${disabled} type="text" id="pzDate" name="pzsj" class="laydate-icon"
-                                   <c:if test="${gukeer:notEmptyString(teacher.pzsj)}">value="${gukeer:millsToyyyyMMdd(teacher.pzsj)}"</c:if> />
-            </li>
-            <li>
-                <span class="fSpan">来我校时间：</span>
-                <input ${disabled} type="text" id="reportDate" name="lwxsj" class="laydate-icon"
-                                   <c:if test="${gukeer:notEmptyString(teacher.lwxsj)}">value="${gukeer:millsToyyyyMMdd(teacher.lwxsj)}"</c:if>/>
-            </li>
-            <li>
-                <span class="fSpan">住宅电话：</span>
-                <input ${disabled} type="text" name="zzdh" value="${teacher.zzdh}"/>
-            </li>
-            <li>
-                <span class="fSpan">工资岗位：</span>
-                <input ${disabled} type="text" name="gzgw" value="${teacher.gzgw}"/>
-            </li>
+
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">评职时间：</span>
+                    <input ${disabled} type="text" id="pzDate" name="pzsj" class="laydate-icon"
+                                       <c:if test="${gukeer:notEmptyString(teacher.pzsj)}">value="${gukeer:millsToyyyyMMdd(teacher.pzsj)}"</c:if> />
+                </li>
+                <li>
+                    <span class="fSpan">来我校时间：</span>
+                    <input ${disabled} type="text" id="reportDate" name="lwxsj" class="laydate-icon"
+                                       <c:if test="${gukeer:notEmptyString(teacher.lwxsj)}">value="${gukeer:millsToyyyyMMdd(teacher.lwxsj)}"</c:if>/>
+                </li>
+                <li>
+                    <span class="fSpan">住宅电话：</span>
+                    <input ${disabled} type="text" name="zzdh" value="${teacher.zzdh}"/>
+                </li>
+                <li>
+                    <span class="fSpan">工资岗位：</span>
+                    <input ${disabled} type="text" name="gzgw" value="${teacher.gzgw}"/>
+                </li>
+            </shiro:hasRole>
+
             <li>
                 <span class="fSpan">合同结束时间：</span>
                 <input ${disabled} type="text" id="finishDate" name="htjssj" class="laydate-icon"
@@ -514,11 +542,13 @@
                 <span class="fSpan">是否华侨：</span>
                 <input ${disabled} type="text" name="sfhq" value="${teacher.sfhq}"/>
             </li>
-            <li>
-                <span class="fSpan">是否班主任：</span>
-                <input ${disabled} type="text" name="sfbzr" value="${teacher.sfbzr}"/>
-            </li>
 
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">是否班主任：</span>
+                    <input ${disabled} type="text" name="sfbzr" value="${teacher.sfbzr}"/>
+                </li>
+            </shiro:hasRole>
             <li>
                 <span class="fSpan">外语语种：</span>
                 <input ${disabled} type="text" name="wyyz" value="${teacher.wyyz}"/>
@@ -531,11 +561,13 @@
                 <span class="fSpan">最高学位：</span>
                 <input ${disabled} type="text" name="zgxw" value="${teacher.zgxw}"/>
             </li>
-            <li>
-                <span class="fSpan">专业技术岗位分类：</span>
-                <input ${disabled} type="text" name="zyjsgwfl" value="${teacher.zyjsgwfl}"/>
-            </li>
 
+            <shiro:hasRole name="common">
+                <li>
+                    <span class="fSpan">专业技术岗位分类：</span>
+                    <input ${disabled} type="text" name="zyjsgwfl" value="${teacher.zyjsgwfl}"/>
+                </li>
+            </shiro:hasRole>
 
         </ul>
     </form>

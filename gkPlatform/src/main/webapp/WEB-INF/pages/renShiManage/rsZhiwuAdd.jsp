@@ -95,10 +95,14 @@
     <script>
 
         function doSubmit() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
-            $("#inputForm").submit();
-            //	return true;
-            parent.location.reload(true);
-            parent.showWhichTap("#zhiwu_info");
+            $.post("${ctx}/renshi/title/save",{
+                titleName:$("input[name='titleName']").val(),
+                titleId:$("input[name='titleId']").val(),
+                titlePx:$("input[name='titlePx']").val(),
+                titleRemark:$("textarea[name='titleRemark']").val()
+            }, function (data) {
+                parent.location.reload(true);
+            })
         }
     </script>
 </head>

@@ -5,6 +5,7 @@
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="school_id" property="schoolId" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="english_name" property="englishName" jdbcType="VARCHAR"/>
         <result column="cycle_id" property="cycleId" jdbcType="VARCHAR"/>
         <result column="short_name" property="shortName" jdbcType="VARCHAR"/>
         <result column="course_type" property="courseType" jdbcType="VARCHAR"/>
@@ -37,11 +38,15 @@
     </insert>
 
     <select id="findCourseBySchoolIdAndCycleId" resultMap="BaseResultMap">
-            SELECT c.*,rtype.`name` AS roomTypeName,sc.`name` AS courseTypeName
-            FROM teach_course c,teach_room_type rtype,teach_standard_course sc
-            WHERE  c.room_type = rtype.id AND sc.id=c.course_type AND
-            c.`cycle_id`=#{cycleId} AND c.`school_id`= #{schoolId}
-            AND c.del_flag = 0
-            ORDER BY c.id
+        SELECT c.*,rtype.`name` AS roomTypeName,c.`english_name` AS englishName ,sc.`name` AS courseTypeName
+        FROM teach_course c LEFT JOIN teach_standard_course sc ON sc.id=c.course_type,teach_room_type rtype
+        WHERE c.room_type = rtype.id
+        <if test="cycleId !='' and cycleId != null">
+            AND c.`cycle_id`=#{cycleId}
+        </if>
+        <if test="schoolId !='' and schoolId != null">
+            AND c.`school_id`= #{schoolId}
+        </if>
+        AND c.del_flag = 0
     </select>
 </mapper>

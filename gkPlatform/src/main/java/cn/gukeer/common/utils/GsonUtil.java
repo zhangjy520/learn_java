@@ -1,8 +1,5 @@
 package cn.gukeer.common.utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Type;
@@ -127,5 +124,18 @@ public class GsonUtil {
             retJson.addProperty("data","");
         }
         return retJson;
+    }
+
+    //    防止int转换成double,转换null
+    public static Gson noneIntDouble(){
+        Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
+            @Override
+            public JsonElement serialize(Double src, Type typeOfSrc, JsonSerializationContext context) {
+                if (src == src.longValue())
+                    return new JsonPrimitive(src.longValue());
+                return new JsonPrimitive(src);
+            }
+        }).create();
+        return gson;
     }
 }

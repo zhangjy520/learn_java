@@ -136,7 +136,6 @@
     $("#tttbody input").hide();
     //增加
     $('.addnew').on('click', function () {
-        debugger;
         $('.span-p span').removeClass('hs');
         $('.tttable').append('<tr><td></td><td class="span-p"><input type="text" style="outline: none;height: 30px;" class="focuss" name="saveOne"><span class="showInfo hs"></span></td><td><span class="saveOne" style="margin-right: 20px;cursor: pointer">保存</span><span class="deleOne" style="cursor: pointer">删除</span></td></tr>');
         $('.hs').hide();
@@ -145,27 +144,22 @@
 
     //    保存
     $('#tttbody').on('click', '.saveOne', function () {
-        debugger;
         if ($('input[name=saveOne]').length > 1) {
             webToast("请保存上一条数据后再添加下一条数据", "top", 2300);
         }
-        $(this).parents('tr').children().eq(1).children('input').hide();
-        $(this).parents('tr').children().eq(1).children('span').show().text($(this).parents('tr').children().eq(1).children('input').val());
-        console.log($(this));
-        console.log($(this).parent().prev().children('input').val());
         var oneCourse = $(this).parent().prev().children('input').val();
-        if (oneCourse == "") {
-            webToast("名称不能为空", "top", 2300);
-            setTimeout(function () {
-                parent.location.reload();
-            }, 5000);
+        if (oneCourse == ""||oneCourse == null) {
+            layer.msg("名称不能为空");
             return false;
         }
+        $(this).parents('tr').children().eq(1).children('input').hide();
+        $(this).parents('tr').children().eq(1).children('span').show().text($(this).parents('tr').children().eq(1).children('input').val());
+
         $.post("${ctx}/teach/task/course/type/update/one", {
             oneCourse: oneCourse
         }, function (data) {
             if (data.code == 0) {
-                webToast(data.msg, "top", 2300);
+                layer.msg("创建成功");
                 $(".saveOne").removeClass('saveOne').addClass('modifyOne');
                 setTimeout(function () {
                     parent.location.reload();
@@ -175,7 +169,7 @@
                     top.layer.close(index)
                 }, 5000);
             } else {
-                webToast(data.msg, "top", 5000);
+                layer.msg("创建失败");
                 setTimeout(function () {
                     parent.location.reload();
                 }, 5000);
@@ -202,10 +196,7 @@
 //                $(this).parents('td').siblings().children('input').val();
         if (oneCourse == "") {
             webToast("名称不能为空", "top", 2300);
-            setTimeout(function () {
-                parent.location.reload();
-            }, 5000);
-            return false;
+            return;
         }
         $(this).text('修改');
         $(this).removeClass('saveOne').addClass('modifyOneagain');

@@ -5,11 +5,12 @@ import com.bean.GradeClass;
 import com.bean.Teacher;
 import com.bean.Time;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+    import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.util.JDBCUtil;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -37,6 +38,20 @@ public class Application {
 
     @RequestMapping("/hello")
     public String test(){
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
         return "test.html";
     }
 
@@ -219,7 +234,25 @@ public class Application {
         return p;
     }
     public static void main(String[] args) {
-        //SpringApplication.run(Application.class,args);
-        System.out.println(dataTime());
+        SpringApplication.run(Application.class,args);
+       // System.out.println(dataTime());
+        /*int aaa = 123321;
+        String ccc = String.valueOf(aaa);
+        boolean flag = false;
+        for (int i = 0; i < ccc.length(); i++) {
+            if (ccc.charAt(i) == ccc.charAt(ccc.length()-i-1)){
+                flag = true;
+            }else {
+                flag = false;
+                break;
+            }
+
+        }
+        if (flag)
+            System.out.println("是");
+        else
+            System.out.println("否");*/
+
     }
+
 }

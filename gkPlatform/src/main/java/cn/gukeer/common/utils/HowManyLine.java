@@ -135,9 +135,9 @@ public class HowManyLine {
        //fileSuffixList.add(".jsp");
         //fileSuffixList.add(".css");
        // fileSuffixList.add(".js");
-        //fileSuffixList.add(".xml");
+        fileSuffixList.add(".xml");
         //fileSuffixList.add(".*");
        // lineCounter.counter("D:\\javaProjects\\git\\gkPlatform", fileSuffixList, "好不好");
-        lineCounter.counter("D:\\blog\\zjy\\themes\\concise2", fileSuffixList, "jsapi");
+        lineCounter.counter("E:\\服务器部署用到的软件\\apache-activemq-5.4.0", fileSuffixList, "example.A");
     }
 }

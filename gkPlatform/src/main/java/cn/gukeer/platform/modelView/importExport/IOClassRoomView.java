@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by conn on 2016/9/17.
  */
 public class IOClassRoomView implements Serializable {
-    private String roomName;//教室
+   // private String roomName;//教室
     private String roomTypeName;//教室类型名字    5
     private String schoolTypeName;//所在校区        1
     private String floor;//楼层                   3
@@ -20,6 +20,7 @@ public class IOClassRoomView implements Serializable {
     private String remarks;//备注                 10
     private String teachBuilding;//所在楼           2
 
+/*
     @ExcelField(title = "教室", align = 2, sort = 1, groups = {1, 2})
     public String getRoomName() {
         return roomName;
@@ -28,6 +29,7 @@ public class IOClassRoomView implements Serializable {
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
+*/
 
     @ExcelField(title = "所在校区", align = 2, sort = 2, groups = {1, 2})
     public String getSchoolTypeName() {

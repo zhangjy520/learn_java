@@ -106,10 +106,10 @@
                 url: "${ctx}/class/student/info/" + id,
                 dataType: "json",
                 success: function (data) {
-                    if (data !=null){
+                    if (data != null) {
                         $("input[name='stuName']").val(data.xsxm);
                         $("input[name='stuInfo']").val(data.sectionName + data.schoolTypeName + data.nj + "年级" + data.className);
-                    }else {
+                    } else {
                         alert("无此学籍号相关信息");
                     }
                 },
@@ -128,6 +128,7 @@
 
 <body>
 <form action="${ctx}/class/parent/info/add/save" method="post" class="dialogForm" id="inputForm">
+    <input type="text" name="prim" hidden value="${parentInfo.parentId}">
     <div>
         <ul>
             <li>
@@ -136,24 +137,24 @@
                         <a class="red">*</a>
                     </c:if>
                     学籍号码：</label>
-                <input type="text" name="stuNum"   <c:if test="${gukeer:notEmptyString(parentInfo)}">disabled</c:if> value="${parentInfo.xh}"/>
+                <input type="text" name="stuNum" <c:if test="${gukeer:notEmptyString(parentInfo)}">readonly</c:if> value="${parentInfo.xh}"/>
                 <c:if test="${gukeer:emptyString(parentInfo)}">
                     <button type="button" onclick="queryStudent()">查询</button>
                 </c:if>
             </li>
             <li>
                 <label>学生姓名：</label>
-                <input type="text" disabled name="stuName" value="${parentInfo.xsxm}"/>
+                <input type="text" readonly name="stuName" value="${parentInfo.xsxm}"/>
             </li>
             <li>
                 <label>学生信息：</label>
 
                 <c:if test="${gukeer:notEmptyString(parentInfo.nj)}">
-                    <input type="text" disabled name="stuInfo"
+                    <input type="text" readonly name="stuInfo"
                            value="${parentInfo.sectionName}${parentInfo.schoolName}${parentInfo.nj}年级${parentInfo.className}"/>
                 </c:if>
                 <c:if test="${gukeer:emptyString(parentInfo)}">
-                    <input type="text" disabled name="stuInfo" value=""/>
+                    <input type="text" readonly name="stuInfo" value=""/>
                 </c:if>
 
             </li>

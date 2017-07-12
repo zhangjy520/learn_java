@@ -172,44 +172,44 @@
         <div class="searchh" style="display: inline-block;float: right;">
             <input type="hidden" id="searchHidden" value="${teacherName}"/>
             <button class="summitButton" onclick="searchTeacher()"></button>
-            <input class="searchInput" type="text" name="zhiGong" placeholder="请输入老师姓名"/>
+            <input class="searchInput" type="text" name="zhiGong" placeholder="请输入教师姓名"/>
         </div>
     </div>
     <section id="generated" class="row">
 
         <div class="anjDiv">
             <ul class="njUl">
-            <c:forEach items="${classSectionList}" var="classSection">
-                <c:if test="${classSection.sectionYear == 6}">
-                    <li><a value="${classSection.id}" value="${classSection.id}"
-                            onclick="njButton('${classSection.id}',1)"  valueNj="1" <c:if test="${xdId==classSection.id && nj==1}" >class="active"</c:if>>小学一年级</a>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">小学二年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id &&nj==3}">class="active"</c:if> valueNj="3">小学三年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',4)" <c:if test="${xdId==classSection.id &&nj==4}">class="active"</c:if> valueNj="4">小学四年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',5)" <c:if test="${xdId==classSection.id && nj==5}">class="active"</c:if> valueNj="5">小学五年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton(${classSection.id},6)" <c:if test="${xdId==classSection.id &&nj==6}">class="active"</c:if> valueNj="6">小学六年级</a></li>
-                </c:if>
-                <c:if test="${classSection.sectionYear == 3 &&classSection.name=='初中' }" >
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">初中一年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">初中二年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id && nj==3}">class="active"</c:if> valueNj="3">初中三年级</a></li>
-                </c:if>
-                <c:if test="${classSection.sectionYear == 3 &&classSection.name=='高中' }">
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">高中一年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">高中二年级</a></li>
-                    <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id && nj==3}">class="active"</c:if> valueNj="2">高中三年级</a></li>
-                </c:if>
-            </c:forEach>
+                <c:forEach items="${classSectionList}" var="classSection">
+                    <c:if test="${classSection.sectionYear == 6}">
+                        <li><a value="${classSection.id}" value="${classSection.id}"
+                               onclick="njButton('${classSection.id}',1)"  valueNj="1" <c:if test="${xdId==classSection.id && nj==1}" >class="active"</c:if>>小学一年级</a>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test='${xdId==classSection.id && nj==2}'>class="active"</c:if> valueNj="2">小学二年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test='${xdId==classSection.id &&nj==3}'>class="active"</c:if> valueNj="3">小学三年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',4)" <c:if test="${xdId==classSection.id &&nj==4}">class="active"</c:if> valueNj="4">小学四年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',5)" <c:if test="${xdId==classSection.id && nj==5}">class="active"</c:if> valueNj="5">小学五年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',6)" <c:if test="${xdId==classSection.id &&nj==6}">class="active"</c:if> valueNj="6">小学六年级</a></li>
+                    </c:if>
+                    <c:if test="${classSection.sectionYear == 3 &&classSection.name=='初中' }" >
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">初中一年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">初中二年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id && nj==3}">class="active"</c:if> valueNj="3">初中三年级</a></li>
+                    </c:if>
+                    <c:if test="${classSection.sectionYear == 3 &&classSection.name=='高中' }">
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">高中一年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',2)" <c:if test="${xdId==classSection.id && nj==2}">class="active"</c:if> valueNj="2">高中二年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id && nj==3}">class="active"</c:if> valueNj="2">高中三年级</a></li>
+                    </c:if>
+                </c:forEach>
                 </ul>
         </div>
         <div class="row">
             <table class="normal">
                 <thead>
-                <th width="5%">序号</th>
-                <th>班级</th>
-                <th>班主任</th>
-                <th>副班主任</th>
-                <th>操作</th>
+                <th width="15%">序号</th>
+                <th width="15%">班级</th>
+                <th width="20%">班主任</th>
+                <th width="20%">副班主任</th>
+                <th width="30%">操作</th>
                 </thead>
                 <tbody>
                 <c:forEach items="${bzrViewPageList}" var="BZR" varStatus="status">
@@ -219,20 +219,25 @@
                         <td>${BZR.masterName}</td>
                         <td>${BZR.deputymasterName}</td>
                         <td><span
-                                onclick="openDialog('编辑','${ctx}/teach/task/master/edit/pop?classId=${BZR.classId}&&deputyName=${BZR.deputymasterName}&&master=${BZR.masterName}&&teacherId=${BZR.teacherId}&&deputyIds=${BZR.deputyIds}&&cycleId=${BZR.cycleId}','500px','352px');"
+                                onclick="openDialog('编辑','${ctx}/teach/task/master/edit/pop?classId=${BZR.classId}&&deputyName='+encodeURI(encodeURI('${BZR.deputymasterName}'))+'&&master='+encodeURI(encodeURI('${BZR.masterName}'))+'&&teacherId=${BZR.teacherId}&&deputyIds=${BZR.deputyIds}&&cycleId=${BZR.cycleId}','500px','352px');"
                                 >编辑</span></td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
-        <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <%--<c:if test="${gukeer:notEmptyString(teacherClassPageInfo.pages)}">--%>
-                <div class="fenYDetail">共${teacherClassPageInfo.total}条记录，本页${teacherClassPageInfo.size}条</div>
-            <%--</c:if>--%>
+
+        <div class="fenye" style="width:100%;">
+            <div class="fenYDetail">共${teacherClassPageInfo.total}条记录，本页${teacherClassPageInfo.size}条</div>
             <div class="fenY2" id="fenY2">
             </div>
         </div>
+
+        <%--<div class="fenye" style="width:98.5%;padding-left:15px;">--%>
+                <%--<div class="fenYDetail">共${teacherClassPageInfo.total}条记录，本页${teacherClassPageInfo.size}条</div>--%>
+            <%--<div class="fenY" id="fenY">--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </section>
 </main>
 <script>
@@ -240,6 +245,10 @@
     function njButton(id, nj) {
         var cycleYear = $(".cycleYear").find("option:selected").val();
         var cycleSemester = $(".cycleSemester").find("option:selected").val();
+        if (cycleSemester ==""||cycleSemester ==null ||cycleYear==""||cycleYear==null){
+            layer.msg("学年和学期数据为空，请先去创建一个教学周期");
+            return;
+        }
         window.location.href = "${ctx}/teach/task/master/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester + "&&nj=" + nj + "&&sectionId=" + id;
     }
 
@@ -251,18 +260,16 @@
             window.location.href = "${ctx}/teach/task/master/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&&nj="+nj;
         });
 
-        <c:if test="${TeacherClassPageInfo!=null&&TeacherClassPageInfo.pages != 0}">
         $(".fenY2").createPage({
-            pageCount:'${TeacherClassPageInfo.pages}',//总页数
-            current:'${TeacherClassPageInfo.pageNum}',//当前页面
+            pageCount:${teacherClassPageInfo.pages},//总页数
+            current:${teacherClassPageInfo.pageNum},//当前页面
             backFn: function (p) {
                 var cycleSemester = $("select[name='cycleSemester']").val();
                 var cycleYear = $("select[name='cycleYear']").val();
                 var nj = $('.anjDiv   .active').attr("valueNj");
-                window.location.href = "${ctx}/teach/task/master/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&nj="+nj;
+                window.location.href = "${ctx}/teach/task/master/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&nj="+nj + "&pageSize=10";
             }
         });
-        </c:if>
 
         $(".headerCheck").on("click", function () {
             if (this.checked == true) {
@@ -272,10 +279,9 @@
             }
         });
 
-        <c:if test="${TeacherClassPageInfo!=null&&TeacherClassPageInfo.pages != 0}">
         $(".gotoPage").click(function () {
             var pageNum = $(".fenY2go").val();
-            if (pageNum <= 0 || pageNum >${TeacherClassPageInfo.pages}) {
+            if (pageNum <= 0 || pageNum >'${teacherClassPageInfo.pages}') {
                 layer.msg("请输入正确的页码")
             } else {
                 var cycleSemester = $("select[name='cycleSemester']").val();
@@ -283,13 +289,16 @@
                 window.location.href = "${ctx}/teach/task/master/index?pageNum=" + $(".fenY2go").val() + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
             }
         });
-        </c:if>
     });
 
     function searchTeacher() {
         var cycleSemester = $("select[name='cycleSemester']").val();
         var cycleYear = $("select[name='cycleYear']").val();
         var name = $("input[name='zhiGong']").val();
+        if (cycleSemester ==""||cycleSemester ==null ||cycleYear==""||cycleYear==null){
+            layer.msg("学年和学期数据为空，查不到您需要的数据");
+            return;
+        }
         window.location.href = "${ctx}/teach/task/master/search?name=" + encodeURI(encodeURI(name)) + "&&cycleSemester=" + cycleSemester + "&&cycleYear=" + cycleYear;
     }
 
@@ -303,7 +312,7 @@
             form.attr("style", "display:none");
             form.attr("target", "");
             form.attr("method", "post");
-            form.attr("action", "${ctx}/teach/task/room/error/export");
+            form.attr("action", "${ctx}/teach/task/master/error/export");
             var input1 = $("<input>");
             input1.attr("type", "hidden");
             input1.attr("name", "msg");
@@ -316,6 +325,8 @@
             window.location.reload(true);
         });
     }
+
+    activeMenu("base",4);
 </script>
 </body>
 </html>

@@ -9,29 +9,31 @@
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
 </head>
 <style>
-    table .selectCourseClass  {
+    table .selectCourseClass {
         color: #54ab37;
         background: url(${ctxStaticNew}/images/modify.png) no-repeat left center;
+    }
+    .fecth {
+        /* height: 30px; */
+        padding: 0 15px;
+        margin-left: 4px;
+        border: 1px solid #54ab37;
+        background: #54ab37;
+        color: #fff;
+        border-radius: 2px;
     }
 </style>
 <body>
 <%@ include file="../common/sonHead/teachTaskHead.jsp" %>
 
 <main class="container" id="zh-manage">
+    <div style="margin-top: inherit"><button onclick="javascript:history.go(-1)" class="fecth">返回</button></div></div>
     <div class="search-box">
-
         <div class="roll-operation">
-            <%--<button class="roll-add"--%>
-                    <%--onclick="openDialog('新增','${ctx}/teach/task/course/pop?type=add','500px','400px');">课程新增--%>
-            <%--</button>--%>
             <button class="roll-add"
                     onclick="openDialog('标准课程新增','${ctx}/teach/task/course/standard/pop','500px','400px');">标准课程新增
             </button>
         </div>
-        <%--<div class="roll-teatypemanage">--%>
-            <%--<button onclick="openCourseType('课程类型管理','${ctx}/teach/task/course/type/pop','500px','352px');">课程类型管理--%>
-            <%--</button>--%>
-        <%--</div>--%>
     </div>
     <section id="generated" class="row">
         <div class="row">
@@ -54,12 +56,11 @@
                     <tr>
                         <td>${status.count}</td>
                         <td>${standCourse.name}</td>
-                        <td>${standCourse.courseTypeName}</td>
+                        <td>${standCourse.courseTypeName}<c:if test="${standCourse.courseTypeName==''||standCourse.courseTypeName==null}">- -</c:if></td>
                         <td><span onclick="openDialog('编辑课程',
                                 '${ctx}/teach/task/course/standard/pop?id=${standCourse.id}&&type=edit','500px','360px');">编辑</span>
-                            <%--<span onclick="openDialog('授课班级',--%>
-                                    <%--'${ctx}/teach/task/course/class/pop?id=${course.id}','500px','352px');" class="selectCourseClass">授课班级</span>--%>
-
+                                <%--<span onclick="openDialog('授课班级',--%>
+                                <%--'${ctx}/teach/task/course/class/pop?id=${course.id}','500px','352px');" class="selectCourseClass">授课班级</span>--%>
                             <span value="${course.id}"
                                   onclick="alertTips('400px','200px','删除课程','确定要删除${course.name}课程吗？','deleteSure(\'${standCourse.id}\')')"> 删除</span>
                         </td>
@@ -69,7 +70,7 @@
             </table>
         </div>
         <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <div class="fenYDetail">共${coursePageInfo.total}条记录，本页${coursePageInfo.size}条</div>
+            <div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>
             <div class="fenY2" id="fenY2"></div>
         </div>
     </section>
@@ -77,22 +78,13 @@
 <script>
 
     $(function () {
-        <%--$("select").change(function () {--%>
-            <%--var cycleSemester = $("select[name='cycleSemester']").val();--%>
-            <%--var cycleYear = $("select[name='cycleYear']").val();--%>
-            <%--window.location.href = "${ctx}/teach/task/course/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;--%>
-        <%--});--%>
-
         $(".fenY2").createPage({
             pageCount:${pageInfo.pages},//总页数
             current:${pageInfo.pageNum},//当前页面
             backFn: function (p) {
-//                var semester = $("select[name='semester']").val();
-//                var cycleYear = $("select[name='cycleYear']").val();
                 window.location.href = "${ctx}/teach/task/course/index?pageNum=" + p + "&year=" + cycleYear + "&semester=" + semester;
             }
         });
-
 
         $(".headerCheck").on("click", function () {
             if (this.checked == true) {
@@ -107,14 +99,10 @@
             if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
                 layer.msg("请输入正确的页码")
             } else {
-                var semester = $("select[name='semester']").val();
-                var cycleYear = $("select[name='cycleYear']").val();
-                window.location.href = "${ctx}/teach/task/course/index?pageNum=" + $(".fenY2go").val() + "&year=" + cycleYear + "&semester=" + semester;
+                window.location.href = "${ctx}/teach/task/course/standard/index?pageNum=" + $(".fenY2go").val();
             }
         });
-
     });
-
 
     var strPath = window.document.location.pathname;
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
@@ -134,7 +122,7 @@
             });
         }, 300)
     }
-
+    activeMenu("base",3);
 </script>
 </body>
 </html>

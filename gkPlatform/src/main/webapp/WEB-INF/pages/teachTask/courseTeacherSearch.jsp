@@ -67,6 +67,7 @@
     </section>
 </main>
 <script>
+    activeMenu("base",5);
     $(function () {
         $("select").change(function () {
             var cycleYear = $(".cycleYear").find("option:selected").text();
@@ -128,6 +129,10 @@
         var cycleYear = $(".cycleYear").find("option:selected").text();
         var cycleSemester = $(".cycleSemester").find("option:selected").val();
         var name = $(".searchInput").val();
+        if (cycleSemester ==""||cycleSemester ==null ||cycleYear==""||cycleYear==null){
+            layer.msg("学年和学期数据为空，查不到您需要的数据");
+            return;
+        }
         window.location.href = "${ctx}/teach/task/course/teacher/search?name=" + encodeURI(encodeURI(name)) + "&&cycleSemester=" + cycleSemester + "&&cycleYear=" + cycleYear;
     }
 </script>

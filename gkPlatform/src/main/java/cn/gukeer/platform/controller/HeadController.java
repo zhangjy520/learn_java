@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/head")
 public class HeadController extends BasicController {
+
     @Autowired
     SchoolService schoolService;
 
@@ -54,4 +56,13 @@ public class HeadController extends BasicController {
         }
         return ResultEntity.newResultEntity("", "");
     }
+
+    //天气缓存--redis作存储
+    @ResponseBody
+    @RequestMapping(value = "/heweather", method = RequestMethod.GET)
+    public String getHeWeather(HttpServletRequest request) throws Exception {
+        return schoolService.getWeather(request.getParameter("schoolId"));
+    }
+
+
 }

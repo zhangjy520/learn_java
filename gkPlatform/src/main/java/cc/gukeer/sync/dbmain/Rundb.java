@@ -1,6 +1,6 @@
 package cc.gukeer.sync.dbmain;
 
-import cn.gukeer.platform.persistence.entity.Course;
+import cn.gukeer.platform.persistence.entity.TeachCycle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -141,9 +141,8 @@ public class Rundb {
 
 
 
-       Map<String,String>  classRoom = MakeTigger.make(Course.class);run(classRoom);
-
-
+       Map<String,String>  classRoom = MakeTigger.make(TeachCycle.class);run(classRoom);
+      // Map<String,String>  classRoom1 = MakeTigger.make(CourseNode.class);run(classRoom1);
 
 
     }

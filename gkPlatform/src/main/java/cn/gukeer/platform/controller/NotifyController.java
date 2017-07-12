@@ -1,10 +1,12 @@
 package cn.gukeer.platform.controller;
 
 import cn.gukeer.common.controller.BasicController;
+import cn.gukeer.common.dwr.NotifyJs;
 import cn.gukeer.common.entity.ResultEntity;
 import cn.gukeer.common.tld.GukeerStringUtil;
 import cn.gukeer.common.utils.DateUtils;
 import cn.gukeer.common.utils.PrimaryKey;
+import cn.gukeer.platform.common.ConstantUtil;
 import cn.gukeer.platform.modelView.NotifyView;
 import cn.gukeer.platform.persistence.entity.*;
 import cn.gukeer.platform.service.*;
@@ -90,8 +92,8 @@ public class NotifyController extends BasicController {
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("resultList", resultList);
 
-        if (StringUtil.isNotEmpty(getParamVal(request,"appId")))
-        request.getSession().setAttribute("notifyId",getParamVal(request,"appId"));
+        if (StringUtil.isNotEmpty(getParamVal(request, "appId")))
+            request.getSession().setAttribute("notifyId", getParamVal(request, "appId"));
 
         return "notify/index";
     }
@@ -150,6 +152,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 新增公告页面,发布
+     *
      * @return
      */
     @RequiresPermissions("notify:notify:add")
@@ -196,6 +199,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 新增栏目弹出页面
+     *
      * @return
      */
     @RequestMapping(value = "/lanmu")
@@ -206,6 +210,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 添加用户弹出页面
+     *
      * @return
      */
     @RequestMapping(value = "/user/add")
@@ -216,6 +221,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 选择分组弹出页面
+     *
      * @return
      */
     @RequestMapping(value = "/choosefz")
@@ -236,6 +242,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 栏目管理页面
+     *
      * @return
      */
     @RequiresPermissions("notify:lanmu:view")
@@ -297,6 +304,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 角色分配页面
+     *
      * @return
      */
     @RequiresPermissions("notify:role:view")
@@ -337,7 +345,7 @@ public class NotifyController extends BasicController {
             for (User user : userList) {
                 primList.add(user.getRefId());
             }
-            teacherList = teacherService.selectBatchTeachers(primList,loginUser.getSchoolId());
+            teacherList = teacherService.selectBatchTeachers(primList, loginUser.getSchoolId());
             pageInfo = new PageInfo<Teacher>(teacherList);
             model.addAttribute("teacherList", teacherList);
         }
@@ -353,6 +361,7 @@ public class NotifyController extends BasicController {
 
     /**
      * 角色分配-添加用户-弹出页面
+     *
      * @return
      */
     @RequestMapping(value = "/roleuser/add")
@@ -476,6 +485,7 @@ public class NotifyController extends BasicController {
             record.setReadFlag(0);//默认未读
             notifyService.addNotifyRecord(record);
         }
+        new NotifyJs().send("您有一条新的通知公告，请注意查看", ConstantUtil.splitWithOutNull(teachers));
 
         //type1:发布公告到人员------------------------end-----------------通过人员id  1，2，3，4，5发布给1，2，3，4，5这些人-----------
 
@@ -518,7 +528,7 @@ public class NotifyController extends BasicController {
         String id = getParamVal(request, "id");
         String name = getParamVal(request, "columName");
         String _id = id;
-        User user =getLoginUser();
+        User user = getLoginUser();
         NotifyColumn notifyColumn = new NotifyColumn();
         notifyColumn.setId(_id);
         notifyColumn.setName(name);

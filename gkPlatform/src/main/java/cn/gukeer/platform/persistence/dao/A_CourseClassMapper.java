@@ -16,7 +16,5 @@ public interface A_CourseClassMapper {
 
     List<CourseClassView> findRefCourseClassByCycleIdCourseId(@Param("cycleId")String cycleId, @Param("courseId")String courseId);
 
-    void updateCourseClassByList(@Param("courseClassList")List<CourseClass> courseClassList);
-
     void batchDelByCourseId(@Param("courseId")String courseId);
 }

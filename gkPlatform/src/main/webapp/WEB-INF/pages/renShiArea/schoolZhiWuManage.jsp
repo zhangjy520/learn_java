@@ -77,7 +77,8 @@
                             <th width="10%">序号</th>
                             <th width="20%">姓名</th>
                             <th width="20%">性别</th>
-                            <th width="30%">教职工编号</th>
+                            <th width="20%">教职工编号</th>
+                            <th width="30%">职位</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -98,6 +99,7 @@
                                     </c:choose>
                                 </td>
                                 <td>${teacher.no}</td>
+                                <td>${teacher.titleName}</td>
                             </tr>
                         </c:forEach>
                         </tbody>

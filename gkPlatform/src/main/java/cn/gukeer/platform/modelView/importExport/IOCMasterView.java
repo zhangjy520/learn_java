@@ -9,13 +9,23 @@ import java.io.Serializable;
  */
 public class IOCMasterView implements Serializable {
     private String xdName;//学段
-    private Integer nj;//年级
+    private String  nj;//年级
     private String bj;//班级
     private String masterName;//班主任
     private String deputymasterName;//副班主任
     private String cycleYear;
     private Integer cycleSemester;
 
+//    private String info;
+//
+//    @ExcelField(title = "失败原因", align = 2, sort = 8, groups = {1, 2})
+//    public String getInfo() {
+//        return info;
+//    }
+//
+//    public void setInfo(String info) {
+//        this.info = info;
+//    }
 
     @ExcelField(title = "学年", align = 2, sort = 1, groups = {1, 2})
     public String getCycleYear() {
@@ -41,13 +51,15 @@ public class IOCMasterView implements Serializable {
     }
 
     @ExcelField(title = "年级", align = 2, sort = 4, groups = {1, 2})
-    public Integer getNj() {
+    public String getNj() {
         return nj;
     }
 
-    public void setNj(Integer nj) {
+    public void setNj(String nj) {
         this.nj = nj;
     }
+
+
 
 
     @ExcelField(title = "班级", align = 2, sort = 5, groups = {1, 2})

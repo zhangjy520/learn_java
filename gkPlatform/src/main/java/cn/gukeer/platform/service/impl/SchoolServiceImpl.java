@@ -1,7 +1,12 @@
 package cn.gukeer.platform.service.impl;
 
+import cc.gukeer.sync.util.PropertiesUtil;
 import cn.gukeer.common.service.BasicService;
+import cn.gukeer.common.tld.GukeerStringUtil;
+import cn.gukeer.common.utils.HttpRequestUtil;
 import cn.gukeer.common.utils.PrimaryKey;
+import cn.gukeer.common.utils.RedisUtil;
+import cn.gukeer.common.utils.StringUtils;
 import cn.gukeer.platform.modelView.AreaSchoolView;
 import cn.gukeer.platform.persistence.dao.*;
 import cn.gukeer.platform.persistence.entity.*;
@@ -9,11 +14,16 @@ import cn.gukeer.platform.service.SchoolService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -44,6 +54,12 @@ public class SchoolServiceImpl extends BasicService implements SchoolService {
 
     @Autowired
     ConfigMapper configMapper;
+
+    @Autowired
+    WeatherMapper weatherMapper;
+
+    @Autowired
+    JedisPool jedisPool;
 
     @Override
     public PageInfo<School> selectAllList(int pageNum, int pageSize) {
@@ -245,16 +261,131 @@ public class SchoolServiceImpl extends BasicService implements SchoolService {
     }
 
     @Override
-    public List<AreaSchoolView> getSchoolObjectTreeMenu(String schoolId,Object o) {
-        List<School> schoolList = getSonSchoolList(schoolId);
+    public List<Weather> selectWeatherByCity(String city, Long time) {
 
-        List<Map> list = new ArrayList<>();
-        if (o instanceof Department){
-            list = schoolExtensionMapper.getSonSchoolDepartment(schoolList);
-        }else if (o instanceof Title){
-            list = schoolExtensionMapper.getSonSchoolTitle(schoolList);
+        Long beginTime = time - 1000 * 60 * 60l;//查询日期前一个小时,最后面的l 是字母L 不是数字1
+        Long endTime = time + 1000 * 60 * 60l;//查询日期的后一个小时，最后的是l 是字母L 不是数字1
+
+        WeatherExample example = new WeatherExample();
+        example.createCriteria().andCityEqualTo(city).andQueryDateBetween(String.valueOf(beginTime), String.valueOf(endTime));//例如 查北京天气，当前8点，则返回数据库里北京 当前日期 7-9点之间的天气数据
+
+        List<Weather> res = weatherMapper.selectByExample(example);
+
+        return res;
+    }
+
+    @Override
+    public int saveWeather(Weather weather) {
+
+        WeatherExample example = new WeatherExample();
+        example.createCriteria().andCityEqualTo(weather.getCity());
+
+        weatherMapper.deleteByExample(example);//每次新增城市天气之前把这个城市的历史天气给删除了
+
+        return weatherMapper.insertSelective(weather);
+    }
+
+    //天气缓存，mysql缓存方式
+  /*  @Override
+    public String getWeather(String schoolId) {
+
+        if (StringUtils.isEmpty(schoolId)) {
+            //未传机构id，是定时器查询，调用接口来查询并存入到数据库中
+        } else {
+            School school = this.selectSchoolById(schoolId);
+            String address = school.getXz().split(",")[1];
+            //传机构id，是人为发起天气调用，查询数据库
+            List<Weather> res = this.selectWeatherByCity(address, System.currentTimeMillis());
+            if (res.size() > 0) {
+                //查询到天气数据，不再调用接口
+                return res.get(0).getContent();
+            } else {
+                //未查询到天气数据，调用接口查询
+                Object queryRes = getApiWeather(address);
+
+                if (GukeerStringUtil.isNullOrEmpty(queryRes))
+                    return null;
+
+                Weather weather = new Weather();
+                weather.setId(PrimaryKey.get());
+                weather.setCity(address);
+                weather.setContent(queryRes.toString());
+                weather.setQueryDate(String.valueOf(System.currentTimeMillis()));
+
+                this.saveWeather(weather);
+
+                return queryRes.toString();
+            }
         }
-        return formatList(list);
+        return null;
+    }*/
+
+
+  //天气缓存，redis缓存方式
+    @Override
+    public String getWeather(String schoolId) {
+
+        Jedis redis = jedisPool.getResource();
+
+        if (StringUtils.isEmpty(schoolId)) {
+            //未传机构id，是定时器查询，调用接口来查询并存入到数据库中
+        } else {
+            School school = this.selectSchoolById(schoolId);
+            String address = school.getXz().split(",")[1];
+            //传机构id，是人为发起天气调用，查询缓存中是否有该城市的天气信息
+            String res = RedisUtil.find("weather" + address, redis);
+
+            if (StringUtils.isNotEmpty(res)) {
+                //缓存中有该城市天气数据，不再调用接口
+                return res;
+            } else {
+                //未查询到天气数据，调用接口查询
+                Object queryRes = getApiWeather(address);
+
+                if (GukeerStringUtil.isNullOrEmpty(queryRes))
+                    return null;
+
+                String key = "weather" + address;
+                try {
+                    RedisUtil.add(key, queryRes.toString(), redis);
+                    RedisUtil.setExpire(key, 60*120, redis);
+                    RedisUtil.returnResource(redis);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return queryRes.toString();
+            }
+        }
+        return null;
+    }
+
+    public static Object getApiWeather(String city) {
+        Properties pro = PropertiesUtil.getProperties("db.properties");
+        String key = pro.getProperty("weather.key");
+        String url = pro.getProperty("weather.url");
+
+        Map param = new HashMap();
+        param.put("city", city);
+        param.put("key", key);
+
+        String res = null;
+        try {
+            res = HttpRequestUtil.post(url, null, null, param);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (StringUtils.isEmpty(res))
+            return null;
+
+        JSONObject object = JSONObject.fromObject(res);
+        JSONArray array = JSONArray.fromObject(object.get("HeWeather5").toString());
+
+        if (array.length() > 0)
+            return array.get(0);
+        else
+            return null;
     }
 
     public List<AreaSchoolView> formatList(List<Map> listParam) {

@@ -1,6 +1,5 @@
 package cn.gukeer.platform.service;
 
-import cn.gukeer.platform.modelView.BZRView;
 import cn.gukeer.platform.persistence.entity.*;
 import com.github.pagehelper.PageInfo;
 
@@ -11,6 +10,7 @@ import java.util.Map;
  * Created by conn on 2016/8/8.
  */
 public interface TeacherService {
+
     PageInfo<Teacher> findAllList(int pageNum, int pageSize, String schoolId, String teacherName);
 
     List<Teacher> findAllTeacher(String schoolId);
@@ -18,7 +18,10 @@ public interface TeacherService {
     Teacher findTeacherById(String id);
 
     //职务id，需要查询的机构id，当前机构的id，职工名字
-    List<Teacher> findTeacherByTitleId(String titleId, String schoolId,String loginSchoolId, String teacherName);
+    List<Teacher> findTeacherByTitleId(String titleId, String schoolId, String loginSchoolId, String teacherName);
+
+    PageInfo<Map> findTeacherViewByTitleId(String titleId, String schoolId, String loginSchoolId,
+                                           String teacherName, Integer pageNum, Integer pageSize);
 
     List<Map<String, Object>> findTeacherViewByParams(Map<Object, Object> param);
 
@@ -52,6 +55,8 @@ public interface TeacherService {
 
     List<Teacher> findHaveAccountTeacher(String schoolId);
 
+    PageInfo<Map> findTeacherViewList(String departmentId, Teacher teacher, int pageNum, int pageSize);
+
     PageInfo<Teacher> findTeacherByDepartmentId(String departmentId, Teacher teacher, int pageNum, int pageSize);
 
     Map<Object, Object> getTeacherList(Map<String, String> param, boolean flag, String schoolId);
@@ -67,7 +72,8 @@ public interface TeacherService {
     PageInfo<Map> teacherListView(int pageNum, int pageSize, String currentSchoolId, String schoolId, String teacherName);
 
     //区平台id，机构id集合
-    Map teacherReport(String loginSchoolId,List<School> schoolList);
+    Map teacherReport(String loginSchoolId, List<School> schoolList);
 
     Course findCourseById(String courseId);
+
 }

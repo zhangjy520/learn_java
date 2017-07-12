@@ -35,9 +35,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     ClassRoomMapper classRoomMapper;
 
     @Autowired
-    A_Teach_CourseMapper a_teach_courseMapper;
-
-    @Autowired
     RoomTypeMapper roomTypeMapper;
 
     @Autowired
@@ -48,9 +45,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
     @Autowired
     GradeClassMapper gradeClassMapper;
-
-    @Autowired
-    A_ClassRoomExtensionMapper classRoomExtensionMapper;
 
     @Autowired
     A_CourseClassMapper a_courseClassMapper;
@@ -69,7 +63,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
     @Autowired
     A_TeacherExtensionMapper a_teacherExtensionMapper;
-
 
     @Autowired
     CourseClassMapper courseClassMapper;
@@ -119,6 +112,9 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     @Autowired
     CourseNodeInitMapper courseNodeInitMapper;
 
+    @Autowired
+    A_RefRoomCycleMapper a_refRoomCycleMapper;
+
     @Override
     public int saveRefRoomCycle(RefRoomCycle roomCycle) {
         return refRoomCycleMapper.insertSelective(roomCycle);
@@ -134,9 +130,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         int pageSize = NumberConvertUtil.convertS2I(getValue(param, "pageSize").toString());
         String schoolId = getValue(param, "schoolId").toString();
 
-//        if (pageSize != -1 || pageSize != 0) {
         PageHelper.startPage(pageNum, pageSize);
-//        }
         TeachCycleExample example = new TeachCycleExample();
         example.createCriteria().andDelFlagEqualTo(0).andSchoolIdEqualTo(schoolId);
         example.setOrderByClause("create_date desc");
@@ -197,7 +191,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         List<TeachCycle> res = teachCycleMapper.selectByExample(example);
         if (res.size() > 0)
             return res.get(0);
-        return null;
+        return new TeachCycle();
     }
 
     @Override
@@ -208,10 +202,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         String schoolId = getValue(param, "schoolId").toString();
         String cycleId = getValue(param, "cycleId").toString();
 
-        pageSize = (pageSize == 0 ? 10 : pageSize);
-        if (pageSize != -1) {
-            PageHelper.startPage(pageNum, pageSize);
-        }
+
         ClassRoomExample example = new ClassRoomExample();
         example.setOrderByClause("create_date DESC");
         ClassRoomExample.Criteria criteria = example.createCriteria();
@@ -226,7 +217,10 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
             else return new PageInfo<>(new ArrayList<ClassRoom>());
         }
 
-
+        pageSize = (pageSize == 0 ? 10 : pageSize);
+        if (pageSize != -1) {
+            PageHelper.startPage(pageNum, pageSize);
+        }
         List<ClassRoom> roomList = classRoomMapper.selectByExample(example);
         PageInfo<ClassRoom> pageInfo = new PageInfo<ClassRoom>(roomList);
 
@@ -276,7 +270,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
             pageInfo = new PageInfo<>(list);
             return pageInfo;
         }
-        return null;
+        return new PageInfo<CourseType>(new ArrayList<CourseType>());
     }
 
     public Course getCourseByPrimaryKey(String id) {
@@ -332,23 +326,23 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     public List<ClassSection> findAllXd(String schoolId) {
         ClassSectionExample example = new ClassSectionExample();
         example.createCriteria().andDelFlagEqualTo(0).andSchoolIdEqualTo(schoolId);
+        example.setOrderByClause("section_year asc");
+        example.setOrderByClause("limit_age");
         List<ClassSection> list = classSectionMapper.selectByExample(example);
-        List<ClassSection> list1 = new  ArrayList<>(list);
-
-
-        if (list.size() > 0) {
-            for (ClassSection classSection:list){
-                if (classSection.getName().equals("小学")&&list.size()>=1){
-                    list1.add(0,classSection);
-                }else if (classSection.getName().equals("初中")&&list.size()>=2){
-                    list1.add(1,classSection);
-                }else if(classSection.getName().equals("高中")&&list.size()>=3){
-                    list1.add(2,classSection);
-                }
-            }
-            return list1;
-        }
-        return null;
+//        List<ClassSection> list1 = new ArrayList<>();
+//        if (list.size() > 0) {
+//            for (ClassSection classSection : list) {
+//                if (classSection.getName().equals("小学") && list.size() >= 1) {
+//                    list1.add(0, classSection);
+//                } else if (classSection.getName().equals("初中") && list.size() >= 2) {
+//                    list1.add(1, classSection);
+//                } else if (classSection.getName().equals("高中") && list.size() >= 3) {
+//                    list1.add(2, classSection);
+//                }
+//            }
+//            return list1;
+//        }
+        return list;
     }
 
     public ClassView findClassNameByXdAndClassId(String classId, String xd) {
@@ -366,6 +360,8 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
     @Override
     public List<Course> findAllCourseBySchoolIdAndCycleId(String schoolId, String cycleId) {
+        schoolId = (schoolId == null ? "" : schoolId);
+        cycleId = (cycleId == null ? "" : cycleId);
         CourseExample example = new CourseExample();
         example.createCriteria().andDelFlagEqualTo(0).andSchoolIdEqualTo(schoolId).andCycleIdEqualTo(cycleId);
         List<Course> courseList = courseMapper.selectByExample(example);
@@ -393,7 +389,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (courseClasses != null) {
             return courseClasses;
         }
-        return null;
+        return new ArrayList<CourseClass>();
     }
 
     @Override
@@ -422,7 +418,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (list != null) {
             return list;
         }
-        return null;
+        return new ArrayList<RoomType>();
     }
 
     @Override
@@ -440,17 +436,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         return courseList;
     }
 
-    @Override
-    public Course findCourseBySchoolIdAndCycleIdAndName(String id, String name, String schoolId) {
-        CourseExample example = new CourseExample();
-        example.createCriteria().andCycleIdEqualTo(id).andDelFlagEqualTo(0).andSchoolIdEqualTo(schoolId).andNameEqualTo(name);
-        List<Course> courseList = courseMapper.selectByExample(example);
-        if (courseList.size() > 0) {
-            return courseList.get(0);
-        }
-        return null;
-    }
-
 
     public CourseType findCourseTypeByName(String oneCourse, String schoolId) {
         CourseTypeExample example = new CourseTypeExample();
@@ -460,25 +445,12 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (courseTypeList.size() > 0) {
             return courseTypeList.get(0);
         }
-        return null;
+        return new CourseType();
     }
 
-    @Override
-    public List<CourseType> findAllCourseTypeBySchoolId(String schoolId) {
-        CourseTypeExample example = new CourseTypeExample();
-        example.createCriteria();//.andSchoolIdEqualTo(schoolId);
-        List<CourseType> courseTypeList = courseTypeMapper.selectByExample(example);
-        if (courseTypeList.size() > 0) {
-            return courseTypeList;
-        }
-        return null;
-    }
-
-
-    @Override
-    public PageInfo<TeacherClass> findMasterByClassIdListAndType(List<String> list, int pageNum, int pageSize, String cycleId) {
+    public PageInfo<TeacherClass> findMasterByClassIdListAndType(List<String> list, int pageNum, int pageSize, String cycleId,int nj) {
         PageHelper.startPage(pageNum, pageSize);
-        List<TeacherClass> TeacherClassList = a_refTeacherClassMapper.findMasterByClassIdListAndType(list, cycleId);
+        List<TeacherClass> TeacherClassList = a_refTeacherClassMapper.findMasterByClassIdListAndType(list, cycleId,nj);
         PageInfo<TeacherClass> pageInfo = new PageInfo<>(TeacherClassList);
         return pageInfo;
 
@@ -505,18 +477,20 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     }
 
     @Override
-    public TeacherClass findTeacherClassByClassIdCycleIdTeacherId(String classId, String cycleId, String teacherId) {
+    public TeacherClass findTeacherClassByClassIdCycleIdTeacherId(String classId, String cycleId, String teacherId, int i) {
         TeacherClassExample example = new TeacherClassExample();
-        example.createCriteria().andClassIdEqualTo(classId).andTeacherIdEqualTo(teacherId).andCycleIdEqualTo(cycleId);
+        example.createCriteria().andClassIdEqualTo(classId).andTeacherIdEqualTo(teacherId).andCycleIdEqualTo(cycleId).andTypeEqualTo(i);
         List<TeacherClass> teacherClasses = teacherClassMapper.selectByExample(example);
         if (teacherClasses.size() > 0) {
             return teacherClasses.get(0);
         }
-        return null;
+        return new TeacherClass();
     }
 
     @Override
     public List<TeacherClass> findAllClassIdByCycleId(String cycleId) {
+        if (cycleId == null)
+            cycleId = "";
         TeacherClassExample example = new TeacherClassExample();
         example.createCriteria().andCycleIdEqualTo(cycleId);
         List<TeacherClass> teacherClasses = teacherClassMapper.selectByExample(example);
@@ -524,16 +498,11 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     }
 
     @Override
-    public PageInfo<BZRView> getAllMasterByGradeClassIds(List<String> classIdList, int pageNum, int pageSize, String xdId, int nj) {
+    public PageInfo<BZRView> getAllMasterByGradeClassIds(List<String> classIdList, int pageNum, int pageSize, String xdId, int nj, String cycleId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<BZRView> list = a_masterMapper.getAllMasterByGradeClassIds(classIdList, xdId, nj);
+        List<BZRView> list = a_masterMapper.getAllMasterByGradeClassIds(classIdList, xdId, nj,cycleId);
         PageInfo<BZRView> pageInfo = new PageInfo<>(list);
         return pageInfo;
-    }
-
-    @Override
-    public List<BZRView> findMasterByCycleId(String cycleId) {
-        return null;
     }
 
     @Override
@@ -572,7 +541,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (list.size() > 0)
             criteria.andIdIn(list);
         else
-            return null;
+            return new ArrayList<ClassRoom>();
 
         List<ClassRoom> classRoomList = classRoomMapper.selectByExample(example);
         return classRoomList;
@@ -587,7 +556,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (classRoomList.size() > 0) {
             return classRoomList;
         }
-        return null;
+        return new ArrayList<ClassRoom>();
     }
 
     @Override
@@ -596,7 +565,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (refClassRoomList.size() > 0) {
             return refClassRoomList;
         }
-        return null;
+        return new ArrayList<RefClassRoom>();
     }
 
     @Override
@@ -605,9 +574,9 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     }
 
     @Override
-    public PageInfo<RefClassRoomView> getRefClassRoomList(int pageNum, int pageSize, String schoolId, String cycleId) {
+    public PageInfo<RefClassRoomView> getRefClassRoomList(int pageNum, int pageSize, String schoolId, String cycleId, int nj, String xdId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<RefClassRoomView> list = a_refClassRoomMapper.getRefClassRoomList(schoolId, cycleId);
+        List<RefClassRoomView> list = a_refClassRoomMapper.getRefClassRoomList(schoolId, cycleId,nj,xdId);
         PageInfo<RefClassRoomView> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
@@ -618,10 +587,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         example.createCriteria().andSchoolIdEqualTo(schoolId);
         List<SchoolType> schoolTypeList = schoolTypeMapper.selectByExample(example);
         return schoolTypeList;
-    }
-
-    public RefClassRoom findRefClassRoomByKey(String refId) {
-        return refClassRoomMapper.selectByPrimaryKey(refId);
     }
 
     @Override
@@ -643,22 +608,10 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         return roomIdList;
     }
 
-
-    public List<ClassRoom> findAllTeachBuilding(String schoolId) {
-        List<ClassRoom> classRoomList = a_classRoomMapper.findAllTeachBuilding(schoolId);
-        return classRoomList;
-    }
-
     @Override
     public RefClassRoomView findRefClassRoomViewByRefId(String refId) {
         RefClassRoomView classRoomView = a_refClassRoomMapper.findRefClassRoomViewByRefId(refId);
         return classRoomView;
-    }
-
-    @Override
-    public List<ClassRoom> findBuildingBySchoolTypeList(List<SchoolType> schoolTypeList) {
-        List<ClassRoom> classRoomList = a_classRoomMapper.findBuildingBySchoolTypeList(schoolTypeList);
-        return classRoomList;
     }
 
     @Override
@@ -680,11 +633,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     }
 
     @Override
-    public void updateCourseClassByList(List<CourseClass> courseClassList) {
-        a_courseClassMapper.updateCourseClassByList(courseClassList);
-    }
-
-    @Override
     public CourseClass findCourseClassByClassIdAndCourseId(String courseId, String id) {
         CourseClassExample example = new CourseClassExample();
         example.createCriteria().andClassIdEqualTo(id).andCourseIdEqualTo(courseId);
@@ -692,7 +640,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         if (courseClasses.size() > 0) {
             return courseClasses.get(0);
         }
-        return null;
+        return new CourseClass();
     }
 
     @Override
@@ -731,25 +679,15 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     }
 
     @Override
-    public StandardCourse findStandardCourseByName(String name) {
-        StandardCourseExample example = new StandardCourseExample();
-        example.createCriteria().andNameEqualTo(name);
-        List<StandardCourse> standardCourseList = standardCourseMapper.selectByExample(example);
-        if (standardCourseList.size() > 0) {
-            return standardCourseList.get(0);
-        }
-        return null;
-    }
-
-    @Override
     public void saveStandardCourse(StandardCourse standardCourse) {
 
         standardCourse.setUpdateDate(System.currentTimeMillis());
         standardCourse.setDelFlag(0);
-        if (standardCourse.getIsDictionary().equals('1')) {
+        if (standardCourse.getIsDictionary() != null && standardCourse.getIsDictionary().equals('1')) {
             standardCourse.setCourseTypeId(null);
         }
-        if (standardCourse.getId() != "") {
+        if (StringUtils.isNotBlank(standardCourse.getId())) {
+
             standardCourseMapper.updateByPrimaryKeySelective(standardCourse);
         } else {
             standardCourse.setId(PrimaryKey.get());
@@ -781,7 +719,6 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
     @Override
     public void saveDailyHour(DailyHour dailyHour) {
-        String dailyHourId = dailyHour.getId();
         dailyHour.setDelFlag(0);
         dailyHour.setUpdateTime(System.currentTimeMillis());
         if (null == dailyHour.getId()) {
@@ -817,62 +754,48 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         dailyHourMapper.deleteByPrimaryKey(dailyId);
     }
 
-    @Override
-    public void saveCourseNode(CourseNode courseNode) {
-        String courseNodeId = courseNode.getId();
-        courseNode.setUpdateTime(System.currentTimeMillis());
-        if (courseNode.getId().equals("")) {
-            courseNode.setId(PrimaryKey.get());
-            courseNode.setCreateTime(System.currentTimeMillis());
-            courseNode.setDelFlag(0);
-            courseNodeMapper.insert(courseNode);
-        }
-    }
 
-    @Override
-    public void batchSaveCourseNode(List<CourseNode> courseNodeList) {
-        a_courseNodeMapper.batchSaveCourseNode(courseNodeList);
-    }
-
-    @Override
-    public PageInfo<CourseNode> findCourseNodeBySchoolId(String schoolId, Integer pageNum, Integer pageSize, String cycleId) {
-
-        CourseNodeExample example = new CourseNodeExample();
-        example.createCriteria().andSchoolIdEqualTo(schoolId).andCycleIdEqualTo(cycleId);
-        PageHelper.startPage(pageNum, pageSize);
-        List<CourseNode> courseNodeList = courseNodeMapper.selectByExample(example);
-        PageInfo<CourseNode> pageInfo = new PageInfo<>(courseNodeList);
-        return pageInfo;
-    }
-
-    @Override
-    public CourseNode getCourseNodeById(String nodeId) {
-        return courseNodeMapper.selectByPrimaryKey(nodeId);
-    }
-
-    @Override
-    public void updateCourseNodeById(CourseNode courseNode) {
-        courseNodeMapper.updateByPrimaryKeySelective(courseNode);
-    }
+//    @Override
+//    public void batchSaveCourseNode(List<CourseNode> courseNodeList) {
+//        a_courseNodeMapper.batchSaveCourseNode(courseNodeList);
+//    }
 
     @Override
     public CourseNodeInit findCourNodeInitByCycleIdAndSchoolIdAndTimeSection(String schoolId, String cycleId, String time_section) {
-        CourseNodeInitExample example = new CourseNodeInitExample();
-        example.createCriteria().andSchoolIdEqualTo(schoolId).andCycleIdEqualTo(cycleId).andMonthStartEndEqualTo(time_section);
-        List<CourseNodeInit> courseNodeInitList = courseNodeInitMapper.selectByExample(example);
-        if (courseNodeInitList.size() > 0) {
-            return courseNodeInitList.get(0);
-        }
-        return null;
+//        CourseNodeInitExample example = new CourseNodeInitExample();
+//        example.createCriteria().andSchoolIdEqualTo(schoolId).andCycleIdEqualTo(cycleId).andMonthStartEndEqualTo(time_section);
+//        List<CourseNodeInit> courseNodeInitList = courseNodeInitMapper.selectByExample(example);
+//        if (courseNodeInitList.size() > 0) {
+//            return courseNodeInitList.get(0);
+//        }
+        return new CourseNodeInit();
     }
 
-    @Override
-    public void saveCourseNodeInit(CourseNodeInit courseNodeInit) {
+    @Transactional
+    public void saveCourseNodeInit(CourseNodeInit courseNodeInit, List<CourseNode> courseNodeList) {
+        int succ = 0;
+        courseNodeInit.setCreateTime(System.currentTimeMillis());
         courseNodeInit.setDelFlag(0);
-        courseNodeInitMapper.insert(courseNodeInit);
+        //根据initId查询是否已存在
+        CourseNodeInit courseNodeInitDB = courseNodeInitMapper.selectByPrimaryKey(courseNodeInit.getId());
+        if (courseNodeInitDB == null) {
+            succ = courseNodeInitMapper.insert(courseNodeInit);
+        }else {
+            succ = courseNodeInitMapper.updateByPrimaryKeySelective(courseNodeInit);
+            CourseNodeExample example = new CourseNodeExample();
+            example.createCriteria().andCourseNodeInitIdEqualTo(courseNodeInit.getId());
+            succ = courseNodeMapper.deleteByExample(example);
+        }
+
+        if (succ > 0) {
+            a_courseNodeMapper.batchSaveCourseNode(courseNodeList);
+        }
     }
 
     public PageInfo<CourseNodeInit> findCourseNodeInitBySchoolId(String schoolId, Integer pageNum, Integer pageSize, String cycleId) {
+        schoolId = (schoolId == null ? "" : schoolId);
+        cycleId = (cycleId == null ? "" : cycleId);
+
         CourseNodeInitExample example = new CourseNodeInitExample();
         example.createCriteria().andSchoolIdEqualTo(schoolId).andCycleIdEqualTo(cycleId).andDelFlagEqualTo(0);
         PageHelper.startPage(pageNum, pageSize);
@@ -888,6 +811,8 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
 
     @Override
     public List<CourseNode> findCourseNodeByNodeId(String nodeId) {
+        nodeId = (nodeId == null ? "" : nodeId);
+
         CourseNodeExample example = new CourseNodeExample();
         example.createCriteria().andCourseNodeInitIdEqualTo(nodeId);
         example.setOrderByClause("start_time");
@@ -936,7 +861,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
         return succ;
     }
 
-    public void batchDelCourseClass( String courseId) {
+    public void batchDelCourseClass(String courseId) {
         a_courseClassMapper.batchDelByCourseId(courseId);
     }
 
@@ -944,10 +869,7 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
     public PageInfo<StandardCourse> findAllStandardCourseBySchoolIdAndPageNum(String schoolId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<StandardCourse> standardCourseList = a_standardCourseMapper.findAllStandardCourseBySchoolIdAndPageNum(schoolId);
-        logger.info("standardList+++++++standardCourseList.size()有数据" + standardCourseList.size());
-        System.out.println("standardList++++++++++++++++++有数据" + standardCourseList.size());
         PageInfo<StandardCourse> pageInfo = new PageInfo<>(standardCourseList);
-        System.out.println(PrimaryKey.get());
         return pageInfo;
     }
 
@@ -965,6 +887,25 @@ public class TeachTaskServiceImpl extends BasicService implements TeachTaskServi
             flag = courseMapper.updateByPrimaryKeySelective(course);
         }
         return flag;
+    }
+
+    public List<CourseNodeInit> findCourseNodeInitByCycleId(String cycleId) {
+        CourseNodeInitExample example = new CourseNodeInitExample();
+        example.createCriteria().andCycleIdEqualTo(cycleId).andDelFlagEqualTo(0);
+        example.setOrderByClause("end_week");
+        return courseNodeInitMapper.selectByExample(example);
+    }
+
+        public void batchInsertRefRoomCycle(List<RefRoomCycle> refRoomCycleList) {
+            a_refRoomCycleMapper.batchInsertRefRoomCycle(refRoomCycleList);
+        }
+
+    @Override
+    public List<GradeClass> getAllClassBySchoolIdAndNj(String schoolId, String nj,String xdId) {
+        GradeClassExample example = new GradeClassExample();
+        example.createCriteria().andSchoolIdEqualTo(schoolId).andNjEqualTo(NumberConvertUtil.convertS2I(nj)).andXdEqualTo(xdId);
+        example.setOrderByClause("nj");
+        return  gradeClassMapper.selectByExample(example);
     }
 
 

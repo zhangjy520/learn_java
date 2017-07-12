@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gukeer.platform.persistence.dao.A_ClassCardMapper">
+
+
+    <select id="selectByClassIdAndNj" resultType="cn.gukeer.platform.modelView.ClassCardView">
+        SELECT
+        a.id,
+        a.equipment_name equipmentName,
+        CONCAT(c.teach_building, c.floor, c.room_num) locationName
+        FROM
+        teach_class_card a,
+        org_grade_class b,
+        teach_class_room c
+        WHERE
+        a.class_id = b.id
+        AND a.school_id = b.school_id
+        AND a.teach_class_room_id = c.id
+        AND b.school_id = #{schoolId,jdbcType=INTEGER}
+
+        <if test='classId != null and classId!="0" and classId !=""'>
+            and a.class_id = #{classId}
+        </if>
+        <if test='xd !="" and xd!="0" and xd !=null'>
+            and b.xd = #{xd}
+        </if>
+        <if test="xq != 0">
+            and b.xq = #{xq,jdbcType=INTEGER}
+        </if>
+        <if test="nj != 0">
+            and b.nj = #{nj,jdbcType=INTEGER}
+        </if>
+        and a.del_flag = 0
+        and b.del_flag = 0
+        and c.del_flag = 0
+        order by a.create_date desc
+    </select>
+
+    <select id="selectAllClassCardView" resultType="cn.gukeer.platform.modelView.ClassCardView">
+        SELECT
+                tcc.id,
+                tcc.equipment_name equipmentName,
+                ocs.name xd,
+                ogc.nj
+            FROM
+                teach_class_card tcc,
+                org_grade_class ogc,
+                org_class_section ocs
+            WHERE
+                tcc.class_id = ogc.id
+                    AND ogc.xd = ocs.id
+                    AND tcc.del_flag = 0
+                    AND ogc.del_flag = 0
+                    AND ocs.del_flag = 0
+                    order by ogc.nj
+    </select>
+
+</mapper>

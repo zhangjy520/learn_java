@@ -12,6 +12,8 @@ public class CourseView implements Serializable{
 
     private String name;
 
+    private String englishName;
+
     private String cycleId;
 
     private String shortName;
@@ -21,6 +23,14 @@ public class CourseView implements Serializable{
     private Double passScore;
 
     private Integer delFlag;
+
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName;
+    }
 
     public Double getScore() {
         return score;

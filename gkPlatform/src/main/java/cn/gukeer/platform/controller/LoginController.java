@@ -164,7 +164,6 @@ public class LoginController extends BasicController {
 
         WebUtils.getSavedRequest(request);
         String url = "/";
-        System.out.println(loginUser.hasRole("area"));
         if (loginUser.isAuthenticated()) {
             if (loginUser.hasRole(UserRoleType.ROLE_ROOT)) {
                 url = "school/index";

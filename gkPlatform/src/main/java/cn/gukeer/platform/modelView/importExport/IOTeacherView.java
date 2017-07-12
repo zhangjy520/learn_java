@@ -21,7 +21,6 @@ public class IOTeacherView implements Serializable {
     private String identity;//身份证号码
     private String gender;//性别
     private String startWork;//开始工作时间
-   /* private String title;   //职务*/
     private String hignTime;//最高毕业时间
     private String hignJob;//最高专业
     private String pzxx;//评职详细
@@ -61,11 +60,6 @@ public class IOTeacherView implements Serializable {
     private String szjb;//实职级别
     private String gzgwf;//工资岗位副
 
-
-
-
-   /* @ExcelField(title = "姓名", align = 2, sort = 1, groups = {1, 2})*/
-
     @ExcelField(title = "姓名", align = 2, sort = 1, groups = {1, 2},isnull=1)
     public String getName() {
         return name;
@@ -94,10 +88,6 @@ public class IOTeacherView implements Serializable {
     public String getStartWork() {
         return startWork;
     }
- /*   @ExcelField(title = "职务", align = 2, sort = 8, groups = {1, 2})
-    public String getTitle() {
-        return title;
-    }*/
     @ExcelField(title = "最高毕业时间", align = 2, sort = 8, groups = {1, 2})
     public String getHignTime() {
         return hignTime;
@@ -106,7 +96,7 @@ public class IOTeacherView implements Serializable {
     public String getHignJob() {
         return hignJob;
     }
-    @ExcelField(title = "评职详细", align = 2, sort = 10, groups = {1, 2})
+    @ExcelField(title = "评职详细", align = 2, sort = 10, groups = {1, 2},permission = 1)
     public String getPzxx() {
         return pzxx;
     }
@@ -114,7 +104,7 @@ public class IOTeacherView implements Serializable {
     public String getAdrress() {
         return adrress;
     }
-    @ExcelField(title = "骨干教师级别", align = 2, sort = 12, groups = {1, 2})
+    @ExcelField(title = "骨干教师级别", align = 2, sort = 12, groups = {1, 2},permission = 1)
     public String getGgjsjb() {
         return ggjsjb;
     }
@@ -126,11 +116,11 @@ public class IOTeacherView implements Serializable {
     public String getCym() {
         return cym;
     }
-    @ExcelField(title = "家庭邮编", align = 2, sort = 15, groups = {1, 2})
+    @ExcelField(title = "家庭邮编", align = 2, sort = 15, groups = {1, 2},permission = 1)
     public String getJtyb() {
         return jtyb;
     }
-    @ExcelField(title = "是否专任教师", align = 2, sort = 16, groups = {1, 2})
+    @ExcelField(title = "是否专任教师", align = 2, sort = 16, groups = {1, 2},permission = 1)
     public String getSfzrjs() {
         return sfzrjs;
     }
@@ -150,11 +140,11 @@ public class IOTeacherView implements Serializable {
     public String getXwsl() {
         return xwsl;
     }
-    @ExcelField(title = "任教学科级别", align = 2, sort = 21, groups = {1, 2})
+    @ExcelField(title = "任教学科级别", align = 2, sort = 21, groups = {1, 2},permission = 1)
     public String getRjxkjb() {
         return rjxkjb;
     }
-    @ExcelField(title = "校区", align = 2, sort = 22, groups = {1, 2})
+    @ExcelField(title = "校区", align = 2, sort = 22, groups = {1, 2},permission = 1)
     public String getXq() {
         return xq;
     }
@@ -162,7 +152,7 @@ public class IOTeacherView implements Serializable {
     public String getXj() {
         return xj;
     }
-    @ExcelField(title = "岗位分类副", align = 2, sort = 24, groups = {1, 2})
+    @ExcelField(title = "岗位分类副", align = 2, sort = 24, groups = {1, 2},permission = 1)
     public String getGwflf() {
         return gwflf;
     }
@@ -190,19 +180,19 @@ public class IOTeacherView implements Serializable {
     public String getYzy() {
         return yzy;
     }
-    @ExcelField(title = "评职时间", align = 2, sort = 31, groups = {1, 2})
+    @ExcelField(title = "评职时间", align = 2, sort = 31, groups = {1, 2},permission = 1)
     public String getPzsj() {
         return pzsj;
     }
-    @ExcelField(title = "来我校时间", align = 2, sort = 32, groups = {1, 2})
+    @ExcelField(title = "来我校时间", align = 2, sort = 32, groups = {1, 2},permission = 1)
     public String getLwxsj() {
         return lwxsj;
     }
-    @ExcelField(title = "住宅电话", align = 2, sort = 33, groups = {1, 2})
+    @ExcelField(title = "住宅电话", align = 2, sort = 33, groups = {1, 2},permission = 1)
     public String getZzdh() {
         return zzdh;
     }
-    @ExcelField(title = "工资岗位", align = 2, sort = 34, groups = {1, 2})
+    @ExcelField(title = "工资岗位", align = 2, sort = 34, groups = {1, 2},permission = 1)
     public String getGzgw() {
         return gzgw;
     }
@@ -218,7 +208,7 @@ public class IOTeacherView implements Serializable {
     public String getSfhq() {
         return sfhq;
     }
-    @ExcelField(title = "是否班主任", align = 2, sort = 38, groups = {1, 2})
+    @ExcelField(title = "是否班主任", align = 2, sort = 38, groups = {1, 2},permission = 1)
     public String getSfbzr() {
         return sfbzr;
     }
@@ -234,11 +224,11 @@ public class IOTeacherView implements Serializable {
     public String getZgxw() {
         return zgxw;
     }
-    @ExcelField(title = "专业技术岗位分类", align = 2, sort = 42, groups = {1, 2})
+    @ExcelField(title = "专业技术岗位分类", align = 2, sort = 42, groups = {1, 2},permission = 1)
     public String getZyjsgwfl() {
         return zyjsgwfl;
     }
-    @ExcelField(title = "任教学科", align = 2, sort = 43, groups = {1, 2})
+    @ExcelField(title = "任教学科", align = 2, sort = 43, groups = {1, 2},permission = 1)
     public String getRjxk() {
         return rjxk;
     }
@@ -246,7 +236,7 @@ public class IOTeacherView implements Serializable {
     public String getSzjb() {
         return szjb;
     }
-    @ExcelField(title = "工资岗位副", align = 2, sort = 45, groups = {1, 2})
+    @ExcelField(title = "工资岗位副", align = 2, sort = 45, groups = {1, 2},permission = 1)
     public String getGzgwf() {
         return gzgwf;
     }
@@ -278,10 +268,6 @@ public class IOTeacherView implements Serializable {
     public void setStartWork(String startWork) {
         this.startWork = startWork;
     }
-
-  /*  public void setTitle(String title) {
-        this.title = title;
-    }*/
 
     public void setHignTime(String hignTime) {
         this.hignTime = hignTime;

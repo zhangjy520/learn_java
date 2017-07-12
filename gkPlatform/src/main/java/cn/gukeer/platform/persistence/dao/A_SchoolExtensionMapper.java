@@ -18,8 +18,4 @@ public interface A_SchoolExtensionMapper {
 
     List<School> getSonSchoolList(@Param("schoolId") String schoolId);
 
-    List<Map> getSonSchoolDepartment(@Param("schoolList") List<School> schoolList);
-
-    List<Map> getSonSchoolTitle(@Param("schoolList") List<School> schoolList);
-
 }

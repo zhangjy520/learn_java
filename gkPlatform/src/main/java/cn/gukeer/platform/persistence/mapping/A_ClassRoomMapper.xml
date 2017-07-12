@@ -50,6 +50,8 @@
         (`id`,
         `room_name`,
         `room_type`,
+        `room_num`,
+        `teach_building`,
         `room_type_name`,
         `school_id`,
         `school_type`,
@@ -66,11 +68,53 @@
         values
         <foreach collection="roomList" item="item" index="index" separator=",">
             (
-            #{item.id},#{item.roomName},#{item.roomType},#{item.roomTypeName},#{item.schoolId},#{item.schoolType},
+            #{item.id},#{item.roomName},#{item.roomType},#{item.roomNum},#{item.teachBuilding},#{item.roomTypeName},#{item.schoolId},#{item.schoolType},
             #{item.schoolTypeName},#{item.floor},#{item.count},#{item.availableSeat},#{item.examSeat},#{item.courseSelect},
             #{item.remarks},#{item.createBy},#{item.createDate}
             )
         </foreach>
     </insert>
+
+
+
+    <select id="findCascadeClassRoom" resultType="cn.gukeer.platform.persistence.entity.ClassRoom">
+        SELECT
+        *
+        FROM
+        (
+
+        SELECT
+            ost.name schoolTypeName,tcr.id, tcr.teach_building teachBuilding, tcr.floor, tcr.room_num roomNum
+        FROM
+            teach_class_room tcr,
+            org_school_type ost
+        WHERE
+            tcr.school_type = ost.id
+        and tcr.school_id=#{schoolId}
+
+        <if test="'0'!=xqId and '-1' !=xqId and null !=xqId and '' !=xqId">
+            AND  ost.id= #{xqId}
+        </if>
+        <if test="null !=teachBuilding and '' !=teachBuilding">
+            AND tcr.teach_building= #{teachBuilding}
+        </if>
+
+        <if test=" null !=floor and '' !=floor">
+            AND tcr.floor= #{floor}
+        </if>
+        ) tmp
+        <choose>
+            <when test="'xq'==flag">
+                GROUP BY tmp.teachBuilding
+            </when>
+            <when test="'teachBuilding'==flag">
+                GROUP BY tmp.floor
+            </when>
+            <otherwise>
+                GROUP BY tmp.roomNum
+            </otherwise>
+        </choose>
+
+    </select>
 
 </mapper>

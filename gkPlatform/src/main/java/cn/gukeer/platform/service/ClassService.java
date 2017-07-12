@@ -59,8 +59,4 @@ public interface ClassService {
     //区级学生信息
     PageInfo<Map> getAreaStuList(Map param);
 
-    List<Map> getSchoolClass(String schoolId);
-
-//    //加上学段之后的左链接学段表查询的数据
-//    List<GradeClass> getSchoolClassBySchoolId(String schoolId);
 }

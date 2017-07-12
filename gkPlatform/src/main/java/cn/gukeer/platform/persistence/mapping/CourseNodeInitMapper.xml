@@ -4,17 +4,12 @@
   <resultMap id="BaseResultMap" type="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="school_id" property="schoolId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="cycle_id" property="cycleId" jdbcType="VARCHAR" />
     <result column="cycle_year" property="cycleYear" jdbcType="VARCHAR" />
     <result column="cycle_semester" property="cycleSemester" jdbcType="INTEGER" />
-    <result column="morning_start" property="morningStart" jdbcType="BIGINT" />
-    <result column="morning_persistence" property="morningPersistence" jdbcType="INTEGER" />
-    <result column="common_persistence" property="commonPersistence" jdbcType="INTEGER" />
-    <result column="total_node" property="totalNode" jdbcType="INTEGER" />
-    <result column="afternoon_start" property="afternoonStart" jdbcType="BIGINT" />
-    <result column="night_start" property="nightStart" jdbcType="BIGINT" />
-    <result column="month_start_end" property="monthStartEnd" jdbcType="VARCHAR" />
-    <result column="month_start_end_name" property="monthStartEndName" jdbcType="VARCHAR" />
+    <result column="start_week" property="startWeek" jdbcType="INTEGER" />
+    <result column="end_week" property="endWeek" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
@@ -78,8 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, school_id, cycle_id, cycle_year, cycle_semester, morning_start, morning_persistence, 
-    common_persistence, total_node, afternoon_start, night_start, month_start_end, month_start_end_name, 
+    id, school_id, name, cycle_id, cycle_year, cycle_semester, start_week, end_week, 
     create_time, update_by, del_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInitExample" >
@@ -114,17 +108,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
-    insert into teach_course_node_init (id, school_id, cycle_id, 
-      cycle_year, cycle_semester, morning_start, 
-      morning_persistence, common_persistence, 
-      total_node, afternoon_start, night_start, 
-      month_start_end, month_start_end_name, create_time, 
+    insert into teach_course_node_init (id, school_id, name, 
+      cycle_id, cycle_year, cycle_semester, 
+      start_week, end_week, create_time, 
       update_by, del_flag)
-    values (#{id,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, #{cycleId,jdbcType=VARCHAR}, 
-      #{cycleYear,jdbcType=VARCHAR}, #{cycleSemester,jdbcType=INTEGER}, #{morningStart,jdbcType=BIGINT}, 
-      #{morningPersistence,jdbcType=INTEGER}, #{commonPersistence,jdbcType=INTEGER}, 
-      #{totalNode,jdbcType=INTEGER}, #{afternoonStart,jdbcType=BIGINT}, #{nightStart,jdbcType=BIGINT}, 
-      #{monthStartEnd,jdbcType=VARCHAR}, #{monthStartEndName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{cycleId,jdbcType=VARCHAR}, #{cycleYear,jdbcType=VARCHAR}, #{cycleSemester,jdbcType=INTEGER}, 
+      #{startWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
       #{updateBy,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
@@ -136,6 +126,9 @@
       <if test="schoolId != null" >
         school_id,
       </if>
+      <if test="name != null" >
+        name,
+      </if>
       <if test="cycleId != null" >
         cycle_id,
       </if>
@@ -145,29 +138,11 @@
       <if test="cycleSemester != null" >
         cycle_semester,
       </if>
-      <if test="morningStart != null" >
-        morning_start,
+      <if test="startWeek != null" >
+        start_week,
       </if>
-      <if test="morningPersistence != null" >
-        morning_persistence,
-      </if>
-      <if test="commonPersistence != null" >
-        common_persistence,
-      </if>
-      <if test="totalNode != null" >
-        total_node,
-      </if>
-      <if test="afternoonStart != null" >
-        afternoon_start,
-      </if>
-      <if test="nightStart != null" >
-        night_start,
-      </if>
-      <if test="monthStartEnd != null" >
-        month_start_end,
-      </if>
-      <if test="monthStartEndName != null" >
-        month_start_end_name,
+      <if test="endWeek != null" >
+        end_week,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -186,6 +161,9 @@
       <if test="schoolId != null" >
         #{schoolId,jdbcType=VARCHAR},
       </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
       <if test="cycleId != null" >
         #{cycleId,jdbcType=VARCHAR},
       </if>
@@ -195,29 +173,11 @@
       <if test="cycleSemester != null" >
         #{cycleSemester,jdbcType=INTEGER},
       </if>
-      <if test="morningStart != null" >
-        #{morningStart,jdbcType=BIGINT},
+      <if test="startWeek != null" >
+        #{startWeek,jdbcType=INTEGER},
       </if>
-      <if test="morningPersistence != null" >
-        #{morningPersistence,jdbcType=INTEGER},
-      </if>
-      <if test="commonPersistence != null" >
-        #{commonPersistence,jdbcType=INTEGER},
-      </if>
-      <if test="totalNode != null" >
-        #{totalNode,jdbcType=INTEGER},
-      </if>
-      <if test="afternoonStart != null" >
-        #{afternoonStart,jdbcType=BIGINT},
-      </if>
-      <if test="nightStart != null" >
-        #{nightStart,jdbcType=BIGINT},
-      </if>
-      <if test="monthStartEnd != null" >
-        #{monthStartEnd,jdbcType=VARCHAR},
-      </if>
-      <if test="monthStartEndName != null" >
-        #{monthStartEndName,jdbcType=VARCHAR},
+      <if test="endWeek != null" >
+        #{endWeek,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=BIGINT},
@@ -239,6 +199,9 @@
       <if test="record.schoolId != null" >
         school_id = #{record.schoolId,jdbcType=VARCHAR},
       </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.cycleId != null" >
         cycle_id = #{record.cycleId,jdbcType=VARCHAR},
       </if>
@@ -248,29 +211,11 @@
       <if test="record.cycleSemester != null" >
         cycle_semester = #{record.cycleSemester,jdbcType=INTEGER},
       </if>
-      <if test="record.morningStart != null" >
-        morning_start = #{record.morningStart,jdbcType=BIGINT},
+      <if test="record.startWeek != null" >
+        start_week = #{record.startWeek,jdbcType=INTEGER},
       </if>
-      <if test="record.morningPersistence != null" >
-        morning_persistence = #{record.morningPersistence,jdbcType=INTEGER},
-      </if>
-      <if test="record.commonPersistence != null" >
-        common_persistence = #{record.commonPersistence,jdbcType=INTEGER},
-      </if>
-      <if test="record.totalNode != null" >
-        total_node = #{record.totalNode,jdbcType=INTEGER},
-      </if>
-      <if test="record.afternoonStart != null" >
-        afternoon_start = #{record.afternoonStart,jdbcType=BIGINT},
-      </if>
-      <if test="record.nightStart != null" >
-        night_start = #{record.nightStart,jdbcType=BIGINT},
-      </if>
-      <if test="record.monthStartEnd != null" >
-        month_start_end = #{record.monthStartEnd,jdbcType=VARCHAR},
-      </if>
-      <if test="record.monthStartEndName != null" >
-        month_start_end_name = #{record.monthStartEndName,jdbcType=VARCHAR},
+      <if test="record.endWeek != null" >
+        end_week = #{record.endWeek,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=BIGINT},
@@ -290,17 +235,12 @@
     update teach_course_node_init
     set id = #{record.id,jdbcType=VARCHAR},
       school_id = #{record.schoolId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       cycle_id = #{record.cycleId,jdbcType=VARCHAR},
       cycle_year = #{record.cycleYear,jdbcType=VARCHAR},
       cycle_semester = #{record.cycleSemester,jdbcType=INTEGER},
-      morning_start = #{record.morningStart,jdbcType=BIGINT},
-      morning_persistence = #{record.morningPersistence,jdbcType=INTEGER},
-      common_persistence = #{record.commonPersistence,jdbcType=INTEGER},
-      total_node = #{record.totalNode,jdbcType=INTEGER},
-      afternoon_start = #{record.afternoonStart,jdbcType=BIGINT},
-      night_start = #{record.nightStart,jdbcType=BIGINT},
-      month_start_end = #{record.monthStartEnd,jdbcType=VARCHAR},
-      month_start_end_name = #{record.monthStartEndName,jdbcType=VARCHAR},
+      start_week = #{record.startWeek,jdbcType=INTEGER},
+      end_week = #{record.endWeek,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=BIGINT},
       update_by = #{record.updateBy,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER}
@@ -314,6 +254,9 @@
       <if test="schoolId != null" >
         school_id = #{schoolId,jdbcType=VARCHAR},
       </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="cycleId != null" >
         cycle_id = #{cycleId,jdbcType=VARCHAR},
       </if>
@@ -323,29 +266,11 @@
       <if test="cycleSemester != null" >
         cycle_semester = #{cycleSemester,jdbcType=INTEGER},
       </if>
-      <if test="morningStart != null" >
-        morning_start = #{morningStart,jdbcType=BIGINT},
+      <if test="startWeek != null" >
+        start_week = #{startWeek,jdbcType=INTEGER},
       </if>
-      <if test="morningPersistence != null" >
-        morning_persistence = #{morningPersistence,jdbcType=INTEGER},
-      </if>
-      <if test="commonPersistence != null" >
-        common_persistence = #{commonPersistence,jdbcType=INTEGER},
-      </if>
-      <if test="totalNode != null" >
-        total_node = #{totalNode,jdbcType=INTEGER},
-      </if>
-      <if test="afternoonStart != null" >
-        afternoon_start = #{afternoonStart,jdbcType=BIGINT},
-      </if>
-      <if test="nightStart != null" >
-        night_start = #{nightStart,jdbcType=BIGINT},
-      </if>
-      <if test="monthStartEnd != null" >
-        month_start_end = #{monthStartEnd,jdbcType=VARCHAR},
-      </if>
-      <if test="monthStartEndName != null" >
-        month_start_end_name = #{monthStartEndName,jdbcType=VARCHAR},
+      <if test="endWeek != null" >
+        end_week = #{endWeek,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=BIGINT},
@@ -362,17 +287,12 @@
   <update id="updateByPrimaryKey" parameterType="cn.gukeer.platform.persistence.entity.CourseNodeInit" >
     update teach_course_node_init
     set school_id = #{schoolId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       cycle_id = #{cycleId,jdbcType=VARCHAR},
       cycle_year = #{cycleYear,jdbcType=VARCHAR},
       cycle_semester = #{cycleSemester,jdbcType=INTEGER},
-      morning_start = #{morningStart,jdbcType=BIGINT},
-      morning_persistence = #{morningPersistence,jdbcType=INTEGER},
-      common_persistence = #{commonPersistence,jdbcType=INTEGER},
-      total_node = #{totalNode,jdbcType=INTEGER},
-      afternoon_start = #{afternoonStart,jdbcType=BIGINT},
-      night_start = #{nightStart,jdbcType=BIGINT},
-      month_start_end = #{monthStartEnd,jdbcType=VARCHAR},
-      month_start_end_name = #{monthStartEndName,jdbcType=VARCHAR},
+      start_week = #{startWeek,jdbcType=INTEGER},
+      end_week = #{endWeek,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=BIGINT},
       update_by = #{updateBy,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER}

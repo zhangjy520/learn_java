@@ -265,6 +265,9 @@ public class ConstantUtil {
     }
 
     public static void main(String[] args) {
+        System.out.println(getKeyByValueAndFlag("一年级","nj"));
+        System.out.println(getKeyByValueAndFlag("二年级","nj"));
+        System.out.println(getKeyByValueAndFlag("三年级","nj"));
         System.out.println(splitWithOutNull("asdasd"));
     }
 }

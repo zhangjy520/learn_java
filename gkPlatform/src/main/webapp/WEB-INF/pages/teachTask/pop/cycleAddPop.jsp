@@ -9,6 +9,9 @@
     <script type="text/javascript" src="${ctxStaticNew}/js/openDialog.js"></script>
     <script src="${ctxStaticNew}/js/laydate.js"></script>
     <script src="${ctxStaticNew}/js/alertPopShow.js"></script>
+    <script type="text/javascript" src="${ctxStaticNew}/js/laydate.js"></script>
+    <link type="text/css" rel="stylesheet" href="${ctxStaticNew}/css/jedate.css">
+    <script type="text/javascript" src="${ctxStaticNew}/js/layer.js"></script>
 </head>
 <style>
     * {
@@ -35,11 +38,14 @@
         padding: 10px 0;
     }
 
-    table td span:first-child {
+    table td span:first-child{
         width: 88px;
         text-align: right;
     }
-
+    .datasame{
+        width: 58px !important;
+        font-size: 13px !important;
+    }
     table td span:last-child {
         width: 150px;
         height: 28px;
@@ -61,7 +67,7 @@
     }
     .cla-type-containt{
         width: 380px;
-        margin-left: 50px;
+        margin-left: 48px;
     }
     .cla-type-containt span{
         width: 102px;
@@ -73,9 +79,14 @@
         position: relative;
         top:2px;
     }
+    i{
+        font-style: normal;
+        color: #999;
+        font-size: 12px;
+        margin-left: 10px;
+    }
 </style>
 <body>
-<%--<form action="${ctx}/teach/task/cycle/do" class="cycleAdd" method="post">--%>
 <div>
     <table>
         <tr>
@@ -85,25 +96,27 @@
             <td><span>学期:</span><input type="text" name="teachCycle.cycleSemester" class="cycleSemester" required><i>填写数字1或2，1表示第一学期</i></td>
         </tr>
         <tr>
+            <td><span>开学时间:</span><input type="text" class="laydate-icon" id="demo"></td>
+        </tr>
+        <tr>
             <td><span>开始周:</span>
-                <input class="start" type="text" name="beginDate"  style="margin-left: 8px;" required><i>填写数字,例如1表示开始周为第一周</i>
-                <%--<span class="laydate-icon" onclick="laydate({elem: '#hello1'});"></span>--%>
+                <input class="start" type="text"  style="margin-left: 8px;" required><i>填写数字,例如1表示开始周为第一周</i>
             </td>
         </tr>
         <tr>
-            <td><span>结束周:</span><input class="end" type="text" name="beginDate" required><i>填写数字,例如1表示结束周为第一周</i></td>
+            <td><span>结束周:</span><input class="end" type="text" required><i>填写数字,例如1表示结束周为第一周</i></td>
         </tr>
         <tr>
-            <td><span>总周次:</span><input type="text" name="weekCount" class="weekCount" required><i>填写数字,例如10表示一共10周</i></td>
+            <td><span>总周次:</span><input type="text"  class="weekCount" required><i>填写数字,例如10表示一共10周</i></td>
         </tr>
     </table>
 </div>
 <div  class="cla-type-containt">
     <input type="hidden" value="${cycleId}" class="cycleId">
-    同步数据 <i>（若没有上一学期数据,请不要勾选）</i><br>
+    <span class="datasame">同步数据</span> <i>（若没有上一学期数据,请不要勾选）</i><br>
     <input type="checkbox" class="room" value="教室管理"><span>教室管理</span>
-    <input type="checkbox"  class="course" value="课节设置"><span>课节设置</span>
-    <input type="checkbox"  class="course" value="课程安排"><span>课程安排</span>
+    <input type="checkbox" class="course" value="课节设置"><span>课节设置</span>
+    <input type="checkbox" class="course" value="课程安排"><span>课程安排</span>
     <input type="checkbox" class="master" value="班主任安排"><span>班主任安排</span>
     <input type="checkbox" class="courseTeacher" value="任课教师安排"><span>任课教师安排</span>
     <input type="checkbox" class="room" value="班级教室安排"><span>班级教室安排</span>
@@ -114,7 +127,6 @@
     function doSubmit() {
         var synInfo = "";
         var inputs =  $('input[type=checkbox]:checked');
-//        console.log(inputs.length);
         $('input[type=checkbox]:checked').each(function (i) {
             var oneText = $(this).val();
             synInfo +=","+oneText;
@@ -125,10 +137,19 @@
         var start = $(".start").val();
         var end = $(".end").val();
         var weekCount = $(".weekCount").val();
-        if (cycleYear == "" || cycleSemester == "" || start == "" || end == "" || weekCount == "") {
-            webToast("所填项均为必填", "top", 2300);
+        var termsStart = $(".laydate-icon").val();
+
+        if (cycleYear == "" || cycleSemester == "" || start == "" || end == "" || weekCount == ""||termsStart =="") {
+            layer.msg("所填项均为必填");
             return;
         }
+
+        var reg =  "^[0-9]*[1-9][0-9]*$";
+        if (!cycleSemester.match(reg)||!start.match(reg)||!end.match(reg)||!weekCount.match(reg)) {
+            layer.msg("数据格式不正确");
+            return;
+        }
+
         $.post("${ctx}/teach/task/cycle/do", {
             cycleYear: cycleYear,
             cycleSemester: cycleSemester,
@@ -136,20 +157,27 @@
             endDate: end,
             weekCount: weekCount,
             synInfo:synInfo,
-            cycleId:cycleId
+            cycleId:cycleId,
+            termBeginTime:termsStart
         }, function (data) {
             if (data.code == 0) {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function(){parent.location.reload();}, 5000);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function(){top.layer.close()}, 5000);
+               layer.msg("创建成功");
+                setTimeout(function(){parent.location.reload();}, 2300);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                setTimeout(function(){top.layer.close()}, 2300);
                 return true;
             } else {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function(){parent.location.reload();}, 5000);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function(){top.layer.close()}, 5000);
+                layer.msg("操作失败");
+                setTimeout(function(){parent.location.reload();}, 2300);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                setTimeout(function(){top.layer.close()}, 2300);
                 return false;
             }
         });
     }
+
+        laydate({
+            elem: '#demo'
+        })
+
+
 </script>
 </html>

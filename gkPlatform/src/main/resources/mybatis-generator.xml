@@ -484,7 +484,48 @@
             <!--<property name="useActualColumnNames" value="false"/>-->
 
         <!--</table>-->
-        <table schema="gk_platform" tableName="teach_course" domainObjectName="Course"
+
+        <!--班牌模式-->
+        <!-- <table schema="gk_platform" tableName="teach_class_card_mode" domainObjectName="ClassCardMode"
+                enableCountByExample="false"
+                enableUpdateByExample="true"
+                enableDeleteByExample="true"
+                enableSelectByExample="true"
+                selectByExampleQueryId="true">
+             <property name="useActualColumnNames" value="false"/>
+         </table>-->
+
+        <!--班牌-->
+        <!-- <table schema="gk_platform" tableName="teach_class_card" domainObjectName="ClassCard"
+                enableCountByExample="false"
+                enableUpdateByExample="true"
+                enableDeleteByExample="true"
+                enableSelectByExample="true"
+                selectByExampleQueryId="true">
+             <property name="useActualColumnNames" value="false"/>
+         </table>-->
+
+        <!--班牌通知公告-->
+        <!-- <table schema="gk_platform" tableName="teach_class_card_notify" domainObjectName="ClassCardNotify"
+               enableCountByExample="false"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+
+        <!--班牌通知公告&班牌中间表-->
+        <!-- <table schema="gk_platform" tableName="teach_ref_classcard_notify" domainObjectName="ClassCardNotifyRef"
+               enableCountByExample="false"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+
+        <table schema="gk_platform" tableName="teach_cycle" domainObjectName="TeachCycle"
                enableCountByExample="false"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

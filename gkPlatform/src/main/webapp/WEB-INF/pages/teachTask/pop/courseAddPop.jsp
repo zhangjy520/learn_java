@@ -7,6 +7,7 @@
     <script type="text/javascript" src="${ctxStaticNew}/js/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="${ctxStaticNew}/js/layer/layer.js"></script>
     <script type="text/javascript" src="${ctxStaticNew}/js/openDialog.js"></script>
+    <script src="${ctxStaticNew}/js/easyform.js"></script>
 </head>
 <style>
     span {
@@ -56,10 +57,10 @@
         <table>
             <input type="hidden" value="${course.id}" name="id">
             <tr>
-                <td><span>课程名称:</span><input type="text" value="${course.name}" name="name"></td>
+                <td><span>课程名称:</span><input type="text" value="${course.name}" name="name" placeholder="必填" class="name"></td>
             </tr>
             <tr>
-                <td><span>课程英文名称:</span><input type="text" name="englishName" value="${course.englishName}"></td>
+                <td><span>课程英文名称:</span><input type="text" name="englishName" value="${course.englishName}" placeholder="必填"  class="englishname"></td>
             </tr>
             <tr>
                 <td>
@@ -77,8 +78,9 @@
                 <td>
                     <span>标准课程类型:</span>
                     <select form="courseEdit" name="courseType">
+                        <option name="courseType" <c:if test="${course.courseType==''||course.courseType==null}">selected</c:if> value="无">无</option>
                         <c:forEach items="${standardCourseList}" var="standardCourse" varStatus="status">
-                            <option name="courseType" value="${standardCourse.id}"> ${standardCourse.name}</option>
+                            <option name="courseType" value="${standardCourse.id}" <c:if test="${standardCourse.id==course.courseType}">selected</c:if>> ${standardCourse.name}</option>
                         </c:forEach>
                     </select>
                 </td>
@@ -100,10 +102,10 @@
                     <select name="semester" form="courseEdit" class="cycleSemester">
                         <option name="cycleSemester"
                                 <c:if test="${cycleSemester == 1}">selected="selected"</c:if>
-                                value="1">第一学期</option>
+                                value="1">1</option>
                         <option name="cycleSemester"
                                 <c:if test="${cycleSemester == 2}">selected="selected"</c:if>
-                                value="2">第二学期</option>
+                                value="2">2</option>
                     </select>
                 </td>
             </tr>
@@ -114,6 +116,17 @@
 <script>
 
     function doSubmit() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
+        var name = $(".name").val();
+        var englishname = $(".englishname").val();
+        if (name == "" || englishname == "" || name == null || englishname == null) {
+            layer.msg("必填项不能为空");
+            return;
+        }
+        var reg = "^[A-Za-z]+$";
+        if (!englishname.match(reg)) {
+            layer.msg("数据格式不正确");
+            return;
+        }
         $("#courseEdit").submit();
         return true;
     }
@@ -121,11 +134,11 @@
     function doSubmitReturn() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
         var name = $(".name").val();
         var roomType = $(".roomType").find("option:selected").text();
-        var courseType = $(".courseType").find("option:selected").text();
+//        var courseType = $(".courseType").find("option:selected").text();
         var cycleSemester = $(".cycleSemester").find("option:selected").text();
         var cycleYear = $(".cycleYear").find("option:selected").text();
         if (cycleYear == "" || cycleSemester == "" || name == "" || roomType == "" || courseType == "") {
-            webToast("所填项均为必填", "top", 2300);
+            layer.msg("所填项均为必填");
         }
 
         $.post("${ctx}/teach/task/course/update", {

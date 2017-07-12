@@ -104,18 +104,26 @@
                 <input type="checkbox" id="stu9" value="最高专业" class="stuMsg"/>
                 <label for="stu9">最高专业</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu10" value="评职详细" class="stuMsg"/>
                 <label for="stu10">评职详细</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu11" value="家庭住址详细" class="stuMsg"/>
                 <label for="stu11">家庭住址详细</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu12" value="骨干教师级别" class="stuMsg"/>
                 <label for="stu12">骨干教师级别</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu13" value="合同开始时间" class="stuMsg"/>
                 <label for="stu13">合同开始时间</label>
@@ -124,6 +132,8 @@
                 <input type="checkbox" id="stu14" value="曾用名" class="stuMsg"/>
                 <label for="stu14">曾用名</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu15" value="家庭邮编" class="stuMsg"/>
                 <label for="stu15">家庭邮编</label>
@@ -132,6 +142,8 @@
                 <input type="checkbox" id="stu16" value="是否专任教师" class="stuMsg"/>
                 <label for="stu16">是否专任教师</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu17" value="身份" class="stuMsg"/>
                 <label for="stu17">身份</label>
@@ -148,6 +160,8 @@
                 <input type="checkbox" id="stu20" value="学位数量" class="stuMsg"/>
                 <label for="stu20">学位数量</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu21" value="任教学科级别" class="stuMsg"/>
                 <label for="stu21">任教学科级别</label>
@@ -156,14 +170,20 @@
                 <input type="checkbox" id="stu22" value="校区" class="stuMsg"/>
                 <label for="stu22">校区</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu23" value="薪资" class="stuMsg"/>
                 <label for="stu23">薪资</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu24" value="岗位分类副" class="stuMsg"/>
                 <label for="stu24">岗位分类副</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu25" value="籍贯" class="stuMsg"/>
                 <label for="stu25">籍贯</label>
@@ -188,6 +208,8 @@
                 <input type="checkbox" id="stu31" value="原专业" class="stuMsg"/>
                 <label for="stu31">原专业</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu32" value="评职时间" class="stuMsg"/>
                 <label for="stu32">评职时间</label>
@@ -204,6 +226,8 @@
                 <input type="checkbox" id="stu35" value="工资岗位" class="stuMsg"/>
                 <label for="stu35">工资岗位</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu36" value="合同结束时间" class="stuMsg"/>
                 <label for="stu36">合同结束时间</label>
@@ -216,18 +240,22 @@
                 <input type="checkbox" id="stu38" value="是否华侨" class="stuMsg"/>
                 <label for="stu38">是否华侨</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu39" value="是否班主任" class="stuMsg"/>
                 <label for="stu39">是否班主任</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu40" value="外语语种" class="stuMsg"/>
                 <label for="stu40">外语语种</label>
             </span>
-            <span>
+           <%-- <span>
                 <input type="checkbox" id="stu41" value="是否班主任" class="stuMsg"/>
                 <label for="stu41">是否班主任</label>
-            </span>
+            </span>--%>
             <span>
                 <input type="checkbox" id="stu42" value="原学制" class="stuMsg"/>
                 <label for="stu42">原学制</label>
@@ -236,6 +264,8 @@
                 <input type="checkbox" id="stu43" value="最高学位" class="stuMsg"/>
                 <label for="stu43">最高学位</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu44" value="专业技术岗位分类" class="stuMsg"/>
                 <label for="stu44">专业技术岗位分类</label>
@@ -244,14 +274,19 @@
                 <input type="checkbox" id="stu45" value="任教学科" class="stuMsg"/>
                 <label for="stu45">任教学科</label>
             </span>
+            </shiro:hasRole>
+
             <span>
                 <input type="checkbox" id="stu46" value="实职级别" class="stuMsg"/>
                 <label for="stu46">实职级别</label>
             </span>
+
+            <shiro:hasRole name="common">
             <span>
                 <input type="checkbox" id="stu47" value="工资岗位副" class="stuMsg"/>
                 <label for="stu47">工资岗位副</label>
             </span>
+            </shiro:hasRole>
         </form>
     </div>
 </div>

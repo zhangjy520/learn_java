@@ -22,17 +22,6 @@
         <property name="maxConnections" value="100"></property>
     </bean>
 
-   <!-- <bean id="ConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
-        <property name="connectionFactory">
-            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-                <property name="brokerURL" value="tcp://127.0.0.1:61616"/>
-                <property name="useAsyncSend" value="true"/>
-                <property name="userName" value="lxsoft"/>
-                <property name="password" value="lxtest"/>
-            </bean>
-        </property>
-        <property name="maxConnections" value="100"></property>
-    </bean>-->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="ConnectionFactory"/>
         <!-- 客户端调用acknowledge方法手动签收 -->
@@ -44,19 +33,17 @@
     <bean id="Destination" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- 设置消息队列的名字 -->
         <constructor-arg>
-            <value>${sync.queue.name}</value>
+            <value>${sync.queue.receive}</value>
         </constructor-arg>
-       <!-- <constructor-arg>
-            <value>ceshiaccount</value>
-        </constructor-arg>-->
     </bean>
 
-   <!-- <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="ConnectionFactory" />
-        <property name="destination" ref="Destination" />
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="ConnectionFactory"/>
+        <property name="destination" ref="Destination"/>
+        <property name="sessionTransacted" value="true"/>
         <property name="messageListener">
-        <bean id="queueMessageListener" class="cn.gukeer.platform.service.impl.QueueMessageListener" />
+            <bean id="queueMessageListener" class="cc.gukeer.sync.service.pull.QueueMessageListener"/>
         </property>
-    </bean>-->
+    </bean>
 
 </beans>

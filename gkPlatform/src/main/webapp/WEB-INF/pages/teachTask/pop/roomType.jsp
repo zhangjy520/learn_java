@@ -107,21 +107,21 @@
                 </thead>
                 <tbody id="roomTypetbody">
                 <c:forEach items="${roomTypeList}" var="roomType" varStatus="status">
-                    <form action="${ctx}/teach/task/course/type/update?type=update&&id=${type.id}" method="post"
-                          class="typeUpdateForm">
-                        <input type="hidden" value="${cycleId}" name="id" value="${roomType.id}">
-                        <tr>
-                            <td>${status.count}</td>
-                            <td class="categoryTd${status.count} span-p">
-                                <input class="" name="name" style="outline: none;height: 30px;"/>
-                                <span class="showInfo hs">${roomType.name}</span>
-                            </td>
-                            <td>
-                                <span data-url="${ctx}/teach/task/course/type/update/one?typeId=${type.id}" class="modifyOne"></span>
-                                <span class="deleOne" onclick="alertTips('400px','200px','删除课程类型','确定要删除${roomType.name}吗？','deleteSure(\'${roomType.id}\')')"> 删除</span>
-                            </td>
-                        </tr>
-                    </form>
+                    <input type="hidden" value="${cycleId}" name="id" value="${roomType.id}">
+                    <tr>
+                        <td>${status.count}</td>
+                        <td class="categoryTd${status.count} span-p">
+                            <input class="" name="name" style="outline: none;height: 30px;"/>
+                            <span class="showInfo hs">${roomType.name}</span>
+                        </td>
+                        <td>
+                                <span data-url="${ctx}/teach/task/room/type/add?id=${roomType.id}"
+                                      class="modifyOne"
+                                    <%--onclick="update('${status.index+1+(pageInfo.pageNum-1)*10}','${type.id}','${type.name}')"--%>>修改</span>
+                            <span class="deleOne"
+                                  onclick="alertTips('400px','200px','删除课程类型','确定要删除${roomType.name}吗？','deleteSure(\'${roomType.id}\')')"> 删除</span>
+                        </td>
+                    </tr>
                 </c:forEach>
                 </tbody>
             </table>
@@ -151,49 +151,28 @@
         console.log($(this).parent().prev().children('input').val());
         var oneRoomType = $(this).parent().prev().children('input').val();
         if (oneRoomType == "") {
-            webToast("名称不能为空", "top", 2300);
-            setTimeout(function () {
-                parent.location.reload();
-            }, 5000);
-            return false;
+            layer.msg("请填写教室类型");
+            return;
         }
+        $(".saveOne").removeClass('saveOne').addClass('modifyOne');
         $.post("${ctx}/teach/task/room/type/add", {
             name: oneRoomType
         }, function (data) {
-            if (data.code == 0) {
-                webToast(data.msg, "top", 2300);
-                $(".saveOne").removeClass('saveOne').addClass('modifyOne');
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close(index)
-                }, 5000);
-            } else {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close()
-                }, 5000);
-            }
+            layer.msg("创建成功");
         })
-
+//        layer.msg("创建成功");
         $(this).text('修改');
         changeIndex();
     });
 
     //    删除
-    $('#tttbody').on('click', '.deleOne', function () {
+    $('#roomTypetbody').on('click', '.deleOne', function () {
         $(this).parents('tr').remove();
         changeIndex();
     });
 
     //    编辑
-    $('#tttbody').on('click', '.modifyOne', function () {
+    $('#roomTypetbody').on('click', '.modifyOne', function () {
         $(this).parents('tr').children().eq(1).children('span').hide();
         $(this).parents('tr').children().eq(1).children('input').show().val($(this).parents('tr').children().eq(1).children('span').text());
         var dataUrl = $(".modifyOne").attr('data-url');
@@ -203,12 +182,8 @@
 //                $(this).parents('td').siblings().children('input').val();
         if (oneCourse == "") {
             webToast("名称不能为空", "top", 2300);
-            setTimeout(function () {
-                parent.location.reload();
-            }, 5000);
-            return false;
+            return;
         }
-        $(this).text('修改');
         $(this).removeClass('saveOne').addClass('modifyOneagain');
         $(this).removeClass('modifyOne');
         changeIndex();
@@ -228,39 +203,22 @@
         $.post("${ctx}/teach/task/room/type/add", {
             name: oneRoomType
         }, function (data) {
-
         })
+        setTimeout("javascript:window.location.reload()",2100);
     }
 
 
-    $('#tttbody').on('click', '.modifyOneagain', function () {
+    $('#roomTypetbody').on('click', '.modifyOneagain', function () {
         var dataUrl = $(".modifyOneagain").attr('data-url');
         var oneCourse = $(this).parent().prev().children('input').val();
         $.post(dataUrl, {
-            oneCourse: oneCourse,
-        }, function (data) {
-            if (data.code == 0) {
-                webToast(data.msg, "top", 2300);
-                $(".saveOne").removeClass('saveOne').addClass('modifyOne');
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close(index)
-                }, 5000);
-            } else {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close()
-                }, 5000);
-            }
+            name: oneCourse,
+        }, function () {
+            $(".saveOne").removeClass('saveOne').addClass('modifyOne');
         })
-
+        layer.msg("修改成功");
+        setTimeout("javascript:window.location.reload()",2100);
+        $(this).text('修改');
     })
 
     function changeIndex() {
@@ -276,20 +234,8 @@
             id: id,
             type: "delete"
         }, function (retJson) {
-
         });
-
-        setTimeout(function () {
-            layer.msg('删除成功', {
-                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-            }, function () {
-                window.location.reload();
-                parent.location.reload();
-            });
-        }, 300)
-
+        setTimeout("javascript:window.location.reload()",2100);
     }
-
-
 </script>
 </html>

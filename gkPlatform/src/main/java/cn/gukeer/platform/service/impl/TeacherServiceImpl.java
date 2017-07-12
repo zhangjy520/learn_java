@@ -3,7 +3,6 @@ package cn.gukeer.platform.service.impl;
 
 import cn.gukeer.common.service.BasicService;
 import cn.gukeer.common.utils.NumberConvertUtil;
-import cn.gukeer.platform.modelView.BZRView;
 import cn.gukeer.platform.persistence.dao.*;
 import cn.gukeer.platform.persistence.entity.*;
 import cn.gukeer.platform.service.DepartmentService;
@@ -15,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,9 +75,6 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
     @Override
     public Teacher findTeacherById(String id) {
         Teacher teacher = teacherMapper.selectByPrimaryKey(id);
-
-        /*TeacherExample example = new TeacherExample();
-        example.createCriteria().andIdIn(new ArrayList<String>());*/
         return teacher;
     }
 
@@ -105,6 +101,16 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
 
         List<Teacher> teacherList = teacherMapper.selectByExample(example);
         return teacherList;
+    }
+
+    @Override
+    public PageInfo<Map> findTeacherViewByTitleId(String titleId, String schoolId, String loginSchoolId,
+                                                  String teacherName, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Map> res = teacherExtensionMapper.findTeacherViewByTitle(titleId, schoolId, loginSchoolId, "%" + teacherName + "%");
+        PageInfo<Map> pageInfo = new PageInfo<Map>(res);
+
+        return pageInfo;
     }
 
     @Override
@@ -244,10 +250,25 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
     }
 
     @Override
+    public PageInfo<Map> findTeacherViewList(String departmentId, Teacher teacher, int pageNum, int pageSize) {
+        List<String> allListId = new ArrayList<String>();
+        //递归查询：当前部门，子部门，子子部门。。。。
+        if (StringUtil.isNotEmpty(departmentId)) {
+            allListId.add(departmentId);
+            allListId.addAll(departmentService.getAllSonDepartment(allListId, teacher.getSchoolId()));
+        }
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<Map> res = teacherExtensionMapper.findTeacherViewList(teacher.getSchoolId(), allListId, "%" + teacher.getName() + "%");
+        PageInfo<Map> pageInfo = new PageInfo<Map>(res);
+        return pageInfo;
+    }
+
+    @Override
     public PageInfo<Teacher> findTeacherByDepartmentId(String departmentId, Teacher teacher, int pageNum, int pageSize) {
 
         List<String> allListId = new ArrayList<String>();
-        Department currentDepart = new Department();
+
         TeacherExample example = new TeacherExample();
         TeacherExample.Criteria criteria = example.createCriteria();
         criteria.andDelFlagEqualTo(0).andSchoolIdEqualTo(teacher.getSchoolId());
@@ -261,7 +282,7 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
         }
         //查找职工
         String teacherName = teacher.getName();
-        if (!teacherName.equals("")) {
+        if (StringUtil.isNotEmpty(teacherName)) {
             criteria.andNameLike("%" + teacherName + "%");
         }
         PageHelper.startPage(pageNum, pageSize);
@@ -342,10 +363,10 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
         if (StringUtil.isEmpty(schoolId))
             return new PageInfo<Map>(new ArrayList<Map>());//若未选择学校返回空
 
-        if (StringUtil.isNotEmpty(teacherName)) {
+        /*if (StringUtil.isNotEmpty(teacherName)) {
             //若选择学校但搜索姓名，查询父school_id的机构  AND v.`schoolId` &lt;&gt; #{currentSchoolId} AND v.`schoolParentId` = #{currentSchoolId}
             schoolId = null;
-        }
+        }*/
 
         List<Map> list = teacherExtensionMapper.teacherListView(currentSchoolId, schoolId, "%" + teacherName + "%");
         PageInfo<Map> pageInfo = new PageInfo<Map>(list);
@@ -356,7 +377,7 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
 
     public List<Teacher> findAllTeacherByShoolIAndSFBZR(String schoolId) {
         TeacherExample teacherExample = new TeacherExample();
-        ArrayList<String> list =  new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         list.add("1");
         list.add("2");
         //1 班主任  2副班主任
@@ -375,11 +396,12 @@ public class TeacherServiceImpl extends BasicService implements TeacherService {
     }
 
 
+
     public Teacher findTeacherByNoAndSchoolId(String schoolId, String courseTeacherNo) {
-        TeacherExample example =  new TeacherExample();
+        TeacherExample example = new TeacherExample();
         example.createCriteria().andSchoolIdEqualTo(schoolId).andDelFlagEqualTo(0).andNoEqualTo(courseTeacherNo);
         List<Teacher> teacherList = teacherMapper.selectByExample(example);
-        if (teacherList.size()>0 && teacherList != null){
+        if (teacherList.size() > 0 && teacherList != null) {
             return teacherList.get(0);
         }
         return null;

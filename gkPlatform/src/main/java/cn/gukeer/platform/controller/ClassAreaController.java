@@ -133,7 +133,6 @@ public class ClassAreaController extends BasicController {
         if (!GukeerStringUtil.isNullOrEmpty(res.get("chooseSchoolId")))
             chooseSchoolId = res.get("chooseSchoolId").toString();
 
-
         //------------------------------------------begin-----------------------
         Map<String, Object> select = getXdNjBjSelect(chooseSchoolId, xd, nj);
         if (!GukeerStringUtil.isNullOrEmpty(select)) {
@@ -146,18 +145,20 @@ public class ClassAreaController extends BasicController {
         }
         //------------------------------------------end-----------------------------
         Map param = new HashMap();
-        param.put("stuName", "%" + stuName + "%");
-        param.put("schoolId", chooseSchoolId);
+        if (StringUtil.isNotEmpty(stuName))
+            param.put("stuName", "%" + stuName + "%");
 
+        param.put("schoolId", chooseSchoolId);
         param.put("xd", select.get("xdChoose"));
         param.put("nj", select.get("njChoose"));
-
         param.put("classId", bj);
+        param.put("pageSize", pageSize);
+        param.put("pageNum", pageNum);
+
         PageInfo<Map> pageInfo = classService.parentInfoList(param);
 
         model.addAttribute("select", select);
         model.addAttribute("pageInfo", pageInfo);
-        //model.addAttribute("parList", pageInfo.getList());
         model.addAttribute("schoolList", res.get("ret"));//菜单tree
         model.addAttribute("chooseSchool", res.get("chooseSchool"));//当前选择的学校信息
         model.addAttribute("currentSchool", res.get("loginSchool"));//当前登录用户所在的机构信息

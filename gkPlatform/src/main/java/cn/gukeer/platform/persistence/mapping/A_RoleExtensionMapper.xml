@@ -13,19 +13,7 @@
         from ref_user_role ref, sys_role role
         WHERE ref.user_id=#{userId} AND ref.role_id = role.id
     </select>
-    
-    <insert id="insertRoleBackId" parameterType="cn.gukeer.platform.persistence.entity.Role" useGeneratedKeys="true" keyProperty="id">
-   	 insert into sys_role(name, enname, 
-      role_identify, role_type, useable, 
-      create_by, create_date, update_by, 
-      update_date, remarks, del_flag
-      )
-    values (#{name}, #{enname}, 
-      #{roleIdentify}, #{roleType}, #{useable}, 
-      #{createBy}, #{createDate}, #{updateBy}, 
-      #{updateDate}, #{remarks}, #{delFlag}
-      )
-  </insert>
+
   
    <select id="findRoleByApp" resultMap="ExtensionBaseResultMap" parameterType="String" >
     SELECT

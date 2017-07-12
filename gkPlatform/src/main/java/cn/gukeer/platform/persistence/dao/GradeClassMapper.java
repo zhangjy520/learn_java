@@ -16,6 +16,10 @@ public interface GradeClassMapper {
 
     List<GradeClass> selectByExample(GradeClassExample example);
 
+    List<GradeClass> selectXdBySchoolId(String schoolId);
+
+    List<GradeClass> selectClassCascade(@Param("flag")String flag,@Param("xdId")String xdId,@Param("nj")String nj,@Param("schoolId")String schoolId);
+
     GradeClass selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") GradeClass record, @Param("example") GradeClassExample example);

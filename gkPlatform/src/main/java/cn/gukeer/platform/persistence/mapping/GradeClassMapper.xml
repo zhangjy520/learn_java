@@ -424,4 +424,52 @@
       update_date = #{updateDate,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+
+  <select id="selectXdBySchoolId" resultType="cn.gukeer.platform.persistence.entity.GradeClass">
+    SELECT
+          ocs.name ,ogc.xd
+      FROM
+          org_grade_class ogc,
+          org_class_section ocs
+      WHERE
+          ogc.xd = ocs.id AND ogc.school_id = #{schoolId}
+      GROUP BY ogc.xd
+
+  </select>
+
+  <select id="selectClassCascade" resultType="cn.gukeer.platform.persistence.entity.GradeClass">
+
+    SELECT
+    *
+    FROM
+    (
+    SELECT
+        ocs.name remarks ,ogc.nj ,ogc.name,ogc.id,ogc.xd
+
+    FROM
+        org_grade_class ogc,
+        org_class_section ocs
+    WHERE
+        ogc.xd = ocs.id AND ogc.school_id = #{schoolId}
+    <if test=" null !=xdId and '' !=xdId">
+      AND  ogc.xd= #{xdId}
+    </if>
+    <if test="'0'!=nj and '-1' !=nj and null !=nj and '' !=nj">
+      AND  ogc.nj= #{nj}
+    </if>
+    ) tmp
+
+    <choose>
+      <when test="'xd'==flag">
+        GROUP BY tmp.nj
+      </when>
+      <when test="'nj'==flag">
+        GROUP BY tmp.name
+      </when>
+    </choose>
+
+  </select>
+
+
 </mapper>

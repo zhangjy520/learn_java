@@ -159,8 +159,8 @@
             </select>
         </div>
         <div class="roll-operation">
-            <button class="roll-add" onclick="openDialog('新增班级日常课时','${ctx}/teach/task/daily/hour/add/pop','700px','550px')">
-                新增班级日常课时
+            <button class="roll-add" onclick="openDialog('新增班级日常课时','${ctx}/teach/task/daily/hour/add/pop?nj=${nj}&xdId=${xdId}','700px','550px')">
+                新增
             </button>
 
         </div>
@@ -177,7 +177,7 @@
                         <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',3)" <c:if test="${xdId==classSection.id &&nj==3}">class="active"</c:if> valueNj="3">小学三年级</a></li>
                         <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',4)" <c:if test="${xdId==classSection.id &&nj==4}">class="active"</c:if> valueNj="4">小学四年级</a></li>
                         <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',5)" <c:if test="${xdId==classSection.id && nj==5}">class="active"</c:if> valueNj="5">小学五年级</a></li>
-                        <li><a value="${classSection.id}" onclick="njButton(${classSection.id},6)" <c:if test="${xdId==classSection.id &&nj==6}">class="active"</c:if> valueNj="6">小学六年级</a></li>
+                        <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',6)" <c:if test="${xdId==classSection.id &&nj==6}">class="active"</c:if> valueNj="6">小学六年级</a></li>
                     </c:if>
                     <c:if test="${classSection.sectionYear == 3 &&classSection.name=='初中' }" >
                         <li><a value="${classSection.id}" onclick="njButton('${classSection.id}',1)" <c:if test="${xdId==classSection.id && nj==1}">class="active"</c:if> valueNj="1">初中一年级</a></li>
@@ -226,15 +226,14 @@
             </table>
         </div>
         <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <c:if test="${gukeer:notEmptyString(pageInfo.pages)}">
                 <div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>
-            </c:if>
             <div class="fenY2" id="fenY2">
             </div>
         </div>
     </section>
 </main>
 <script>
+    activeMenu("base",6);
     //id为sectionId,nj为传入的nj的
     function njButton(id, nj) {
         var cycleYear = $(".cycleYear").find("option:selected").val();
@@ -255,17 +254,15 @@
             window.location.href = "${ctx}/teach/task/daily/hour?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester+"&&nj="+nj+"&&sectionId="+sectionId;
         });
 
-        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
         $(".fenY2").createPage({
-            pageCount:${pageInfo.pages},//总页数
-            current:${pageInfo.pageNum},//当前页面
+            pageCount:'${pageInfo.pages}',//总页数
+            current:'${pageInfo.pageNum}',//当前页面
             backFn: function (p) {
                 var cycleSemester = $("select[name='cycleSemester']").val();
                 var cycleYear = $("select[name='cycleYear']").val();
-                <%--window.location.href = "${ctx}/teach/task/master/index?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;--%>
+                window.location.href = "${ctx}/teach/task/daily/hour?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
             }
         });
-        </c:if>
 
         $(".headerCheck").on("click", function () {
             if (this.checked == true) {
@@ -275,18 +272,16 @@
             }
         });
 
-        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
         $(".gotoPage").click(function () {
             var pageNum = $(".fenY2go").val();
-            if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
+            if (pageNum <= 0 || pageNum >'${pageInfo.pages}') {
                 layer.msg("请输入正确的页码")
             } else {
                 var cycleSemester = $("select[name='cycleSemester']").val();
                 var cycleYear = $("select[name='cycleYear']").val();
-                <%--window.location.href = "${ctx}/teach/task/master/index?pageNum=" + $(".fenY2go").val() + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;--%>
+                window.location.href = "${ctx}/teach/task/daily/hour?pageNum=" + $(".fenY2go").val() + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
             }
         });
-        </c:if>
     });
 
     function deleteSure(id) {

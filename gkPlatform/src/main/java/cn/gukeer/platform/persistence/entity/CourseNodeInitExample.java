@@ -244,6 +244,76 @@ public class CourseNodeInitExample {
             return (Criteria) this;
         }
 
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
         public Criteria andCycleIdIsNull() {
             addCriterion("cycle_id is null");
             return (Criteria) this;
@@ -444,503 +514,123 @@ public class CourseNodeInitExample {
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartIsNull() {
-            addCriterion("morning_start is null");
+        public Criteria andStartWeekIsNull() {
+            addCriterion("start_week is null");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartIsNotNull() {
-            addCriterion("morning_start is not null");
+        public Criteria andStartWeekIsNotNull() {
+            addCriterion("start_week is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartEqualTo(Long value) {
-            addCriterion("morning_start =", value, "morningStart");
+        public Criteria andStartWeekEqualTo(Integer value) {
+            addCriterion("start_week =", value, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartNotEqualTo(Long value) {
-            addCriterion("morning_start <>", value, "morningStart");
+        public Criteria andStartWeekNotEqualTo(Integer value) {
+            addCriterion("start_week <>", value, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartGreaterThan(Long value) {
-            addCriterion("morning_start >", value, "morningStart");
+        public Criteria andStartWeekGreaterThan(Integer value) {
+            addCriterion("start_week >", value, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartGreaterThanOrEqualTo(Long value) {
-            addCriterion("morning_start >=", value, "morningStart");
+        public Criteria andStartWeekGreaterThanOrEqualTo(Integer value) {
+            addCriterion("start_week >=", value, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartLessThan(Long value) {
-            addCriterion("morning_start <", value, "morningStart");
+        public Criteria andStartWeekLessThan(Integer value) {
+            addCriterion("start_week <", value, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartLessThanOrEqualTo(Long value) {
-            addCriterion("morning_start <=", value, "morningStart");
+        public Criteria andStartWeekLessThanOrEqualTo(Integer value) {
+            addCriterion("start_week <=", value, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartIn(List<Long> values) {
-            addCriterion("morning_start in", values, "morningStart");
+        public Criteria andStartWeekIn(List<Integer> values) {
+            addCriterion("start_week in", values, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartNotIn(List<Long> values) {
-            addCriterion("morning_start not in", values, "morningStart");
+        public Criteria andStartWeekNotIn(List<Integer> values) {
+            addCriterion("start_week not in", values, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartBetween(Long value1, Long value2) {
-            addCriterion("morning_start between", value1, value2, "morningStart");
+        public Criteria andStartWeekBetween(Integer value1, Integer value2) {
+            addCriterion("start_week between", value1, value2, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningStartNotBetween(Long value1, Long value2) {
-            addCriterion("morning_start not between", value1, value2, "morningStart");
+        public Criteria andStartWeekNotBetween(Integer value1, Integer value2) {
+            addCriterion("start_week not between", value1, value2, "startWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceIsNull() {
-            addCriterion("morning_persistence is null");
+        public Criteria andEndWeekIsNull() {
+            addCriterion("end_week is null");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceIsNotNull() {
-            addCriterion("morning_persistence is not null");
+        public Criteria andEndWeekIsNotNull() {
+            addCriterion("end_week is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceEqualTo(Integer value) {
-            addCriterion("morning_persistence =", value, "morningPersistence");
+        public Criteria andEndWeekEqualTo(Integer value) {
+            addCriterion("end_week =", value, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceNotEqualTo(Integer value) {
-            addCriterion("morning_persistence <>", value, "morningPersistence");
+        public Criteria andEndWeekNotEqualTo(Integer value) {
+            addCriterion("end_week <>", value, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceGreaterThan(Integer value) {
-            addCriterion("morning_persistence >", value, "morningPersistence");
+        public Criteria andEndWeekGreaterThan(Integer value) {
+            addCriterion("end_week >", value, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceGreaterThanOrEqualTo(Integer value) {
-            addCriterion("morning_persistence >=", value, "morningPersistence");
+        public Criteria andEndWeekGreaterThanOrEqualTo(Integer value) {
+            addCriterion("end_week >=", value, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceLessThan(Integer value) {
-            addCriterion("morning_persistence <", value, "morningPersistence");
+        public Criteria andEndWeekLessThan(Integer value) {
+            addCriterion("end_week <", value, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceLessThanOrEqualTo(Integer value) {
-            addCriterion("morning_persistence <=", value, "morningPersistence");
+        public Criteria andEndWeekLessThanOrEqualTo(Integer value) {
+            addCriterion("end_week <=", value, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceIn(List<Integer> values) {
-            addCriterion("morning_persistence in", values, "morningPersistence");
+        public Criteria andEndWeekIn(List<Integer> values) {
+            addCriterion("end_week in", values, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceNotIn(List<Integer> values) {
-            addCriterion("morning_persistence not in", values, "morningPersistence");
+        public Criteria andEndWeekNotIn(List<Integer> values) {
+            addCriterion("end_week not in", values, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceBetween(Integer value1, Integer value2) {
-            addCriterion("morning_persistence between", value1, value2, "morningPersistence");
+        public Criteria andEndWeekBetween(Integer value1, Integer value2) {
+            addCriterion("end_week between", value1, value2, "endWeek");
             return (Criteria) this;
         }
 
-        public Criteria andMorningPersistenceNotBetween(Integer value1, Integer value2) {
-            addCriterion("morning_persistence not between", value1, value2, "morningPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceIsNull() {
-            addCriterion("common_persistence is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceIsNotNull() {
-            addCriterion("common_persistence is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceEqualTo(Integer value) {
-            addCriterion("common_persistence =", value, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceNotEqualTo(Integer value) {
-            addCriterion("common_persistence <>", value, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceGreaterThan(Integer value) {
-            addCriterion("common_persistence >", value, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceGreaterThanOrEqualTo(Integer value) {
-            addCriterion("common_persistence >=", value, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceLessThan(Integer value) {
-            addCriterion("common_persistence <", value, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceLessThanOrEqualTo(Integer value) {
-            addCriterion("common_persistence <=", value, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceIn(List<Integer> values) {
-            addCriterion("common_persistence in", values, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceNotIn(List<Integer> values) {
-            addCriterion("common_persistence not in", values, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceBetween(Integer value1, Integer value2) {
-            addCriterion("common_persistence between", value1, value2, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommonPersistenceNotBetween(Integer value1, Integer value2) {
-            addCriterion("common_persistence not between", value1, value2, "commonPersistence");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeIsNull() {
-            addCriterion("total_node is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeIsNotNull() {
-            addCriterion("total_node is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeEqualTo(Integer value) {
-            addCriterion("total_node =", value, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeNotEqualTo(Integer value) {
-            addCriterion("total_node <>", value, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeGreaterThan(Integer value) {
-            addCriterion("total_node >", value, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("total_node >=", value, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeLessThan(Integer value) {
-            addCriterion("total_node <", value, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeLessThanOrEqualTo(Integer value) {
-            addCriterion("total_node <=", value, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeIn(List<Integer> values) {
-            addCriterion("total_node in", values, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeNotIn(List<Integer> values) {
-            addCriterion("total_node not in", values, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeBetween(Integer value1, Integer value2) {
-            addCriterion("total_node between", value1, value2, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalNodeNotBetween(Integer value1, Integer value2) {
-            addCriterion("total_node not between", value1, value2, "totalNode");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartIsNull() {
-            addCriterion("afternoon_start is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartIsNotNull() {
-            addCriterion("afternoon_start is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartEqualTo(Long value) {
-            addCriterion("afternoon_start =", value, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartNotEqualTo(Long value) {
-            addCriterion("afternoon_start <>", value, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartGreaterThan(Long value) {
-            addCriterion("afternoon_start >", value, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartGreaterThanOrEqualTo(Long value) {
-            addCriterion("afternoon_start >=", value, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartLessThan(Long value) {
-            addCriterion("afternoon_start <", value, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartLessThanOrEqualTo(Long value) {
-            addCriterion("afternoon_start <=", value, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartIn(List<Long> values) {
-            addCriterion("afternoon_start in", values, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartNotIn(List<Long> values) {
-            addCriterion("afternoon_start not in", values, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartBetween(Long value1, Long value2) {
-            addCriterion("afternoon_start between", value1, value2, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andAfternoonStartNotBetween(Long value1, Long value2) {
-            addCriterion("afternoon_start not between", value1, value2, "afternoonStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartIsNull() {
-            addCriterion("night_start is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartIsNotNull() {
-            addCriterion("night_start is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartEqualTo(Long value) {
-            addCriterion("night_start =", value, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartNotEqualTo(Long value) {
-            addCriterion("night_start <>", value, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartGreaterThan(Long value) {
-            addCriterion("night_start >", value, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartGreaterThanOrEqualTo(Long value) {
-            addCriterion("night_start >=", value, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartLessThan(Long value) {
-            addCriterion("night_start <", value, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartLessThanOrEqualTo(Long value) {
-            addCriterion("night_start <=", value, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartIn(List<Long> values) {
-            addCriterion("night_start in", values, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartNotIn(List<Long> values) {
-            addCriterion("night_start not in", values, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartBetween(Long value1, Long value2) {
-            addCriterion("night_start between", value1, value2, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andNightStartNotBetween(Long value1, Long value2) {
-            addCriterion("night_start not between", value1, value2, "nightStart");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndIsNull() {
-            addCriterion("month_start_end is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndIsNotNull() {
-            addCriterion("month_start_end is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndEqualTo(String value) {
-            addCriterion("month_start_end =", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNotEqualTo(String value) {
-            addCriterion("month_start_end <>", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndGreaterThan(String value) {
-            addCriterion("month_start_end >", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndGreaterThanOrEqualTo(String value) {
-            addCriterion("month_start_end >=", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndLessThan(String value) {
-            addCriterion("month_start_end <", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndLessThanOrEqualTo(String value) {
-            addCriterion("month_start_end <=", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndLike(String value) {
-            addCriterion("month_start_end like", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNotLike(String value) {
-            addCriterion("month_start_end not like", value, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndIn(List<String> values) {
-            addCriterion("month_start_end in", values, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNotIn(List<String> values) {
-            addCriterion("month_start_end not in", values, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndBetween(String value1, String value2) {
-            addCriterion("month_start_end between", value1, value2, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNotBetween(String value1, String value2) {
-            addCriterion("month_start_end not between", value1, value2, "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameIsNull() {
-            addCriterion("month_start_end_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameIsNotNull() {
-            addCriterion("month_start_end_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameEqualTo(String value) {
-            addCriterion("month_start_end_name =", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameNotEqualTo(String value) {
-            addCriterion("month_start_end_name <>", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameGreaterThan(String value) {
-            addCriterion("month_start_end_name >", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameGreaterThanOrEqualTo(String value) {
-            addCriterion("month_start_end_name >=", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameLessThan(String value) {
-            addCriterion("month_start_end_name <", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameLessThanOrEqualTo(String value) {
-            addCriterion("month_start_end_name <=", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameLike(String value) {
-            addCriterion("month_start_end_name like", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameNotLike(String value) {
-            addCriterion("month_start_end_name not like", value, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameIn(List<String> values) {
-            addCriterion("month_start_end_name in", values, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameNotIn(List<String> values) {
-            addCriterion("month_start_end_name not in", values, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameBetween(String value1, String value2) {
-            addCriterion("month_start_end_name between", value1, value2, "monthStartEndName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameNotBetween(String value1, String value2) {
-            addCriterion("month_start_end_name not between", value1, value2, "monthStartEndName");
+        public Criteria andEndWeekNotBetween(Integer value1, Integer value2) {
+            addCriterion("end_week not between", value1, value2, "endWeek");
             return (Criteria) this;
         }
 
@@ -1144,6 +834,11 @@ public class CourseNodeInitExample {
             return (Criteria) this;
         }
 
+        public Criteria andNameLikeInsensitive(String value) {
+            addCriterion("upper(name) like", value.toUpperCase(), "name");
+            return (Criteria) this;
+        }
+
         public Criteria andCycleIdLikeInsensitive(String value) {
             addCriterion("upper(cycle_id) like", value.toUpperCase(), "cycleId");
             return (Criteria) this;
@@ -1151,16 +846,6 @@ public class CourseNodeInitExample {
 
         public Criteria andCycleYearLikeInsensitive(String value) {
             addCriterion("upper(cycle_year) like", value.toUpperCase(), "cycleYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndLikeInsensitive(String value) {
-            addCriterion("upper(month_start_end) like", value.toUpperCase(), "monthStartEnd");
-            return (Criteria) this;
-        }
-
-        public Criteria andMonthStartEndNameLikeInsensitive(String value) {
-            addCriterion("upper(month_start_end_name) like", value.toUpperCase(), "monthStartEndName");
             return (Criteria) this;
         }
 

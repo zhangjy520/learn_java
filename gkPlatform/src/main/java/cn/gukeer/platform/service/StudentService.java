@@ -13,6 +13,7 @@ import java.util.Map;
  * Created by conn on 2016/8/23.
  */
 public interface StudentService {
+
     PageInfo<StudentView> selectStudentByChoose(String schoolId, String classId, String xd, int nj, int xq, int status, String name, int pageNum, int pageSize);
 
     int save(Student student);

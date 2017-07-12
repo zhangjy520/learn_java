@@ -312,7 +312,8 @@ public class RenShiAreaController extends BasicController {
         teacher.setName(teacherName);
         teacher.setSchoolId(chooseSchoolId);
 
-        PageInfo<Teacher> pageInfo = teacherService.findTeacherByDepartmentId(departId, teacher, pageNum, pageSize);
+//        PageInfo<Teacher> pageInfo = teacherService.findTeacherByDepartmentId(departId, teacher, pageNum, pageSize);
+        PageInfo<Map> pageInfo = teacherService.findTeacherViewList(departId, teacher, pageNum, pageSize);
 
         Department chooseDepart = departmentService.findDepartmentById(departId);
 
@@ -345,9 +346,11 @@ public class RenShiAreaController extends BasicController {
 
         List<Title> zhiwuList = teacherService.selectTitleBySchoolId(chooseSchoolId);//当前选中机构的职务列表
 
-        PageHelper.startPage(pageNum, pageSize);
+        /*PageHelper.startPage(pageNum, pageSize);
         List<Teacher> teacherList = teacherService.findTeacherByTitleId(zhiwuId, chooseSchoolId, user.getSchoolId(), teacherName);
-        PageInfo<Teacher> pageInfo = new PageInfo<Teacher>(teacherList);
+        PageInfo<Teacher> pageInfo = new PageInfo<Teacher>(teacherList);*/
+        PageInfo<Map> pageInfo = teacherService.findTeacherViewByTitleId(zhiwuId, chooseSchoolId, user.getSchoolId(),
+                                                                           teacherName, pageNum, pageSize);
 
         Title chooseTitle = teacherService.selectTitleById(zhiwuId);
 
@@ -376,8 +379,8 @@ public class RenShiAreaController extends BasicController {
 
         Map birt = teacherService.teacherReport(user.getSchoolId(), sonSchoolList);
 
-        model.addAttribute("birt",birt);
-        return "renShiArea/birt" ;
+        model.addAttribute("birt", birt);
+        return "renShiArea/birt";
     }
 
     //校级管理左侧菜单  机构>学校类型>学校

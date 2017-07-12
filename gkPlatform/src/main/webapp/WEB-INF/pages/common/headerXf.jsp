@@ -29,6 +29,12 @@
     <script src="${ctxStaticNew}/js/openDialog.js"></script>
     <script src="${ctxStaticNew}/js/laydate.js"></script>
 
+    <script src="${ctxStaticNew}/js/alertPopShow.js"></script>
+
+
+    <script type="text/javascript" src="${ctx}/dwr/engine.js"></script>
+    <script type="text/javascript" src="${ctx}/dwr/util.js"></script>
+    <script type="text/javascript" src="${ctx}/dwr/interface/NotifyJs.js"></script>
     <script>
         if (${empty loginUser}) {
             layer.msg("登录超时，请重新登录！");
@@ -36,6 +42,7 @@
         }
 
         $(function () {
+            NotifyJs.init();
             $.get("${ctx}/head/getlogo", {}, function (retJson) {
                 if (retJson.msg != "") {
                     document.getElementById("logo").src = "${ctx}/file/pic/show?picPath=" + retJson.msg;
@@ -44,7 +51,19 @@
                 }
             });
         })
+        //这个方法用来启动该页面的ReverseAjax功能
+        dwr.engine.setActiveReverseAjax(true);
+        //设置在页面关闭时，通知服务端销毁会话
+        dwr.engine.setNotifyServerOnPageUnload(true);
 
+        dwr.engine.setErrorHandler(function (message, ex) {
+            dwr.engine._debug("Error: " + ex.name + ", " + ex.message, true);
+        }
+        );
+
+        function show(msg) {
+            alert(msg);
+        }
     </script>
 </head>
 
@@ -59,7 +78,7 @@
             <%--<img src="${ctxStaticNew}/images/logo-logo.png" alt=""/>--%>
             <%--</c:if>--%>
             <img
-                    <%--src="${ctxStaticNew}/images/loading.gif" --%>
+            <%--src="${ctxStaticNew}/images/loading.gif" --%>
                     style="height: 45px; vertical-align: middle" alt="" id="logo"/>
         </div>
         <div class="nav-menu">

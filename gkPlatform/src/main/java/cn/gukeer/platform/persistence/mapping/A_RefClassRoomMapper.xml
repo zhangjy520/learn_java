@@ -39,21 +39,37 @@
         school_type_id
         )
         values
-        <foreach collection="correctRefClassRoomList" item="refRoomClass" index="index" open="(" close=")"
-                 separator=",">
+        <foreach collection="correctRefClassRoomList" item="refRoomClass" index="index" separator=",">
+            (
             #{refRoomClass.id},#{refRoomClass.roomId},#{refRoomClass.gradeClass},#{refRoomClass.cycleId},#{refRoomClass.schoolTypeId}
+            )
         </foreach>
     </insert>
 
 
     <select id="getRefClassRoomList" resultMap="ExtensionBaseResultMapView">
-        SELECT section.`id` AS sectionId,section.`name` AS sectionName,class.`id` AS cid,class.`name` AS cname,class.nj,room.`id` AS roomId,room.teach_building AS buildingName,room.`room_num` AS roomNum,stype.`id` AS typeId,stype.`name` AS typeName,ref.id AS refId
+        SELECT section.`id` AS sectionId,section.`name` AS sectionName,class.`id` AS cid,class.`name` AS
+        cname,class.nj,room.`id` AS roomId,room.teach_building AS buildingName,room.`room_num` AS roomNum,stype.`id` AS
+        typeId,stype.`name` AS typeName,ref.id AS refId
         FROM teach_ref_class_room ref,
-              org_grade_class class LEFT JOIN org_class_section section ON class.`xd`=section.`id` AND section.`school_id`=#{schoolId},
-              teach_class_room room LEFT JOIN org_school_type stype ON room.`school_type`= stype.`id` AND stype.`school_id`=#{schoolId}
+        org_grade_class class LEFT JOIN org_class_section section ON class.`xd`=section.`id` AND
+        section.`school_id`=#{schoolId},
+        teach_class_room room LEFT JOIN org_school_type stype ON room.`school_type`= stype.`id` AND
+        stype.`school_id`=#{schoolId}
         WHERE
-              class.`id`=ref.`grade_class` AND  room.`id`=ref.`room_id`
-        AND ref.`cycle_id`=#{cycleId} AND stype.`school_id`= #{schoolId} AND class.`school_id`=#{schoolId} AND room.`school_id`=#{schoolId}
+        class.`id`=ref.`grade_class` AND room.`id`=ref.`room_id`
+        <if test="cycleId != null and cycleId != ''">
+            AND ref.`cycle_id`=#{cycleId}
+        </if>
+        <if test="schoolId != null and schoolId != ''">
+            AND stype.`school_id`= #{schoolId} AND class.`school_id`=#{schoolId} AND room.`school_id`=#{schoolId}
+        </if>
+        <if test="xdId != null and xdId != ''">
+            AND class.xd= #{xdId}
+        </if>
+        <if test="nj != 0">
+            AND class.nj = #{nj}
+        </if>
     </select>
 
     <select id="findRefClassRoomViewByRefId" resultMap="ExtensionBaseResultMapView">

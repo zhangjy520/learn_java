@@ -78,8 +78,9 @@
                             <th width="10%">序号</th>
                             <th width="20%">姓名</th>
                             <th width="10%">性别</th>
-                            <th width="30%">教职工编号</th>
-                            <th width="30%">办公室电话</th>
+                            <th width="20%">教职工编号</th>
+                            <th width="20%">办公室电话</th>
+                            <th width="20%">所在部门</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -101,6 +102,7 @@
                                 </td>
                                 <td>${teacher.no}</td>
                                 <td>${teacher.bgsdh}</td>
+                                <td>${teacher.departName}</td>
                             </tr>
                         </c:forEach>
                         </tbody>

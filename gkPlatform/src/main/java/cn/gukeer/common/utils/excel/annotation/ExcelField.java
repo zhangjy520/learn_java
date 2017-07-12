@@ -15,6 +15,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelField {
 
+	/*
+	* 字段是否存在模板   0：存在   1：不存在
+	* */
+	int permission() default 0;
+
 	/**
 	 * 导出字段名（默认调用当前字段的“get”方法，如指定导出字段为对象，请填写“对象名.对象属性”，例：“area.name”、“office.name”）
 	 */

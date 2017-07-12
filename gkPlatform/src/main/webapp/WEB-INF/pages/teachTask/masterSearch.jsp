@@ -84,16 +84,16 @@
             </select>
             学期：
             <select name="cycleSemester" style="height: 30px;" class="cycleSemester">
-                <option name="cycleSemester" class="cycleSemester1" value="1">第一学期
+                <option name="cycleSemester" class="cycleSemester1" value="1">1
                 </option>
-                <option name="cycleSemester" class="cycleSemester2" value="2">第二学期
+                <option name="cycleSemester" class="cycleSemester2" value="2">2
                 </option>
             </select>
         </div>
         <div class="row searchh">
             <input type="hidden" id="searchHidden" value="${teacherName}"/>
             <button class="summitButton" onclick="searchTeacher()"></button>
-            <input class="searchInput" type="text" name="zhiGong" placeholder="请输入老师姓名"/>
+            <input class="searchInput" type="text" name="zhiGong" placeholder="请输入教师姓名"/>
         </div>
     </div>
     <section id="generated" class="row">
@@ -142,7 +142,7 @@
     </section>
 </main>
 <script>
-
+    activeMenu("base",4);
     $(function () {
         if ('${cycleSemester}' == "1") {
             $(".cycleSemester1").attr("selected", "selected");
@@ -212,6 +212,10 @@
         var cycleSemester = $("select[name='cycleSemester']").val();
         var cycleYear = $("select[name='cycleYear']").val();
         var name = $("input[name='zhiGong']").val();
+        if (cycleSemester ==""||cycleSemester ==null ||cycleYear==""||cycleYear==null){
+            layer.msg("学年和学期数据为空，查不到您需要的数据");
+            return;
+        }
         window.location.href = "${ctx}/teach/task/master/search?name=" + encodeURI(encodeURI(name)) + "&&cycleSemester=" + cycleSemester + "&&cycleYear=" + cycleYear;
     }
 </script>

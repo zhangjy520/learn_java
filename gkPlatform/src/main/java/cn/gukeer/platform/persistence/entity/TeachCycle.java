@@ -1,8 +1,14 @@
 package cn.gukeer.platform.persistence.entity;
 
+import cc.gukeer.sync.annotation.NoSync;
+import cc.gukeer.sync.annotation.PrimaryKey;
+import cc.gukeer.sync.annotation.TableSync;
+
 import java.io.Serializable;
 
+@TableSync(SyncTableName="teach_cycle",TargetName = "sync_teach_cycle")
 public class TeachCycle implements Serializable {
+    @PrimaryKey
     private String id;
 
     private String schoolId;
@@ -13,24 +19,26 @@ public class TeachCycle implements Serializable {
 
     private Integer cycleSemester;
 
+    private Long termBeginTime;
+
     private Long beginDate;
 
     private Long endDate;
 
     private Integer weekCount;
-
+    @NoSync
     private Integer delFlag;
-
+    @NoSync
     private Long createDate;
-
+    @NoSync
     private Long updateDate;
-
+    @NoSync
     private String createBy;
-
+    @NoSync
     private String updateBy;
-
+    @NoSync
     private String remark;
-
+    @NoSync
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -71,6 +79,14 @@ public class TeachCycle implements Serializable {
 
     public void setCycleSemester(Integer cycleSemester) {
         this.cycleSemester = cycleSemester;
+    }
+
+    public Long getTermBeginTime() {
+        return termBeginTime;
+    }
+
+    public void setTermBeginTime(Long termBeginTime) {
+        this.termBeginTime = termBeginTime;
     }
 
     public Long getBeginDate() {
@@ -162,6 +178,7 @@ public class TeachCycle implements Serializable {
             && (this.getCycleName() == null ? other.getCycleName() == null : this.getCycleName().equals(other.getCycleName()))
             && (this.getCycleYear() == null ? other.getCycleYear() == null : this.getCycleYear().equals(other.getCycleYear()))
             && (this.getCycleSemester() == null ? other.getCycleSemester() == null : this.getCycleSemester().equals(other.getCycleSemester()))
+            && (this.getTermBeginTime() == null ? other.getTermBeginTime() == null : this.getTermBeginTime().equals(other.getTermBeginTime()))
             && (this.getBeginDate() == null ? other.getBeginDate() == null : this.getBeginDate().equals(other.getBeginDate()))
             && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
             && (this.getWeekCount() == null ? other.getWeekCount() == null : this.getWeekCount().equals(other.getWeekCount()))
@@ -182,6 +199,7 @@ public class TeachCycle implements Serializable {
         result = prime * result + ((getCycleName() == null) ? 0 : getCycleName().hashCode());
         result = prime * result + ((getCycleYear() == null) ? 0 : getCycleYear().hashCode());
         result = prime * result + ((getCycleSemester() == null) ? 0 : getCycleSemester().hashCode());
+        result = prime * result + ((getTermBeginTime() == null) ? 0 : getTermBeginTime().hashCode());
         result = prime * result + ((getBeginDate() == null) ? 0 : getBeginDate().hashCode());
         result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
         result = prime * result + ((getWeekCount() == null) ? 0 : getWeekCount().hashCode());
@@ -205,6 +223,7 @@ public class TeachCycle implements Serializable {
         sb.append(", cycleName=").append(cycleName);
         sb.append(", cycleYear=").append(cycleYear);
         sb.append(", cycleSemester=").append(cycleSemester);
+        sb.append(", termBeginTime=").append(termBeginTime);
         sb.append(", beginDate=").append(beginDate);
         sb.append(", endDate=").append(endDate);
         sb.append(", weekCount=").append(weekCount);

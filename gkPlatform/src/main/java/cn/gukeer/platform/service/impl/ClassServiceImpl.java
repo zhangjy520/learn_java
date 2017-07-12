@@ -207,6 +207,7 @@ public class ClassServiceImpl extends BasicController implements ClassService {
     public List<GradeClass> getAllClassBySchoolId(String schoolId) {
         GradeClassExample example = new GradeClassExample();
         example.createCriteria().andSchoolIdEqualTo(schoolId).andDelFlagEqualTo(0);
+        example.setOrderByClause("nj");
         return gradeClassMapper.selectByExample(example);
     }
 
@@ -220,6 +221,7 @@ public class ClassServiceImpl extends BasicController implements ClassService {
     @Override
     public List<GradeClass> selectClassBySchoolIdXdNj(String schoolId, String xd, int nj) {
         GradeClassExample example = new GradeClassExample();
+        example.setOrderByClause("name+\"\"");
         GradeClassExample.Criteria criteria = example.createCriteria();
         if (nj != 0) {
             criteria.andNjEqualTo(nj);
@@ -274,6 +276,7 @@ public class ClassServiceImpl extends BasicController implements ClassService {
                 schoolTypeView.setSort(schoolType.getSort());
                 GradeClassExample njexample = new GradeClassExample();
                 njexample.createCriteria().andXdEqualTo(classSection.getId()).andDelFlagEqualTo(0).andXqEqualTo(schoolType.getId().toString()).andSchoolIdEqualTo(schoolId);
+                njexample.setOrderByClause("nj");
                 List<GradeClass> njList = gradeClassMapper.selectByExample(njexample);
                 for (int k = 0; k < njList.size() - 1; k++) {
                     for (int l = njList.size() - 1; l > k; l--) {
@@ -558,21 +561,4 @@ public class ClassServiceImpl extends BasicController implements ClassService {
         return pageInfo;
     }
 
-    @Override
-    public List<Map> getSchoolClass(String schoolId) {
-        List<Map> res = gradeClassExtensionMapper.getSchoolClass(schoolId);
-        if (res.size() > 0) {
-            return res;
-        }
-        return null;
-    }
-
-//   //左链接学段表查询所有班级的方法
-//    public List<GradeClass> getSchoolClassBySchoolId(String schoolId) {
-//       List<GradeClass> list =  gradeClassExtensionMapper.getSchoolClassBySchoolId(schoolId);
-//        if (list.size()>0){
-//            return list;
-//        }
-//        return null;
-//    }
 }

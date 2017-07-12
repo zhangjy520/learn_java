@@ -126,14 +126,6 @@ public class AppServiceImpl extends BasicService implements AppService {
         return myApps;
     }
 
-    @Override
-	public List<App> findAppByName(String name) {
-		AppExample example = new AppExample();
-        example.createCriteria().andDelFlagEqualTo(0).andNameEqualTo(name);
-        List<App> appList = appMapper.selectByExample(example);
-		return appList;
-	}
-
 	@Override
     public List<App> findAppByNameAndCategoryAndTargetUser(String name, String category, String targetUser, String area, String schoolId) {
         AppExample example = new AppExample();

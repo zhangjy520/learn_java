@@ -14,11 +14,11 @@ TRUNCATE TABLE sync_teach_ref_course_class;
 TRUNCATE TABLE sync_teach_ref_room_cycle;
 TRUNCATE TABLE sync_teach_room_type;
 TRUNCATE TABLE sync_teach_standard_course;
+TRUNCATE TABLE sync_teach_daily_hour;
 TRUNCATE TABLE sync_teacher;
 TRUNCATE TABLE sync_teacher_class;
 TRUNCATE TABLE sync_title;
 TRUNCATE TABLE sync_user;
-TRUNCATE TABLE sync_teach_daily_hour;
 
 
 

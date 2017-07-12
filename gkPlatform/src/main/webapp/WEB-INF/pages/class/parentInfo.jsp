@@ -81,7 +81,7 @@
                             </td>
                             <td>${parent.parentPhone}</td>
                             <td>
-                                <span onclick="openDialogView('编辑','${ctx}/class/parent/info/add/index?prim=${parent.parentId}','500px','650px');">编辑</span>
+                                <span onclick="openDialog('编辑','${ctx}/class/parent/info/add/index?prim=${parent.parentId}','500px','650px');">编辑</span>
                                 <span onclick="alertTips('400px','200px','删除家长','确定要删除${parent.parentName}吗？','deleteParent(\'${parent.parentId}\')')"> 删除 </span>
                             </td>
                         </tr>

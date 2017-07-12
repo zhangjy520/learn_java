@@ -39,17 +39,18 @@
     <section id="generated" class="row">
         <button class="addTeachCycleButton addbutton"
                 onclick="openDialog('添加教学周期',
-                        '${ctx}/teach/task/cycle/add/pop','550px','440px');">
+                        '${ctx}/teach/task/cycle/add/pop','650px','550px');">
             添加教学周期
         </button>
         <div class="row">
             <table class="normal">
                 <thead>
                 <tr>
-                    <th width="1%"><input type="checkbox"></th>
+                    <th width="5%"><input type="checkbox"></th>
                     <th width="5%">序号</th>
                     <th>学年</th>
                     <th>学期</th>
+                    <th>开学日期</th>
                     <th>开始周</th>
                     <th>结束周</th>
                     <th>总周次</th>
@@ -63,6 +64,7 @@
                         <td>${status.index+1+(pageInfo.pageNum-1)*10}</td>
                         <td>${teachCycle.cycleYear}</td>
                         <td>${teachCycle.cycleSemester}</td>
+                        <td>${gukeer:millsToyyyyMMdd(teachCycle.termBeginTime)}</td>
                         <td>${teachCycle.beginDate}</td>
                         <td>${teachCycle.endDate}</td>
                         <td>${teachCycle.weekCount}</td>
@@ -73,8 +75,6 @@
                                   onclick="alertTips(400,202,'删除周期','确定要删除${teachCycle.cycleYear}第${teachCycle.cycleSemester}学期吗？','deleteSure(\'${teachCycle.id}\')')">
                                 删除
                             </sapn>
-                            <%--<span onclick="openDialog('同步数据',--%>
-                                          <%--'${ctx}/teach/task/cycle/syn/pop?cycleId=${teachCycle.teachCycle.id}','550px','420px');"> 同步数据</span>--%>
                         </td>
                     </tr>
                 </c:forEach>
@@ -118,6 +118,8 @@
             window.location.reload();
         });
     }
+
+    activeMenu("base",1);
 </script>
 </body>
 </html>

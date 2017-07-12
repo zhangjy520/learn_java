@@ -64,17 +64,7 @@
         AND tc.cycle_id= #{cycleId} AND ref.course_id=#{courseId}
         GROUP BY nj
     </select>
-    <update id="updateCourseClassByList">
-        <foreach collection="courseClassList" item="courseClass" index="index" separator=" " open="(" close=")">
-            UPDATE teach_ref_course_class
-            <if test="courseClass != null">
-                <set>
-                    course_hour=${courseClass.courseHour}
-                </set>
-            </if>
-            where id = #{courseClass.id}
-        </foreach>
-    </update>
+
 
     <delete id="batchDelByCourseId">
         DELETE  FROM teach_ref_course_class

@@ -9,12 +9,13 @@
     <select id="findMasterByClassIdListAndType" resultMap="ExtensionBaseResultMap" parameterType="java.util.List">
         SELECT
         *
-        FROM ref_teacher_class ref
+        FROM ref_teacher_class ref LEFT JOIN org_grade_class c ON ref.class_id = c.id
 
         WHERE ref.type =1
         <if test="cycleId != null and cycleId !='' ">
             AND ref.cycle_id =#{cycleId}
         </if>
+        AND c.nj=#{nj}
 
         <if test="list != null and list.size>0 ">
             AND ref.class_id IN

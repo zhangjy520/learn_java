@@ -452,7 +452,9 @@
             data: {},
             dataType: "json",
             success: function (res) {
-                $("#weather").html(res.data.status1 + "  " + res.data.temperature2 + "℃/" + res.data.temperature1 + "℃");
+                //$("#weather").html(res.data.status1 + "  " + res.data.temperature2 + "℃/" + res.data.temperature1 + "℃");
+                if (res.data.tmp != null)
+                    $("#weather").html(res.data.cond.txt_d + "  " + res.data.tmp.min + "℃/" + res.data.tmp.max + "℃");
             },
             error: function (e) {
                 console.log(e);
@@ -461,7 +463,7 @@
     }
 
     function getLocalTime(nS) {
-        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
     }
 </script>
 </body>

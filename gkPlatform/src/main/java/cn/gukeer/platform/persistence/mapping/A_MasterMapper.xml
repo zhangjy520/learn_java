@@ -27,7 +27,7 @@
         FROM
         org_grade_class c LEFT JOIN org_class_section cs ON cs.`id`=c.`xd`,
         ref_teacher_class ref ,user_teacher t
-        WHERE c.`id` =ref.class_id AND t.id = ref.teacher_id
+        WHERE c.`id` =ref.class_id AND t.id = ref.teacher_id AND ref.cycle_id = #{cycleId}
         AND c.xd = #{xdId} AND c.nj = #{nj}
         AND c.id IN
         <foreach collection="classIdList" item="classId" index="index" open="(" separator="," close=")">
@@ -105,20 +105,6 @@
             )
         </foreach>
     </insert>
-
-    <!--修改班主任的-->
-    <update id="batchUpdateTeacherClass" parameterType="java.util.List">
-        UPDATE ref_teacher_class
-        /* SET teacher_id =*/
-        <foreach collection="TeacherClassList" item="TeacherClass" index="index-1" separator=",">
-            /*when #{TeacherClass.classId,jdbcType=VARCHAR} then #{TeacherClass.teacherId,jdbcType=VARCHAR}*/
-            <set>
-                teacher_id =${TeacherClass.teacherId}
-            </set>
-        </foreach>
-        WHERE class_id=${classId}
-
-    </update>
 
 
     <select id="findAllCourseTeacherBycourseClassIdList" resultMap="BaseResult" parameterType="java.util.List">

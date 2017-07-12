@@ -14,4 +14,6 @@ public interface A_GradeClassMapper {
     List<GradeClass> findGradeClassBySectionIdAndNj(@Param("list") List<A_CourseClassHour> list);
 
     List<GradeClassExtention> findAllGradeClassBySchoolId(@Param("schoolId") String schoolId);
+
+    GradeClassExtention findByClassId(@Param("classId")String classId);
 }

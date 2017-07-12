@@ -180,6 +180,7 @@ public class ClassController extends BasicController {
         String prim = getParamVal(request, "prim");
         String stuNum = getParamVal(request, "stuNum");
         String parentName = getParamVal(request, "parentName");
+        String aaaa = getParamVal(request, "stuName");
         String relation = getParamVal(request, "relation");
         String work = getParamVal(request, "work");
         String workAt = getParamVal(request, "workAt");
@@ -276,7 +277,7 @@ public class ClassController extends BasicController {
                     "           2.家长性别：男  女\n" +
                     "           3.是否监护人：是  否\n" +
                     "           4.是否生活在一起：是 否\n";
-            new ExportExcel("家长信息", IOParentView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
+            new ExportExcel(false,"家长信息", IOParentView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -382,7 +383,7 @@ public class ClassController extends BasicController {
                 IOParentView importBundling = GsonUtil.fromJson(jsonElement.getAsJsonObject(), IOParentView.class);
                 exportFile.add(importBundling);
             }
-            new ExportExcel("班级数据", IOParentView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
+            new ExportExcel(false,"班级数据", IOParentView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -459,7 +460,7 @@ public class ClassController extends BasicController {
             }
         }
         String fileName = "家长信息表格.xlsx";
-        new ExportExcel("家长信息", OutputParentRelationView.class, 1, null, 1).setDataList(exportFile).write(response, fileName).dispose();
+        new ExportExcel(false,"家长信息", OutputParentRelationView.class, 1, null, 1).setDataList(exportFile).write(response, fileName).dispose();
 
     }
 
@@ -1846,7 +1847,7 @@ public class ClassController extends BasicController {
                 IOBJClassView importBundling = GsonUtil.fromJson(jsonElement.getAsJsonObject(), IOBJClassView.class);
                 exportFile.add(importBundling);
             }
-            new ExportExcel("班级数据", IOBJClassView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
+            new ExportExcel(false,"班级数据", IOBJClassView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2039,7 +2040,7 @@ public class ClassController extends BasicController {
                 IOStudentView importBundling = GsonUtil.fromJson(jsonElement.getAsJsonObject(), IOStudentView.class);
                 exportFile.add(importBundling);
             }
-            new ExportExcel("学生信息", IOStudentView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
+            new ExportExcel(false,"学生信息", IOStudentView.class, 2, anno, 1).setDataList(exportFile).write(response, fileName).dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2060,7 +2061,7 @@ public class ClassController extends BasicController {
                     "          1.入学年度格式：2016\n" +
                     "          2.年级用大写汉字，如：一年级\n" +
                     "          3.班级类型：普通班级、民族班、体育班级、外语班级、其他特殊班\n";
-            new ExportExcel("班级数据", IOBJClassView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
+            new ExportExcel(false,"班级数据", IOBJClassView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -2085,7 +2086,7 @@ public class ClassController extends BasicController {
                     "          5：学生类别：普通学生、随便就读生、残障学生、其他                                             6：有效证件类别：身份证 护照\n" +
                     "          7：年级：一年级、二年级、三年级、四年级、五年级、六年级                                   8：日期格式：yyyy/mm/dd,例如：2016/9/1\n" +
                     "          9：招生类别：普通入学、民族班、体育特招、外校转入、恢复入学资格、外籍、其他           10:在校状态:在籍在校、在籍离校、在校不在籍、不在籍不在校";
-            new ExportExcel("学生数据", IOStudentView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
+            new ExportExcel(false,"学生数据", IOStudentView.class, 2, anno, 1).setDataList(list).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
             e.printStackTrace();

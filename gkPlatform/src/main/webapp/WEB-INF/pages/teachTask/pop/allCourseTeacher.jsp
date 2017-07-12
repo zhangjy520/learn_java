@@ -19,13 +19,6 @@
             <input type="hidden" value="${courseClassView.classId}">
             <input type="hidden" value="${courseClassView.teacherId}">
 
-                <%--<input type="hidden" name="xdName" value="${courseClassView.classSection}">--%>
-                <%--<input type="hidden" name="nj" value="${courseClassView.nj}">--%>
-                <%--<input type="hidden" name="bj"  value="${courseClassView.className}">--%>
-                <%--<input type="hidden" name="course" value="${courseClassView.courseName}">--%>
-                <%--<input type="hidden" name="courseTeacher" value="${courseClassView.teacherName}">--%>
-
-
             <td>${status.count}</td>
             <td>${courseClassView.classSection}${courseClassView.nj}年级${courseClassView.className}</td>
             <td>${courseClassView.courseName}</td>

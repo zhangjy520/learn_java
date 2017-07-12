@@ -12,6 +12,7 @@
 <head>
     <title>教务管理</title>
     <link rel="stylesheet" href="${ctxStaticNew}/css/personnel.min.css"/>
+    <script src="${ctxStaticNew}/js/layer/layer.js"></script>
 </head>
 <style>
     .row {
@@ -183,6 +184,7 @@
 </main>
 </body>
 <script>
+    activeMenu("all",2);
     $(function () {
         $("select").change(function () {
             var cycleSemester = $("select[name='cycleSemester']").val();
@@ -221,6 +223,7 @@
             cycleYear:cycleYear,
             cycleSemester:cycleSemester
         }, function (data) {
+            layer.msg("保存成功");
             setTimeout(function () {
                 window.location.reload()
             }, 2000);

@@ -36,7 +36,10 @@
     <!--<bean id="CheckPathFilter" class="cn.gukeer.common.shiro.filter.CheckPathFilter"></bean>  -->
 
    <!-- 定时配置文件加载-->
-    <!-- <import resource="classpath:syncScon-quartz.xml"/>-->
+     <!--<import resource="classpath:syncScon-quartz.xml"/>-->
+
+
+    <import resource="classpath:application-redis.xml"/>
 
     <bean class="cn.gukeer.common.utils.SpringContextHolder" lazy-init="false" />
 

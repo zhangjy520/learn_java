@@ -4,12 +4,14 @@ import cn.gukeer.platform.modelView.MenuView;
 import cn.gukeer.platform.modelView.RoleView;
 import cn.gukeer.platform.persistence.entity.User;
 import cn.gukeer.platform.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -20,7 +22,14 @@ import java.util.List;
  */
 public class ShiroAuthRealm extends AuthorizingRealm {
 
+    @Autowired
     UserService userService;
+
+
+    public void clearCached(){
+        PrincipalCollection principal = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principal);
+    }
 
     /**
      * 授权
@@ -43,7 +52,9 @@ public class ShiroAuthRealm extends AuthorizingRealm {
 
             boolean flag = userService.isAreaAdmin(user.getSchoolId());//判断是否是区级人员
             if (flag)
-                simpleAuthorInfo.addRole("area");
+                simpleAuthorInfo.addRole("area");//区平台人员
+            else
+                simpleAuthorInfo.addRole("common");//普通校级人员
 
 
             for (RoleView roleView : roleViews) {

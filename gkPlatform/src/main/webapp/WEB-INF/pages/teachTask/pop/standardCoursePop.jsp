@@ -35,12 +35,6 @@
         border-radius: 2px;
         color: #333;
     }
-    /*table td span:before{*/
-        /*content: '*';*/
-        /*color: red;*/
-        /*vertical-align: middle;*/
-        /*margin-right: 3px;*/
-    /*}*/
 </style>
 <body>
 <form action="${ctx}/teach/task/course/standard/add" id="standardCourseAdd" method="post" target="hidden_frame">
@@ -49,15 +43,18 @@
         <table>
             <tabody>
                 <tr>
-                    <td><span>课程名称:</span><input type="text" name="name" value="${standardCourse.name}"></td>
+                    <td><span>标准课程名称:</span><input type="text" name="name" value="${standardCourse.name}"></td>
                 </tr>
                 <tr>
-                    <td><span>课程英文名称:</span><input type="text" name="englishName" value="${standardCourse.englishName}"></td>
+                    <td><span>标准课程英文名称:</span><input type="text" name="englishName" value="${standardCourse.englishName}"></td>
                 </tr>
                 <tr>
                     <td>
                         <span>科目类型:</span>
-                        <select form="standardCourseAdd" name="courseTypeId" style="margin-left: 8px;">
+
+
+                        <select form="standardCourseAdd" name="courseTypeId" style="margin-left: 8px;" class="subjectCategory">
+                            <option name="subjectTypeName" value="无" <c:if test="${standardCourse.courseTypeId=='无'}">selected</c:if>>无</option>>
                             <c:forEach items="${courseTypePageInfo.list}" var="courseType" varStatus="status">
                                 <option name="subjectTypeName" value="${courseType.id}" <c:if test="${standardCourse.courseTypeId==courseType.id}">selected</c:if>> ${courseType.name}</option>
                             </c:forEach>
@@ -71,18 +68,26 @@
                             是<input type="radio" value="0" name="sys" <c:if test="${standardCourse.sys==0}">checked</c:if>>
                             否<input type="radio" value="1" name="sys" <c:if test="${standardCourse.sys==1}">checked</c:if>>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <span>是否字典学科:</span>
                         <div style="margin-left: 8px; display: inline-block">
-                        是<input type="radio" value="0" name="isDictionary" <c:if test="${standardCourse.isDictionary==0}">checked</c:if>>
-                        否<input type="radio" value="1" name="isDictionary" <c:if test="${standardCourse.isDictionary==1}">checked</c:if>>
+                            是<input type="radio" value="0" name="isDictionary" <c:if test="${standardCourse.isDictionary==0}">checked</c:if>>
+                            否<input type="radio" value="1" name="isDictionary" <c:if test="${standardCourse.isDictionary==1}">checked</c:if>>
                         </div>
                     </td>
                 </tr>
+                <%--<tr class="exitSys">--%>
+                    <%--<td>--%>
+                        <%--<span>是否字典学科:</span>--%>
+                        <%--<div style="margin-left: 8px; display: inline-block">--%>
+                        <%--是<input type="radio" value="0" name="isDictionary" <c:if test="${standardCourse.isDictionary==0}">checked</c:if>>--%>
+                        <%--否<input type="radio" value="1" name="isDictionary" <c:if test="${standardCourse.isDictionary==1}">checked</c:if>>--%>
+                        <%--</div>--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
             </tabody>
         </table>
     </div>
@@ -90,15 +95,24 @@
 <iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
 </body>
 <script>
-
+//    var dictionaryVal = $(".subjectCategory").find("option:selected").val();
+//    $('select').change(function () {
+//        if (dictionaryVal=='无') {
+//            $(".exitSys").hide();
+//        }else {
+//            $(".exitSys").show();
+//        }
+//    })
+//
+//    $(function () {
+//        var dictionaryVal = $(".subjectCategory").find("option:selected").val();
+//        if (dictionaryVal=='无'){
+//            $(".exitSys").hide();
+//        }
+//    })
     function doSubmit() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
-//        if (true) {
         $("#standardCourseAdd").submit();
         return true;
-//        } else {
-//            layer.msg("输入有误！");
-//            return false;
-//        }
     }
 
     function doSubmitReturn() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
@@ -107,8 +121,9 @@
         var courseType =$(".courseType").find("option:selected").text();
         var cycleSemester =$(".cycleSemester").find("option:selected").text();
         var cycleYear =$(".cycleYear").find("option:selected").text();
-        if (cycleYear == "" || cycleSemester == "" || name == "" || roomType == "" || courseType == "") {
+        if (cycleYear == "" || cycleSemester == "" || name == "" || roomType == "") {
             webToast("所填项均为必填", "top", 2300);
+            return;
         }
 
         $.post("${ctx}/teach/task/course/update", {

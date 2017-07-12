@@ -1,11 +1,19 @@
 package cn.gukeer.platform.persistence.entity;
 
+import cc.gukeer.sync.annotation.NoSync;
+import cc.gukeer.sync.annotation.PrimaryKey;
+import cc.gukeer.sync.annotation.TableSync;
+
 import java.io.Serializable;
 
+@TableSync(SyncTableName="teach_course_node_init",TargetName = "sync_teach_course_node_init")
 public class CourseNodeInit implements Serializable {
+    @PrimaryKey
     private String id;
 
     private String schoolId;
+
+    private String name;
 
     private String cycleId;
 
@@ -13,28 +21,16 @@ public class CourseNodeInit implements Serializable {
 
     private Integer cycleSemester;
 
-    private Long morningStart;
+    private Integer startWeek;
 
-    private Integer morningPersistence;
-
-    private Integer commonPersistence;
-
-    private Integer totalNode;
-
-    private Long afternoonStart;
-
-    private Long nightStart;
-
-    private String monthStartEnd;
-
-    private String monthStartEndName;
-
+    private Integer endWeek;
+    @NoSync
     private Long createTime;
-
+    @NoSync
     private String updateBy;
-
+    @NoSync
     private Integer delFlag;
-
+    @NoSync
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -51,6 +47,14 @@ public class CourseNodeInit implements Serializable {
 
     public void setSchoolId(String schoolId) {
         this.schoolId = schoolId == null ? null : schoolId.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getCycleId() {
@@ -77,68 +81,20 @@ public class CourseNodeInit implements Serializable {
         this.cycleSemester = cycleSemester;
     }
 
-    public Long getMorningStart() {
-        return morningStart;
+    public Integer getStartWeek() {
+        return startWeek;
     }
 
-    public void setMorningStart(Long morningStart) {
-        this.morningStart = morningStart;
+    public void setStartWeek(Integer startWeek) {
+        this.startWeek = startWeek;
     }
 
-    public Integer getMorningPersistence() {
-        return morningPersistence;
+    public Integer getEndWeek() {
+        return endWeek;
     }
 
-    public void setMorningPersistence(Integer morningPersistence) {
-        this.morningPersistence = morningPersistence;
-    }
-
-    public Integer getCommonPersistence() {
-        return commonPersistence;
-    }
-
-    public void setCommonPersistence(Integer commonPersistence) {
-        this.commonPersistence = commonPersistence;
-    }
-
-    public Integer getTotalNode() {
-        return totalNode;
-    }
-
-    public void setTotalNode(Integer totalNode) {
-        this.totalNode = totalNode;
-    }
-
-    public Long getAfternoonStart() {
-        return afternoonStart;
-    }
-
-    public void setAfternoonStart(Long afternoonStart) {
-        this.afternoonStart = afternoonStart;
-    }
-
-    public Long getNightStart() {
-        return nightStart;
-    }
-
-    public void setNightStart(Long nightStart) {
-        this.nightStart = nightStart;
-    }
-
-    public String getMonthStartEnd() {
-        return monthStartEnd;
-    }
-
-    public void setMonthStartEnd(String monthStartEnd) {
-        this.monthStartEnd = monthStartEnd == null ? null : monthStartEnd.trim();
-    }
-
-    public String getMonthStartEndName() {
-        return monthStartEndName;
-    }
-
-    public void setMonthStartEndName(String monthStartEndName) {
-        this.monthStartEndName = monthStartEndName == null ? null : monthStartEndName.trim();
+    public void setEndWeek(Integer endWeek) {
+        this.endWeek = endWeek;
     }
 
     public Long getCreateTime() {
@@ -179,17 +135,12 @@ public class CourseNodeInit implements Serializable {
         CourseNodeInit other = (CourseNodeInit) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getSchoolId() == null ? other.getSchoolId() == null : this.getSchoolId().equals(other.getSchoolId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getCycleId() == null ? other.getCycleId() == null : this.getCycleId().equals(other.getCycleId()))
             && (this.getCycleYear() == null ? other.getCycleYear() == null : this.getCycleYear().equals(other.getCycleYear()))
             && (this.getCycleSemester() == null ? other.getCycleSemester() == null : this.getCycleSemester().equals(other.getCycleSemester()))
-            && (this.getMorningStart() == null ? other.getMorningStart() == null : this.getMorningStart().equals(other.getMorningStart()))
-            && (this.getMorningPersistence() == null ? other.getMorningPersistence() == null : this.getMorningPersistence().equals(other.getMorningPersistence()))
-            && (this.getCommonPersistence() == null ? other.getCommonPersistence() == null : this.getCommonPersistence().equals(other.getCommonPersistence()))
-            && (this.getTotalNode() == null ? other.getTotalNode() == null : this.getTotalNode().equals(other.getTotalNode()))
-            && (this.getAfternoonStart() == null ? other.getAfternoonStart() == null : this.getAfternoonStart().equals(other.getAfternoonStart()))
-            && (this.getNightStart() == null ? other.getNightStart() == null : this.getNightStart().equals(other.getNightStart()))
-            && (this.getMonthStartEnd() == null ? other.getMonthStartEnd() == null : this.getMonthStartEnd().equals(other.getMonthStartEnd()))
-            && (this.getMonthStartEndName() == null ? other.getMonthStartEndName() == null : this.getMonthStartEndName().equals(other.getMonthStartEndName()))
+            && (this.getStartWeek() == null ? other.getStartWeek() == null : this.getStartWeek().equals(other.getStartWeek()))
+            && (this.getEndWeek() == null ? other.getEndWeek() == null : this.getEndWeek().equals(other.getEndWeek()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
             && (this.getDelFlag() == null ? other.getDelFlag() == null : this.getDelFlag().equals(other.getDelFlag()));
@@ -201,17 +152,12 @@ public class CourseNodeInit implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getSchoolId() == null) ? 0 : getSchoolId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getCycleId() == null) ? 0 : getCycleId().hashCode());
         result = prime * result + ((getCycleYear() == null) ? 0 : getCycleYear().hashCode());
         result = prime * result + ((getCycleSemester() == null) ? 0 : getCycleSemester().hashCode());
-        result = prime * result + ((getMorningStart() == null) ? 0 : getMorningStart().hashCode());
-        result = prime * result + ((getMorningPersistence() == null) ? 0 : getMorningPersistence().hashCode());
-        result = prime * result + ((getCommonPersistence() == null) ? 0 : getCommonPersistence().hashCode());
-        result = prime * result + ((getTotalNode() == null) ? 0 : getTotalNode().hashCode());
-        result = prime * result + ((getAfternoonStart() == null) ? 0 : getAfternoonStart().hashCode());
-        result = prime * result + ((getNightStart() == null) ? 0 : getNightStart().hashCode());
-        result = prime * result + ((getMonthStartEnd() == null) ? 0 : getMonthStartEnd().hashCode());
-        result = prime * result + ((getMonthStartEndName() == null) ? 0 : getMonthStartEndName().hashCode());
+        result = prime * result + ((getStartWeek() == null) ? 0 : getStartWeek().hashCode());
+        result = prime * result + ((getEndWeek() == null) ? 0 : getEndWeek().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateBy() == null) ? 0 : getUpdateBy().hashCode());
         result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
@@ -226,17 +172,12 @@ public class CourseNodeInit implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", schoolId=").append(schoolId);
+        sb.append(", name=").append(name);
         sb.append(", cycleId=").append(cycleId);
         sb.append(", cycleYear=").append(cycleYear);
         sb.append(", cycleSemester=").append(cycleSemester);
-        sb.append(", morningStart=").append(morningStart);
-        sb.append(", morningPersistence=").append(morningPersistence);
-        sb.append(", commonPersistence=").append(commonPersistence);
-        sb.append(", totalNode=").append(totalNode);
-        sb.append(", afternoonStart=").append(afternoonStart);
-        sb.append(", nightStart=").append(nightStart);
-        sb.append(", monthStartEnd=").append(monthStartEnd);
-        sb.append(", monthStartEndName=").append(monthStartEndName);
+        sb.append(", startWeek=").append(startWeek);
+        sb.append(", endWeek=").append(endWeek);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateBy=").append(updateBy);
         sb.append(", delFlag=").append(delFlag);

@@ -10,5 +10,5 @@ import java.util.List;
  * Created by LL on 2017/4/28.
  */
 public interface A_RefTeacherClassMapper {
-    List<TeacherClass> findMasterByClassIdListAndType(@Param("list") List<String> list,@Param("cycleId") String cycleId);
+    List<TeacherClass> findMasterByClassIdListAndType(@Param("list") List<String> list,@Param("cycleId") String cycleId,@Param("nj") int nj);
 }

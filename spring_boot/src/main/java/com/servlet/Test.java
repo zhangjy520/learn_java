@@ -3,7 +3,6 @@ package com.servlet;
 import com.spreada.utils.chinese.ZHConverter;
 
 import java.io.*;
-import java.net.MalformedURLException;
 
 public class Test {
 
@@ -51,7 +50,8 @@ public class Test {
     }
 
     public static void main(String[] args) throws IOException {
-        String reg = "[^\u4e00-\u9fa5]";
+        singleHear();
+        /*String reg = "[^\u4e00-\u9fa5]";
         readTxtFile("D:/1.txt","D:/2.txt");
 
 
@@ -75,7 +75,28 @@ public class Test {
                 out.close();
             }
 
+        }*/
+
+    }
+
+
+    public static void hear(){
+
+    }
+
+    public static void singleHear(){
+        float x,y,a;
+        for (y = 1.5f; y >-1.5f ; y-=0.1f) {
+            for (x = -1.5f; x < 1.5f; x+=0.05f) {
+                a= x*x +y*y-1;
+                System.out.print(a*a*a-x*x*y*y*y<=0.0f?"*":" ");
+            }
+            System.out.println();
         }
+    }
+
+    public static void hear3D(){
+
     }
 
 }

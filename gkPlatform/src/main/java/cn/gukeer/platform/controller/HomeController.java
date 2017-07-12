@@ -3,15 +3,17 @@ package cn.gukeer.platform.controller;
 import cn.gukeer.common.controller.BasicController;
 import cn.gukeer.common.entity.ResultEntity;
 import cn.gukeer.common.security.MD5Utils;
-import cn.gukeer.common.utils.IpAdressUtil;
+import cn.gukeer.common.utils.GsonUtil;
 import cn.gukeer.common.utils.SnsUtil;
-import cn.gukeer.common.utils.WeatherUtil;
 import cn.gukeer.platform.common.ConstantUtil;
 import cn.gukeer.platform.modelView.*;
+import cn.gukeer.platform.modelView.weather.HeWeather;
 import cn.gukeer.platform.persistence.entity.*;
 import cn.gukeer.platform.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,7 +66,6 @@ public class HomeController extends BasicController {
      */
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request, Model model) {
-
         int pageNum = getPageNum(request);
 
         User user = getLoginUser();
@@ -116,7 +117,7 @@ public class HomeController extends BasicController {
         }
         session.setAttribute("bottomName", getBottomName());
         session.setAttribute("userType", getLoginUser().getUserType());
-        model.addAttribute("notifyList", resultList); 
+        model.addAttribute("notifyList", resultList);
         model.addAttribute("defaultAppList", appList);
         return "home/index";
     }
@@ -132,19 +133,20 @@ public class HomeController extends BasicController {
         List res = new ArrayList();
         switch (id) {
             case "1":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_topic_hot?username="+getLoginUser().getUsername(), HotTopicView.class, 8, 0);//话题
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_topic_hot?username=" + getLoginUser().getUsername(), HotTopicView.class, 8, 0);//话题
                 break;
             case "2":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_all?username="+getLoginUser().getUsername(), WeiBoView.class, 5, 0);//微博
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/weibo_all?username=" + getLoginUser().getUsername(), WeiBoView.class, 5, 0);//微博
                 break;
             case "3":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/plate_hot?username="+getLoginUser().getUsername(), HotSpotView.class, 5, 0);//板块
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/plate_hot?username=" + getLoginUser().getUsername(), HotSpotView.class, 5, 0);//板块
                 break;
             case "4":
-                res = SnsUtil.getSns("/testsns/index.php/Api/Index/forum_all?username="+getLoginUser().getUsername(), AllForumView.class, 5, 0);//帖子
+                res = SnsUtil.getSns("/testsns/index.php/Api/Index/forum_all?username=" + getLoginUser().getUsername(), AllForumView.class, 5, 0);//帖子
                 break;
             case "5":
-                List<Object> rep = SnsUtil.getSns("/testsns/index.php/Api/Index/fans?username=" + getLoginUser().getUsername() + "=" + snsMac, FansView.class, 1, 1);//关注，粉丝，动态
+//                List<Object> rep = SnsUtil.getSns("/testsns/index.php/Api/Index/fans?username=" + getLoginUser().getUsername() + "=" + snsMac, FansView.class, 1, 1);//关注，粉丝，动态
+                List rep = new ArrayList();//关注粉丝动态接口暂时关闭
                 if (rep.size() > 0) {
                     res.add(rep.get(0));
                 } else {
@@ -172,9 +174,20 @@ public class HomeController extends BasicController {
     @ResponseBody
     @RequestMapping(value = "/weather", method = RequestMethod.POST)
     public ResultEntity getWeather(HttpServletRequest request) {
-        String loginCity = IpAdressUtil.getCityByIp(getClientIp(request));
+     /*   String loginCity = IpAdressUtil.getCityByIp(getClientIp(request));
         Map<String, String> weather = WeatherUtil.getWeather(loginCity, 0);//当天天气
-        return ResultEntity.newResultEntity(weather);
+        return ResultEntity.newResultEntity(weather);*/
+        String weather = schoolService.getWeather(getLoginUser().getSchoolId());
+
+        Gson gson = GsonUtil.noneIntDouble();
+        HeWeather heWeather = gson.fromJson(weather,
+                new TypeToken<HeWeather>() {
+                }.getType());
+
+        if (heWeather.getDaily_forecast().size() > 0)
+            return ResultEntity.newResultEntity(heWeather.getDaily_forecast().get(0));
+
+        return ResultEntity.newResultEntity(null);
     }
 
 

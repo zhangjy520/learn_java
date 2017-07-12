@@ -36,28 +36,6 @@
       SELECT * FROM org_school WHERE parent_id = #{schoolId} ORDER BY grade
     </select>
 
-    <select id="getSonSchoolDepartment" resultType="java.util.Map">
-        SELECT * FROM v_depart_school WHERE 1=1
-        <if test="schoolList != null and schoolList.size() > 0">
-           AND schoolId IN
-            <foreach item="school" index="index" collection="schoolList" open="(" separator="," close=")">
-                #{school.id}
-            </foreach>
-        </if>
-
-        ORDER by schoolId
-    </select>
-
-    <select id="getSonSchoolTitle" resultType="java.util.Map">
-        SELECT * FROM v_title_school WHERE 1=1
-        <if test="schoolList != null and schoolList.size() > 0">
-          AND schoolId IN
-            <foreach item="school" index="index" collection="schoolList" open="(" separator="," close=")">
-                #{school.id}
-            </foreach>
-        </if>
-        ORDER by schoolId
-    </select>
 
     <insert id="insertSchoolBackId" parameterType="cn.gukeer.platform.persistence.entity.School"
             useGeneratedKeys="true">

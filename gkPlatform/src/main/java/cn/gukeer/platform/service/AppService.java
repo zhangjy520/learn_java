@@ -11,6 +11,7 @@ import java.util.List;
  * Created by conn on 2016/8/8.
  */
 public interface AppService {
+
     List<App> findByName(String name);
 
     PageInfo<App> findAllList(int pageNum, int pageSize);
@@ -24,8 +25,6 @@ public interface AppService {
     int insertApp(App app);
 
     int saveApp( App app);
-    
-    List<App> findAppByName(String name);
 
     List<App> findAppByNameAndCategoryAndTargetUser(String name, String category, String targetUser, String area, String schoolId);
 

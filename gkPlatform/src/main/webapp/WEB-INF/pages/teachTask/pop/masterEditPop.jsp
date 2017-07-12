@@ -52,9 +52,11 @@
     span {
         display: inline-block;
     }
-    .m-teacher,.completeTips{
+
+    .m-teacher, .completeTips {
         padding-left: 10px;
     }
+
     .popup-main {
         background: #fff;
         padding: 35px 0px 10px 25px;
@@ -68,12 +70,12 @@
         padding: 10px 0;
     }
 
-    table td>span:first-child {
+    table td > span:first-child {
         width: 88px;
         text-align: right;
     }
 
-    table td>span:last-child {
+    table td > span:last-child {
         width: 150px;
         height: 28px;
         line-height: 28px;
@@ -92,17 +94,20 @@
         border-radius: 2px;
         color: #333;
     }
-    .checkbox-containt{
+
+    .checkbox-containt {
         display: inline-block;
         width: 350px;
         vertical-align: top;
         margin-left: 10px;
     }
-    .name-containt{
+
+    .name-containt {
         width: 80px;
         line-height: 30px;
     }
-    .name-containt>input{
+
+    .name-containt > input {
         position: relative;
         bottom: -2px;
         margin-right: 5px;
@@ -119,7 +124,8 @@
         <tr>
             <td><span>班主任:</span>
                 <div class="row" style="display: inline-block;margin-left: 12px;">
-                    <input class="autoComplete m-teacher" name="teacherName" value="${master}"/><span class="completeTips">请输入系统中存在的信息！</span>
+                    <input class="autoComplete m-teacher" name="teacherName" value="${master}"/><span
+                        class="completeTips">请输入系统中存在的信息！</span>
                     <input type="hidden" name="teacherId" id="personId"/>
                     <input type="hidden" class="teacherIdFromHoutai" value="${teacherIdFromHouTai}"/>
                     <input type="hidden" class="classId" value="${classId}"/>
@@ -130,11 +136,15 @@
         <tr>
             <td><span>副班主任:</span>
                 <div class="checkbox-containt">
-                    <c:forEach items="${teacherList}" var="teacher" varStatus="status">
-                        <span class="name-containt">
-                           <input type="checkbox" value="${teacher.id}" <c:if test="${deputyIds.contains(teacher.id)}">checked</c:if>><span>${teacher.name}</span>
-                        </span>
-                    </c:forEach>
+                        <div class="row" style="display: inline-block;margin-left: 12px;">
+                            <input class="autoComplete m-teacher" name="teacherName" value="${master}"/><span
+                                class="completeTips">请输入系统中存在的信息！</span>
+                            <input type="hidden" name="teacherId" class="personId"/>
+                            <i class="trAdd"
+                               style="display: inline-block;width:20px;height:20px;font-style:normal;line-height: 20px;text-align: center;color:#fff;background: green;border-radius: 50%;top:10px;left:70px">+</i>
+                            <i class="trDecrease"
+                               style="display: inline-block;width:20px;height:20px;font-style:normal;line-height: 20px;text-align: center;color:#fff;background: red;border-radius: 50%;top:10px;left:70px">-</i>
+                        </div>
                 </div>
             </td>
 
@@ -148,16 +158,24 @@
 </form>
 </body>
 <script>
+    $('.checkbox-containt').on('click', '.trAdd', function () {
+        $('<div class="row" style="display: inline-block;margin-left: 12px;"><input class="autoComplete m-teacher" name="teacherName" value="${master}"/><spanclass="completeTips">请输入系统中存在的信息！</span> <input type="hidden" name="teacherId" class="personId"/><i class="trAdd"style="display: inline-block;width:20px;height:20px;font-style:normal;line-height: 20px;text-align: center;color:#fff;background: green;border-radius: 50%;top:10px;left:70px">+</i> <i class="trDecrease"style="display: inline-block;width:20px;height:20px;font-style:normal;line-height: 20px;text-align: center;color:#fff;background: red;border-radius: 50%;top:10px;left:70px">-</i> </div>').appendTo($(".checkbox-containt"));
+    })
+
+    $('.checkbox-containt').on('click', '.trDecrease', function () {
+        $(this).parents('div').remove();
+    })
+
     var strPath = window.document.location.pathname;
     var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
     function doSubmit() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
         if (true) {
-            var cycleId  = $(".cycleId").val();
+            var cycleId = $(".cycleId").val();
             var cycleYear = $(".cycleYear").find("option:selected").val();
             var cycleSemester = $(".cycleSemester").find("option:selected").val();
             var classId = $(".classId").val();
             var tempTeacherId = "";
-            var teacherIdFromHouTai =$(".teacherIdFromHoutai").val();
+            var teacherIdFromHouTai = $(".teacherIdFromHoutai").val();
             var cycleId = $(".cycleId").val()
             $('input[type=checkbox]:checked').each(function (i) {
                 var teacherId = $(this).val();
@@ -165,14 +183,19 @@
             })
             var teacherId = $("#personId").val();
             $.post("${ctx}/teach/task/master/edit", {
-                tempTeacherId:tempTeacherId,
-                teacherId:teacherId,
-                teacherIdFromHouTai:teacherIdFromHouTai,
-                classId:classId,
-                cycleId:cycleId
+                tempTeacherId: tempTeacherId,
+                teacherId: teacherId,
+                teacherIdFromHouTai: teacherIdFromHouTai,
+                classId: classId,
+                cycleId: cycleId
             }, function (data) {
-                setTimeout(function(){parent.location.reload();}, 400);/*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function(){top.layer.close()}, 300);
+                setTimeout(function () {
+                    parent.location.reload();
+                }, 400);
+                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+                setTimeout(function () {
+                    top.layer.close()
+                }, 300);
             })
 //            $("#courseEdit").submit();
             return true;

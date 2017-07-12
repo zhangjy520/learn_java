@@ -29,6 +29,7 @@
                 /doLogin = anon
                 /doLogout = logout
                 /sync/push = anon
+                /head = anon
 
                 <!-- authc -->
                 /school/** = role[root]

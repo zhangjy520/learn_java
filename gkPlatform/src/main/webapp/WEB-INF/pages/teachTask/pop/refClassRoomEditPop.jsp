@@ -116,15 +116,15 @@
         </tr>
         <tr>
             <td><span>教学楼:</span>
-                <select name="schoolType" class="schoolType">
+                <select name="teachBuilding" class="teachBuilding">
                     <c:forEach items="${buildingList}" var="building" varStatus="status">
-                        <option  value="${building.teachBuilding}">${building.teachBuilding}</option>
+                        <option  value="${building.teachBuilding}" <c:if test="${building==building.teachBuilding}">selected</c:if>>${building.teachBuilding}</option>
                     </c:forEach>
                 </select></td>
         </tr>
         <tr>
             <td><span>教室号:</span>
-                <select name="schoolType" class="roomNum">
+                <select name="roomNum" class="roomNum">
                     <c:forEach items="${roomNumList}" var="classRoom" varStatus="status">
                         <option  <c:if test="${roomId==classRoom.id}">selected</c:if> value="${classRoom.id}">${classRoom.roomNum}</option>
                     </c:forEach>
@@ -143,45 +143,40 @@
         $("select").change(function () {
             var refId = $(".refId").val();
             var schoolTypeId =$(".schoolType").find("option:selected").val();
-            var teachBuildingName =$(".teachBuildingName").find("option:selected").val();
+            var teachBuilding =$(".teachBuilding").find("option:selected").val();
             var roomId =$(".roomNum").find("option:selected").val();
 
-            window.location.href = "${ctx}/teach/task/ref/class/room/edit/pop?&&roomId="+roomId+"&&refId="+refId+"&&schoolTypeId="+schoolTypeId+"&teachBuildingName="+teachBuildingName+"&";
+            window.location.href = "${ctx}/teach/task/ref/class/room/edit/pop?&&roomId="+roomId+"&&refId="+refId+"&&schoolTypeId="+schoolTypeId+"&teachBuilding="+teachBuilding+"&";
         });
     })
     function confirmSave() { //回调函数，在编辑和保存动作时，供openDialog调用提交表单。
         var refId = $(".refId").val();
         var schoolTypeId =$(".schoolType").find("option:selected").val();
-        var teachBuildingName =$(".teachBuildingName").find("option:selected").val();
+        var teachBuilding =$(".teachBuilding").find("option:selected").val();
         var roomId =$(".roomNum").find("option:selected").val();
         $.post("${ctx}/teach/task/ref/class/room/edit", {
             refId: refId,
             schoolTypeId:schoolTypeId,
-            teachBuildingName: teachBuildingName,
+            teachBuilding: teachBuilding,
             roomId: roomId,
             refId:refId
         }, function (data) {
-            if (data.code == 0) {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close(index)
-                }, 5000);
-                return true;
-            } else {
-                webToast(data.msg, "top", 5000);
-                setTimeout(function () {
-                    parent.location.reload();
-                }, 5000);
-                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
-                setTimeout(function () {
-                    top.layer.close()
-                }, 5000);
-                return false;
-            }
+            layer.msg("保存成功");
+           location.reload();
+//            if (data.code == 0) {
+//                webToast(data.msg, "top", 5000);
+//                setTimeout(function () {
+//                    parent.location.reload();
+//                }, 5000);
+//                /*刷新父级页面,延迟保证页面刷新的时候数据已经更新完毕*/
+//                setTimeout(function () {
+//                    top.layer.close(index)
+//                }, 5000);
+//                return true;
+//            } else {
+//            window.reloadPage();
+//                return false;
+//            }
         });
     }
 </script>

@@ -100,7 +100,7 @@
                     <%--<td>${room.remarks}</td>--%>
                     <td>
                         <span onclick="openDialog('修改信息','${ctx}/teach/task/room/update/index?roomId=${room.id}','700px','600px')">编辑</span>
-                        <span onclick="alertTips(400,202,'删除教室','确定要删除教室${room.roomNum}吗?','deleteSure(\'${room.id}\')')">删除</span>
+                        <span onclick="alertTips(400,202,'删除教室','确定要删除该教室信息吗?','deleteSure(\'${room.id}\')')">删除</span>
                     </td>
                 </tr>
             </c:forEach>
@@ -118,6 +118,7 @@
 <script>
     //activeMenu("quji",1);
     /* 初始化分页 */
+    activeMenu("base",2);
     $(function () {
 
         $("select").change(function () {

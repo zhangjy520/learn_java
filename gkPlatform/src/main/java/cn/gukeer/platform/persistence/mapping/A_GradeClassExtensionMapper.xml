@@ -64,9 +64,4 @@
         </foreach>
     </insert>
 
-    <!--根据用户拥有的classId集合查询拥有的年级，班级信息-->
-    <select id="getSchoolClass" resultType="java.util.Map" parameterType="java.util.List">
-        SELECT * FROM v_section_class v WHERE v.`schoolId` = #{schoolId}
-        ORDER by className
-    </select>
 </mapper>

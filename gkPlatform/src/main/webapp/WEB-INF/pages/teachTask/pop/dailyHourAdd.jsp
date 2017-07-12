@@ -132,21 +132,21 @@
             <tr>
                 <td>
                     <span>上课天数</span>
-                    <input type="text" class="skts" value="${dailyHour.skts}">
+                    <input type="text" class="skts" value="${dailyHour.skts}" placeholder="请填写整数">
                 </td>
                 <td>
                     <span>课间操</span>
-                    <input type="text" name="count" class="kjc" value="${dailyHour.kjc}">
+                    <input type="text" name="count" class="kjc" value="${dailyHour.kjc}" placeholder="请填写整数">
                 </td>
             </tr>
             <tr>
                 <td>
                     <span>上午课时</span>
-                    <input type="text" class="swks" value="${dailyHour.swks}">
+                    <input type="text" class="swks" value="${dailyHour.swks}" placeholder="请填写整数">
                 </td>
                 <td>
                     <span>下午课时</span>
-                    <input type="text" name="count" class="xwks" value="${dailyHour.xwks}">
+                    <input type="text" name="count" class="xwks" value="${dailyHour.xwks}" placeholder="请填写整数">
                 </td>
             </tr>
             <tr>
@@ -162,8 +162,8 @@
                 <td>
                     <span>学期</span>
                     <select name="semester" class="cycleSemester">
-                        <option name="semester" value="1" <c:if test="${dailyHour.xq==1}">selected</c:if>>第一学期</option>
-                        <option name="semester" value="2" <c:if test="${dailyHour.xq==2}">selected</c:if>>第二学期</option>
+                        <option name="semester" value="1" <c:if test="${dailyHour.xq==1}">selected</c:if>>1</option>
+                        <option name="semester" value="2" <c:if test="${dailyHour.xq==2}">selected</c:if>>2</option>
                     </select>
                 </td>
             </tr>
@@ -203,8 +203,15 @@
         var cycleSemester = $(".cycleSemester").find("option:selected").val();
         var dailyId=$(".dailyId").val();
         if (skts == "" || kjc == "" || swks == "" || xwks == "" || classIds == "") {
-            webToast("所有项均为必填项", top, 3000);
+            layer.msg("所填项均为必填");
+            return;
         }
+        var reg =  "^[0-9]*[1-9][0-9]*$";
+        if (!skts.match(reg)||!kjc.match(reg)||!swks.match(reg)||!xwks.match(reg)) {
+            layer.msg("数据格式不正确");
+            return;
+        }
+
         var url = null;
         if(${bj==''}){
            url= "teach/task/daily/hour/add";
@@ -222,6 +229,7 @@
                 dailyId:dailyId
             }, function (data) {
                 if (data.code==0){
+                    layer.msg(data.msg);
                     setTimeout(function () {
                         parent.location.reload();
                     }, 400);
@@ -229,6 +237,8 @@
                     setTimeout(function () {
                         top.layer.close()
                     }, 300);
+                }else {
+                    layer.msg(data.msg);
                 }
             })
 

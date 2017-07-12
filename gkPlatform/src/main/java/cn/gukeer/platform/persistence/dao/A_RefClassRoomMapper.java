@@ -16,7 +16,7 @@ public interface A_RefClassRoomMapper {
 
     void batchInsertRefClassRoom(@Param("correctRefClassRoomList")List<RefClassRoom> correctRefClassRoomList);
 
-    List<RefClassRoomView> getRefClassRoomList(@Param("schoolId")String schoolId, @Param("cycleId")String cycleId);
+    List<RefClassRoomView> getRefClassRoomList(@Param("schoolId")String schoolId, @Param("cycleId")String cycleId,@Param("nj")int nj,@Param("xdId")String xdId);
 
     RefClassRoomView findRefClassRoomViewByRefId( @Param("refId")String refId);
 }

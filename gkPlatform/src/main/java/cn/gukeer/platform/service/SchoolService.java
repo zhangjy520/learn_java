@@ -1,6 +1,5 @@
 package cn.gukeer.platform.service;
 
-import cn.gukeer.platform.modelView.AreaSchoolView;
 import cn.gukeer.platform.persistence.entity.*;
 import com.github.pagehelper.PageInfo;
 
@@ -11,6 +10,7 @@ import java.util.Map;
  * Created by conn on 2016/8/6.
  */
 public interface SchoolService {
+
     PageInfo<School> selectAllList(int pageNum, int pageSize);
 
     List<School> selectAllList();
@@ -27,15 +27,15 @@ public interface SchoolService {
 
     int saveSchoolType(SchoolType schoolType);
 
-    int saveAndClearSchoolcache(School school,String url);
+    int saveAndClearSchoolcache(School school, String url);
 
     int saveSchoolBackId(School school);
 
     SchoolType selectSchoolTypeById(String id);
-    
-    List<SchoolApp> findSchoolAppById(String schoolId,String _id);
 
-    List<Map<String,Object>> selectTeacherByParam(Map<Object,Object> param);
+    List<SchoolApp> findSchoolAppById(String schoolId, String _id);
+
+    List<Map<String, Object>> selectTeacherByParam(Map<Object, Object> param);
 
     PageInfo<LogWithBLOBs> selectLog(Integer pageNum, Integer pageSize);
 
@@ -53,7 +53,10 @@ public interface SchoolService {
 
     List<School> getSonSchoolList(String schoolId);
 
-    //  区>校>{部门，职务}
-    List<AreaSchoolView> getSchoolObjectTreeMenu(String schoolId,Object o);
+    List<Weather> selectWeatherByCity(String city, Long time);
+
+    int saveWeather(Weather weather);
+
+    String getWeather(String schoolId);
 
 }

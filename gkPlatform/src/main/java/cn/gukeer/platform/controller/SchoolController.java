@@ -175,7 +175,7 @@ public class SchoolController extends BasicController {
         String deployUrl = getParamVal(request, "deployUrl");
         String parentId = getParamVal(request, "parentId");
         String email = getParamVal(request, "email");
-        String chooseAddress = getParamVal(request, "s_province") + getParamVal(request, "s_city") + getParamVal(request, "s_county");
+        String chooseAddress = getParamVal(request, "s_province") +","+ getParamVal(request, "s_city")+","+ getParamVal(request, "s_county");
         String logoUrl = getParamVal(request, "headUrl");
         String grade = getParamVal(request,"grade");
         String _id = id;

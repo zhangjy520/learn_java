@@ -17,6 +17,7 @@
 
     <script src="${ctxStatic}/js/jquery-1.7.2.js"></script>
     <script src="${ctxStaticNew}/js/layer/layer.js"></script>
+
     <%--<script src="${ctxStatic}/js/ajaxfileupload.js"></script>--%>
     <title>教育云平台</title>
     <%--<script src="${ctxStaticNew}/js/particals.js"></script>--%>
@@ -24,6 +25,7 @@
 
         var remember = 0;
         $(function () {
+
             $("#remember").click(function () {
                 if (document.getElementById("remember").checked) {
                     remember = 1;
@@ -87,6 +89,7 @@
         //                draw();
         //            }, 16);
         //        }
+
 
     </script>
 </head>

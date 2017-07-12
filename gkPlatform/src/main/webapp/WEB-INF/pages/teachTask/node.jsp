@@ -198,15 +198,6 @@
                 <c:forEach items="${pageInfo.list}" var="courseNodeInit" varStatus="status">
                     <tr>
                         <td>${status.count}</td>
-                            <%--<td>${courseNodeView.courseNode.cycleYear}</td>--%>
-                            <%--<td>${courseNodeView.courseNode.cycleSemester}</td>--%>
-                            <%--<td>${courseNodeView.courseNode.morningAfternoon}</td>--%>
-                            <%--<td>${courseNodeView.courseNode.nodeName}</td>--%>
-                            <%--<td>${courseNodeView.startTime}</td>--%>
-                            <%--<td>${courseNodeView.endTime}</td>--%>
-                            <%--<td>${courseNodeInit.morningStart}</td>--%>
-                            <%--<td>${courseNodeInit.afternoonStart}</td>--%>
-                            <%--<td>${courseNodeInit.nightStart}</td>--%>
                         <td>${courseNodeInit.monthStartEnd}</td>
                         <td>${courseNodeInit.monthStartEndName}</td>
                         <td><span class="edit-td"
@@ -224,25 +215,13 @@
             </table>
         </div>
         <div class="fenye" style="width:98.5%;padding-left:15px;">
-            <c:if test="${gukeer:notEmptyString(pageInfo.pages)}">
                 <div class="fenYDetail">共${pageInfo.total}条记录，本页${pageInfo.size}条</div>
-            </c:if>
             <div class="fenY2" id="fenY2">
             </div>
         </div>
     </section>
 </main>
 <script>
-    //id为sectionId,nj为传入的nj的
-    <%--function njButton(id, nj) {--%>
-    <%--var cycleYear = $(".cycleYear").find("option:selected").val();--%>
-    <%--var cycleSemester = $(".cycleSemester").find("option:selected").val();--%>
-    <%--//        if ($(this).attr("name") == "cycle_year") {--%>
-    <%--//            cycleSemester = "";--%>
-    <%--//        }--%>
-    <%--window.location.href = "${ctx}/teach/task/master/index?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;--%>
-    <%--}--%>
-
     $(function () {
         $("select").change(function () {
             var cycleSemester = $("select[name='cycleSemester']").val();
@@ -251,17 +230,15 @@
             window.location.href = "${ctx}/teach/task/node?cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
         });
 
-        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
         $(".fenY2").createPage({
-            pageCount:${pageInfo.pages},//总页数
-            current:${pageInfo.pageNum},//当前页面
+            pageCount:'${pageInfo.pages}',//总页数
+            current:'${pageInfo.pageNum}',//当前页面
             backFn: function (p) {
                 var cycleSemester = $("select[name='cycleSemester']").val();
                 var cycleYear = $("select[name='cycleYear']").val();
                 window.location.href = "${ctx}/teach/task/node?pageNum=" + p + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
             }
         });
-        </c:if>
 
         $(".headerCheck").on("click", function () {
             if (this.checked == true) {
@@ -271,10 +248,9 @@
             }
         });
 
-        <c:if test="${pageInfo!=null&&pageInfo.pages != 0}">
         $(".gotoPage").click(function () {
             var pageNum = $(".fenY2go").val();
-            if (pageNum <= 0 || pageNum >${pageInfo.pages}) {
+            if (pageNum <= 0 || pageNum >'${pageInfo.pages}') {
                 layer.msg("请输入正确的页码")
             } else {
                 var cycleSemester = $("select[name='cycleSemester']").val();
@@ -282,7 +258,6 @@
                 window.location.href = "${ctx}/teach/task/node?pageNum=" + $(".fenY2go").val() + "&cycleYear=" + cycleYear + "&cycleSemester=" + cycleSemester;
             }
         });
-        </c:if>
     });
 
     function importCallBack(res) {

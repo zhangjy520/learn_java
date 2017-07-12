@@ -48,6 +48,20 @@ public class GradeClass implements Serializable {
     @NoSync
     private static final long serialVersionUID = 1L;
 
+    private String selectId;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getSelectId() {
+        return selectId;
+    }
+
+    public void setSelectId(String selectId) {
+        this.selectId = selectId;
+    }
+
     public String getId() {
         return id;
     }

@@ -118,6 +118,8 @@ public class SyncMian {
         tableNames.add("v_teach_course_type");//科目字典基本信息表
         tableNames.add("v_teach_standard_course");//标准课程信息表
         tableNames.add("v_teach_daily_hour");//班级课时表
+        tableNames.add("sync_teach_course_node");
+        tableNames.add("sync_teach_course_node_init");
 
         return tableNames;
     }
@@ -268,15 +270,24 @@ public class SyncMian {
         params.put("property", property);
         params.put("agent", generateSignParams.get("agent"));
         params.put("datas", messageContent);
-        send(params);
+        send(params,prop.getProperty("sync.queue.name"));
         return null;
     }
 
     @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
 
-    public void send(final Map<String, Object> message) {
-        jmsTemplate.convertAndSend(message, new MessagePostProcessor() {
+    public void send(final Map<String, Object> message,String queuesName) {
+     /*   jmsTemplate.convertAndSend(message, new MessagePostProcessor() {
+            @Override
+            public Message postProcessMessage(Message message) throws JMSException {
+                message.setJMSDeliveryMode(DeliveryMode.PERSISTENT);
+                message.setJMSCorrelationID("gkpltaform");
+                return message;
+            }
+        });*/
+        jmsTemplate.convertAndSend(queuesName, message, new MessagePostProcessor() {
+
             @Override
             public Message postProcessMessage(Message message) throws JMSException {
                 message.setJMSDeliveryMode(DeliveryMode.PERSISTENT);

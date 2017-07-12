@@ -61,8 +61,8 @@ public class ExportExcel {
      * @param title 表格标题，传“空值”，表示无标题
      * @param cls   实体对象，通过annotation.ExportField获取标题
      */
-    public ExportExcel(String title, String anno, Class<?> cls) {
-        this(title, cls, 1, anno);
+    public ExportExcel(Boolean permission, String title, String anno, Class<?> cls) {
+        this(permission, title, cls, 1, anno);
     }
 
     /**
@@ -73,7 +73,7 @@ public class ExportExcel {
      * @param type   导出类型（1:导出数据；2：导出模板）
      * @param groups 导入分组
      */
-    public ExportExcel(String title, Class<?> cls, int type, String anno, int... groups) {
+    public ExportExcel(Boolean permission, String title, Class<?> cls, int type, String anno, int... groups) {
         // Get annotation field
         Field[] fs = cls.getDeclaredFields();
         for (Field f : fs) {
@@ -135,8 +135,13 @@ public class ExportExcel {
         List<String> headerList = Lists.newArrayList();
         List<Integer> reds = Lists.newArrayList();
         for (Object[] os : annotationList) {
-            String t = ((ExcelField) os[0]).title();
-            int red = ((ExcelField) os[0]).isnull();
+            ExcelField field = (ExcelField) os[0];
+
+            if (field.permission() == 1 && permission)//若是权限控制的字段，且有权限则不导出
+                continue;
+
+            String t = field.title();
+            int red = field.isnull();
             // 如果是导出，则去掉注释
             if (type == 1) {
                 String[] ss = StringUtils.split(t, "**", 2);
@@ -187,7 +192,7 @@ public class ExportExcel {
             Cell titleCell = titleRow.createCell(0);
             titleCell.setCellStyle(styles.get("title"));
             titleCell.setCellValue(title);
-            if(headerList.size()>1){
+            if (headerList.size() > 1) {
                 sheet.addMergedRegion(new CellRangeAddress(titleRow.getRowNum(),
                         titleRow.getRowNum(), titleRow.getRowNum(), headerList.size() - 1));
             }
@@ -196,7 +201,7 @@ public class ExportExcel {
 
         if (type == 2) {
             Row introRow = sheet.createRow(rownum++);
-            introRow.setHeightInPoints(40);
+            introRow.setHeightInPoints(100);
             Cell introCell = introRow.createCell(0);
             styles.get("intro").setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             introCell.setCellStyle(styles.get("intro"));
@@ -374,7 +379,7 @@ public class ExportExcel {
                 cell.setCellValue("");
             } else if (val instanceof String) {
                 cell.setCellValue((String) val);
-            } else if (val instanceof Integer ) {
+            } else if (val instanceof Integer) {
                 cell.setCellValue((Integer) val);
             } else if (val instanceof Long) {
                 cell.setCellValue((Long) val);
@@ -447,9 +452,6 @@ public class ExportExcel {
                 for (Method m : method) {
 
                     if (m.getName().indexOf("get") != -1) {
-//                        System.out.println(m.getName());
-//                        val = Reflections.invokeMethod(e, m.getName(), new Class[]{}, new Object[]{});
-//                        System.out.println(val);
                         methodGet.add(m);
                     }
                 }
@@ -543,7 +545,7 @@ public class ExportExcel {
 
                 log.debug("Write success: [" + row.getRowNum() + "] " + sb.toString());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
