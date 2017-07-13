@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>ubuntu14.04 安装配置JDK1.7 | zhang jian yu</title>
+    <title>ubuntu14.04 安装配置JDK1.7，更换openjdk | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
     
 
     
-    <meta name="description" content="ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gzhttp://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html  2, 解压JDK1sudo tar zxvf jdk-7u45-linux-x64.tar.gz  -C /usr/lib/jv">
+    <meta name="description" content="ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gz1234	http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html```  ---## 2, 解压JDK sudo tar zxvf jdk-7u45-linux-x64.tar.gz">
 <meta name="keywords" content="server,linux,ubuntu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ubuntu14.04 安装配置JDK1.7">
+<meta property="og:title" content="ubuntu14.04 安装配置JDK1.7，更换openjdk">
 <meta property="og:url" content="http://zjy.com/2017/05/05/jdk/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gzhttp://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html  2, 解压JDK1sudo tar zxvf jdk-7u45-linux-x64.tar.gz  -C /usr/lib/jv">
-<meta property="og:updated_time" content="2017-05-04T09:00:34.294Z">
+<meta property="og:description" content="ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gz1234	http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html```  ---## 2, 解压JDK sudo tar zxvf jdk-7u45-linux-x64.tar.gz">
+<meta property="og:updated_time" content="2017-06-26T02:07:32.943Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ubuntu14.04 安装配置JDK1.7">
-<meta name="twitter:description" content="ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gzhttp://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html  2, 解压JDK1sudo tar zxvf jdk-7u45-linux-x64.tar.gz  -C /usr/lib/jv">
+<meta name="twitter:title" content="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+<meta name="twitter:description" content="ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gz1234	http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html```  ---## 2, 解压JDK sudo tar zxvf jdk-7u45-linux-x64.tar.gz">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
 
@@ -82,7 +82,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/jdk/" title="ubuntu14.04 安装配置JDK1.7" itemprop="url">ubuntu14.04 安装配置JDK1.7</a>
+      <a href="/2017/05/05/jdk/" title="ubuntu14.04 安装配置JDK1.7，更换openjdk" itemprop="url">ubuntu14.04 安装配置JDK1.7，更换openjdk</a>
   </h1>
   <p class="article-author">By
        
@@ -98,18 +98,20 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu14-04-安装配置JDK1-7"><span class="toc-number">1.</span> <span class="toc-text">ubuntu14.04 安装配置JDK1.7</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-下载jdk-7u45-linux-x64-tar-gz"><span class="toc-number">1.1.</span> <span class="toc-text">1,下载jdk-7u45-linux-x64.tar.gz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压JDK"><span class="toc-number">1.2.</span> <span class="toc-text">2, 解压JDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-设置环境变量（全局）"><span class="toc-number">1.3.</span> <span class="toc-text">3,设置环境变量（全局）</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu14-04-安装配置JDK1-7"><span class="toc-number">1.</span> <span class="toc-text">ubuntu14.04 安装配置JDK1.7</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-下载jdk-7u45-linux-x64-tar-gz"><span class="toc-number">1.1.</span> <span class="toc-text">1,下载jdk-7u45-linux-x64.tar.gz</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="ubuntu14-04-安装配置JDK1-7"><a href="#ubuntu14-04-安装配置JDK1-7" class="headerlink" title="ubuntu14.04 安装配置JDK1.7"></a>ubuntu14.04 安装配置JDK1.7</h1><h2 id="1-下载jdk-7u45-linux-x64-tar-gz"><a href="#1-下载jdk-7u45-linux-x64-tar-gz" class="headerlink" title="1,下载jdk-7u45-linux-x64.tar.gz"></a>1,下载jdk-7u45-linux-x64.tar.gz</h2><pre><code>http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
-</code></pre><hr>
-<h2 id="2-解压JDK"><a href="#2-解压JDK" class="headerlink" title="2, 解压JDK"></a>2, 解压JDK</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar zxvf jdk-7u45-linux-x64.tar.gz  -C /usr/lib/jvm</div></pre></td></tr></table></figure>
-<hr>
-<h2 id="3-设置环境变量（全局）"><a href="#3-设置环境变量（全局）" class="headerlink" title="3,设置环境变量（全局）"></a>3,设置环境变量（全局）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit  /etc/profile</div></pre></td></tr></table></figure>
-<p>   打开profile文件输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_65  </div><div class="line">export CLASSPATH=&quot;.:$JAVA_HOME/lib:$CLASSPATH&quot;  </div><div class="line">export PATH=&quot;$JAVA_HOME/bin:$PATH&quot;  </div><div class="line">``` </div><div class="line">##  4,设置系统默认JDK</div></pre></td></tr></table></figure></p>
+		<h1 id="ubuntu14-04-安装配置JDK1-7"><a href="#ubuntu14-04-安装配置JDK1-7" class="headerlink" title="ubuntu14.04 安装配置JDK1.7"></a>ubuntu14.04 安装配置JDK1.7</h1><h2 id="1-下载jdk-7u45-linux-x64-tar-gz"><a href="#1-下载jdk-7u45-linux-x64-tar-gz" class="headerlink" title="1,下载jdk-7u45-linux-x64.tar.gz"></a>1,下载jdk-7u45-linux-x64.tar.gz</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">	http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html</div><div class="line">```  </div><div class="line">---</div><div class="line">## 2, 解压JDK</div></pre></td></tr></table></figure>
+<p>sudo tar zxvf jdk-7u45-linux-x64.tar.gz  -C /usr/lib/jvm<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">---</div><div class="line">##  3,设置环境变量（全局）</div></pre></td></tr></table></figure></p>
+<p>sudo gedit  /etc/profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">打开profile文件输入</div></pre></td></tr></table></figure></p>
+<p>export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_65<br>export CLASSPATH=”.:$JAVA_HOME/lib:$CLASSPATH”<br>export PATH=”$JAVA_HOME/bin:$PATH”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">##  4,设置系统默认JDK</div></pre></td></tr></table></figure></p>
 <p>sudo update-alternatives –install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_65/bin/java 300<br>sudo update-alternatives –install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_5/bin/javac 300<br>sudo update-alternatives –config java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">##  5, 验证JDK</div><div class="line">   输入命令</div></pre></td></tr></table></figure></p>
-<p>java -version<br>```<br>   见到JDK的信息则表示成功。</p>
+<p>java -version<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">   见到JDK的信息则表示成功。</div><div class="line">   </div><div class="line">   </div><div class="line">   </div><div class="line">   </div><div class="line"># 将openjdk更换为 oracle jdk</div><div class="line"></div><div class="line">## 1 下载jdk并解压，修改环境变量配置文件/etc/profile，在文件末尾加入以下几行信息：（其中JAVA_HOME=/usr/java/******，为jdk实际安装路径）</div></pre></td></tr></table></figure></p>
+<p>export JAVA_HOME=/usr/java/jdk1.7.0_79<br>export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar<br>export PATH=$PATH:$JAVA_HOME/bin<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 2 修改默认的jdk。即设置java和javac的符号连接，这是把默认的openjdk1.6改成刚新装的jdk1.7。</div></pre></td></tr></table></figure></p>
+<p> cd /usr/bin/<br> mv java  javabak_open1.6<br> mv javac  javacbak_open1.6</p>
+<p>[root@localhost bin]# ln -s  /usr/java/jdk1.7.0_79/jre/bin/java<br>[root@localhost bin]# ln -s  /usr/java/jdk1.7.0_79/bin/javac<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 3检查</div></pre></td></tr></table></figure></p>
+<p>[root@real-node1 bin]# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)<br>Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)<br>```</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,7 +129,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/jdk/" data-title="ubuntu14.04 安装配置JDK1.7 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/05/jdk/" data-title="ubuntu14.04 安装配置JDK1.7，更换openjdk | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -141,19 +143,27 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/active_mq/" title="active mq安装 -ubuntu">
+ <a href="/2017/05/03/fileCount/" title="java 文件统计功能">
   <strong>上一篇：</strong><br/>
   <span>
-  active mq安装 -ubuntu</span>
+  java 文件统计功能</span>
 </a>
 </div>
 
+
+<div class="next">
+<a href="/2017/05/05/mysql/"  title="ubuntu14.04 安装配置mysql5.7">
+ <strong>下一篇：</strong><br/> 
+ <span>ubuntu14.04 安装配置mysql5.7
+</span>
+</a>
+</div>
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/jdk/" data-title="ubuntu14.04 安装配置JDK1.7" data-url="http://zjy.com/2017/05/05/jdk/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/05/jdk/" data-title="ubuntu14.04 安装配置JDK1.7，更换openjdk" data-url="http://zjy.com/2017/05/05/jdk/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -171,7 +181,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu14-04-安装配置JDK1-7"><span class="toc-number">1.</span> <span class="toc-text">ubuntu14.04 安装配置JDK1.7</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-下载jdk-7u45-linux-x64-tar-gz"><span class="toc-number">1.1.</span> <span class="toc-text">1,下载jdk-7u45-linux-x64.tar.gz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压JDK"><span class="toc-number">1.2.</span> <span class="toc-text">2, 解压JDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-设置环境变量（全局）"><span class="toc-number">1.3.</span> <span class="toc-text">3,设置环境变量（全局）</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu14-04-安装配置JDK1-7"><span class="toc-number">1.</span> <span class="toc-text">ubuntu14.04 安装配置JDK1.7</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-下载jdk-7u45-linux-x64-tar-gz"><span class="toc-number">1.1.</span> <span class="toc-text">1,下载jdk-7u45-linux-x64.tar.gz</span></a></li></ol></li></ol>
  
   </div>
 
@@ -201,7 +211,19 @@
 			
 		
 			
-				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>4</sup></a></li>
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -487,16 +509,6 @@ $(document).ready(function(){
 <!-- Analytics Begin -->
 
 
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
 
 
 

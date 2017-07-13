@@ -104,7 +104,7 @@ google_analytics:
 ## You MUST upgrade to Universal Analytics first!
 ## https://developers.google.com/analytics/devguides/collection/upgrade/?hl=zh_CN
 baidu_tongji:
-  enable: true
+  enable: false
   sitecode: e6d1f421bbc9962127a50488f9ed37d1  ## 百度统计站点特征码
 cnzz_tongji:
   enable: false
@@ -119,7 +119,7 @@ totop: true           ## if you want to scroll to top in every post set the valu
 #### 自定义搜索
 google_cse: 
   enable: true
-  cx: 006159296644385335077:t9lthmu37y8  ## e.g. 018294693190868310296:abnhpuysycw your Custom Search ID.
+  cx: 014689527006139617546:omvbfunq7fy  ## e.g. 018294693190868310296:abnhpuysycw your Custom Search ID.
 ## https://www.google.com/cse/ 
 ## To enable the custom search You must create a "search" folder in '/source' and a "index.md" file
 ## set the 'front-matter' as
