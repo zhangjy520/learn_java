@@ -1,0 +1,5 @@
+git status;
+git add .
+git commint -am "初次提交";
+git push -u develop master //”develop” 是刚刚创建的远程仓库名，“master”是本地仓库的主干分支（目前也只有这一个分支，没有其他分支）
+git remote -v
