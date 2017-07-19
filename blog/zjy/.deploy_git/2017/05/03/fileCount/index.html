@@ -1,0 +1,542 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>java 文件统计功能 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求 原理：参数  项目路径，需要统计的文件后缀名的集合  递归遍历项目路径下的所有文件直到找不到文件为止！ 核心方法： new File(path).listFiles();   获取这个路径下的文件数组  File[]  遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List 里面去。如果是文件夹继续递">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 文件统计功能">
+<meta property="og:url" content="http://zjy.com/2017/05/03/fileCount/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求 原理：参数  项目路径，需要统计的文件后缀名的集合  递归遍历项目路径下的所有文件直到找不到文件为止！ 核心方法： new File(path).listFiles();   获取这个路径下的文件数组  File[]  遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List 里面去。如果是文件夹继续递">
+<meta property="og:updated_time" content="2017-05-04T08:35:42.744Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java 文件统计功能">
+<meta name="twitter:description" content="刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求 原理：参数  项目路径，需要统计的文件后缀名的集合  递归遍历项目路径下的所有文件直到找不到文件为止！ 核心方法： new File(path).listFiles();   获取这个路径下的文件数组  File[]  遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List 里面去。如果是文件夹继续递">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/05/03/fileCount/" title="java 文件统计功能" itemprop="url">java 文件统计功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-03T05:51:49.000Z" itemprop="datePublished"> 发表于 2017-05-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理："><span class="toc-number">1.</span> <span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#核心方法："><span class="toc-number">2.</span> <span class="toc-text">核心方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展"><span class="toc-number">3.</span> <span class="toc-text">拓展:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类似应用："><span class="toc-number">4.</span> <span class="toc-text">类似应用：</span></a></li></ol>
+		
+		</div>
+		
+		<p> 刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求</p>
+<h2 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h2><p>参数  项目路径，需要统计的文件后缀名的集合<br>  递归遍历项目路径下的所有文件直到找不到文件为止！</p>
+<h2 id="核心方法："><a href="#核心方法：" class="headerlink" title="核心方法："></a>核心方法：</h2><ul>
+<li>new File(path).listFiles();   获取这个路径下的文件数组  File[] </li>
+<li>遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List<file> 里面去。如果是文件夹继续递归判断</file></li>
+<li>最终得到一个符合 所有后缀名，并且在指定路径下的所有文件 集合</li>
+<li>最后将这个集合通过文件流读取，来计算行数 FileReader（file）</li>
+</ul>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展:"></a>拓展:</h2><p>在使用fileReader的时候，因为读取文件是按行。所以可作为全文索引工具类。<br>全局搜索项目里面的字符串。定位哪个文件的哪一行有指定的字符串</p>
+<h2 id="类似应用："><a href="#类似应用：" class="headerlink" title="类似应用："></a>类似应用：</h2><p>spring的包扫描原理<br>扫描controller包下的所有class文件，并且判断它们是否是 isAnnoationCLass（Controller.class）注解类  递归</p>
+<p>仿照spring做的类扫描器代码如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div></pre></td><td class="code"><pre><div class="line"> package org.smart4j.framework.util;</div><div class="line"></div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line"></div><div class="line">import java.io.File;</div><div class="line">import java.io.FileFilter;</div><div class="line">import java.net.JarURLConnection;</div><div class="line">import java.net.URL;</div><div class="line">import java.util.Enumeration;</div><div class="line">import java.util.HashSet;</div><div class="line">import java.util.Set;</div><div class="line">import java.util.jar.JarEntry;</div><div class="line">import java.util.jar.JarFile;</div><div class="line"></div><div class="line">public final class ClassUtil &#123;</div><div class="line">	</div><div class="line">	private static final Logger LOGGER = LoggerFactory.getLogger(CastUtil.class);</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 获取类加载器</div><div class="line">	 */</div><div class="line">	public static ClassLoader getClassLoader()&#123;</div><div class="line">		return Thread.currentThread().getContextClassLoader();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 加载类</div><div class="line">	 */</div><div class="line">	public static Class&lt;?&gt; loadClass(String className, boolean isInitialized)&#123;</div><div class="line">		Class&lt;?&gt; cls;</div><div class="line">		try &#123;</div><div class="line">			cls = Class.forName(className, isInitialized, getClassLoader());</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			LOGGER.error(&quot;load class fail&quot;, e);</div><div class="line">			e.printStackTrace();</div><div class="line">			throw new RuntimeException();</div><div class="line">		&#125;</div><div class="line">		return cls;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 加载类</div><div class="line">	 * @param className</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static Class&lt;?&gt; loadClass(String className) &#123;</div><div class="line">		return loadClass(className, true);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 获取指定包下的所有类</div><div class="line">	 */</div><div class="line">	public static Set&lt;Class&lt;?&gt;&gt; getClassSet(String packageName)&#123;</div><div class="line">		Set&lt;Class&lt;?&gt;&gt; classSet = new HashSet&lt;Class&lt;?&gt;&gt;();</div><div class="line">		try &#123;</div><div class="line">			Enumeration&lt;URL&gt; urls = getClassLoader().getResources(packageName.replace(&quot;.&quot;, &quot;/&quot;));</div><div class="line">			while(urls.hasMoreElements())&#123;</div><div class="line">				URL url = urls.nextElement();</div><div class="line">				if(null != url)&#123;</div><div class="line">					String protocol = url.getProtocol();</div><div class="line">					if(&quot;file&quot;.equals(protocol))&#123;</div><div class="line">						String packagePath = url.getPath().replaceAll(&quot;%20&quot;, &quot;&quot;);</div><div class="line">						addClass(classSet, packagePath, packageName);</div><div class="line">					&#125;else if(&quot;jar&quot;.equals(protocol))&#123;</div><div class="line">						JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();</div><div class="line">						if(null!=jarURLConnection)&#123;</div><div class="line">							JarFile jarFile = jarURLConnection.getJarFile();</div><div class="line">							if(null!=jarFile)&#123;</div><div class="line">								Enumeration&lt;JarEntry&gt; jarEntries = jarFile.entries();</div><div class="line">								while(jarEntries.hasMoreElements())&#123;</div><div class="line">									JarEntry jarEntry = jarEntries.nextElement();</div><div class="line">									String jarEntryName = jarEntry.getName();</div><div class="line">									if(&quot;.class&quot;.endsWith(jarEntryName))&#123;</div><div class="line">										String className = jarEntryName.substring(0, jarEntryName.lastIndexOf(&quot;.&quot;)).replaceAll(&quot;/&quot;, &quot;.&quot;);</div><div class="line">									addClass(classSet, className);</div><div class="line">									&#125;</div><div class="line">								&#125;</div><div class="line">							&#125;</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			LOGGER.error(&quot;get class set fail&quot;, e);</div><div class="line">			e.printStackTrace();</div><div class="line">			throw new RuntimeException();</div><div class="line">		&#125;</div><div class="line">		return classSet;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private static void addClass(Set&lt;Class&lt;?&gt;&gt; classSet, String packagePath, String packageName)&#123;</div><div class="line">		File[] files = new File(packagePath).listFiles(new FileFilter() &#123;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public boolean accept(File file) &#123;</div><div class="line">				return (file.isFile() &amp;&amp; file.getName().endsWith(&quot;.class&quot;)) || (</div><div class="line">						file.isDirectory());</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		for(File file : files)&#123;</div><div class="line">			String fileName = file.getName();</div><div class="line">			if(file.isFile())&#123;</div><div class="line">				String className = fileName.substring(0, fileName.lastIndexOf(&quot;.&quot;));</div><div class="line">				if(StringUtil.isNotEmpty(className))&#123;</div><div class="line">					className = packageName + &quot;.&quot; + className;</div><div class="line">				&#125;</div><div class="line">				addClass(classSet, className);</div><div class="line">			&#125;else&#123;</div><div class="line">				String subPackagePath = fileName;</div><div class="line">				if(StringUtil.isNotEmpty(packagePath))&#123;</div><div class="line">					subPackagePath = packagePath + &quot;/&quot; + subPackagePath;</div><div class="line">				&#125;</div><div class="line">				String subPackageName = fileName;</div><div class="line">				if(StringUtil.isNotEmpty(packageName))&#123;</div><div class="line">					subPackageName = packageName + &quot;.&quot; + subPackageName;</div><div class="line">				&#125;</div><div class="line">				addClass(classSet, subPackagePath, subPackageName);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private static void addClass(Set&lt;Class&lt;?&gt;&gt; classSet, String className)&#123;</div><div class="line">		Class&lt;?&gt; cls = loadClass(className, false);</div><div class="line">		classSet.add(cls);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"> ```  </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">扫描文件统计代码行数代码如下：</div><div class="line"> ```  </div><div class="line"> package cn.gukeer.common.utils;</div><div class="line"></div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.File;</div><div class="line">import java.io.FileReader;</div><div class="line">import java.util.*;</div><div class="line"></div><div class="line"></div><div class="line">/*</div><div class="line">*   添加所有文件方法addFiles，是否是目录判断方法 isDirectory ,读取行数方法readLinePerFile</div><div class="line">*</div><div class="line">*</div><div class="line">* */</div><div class="line">public class HowManyLine &#123;</div><div class="line">    List&lt;File&gt; list = new ArrayList&lt;File&gt;();</div><div class="line">    int linenumber = 0;</div><div class="line"></div><div class="line">    FileReader fr = null;</div><div class="line">    BufferedReader br = null;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * @param path，fileSuffixList path:需要统计的路径</div><div class="line">     *                            fileSuffixList:需要统计的文件后缀List</div><div class="line">     */</div><div class="line">    public void counter(String path, List&lt;String&gt; fileSuffixList, String target) &#123;</div><div class="line">        long begin = System.currentTimeMillis();</div><div class="line">        System.out.println(&quot;\n开始读取&quot; + path + &quot;下的文件,若文件较多，耗时可能较长，请您耐心等待。。。。\n&quot;);</div><div class="line">        File file = new File(path);</div><div class="line">        File files[] = null;</div><div class="line">        files = file.listFiles();</div><div class="line">        addFile(files);//将目录下所有文件加入到list中</div><div class="line">        isDirectory(files);//所有文件列表进行遍历判断，若是文件夹，继续将该文件夹下的所有文件加入到list中，递归判断</div><div class="line">        Map map = readLinePerFile(fileSuffixList, target);</div><div class="line">        Set keys = map.keySet();</div><div class="line">        for (Object key : keys) &#123;</div><div class="line">            System.out.println(key + &quot;共：&quot; + map.get(key) + &quot;行&quot;);</div><div class="line">        &#125;</div><div class="line">        long end = System.currentTimeMillis();</div><div class="line">        System.out.println(&quot;\n读取完毕，共统计&quot; + list.size() + &quot;个文件，耗时&quot; + (end - begin) + &quot;毫秒&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 判断是否是目录 ，递归判断</div><div class="line">    public void isDirectory(File[] files) &#123;</div><div class="line">        for (File s : files) &#123;</div><div class="line">            if (s.isDirectory()) &#123;</div><div class="line">                File file[] = s.listFiles();</div><div class="line">                addFile(file);</div><div class="line">                isDirectory(file);</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //将文件列表添加到list中</div><div class="line">    public void addFile(File file[]) &#123;</div><div class="line">        for (int index = 0; index &lt; file.length; index++) &#123;</div><div class="line">            list.add(file[index]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //读取非空白行</div><div class="line">    public Map readLinePerFile(List&lt;String&gt; fileSuffixList, String target) &#123;</div><div class="line">        Map map = new TreeMap();</div><div class="line">        try &#123;</div><div class="line">            for (String suffix : fileSuffixList) &#123;</div><div class="line">                int suffixNum = 0;</div><div class="line">                for (File s : list) &#123;</div><div class="line">                    int yuan = linenumber;</div><div class="line">                    if (s.isDirectory()) &#123;</div><div class="line">                        continue;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (!suffix.equals(&quot;.*&quot;))&#123;</div><div class="line">                        if (s.getName().lastIndexOf(suffix) &lt;= 0) &#123;</div><div class="line">                            continue;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    fr = new FileReader(s);</div><div class="line">                    br = new BufferedReader(fr);</div><div class="line">                    String i = &quot;&quot;;</div><div class="line">                    int lineNum = 0;</div><div class="line">                    while ((i = br.readLine()) != null) &#123;</div><div class="line">                        lineNum++;</div><div class="line">                        if (!isBlankLine(i)) &#123;</div><div class="line">                            if (StringUtils.isNotEmpty(target))</div><div class="line">                                if (i.contains(target))</div><div class="line">                                    System.out.println(s.getName() + &quot;的第&quot; + lineNum + &quot;行有你需要搜索的字符串&quot;);</div><div class="line"></div><div class="line">                            linenumber++;</div><div class="line">                            suffixNum++;</div><div class="line"></div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    /*System.out.print(s.getName());</div><div class="line">                    System.out.println(&quot;\t\t有&quot; + (linenumber - yuan) + &quot;行&quot;);*/</div><div class="line">                &#125;</div><div class="line">                map.put(suffix, suffixNum);</div><div class="line">            &#125;</div><div class="line">            map.put(&quot;total&quot;, linenumber);</div><div class="line"></div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; finally &#123;</div><div class="line">            if (br != null) &#123;</div><div class="line">                try &#123;</div><div class="line">                    br.close();</div><div class="line">                &#125; catch (Exception e) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (fr != null) &#123;</div><div class="line">                try &#123;</div><div class="line">                    fr.close();</div><div class="line">                &#125; catch (Exception e) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return map;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //是否是空行,是空行返回true</div><div class="line">    public boolean isBlankLine(String i) &#123;</div><div class="line">        if (i.trim().length() == 0) &#123;</div><div class="line">            return true;</div><div class="line">        &#125; else &#123;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //全文索引</div><div class="line">    public static void main(String args[]) &#123;</div><div class="line">        HowManyLine lineCounter = new HowManyLine();</div><div class="line">        List&lt;String&gt; fileSuffixList = new ArrayList&lt;String&gt;();</div><div class="line">        fileSuffixList.add(&quot;.*&quot;);</div><div class="line">       //fileSuffixList.add(&quot;.jsp&quot;);</div><div class="line">        //fileSuffixList.add(&quot;.css&quot;);</div><div class="line">       // fileSuffixList.add(&quot;.js&quot;);</div><div class="line">        //fileSuffixList.add(&quot;.xml&quot;);</div><div class="line">        //fileSuffixList.add(&quot;.*&quot;);</div><div class="line">       // lineCounter.counter(&quot;D:\\javaProjects\\git\\gkPlatform&quot;, fileSuffixList, &quot;好不好&quot;);</div><div class="line">        lineCounter.counter(&quot;D:\\blog\\zjy\\themes\\concise2&quot;, fileSuffixList, &quot;o.com/weiboshow/ind&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2017/05/03/fileCount/" data-title="java 文件统计功能 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/04/25/data_hub/" title="data_hub 数据同步">
+  <strong>上一篇：</strong><br/>
+  <span>
+  data_hub 数据同步</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+ <strong>下一篇：</strong><br/> 
+ <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/05/03/fileCount/" data-title="java 文件统计功能" data-url="http://zjy.com/2017/05/03/fileCount/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理："><span class="toc-number">1.</span> <span class="toc-text">原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#核心方法："><span class="toc-number">2.</span> <span class="toc-text">核心方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展"><span class="toc-number">3.</span> <span class="toc-text">拓展:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类似应用："><span class="toc-number">4.</span> <span class="toc-text">类似应用：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zhangjy520" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zhangjy520" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,601 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Nginx 安装 -ubuntu | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="1、Nginx简介Nginx是一个非常轻量级的HTTP服务器，发音为“engine X”，是一款轻量级的网页服务器、反向代理器以及电子邮件代理服务器。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。说到Web服务器，Apache服务器和IIS服务器是两大巨头；但是运行速度更快、更灵活的Nginx 正在迎头赶上。  Nginx核心特点： 跨平台">
+<meta name="keywords" content="server,linux,ubuntu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 安装 -ubuntu">
+<meta property="og:url" content="http://zjy.com/2016/05/03/nginx/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="1、Nginx简介Nginx是一个非常轻量级的HTTP服务器，发音为“engine X”，是一款轻量级的网页服务器、反向代理器以及电子邮件代理服务器。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。说到Web服务器，Apache服务器和IIS服务器是两大巨头；但是运行速度更快、更灵活的Nginx 正在迎头赶上。  Nginx核心特点： 跨平台">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/1.png">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/2.png">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/3.png">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/4.png">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/5.png">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/6.png">
+<meta property="og:image" content="http://zjy.com/2016/05/03/nginx/7.png">
+<meta property="og:updated_time" content="2017-05-04T08:38:53.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx 安装 -ubuntu">
+<meta name="twitter:description" content="1、Nginx简介Nginx是一个非常轻量级的HTTP服务器，发音为“engine X”，是一款轻量级的网页服务器、反向代理器以及电子邮件代理服务器。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。说到Web服务器，Apache服务器和IIS服务器是两大巨头；但是运行速度更快、更灵活的Nginx 正在迎头赶上。  Nginx核心特点： 跨平台">
+<meta name="twitter:image" content="http://zjy.com/2016/05/03/nginx/1.png">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/03/nginx/" title="Nginx 安装 -ubuntu" itemprop="url">Nginx 安装 -ubuntu</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-03T05:51:49.000Z" itemprop="datePublished"> 发表于 2016-05-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Nginx简介"><span class="toc-number">1.</span> <span class="toc-text">1、Nginx简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx核心特点："><span class="toc-number">2.</span> <span class="toc-text">Nginx核心特点：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问-http-www-baidu-com-readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来-然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容-原本就是它自己的一样。"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问 http://www.baidu.com/readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来,然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容 原本就是它自己的一样。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#反向代理的最大的好处在于：负载均衡"><span class="toc-number">2.0.0.3.</span> <span class="toc-text">反向代理的最大的好处在于：负载均衡</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Nginx的在线安装"><span class="toc-number">3.</span> <span class="toc-text">2、Nginx的在线安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Nginx的在线启动"><span class="toc-number">4.</span> <span class="toc-text">3、Nginx的在线启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、Nginx的配置"><span class="toc-number">5.</span> <span class="toc-text">4、Nginx的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、用webbench对Nginx进行压测"><span class="toc-number">6.</span> <span class="toc-text">5、用webbench对Nginx进行压测</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="1、Nginx简介"><a href="#1、Nginx简介" class="headerlink" title="1、Nginx简介"></a>1、Nginx简介</h2><p>Nginx是一个非常轻量级的HTTP服务器，发音为“engine X”，是一款轻量级的网页服务器、反向代理器以及电子邮件代理服务器。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。说到Web服务器，Apache服务器和IIS服务器是两大巨头；但是运行速度更快、更灵活的Nginx 正在迎头赶上。</p>
+<p><img src="/2016/05/03/nginx/1.png" alt="logo"></p>
+<h2 id="Nginx核心特点："><a href="#Nginx核心特点：" class="headerlink" title="Nginx核心特点："></a>Nginx核心特点：</h2><ol>
+<li>跨平台：Nginx 可以在大多数 Unix like</li>
+<li>OS编译运行，而且也有Windows的移植版本；<br>配置异常简单：非常容易上手。配置风格跟程序开发一样，神一般的配置；</li>
+<li>非阻塞、高并发连接：数据复制时，磁盘I/O的第一阶段是非阻塞的。官方测试能够支撑5万并发连接，在实际生产环境中跑到2～3万并发连接数。（这得益于Nginx##### 使用了最新的epoll模型）；</li>
+<li>事件驱动：通信机制采用epoll模型，支持更大的并发连接；</li>
+<li>Master/Worker结构：一个master进程，生成一个或多个worker进程；</li>
+</ol>
+<h5 id="正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。"><a href="#正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。" class="headerlink" title="正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。"></a>正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。</h5><h5 id="反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问-http-www-baidu-com-readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来-然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容-原本就是它自己的一样。"><a href="#反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问-http-www-baidu-com-readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来-然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容-原本就是它自己的一样。" class="headerlink" title="反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问 http://www.baidu.com/readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来,然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容 原本就是它自己的一样。"></a>反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问 <a href="http://www.baidu.com/readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来,然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容" target="_blank" rel="external">http://www.baidu.com/readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来,然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容</a> 原本就是它自己的一样。</h5><h5 id="反向代理的最大的好处在于：负载均衡"><a href="#反向代理的最大的好处在于：负载均衡" class="headerlink" title="反向代理的最大的好处在于：负载均衡"></a>反向代理的最大的好处在于：负载均衡</h5><p><img src="/2016/05/03/nginx/2.png" alt="logo"></p>
+<h2 id="2、Nginx的在线安装"><a href="#2、Nginx的在线安装" class="headerlink" title="2、Nginx的在线安装"></a>2、Nginx的在线安装</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install nginx</div></pre></td></tr></table></figure>
+<p><img src="/2016/05/03/nginx/3.png" alt="logo"><br>==ubuntu安装Nginx之后的文件结构大致为：<br>所有的配置文件都在/etc/nginx下，并且每个虚拟主机已经安排在了/etc/nginx/sites-available下<br>启动程序文件在/usr/sbin/nginx<br>日志放在了/var/log/nginx中，分别是access.log和error.log<br>并已经在/etc/init.d/下创建了启动脚本nginx<br> 默认的虚拟主机的目录设置在了/usr/share/nginx/html==<br><img src="/2016/05/03/nginx/4.png" alt="logo"></p>
+<p>其html源文件是：</p>
+<p><img src="/2016/05/03/nginx/5.png" alt="logo"></p>
+<h2 id="3、Nginx的在线启动"><a href="#3、Nginx的在线启动" class="headerlink" title="3、Nginx的在线启动"></a>3、Nginx的在线启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/nginx start</div></pre></td></tr></table></figure>
+<p>如果你的机器同时安装了Apache，那上面的访问方式就不能使用了，而且nginx都可能启动不了，这是因为它们都是用了80这个端口。我们这里将nginx的端口修改为8080，修改nginx的配置文件nginx.conf，将一下这一行listen 80;修改为 listen 8080;然后就可以访问了，<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 。</p>
+<p><img src="/2016/05/03/nginx/6.png" alt="logo"></p>
+<h2 id="4、Nginx的配置"><a href="#4、Nginx的配置" class="headerlink" title="4、Nginx的配置"></a>4、Nginx的配置</h2><p>Nginx的配置文件是/etc/nginx/nginx.conf，其中设置了一些必要的参数，我们发现其中这样的语句：<br> include /etc/nginx/sites-enabled/*<br>可以看出/etc/nginx/sites-enabled/default文件也是一个核心的配置文件，其中包含了主要的配置信息，如服务器跟目录、服务器名称、location信息和server信息，其实最主要的配置文件就是default。</p>
+<h2 id="5、用webbench对Nginx进行压测"><a href="#5、用webbench对Nginx进行压测" class="headerlink" title="5、用webbench对Nginx进行压测"></a>5、用webbench对Nginx进行压测</h2><p>sudo ./webbench -c 100 <a href="http://localhost" target="_blank" rel="external">http://localhost</a></p>
+<p><img src="/2016/05/03/nginx/7.png" alt="logo"></p>
+<p>demo 配置</p>
+<hr>
+<p>server {<br>  listen 80;</p>
+<p>  server_name ynopen.wulianedu.cc;   # 请修改为你的域名</p>
+<p>  server_tokens off;     </p>
+<p>  access_log  /var/log/nginx/nginx_access.log;<br>  error_log   /var/log/nginx/nginx_error.log;</p>
+<p>  location / {</p>
+<pre><code>proxy_read_timeout 300000;  
+proxy_connect_timeout 300000; 
+proxy_redirect     off;
+
+proxy_set_header   X-Forwarded-Proto $scheme;
+proxy_set_header   Host              $http_host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header   X-Frame-Options   SAMEORIGIN;
+
+proxy_pass http://127.0.0.1/open/;
+</code></pre><p>  }</p>
+<p>  location /open/ {<br>    proxy_read_timeout 300000;<br>    proxy_connect_timeout 300000;<br>    proxy_redirect     off;</p>
+<pre><code>proxy_set_header   X-Forwarded-Proto $scheme;
+proxy_set_header   Host              $http_host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header   X-Frame-Options   SAMEORIGIN;
+
+proxy_pass http://119.23.62.150:10004/open/;
+</code></pre><p>  }<br>}</p>
+<p>server {<br>  listen 80;</p>
+<p>  server_name ynplatform.wulianedu.cc;   # 请修改为你的域名</p>
+<p>  server_tokens off;<br>  access_log  /var/log/nginx/nginx_access.log;<br>  error_log   /var/log/nginx/nginx_error.log;</p>
+<p>  location / {<br>    proxy_read_timeout 300000;<br>    proxy_connect_timeout 300000;<br>    proxy_redirect     off;</p>
+<pre><code>proxy_set_header   X-Forwarded-Proto $scheme;
+proxy_set_header   Host              $http_host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header   X-Frame-Options   SAMEORIGIN;
+
+proxy_pass http://127.0.0.1/platform/;
+</code></pre><p>  }</p>
+<p>  location /platform/ {<br>    proxy_read_timeout 300000;<br>    proxy_connect_timeout 300000;<br>    proxy_redirect     off;</p>
+<pre><code>proxy_set_header   X-Forwarded-Proto $scheme;
+proxy_set_header   Host              $http_host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header   X-Frame-Options   SAMEORIGIN;
+
+proxy_pass http://119.23.62.150:10001/platform/;
+</code></pre><p>  }<br>}</p>
+<hr>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/server-linux-ubuntu/">server,linux,ubuntu</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2016/05/03/nginx/" data-title="Nginx 安装 -ubuntu | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/05/03/state_design_pattern/"  title="状态模式 多个if else">
+ <strong>下一篇：</strong><br/> 
+ <span>状态模式 多个if else
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/03/nginx/" data-title="Nginx 安装 -ubuntu" data-url="http://zjy.com/2016/05/03/nginx/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、Nginx简介"><span class="toc-number">1.</span> <span class="toc-text">1、Nginx简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx核心特点："><span class="toc-number">2.</span> <span class="toc-text">Nginx核心特点：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">正向代理，工作原理就像一个跳板，用户访问不了某网站，但能通过一个代理服务器访问我不能访问的网站。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问-http-www-baidu-com-readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来-然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容-原本就是它自己的一样。"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">反向代理：以代理服务器接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。例用户访问 http://www.baidu.com/readme，但服务器上并不存在readme页面，他是偷偷从另外一台服务器上取回来,然后作为自己的内容吐给用户但用户并不知情，对于客户端而言它就像是原始服务器，就像这些内容 原本就是它自己的一样。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#反向代理的最大的好处在于：负载均衡"><span class="toc-number">2.0.0.3.</span> <span class="toc-text">反向代理的最大的好处在于：负载均衡</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Nginx的在线安装"><span class="toc-number">3.</span> <span class="toc-text">2、Nginx的在线安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、Nginx的在线启动"><span class="toc-number">4.</span> <span class="toc-text">3、Nginx的在线启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、Nginx的配置"><span class="toc-number">5.</span> <span class="toc-text">4、Nginx的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、用webbench对Nginx进行压测"><span class="toc-number">6.</span> <span class="toc-text">5、用webbench对Nginx进行压测</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zhangjy520" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zhangjy520" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
