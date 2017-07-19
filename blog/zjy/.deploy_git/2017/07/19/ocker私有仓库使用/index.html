@@ -4,27 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>active mq安装 -ubuntu | zhang jian yu</title>
+    <title>docker私有仓库使用 | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
     
 
     
-    <meta name="description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="keywords" content="server,linux,ubuntu">
+    <meta name="description" content="云环境 docker 私有仓库操作123456789101112131415161718192021222324252627282930313233343536373839docker私有仓库地址：118.190.66.172:5000使用步骤，在本机的该文件centos：/etc/sysconfig/dockerubuntu: /etc/default/docker1 在该文件下加上如下配置	D">
+<meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="active mq安装 -ubuntu">
-<meta property="og:url" content="http://zjy.com/2017/05/05/active_mq/index.html">
+<meta property="og:title" content="docker私有仓库使用">
+<meta property="og:url" content="http://zjy.com/2017/07/19/ocker私有仓库使用/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/user.png">
-<meta property="og:updated_time" content="2017-07-19T10:40:28.606Z">
+<meta property="og:description" content="云环境 docker 私有仓库操作123456789101112131415161718192021222324252627282930313233343536373839docker私有仓库地址：118.190.66.172:5000使用步骤，在本机的该文件centos：/etc/sysconfig/dockerubuntu: /etc/default/docker1 在该文件下加上如下配置	D">
+<meta property="og:updated_time" content="2017-07-19T10:40:28.614Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="active mq安装 -ubuntu">
-<meta name="twitter:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="twitter:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
+<meta name="twitter:title" content="docker私有仓库使用">
+<meta name="twitter:description" content="云环境 docker 私有仓库操作123456789101112131415161718192021222324252627282930313233343536373839docker私有仓库地址：118.190.66.172:5000使用步骤，在本机的该文件centos：/etc/sysconfig/dockerubuntu: /etc/default/docker1 在该文件下加上如下配置	D">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
 
@@ -85,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/active_mq/" title="active mq安装 -ubuntu" itemprop="url">active mq安装 -ubuntu</a>
+      <a href="/2017/07/19/ocker私有仓库使用/" title="docker私有仓库使用" itemprop="url">docker私有仓库使用</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished"> 发表于 2017-05-05</time>
+    <time datetime="2017-07-19T10:03:04.000Z" itemprop="datePublished"> 发表于 2017-07-19</time>
     
   </p>
 </header>
@@ -101,33 +98,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#云环境-docker-私有仓库操作"><span class="toc-number">1.</span> <span class="toc-text">云环境 docker 私有仓库操作</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="1下载activemq"><a href="#1下载activemq" class="headerlink" title="1下载activemq"></a>1下载activemq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="2-解压"><a href="#2-解压" class="headerlink" title="2.解压"></a>2.解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar zxf apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="3-进入解压后的activemq-bin目录-启动mq"><a href="#3-进入解压后的activemq-bin目录-启动mq" class="headerlink" title="3.进入解压后的activemq/bin目录,启动mq"></a>3.进入解压后的activemq/bin目录,启动mq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./activemq start</div></pre></td></tr></table></figure>
-<h2 id="5-测试是否启动成功"><a href="#5-测试是否启动成功" class="headerlink" title="5.测试是否启动成功"></a>5.测试是否启动成功</h2><p>  现在本机telnet一下端口是否正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telnet 本机IP 8161</div></pre></td></tr></table></figure></p>
-<p> 再访问一下主页，一切正常！</p>
-<p><img src="/2017/05/05/active_mq/index.png" alt="logo"></p>
-<p>更新1.0：</p>
-<p>　　ubuntu上activemq和windows上不一样，默认登陆时不需要验证的，为了安全起见，建议修改下配置。</p>
-<h3 id="1-config文件夹下的jetty-xml，authenticate-值改成true"><a href="#1-config文件夹下的jetty-xml，authenticate-值改成true" class="headerlink" title="　　1.config文件夹下的jetty.xml，authenticate 值改成true"></a>　　1.config文件夹下的jetty.xml，authenticate 值改成true</h3><pre><code>2.config文件夹下的 jetty-realm.properties ，修改下用户和密码
-</code></pre><p><img src="/2017/05/05/active_mq/user.png" alt="logo"></p>
-<p>更新1.1：</p>
-<pre><code>## tcp长链接需要新增用户，/activemq/conf/activemq.xml   注意这个配置位置必须如下
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;persistenceAdapter&gt;</div><div class="line">        &lt;kahaDB directory=&quot;$&#123;activemq.base&#125;/data/kahadb&quot;/&gt;</div><div class="line">    &lt;/persistenceAdapter&gt;</div><div class="line">    </div><div class="line">     ==&lt;plugins&gt;</div><div class="line">         &lt;simpleAuthenticationPlugin&gt;</div><div class="line">             &lt;users&gt;</div><div class="line">                 &lt;authenticationUser username=&quot;lxsoft&quot; password=&quot;lxtest&quot; groups=&quot;users,admins&quot;/&gt;</div><div class="line">             &lt;/users&gt;</div><div class="line">         &lt;/simpleAuthenticationPlugin&gt;</div><div class="line">     &lt;/plugins&gt;==</div><div class="line">    </div><div class="line">      &lt;!--</div><div class="line">        The systemUsage controls the maximum amount of space the broker will </div><div class="line">        use before slowing down producers. For more information, see:</div><div class="line">        </div><div class="line">        http://activemq.apache.org/producer-flow-control.html</div><div class="line">         </div><div class="line">    &lt;systemUsage&gt;</div></pre></td></tr></table></figure>
-</code></pre>  
+		<h1 id="云环境-docker-私有仓库操作"><a href="#云环境-docker-私有仓库操作" class="headerlink" title="云环境 docker 私有仓库操作"></a>云环境 docker 私有仓库操作</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">docker私有仓库地址：118.190.66.172:5000</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">使用步骤，在本机的该文件</div><div class="line">centos：/etc/sysconfig/docker</div><div class="line">ubuntu: /etc/default/docker</div><div class="line"></div><div class="line">1 在该文件下加上如下配置</div><div class="line"></div><div class="line">	DOCKER_OPTS=&quot;--insecure-registry 118.190.66.172:5000&quot;</div><div class="line"></div><div class="line">2 重启本机docker服务</div><div class="line"></div><div class="line">	service docker restart</div><div class="line"></div><div class="line">3 确认修改是否生效</div><div class="line">	ps -ef|grep docker</div><div class="line"></div><div class="line">	确保看到的 docker daemon进程 启动参数有刚刚加上的这句话即可，如下即可	</div><div class="line">		root      4716     1  6 09:54 ?        00:00:46 /usr/bin/docker daemon --insecure-registry 118.190.66.172:5000</div><div class="line"></div><div class="line"></div><div class="line">4 查看镜像列表</div><div class="line">	</div><div class="line">	curl http://118.190.66.172:5000/v2/_catalog</div><div class="line">	 </div><div class="line">	会返回一个镜像列表，下载需带上  地址/镜像名称</div><div class="line">	&#123;&quot;repositories&quot;:[&quot;registry&quot;,&quot;tomcat&quot;]&#125;</div><div class="line">		</div><div class="line">5 下载镜像</div><div class="line">	</div><div class="line">	docker pull 118.190.66.172:5000/tomcat</div><div class="line"></div><div class="line">6 上传镜像（tag）</div><div class="line">	docker tag images 118.190.66.172:5000/yourImageName</div><div class="line">	</div><div class="line">	docker push 118.190.66.172:5000/yourImageName</div></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/server-linux-ubuntu/">server,linux,ubuntu</a>
-  </div>
 
 </div>
 
@@ -135,7 +114,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/active_mq/" data-title="active mq安装 -ubuntu | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/07/19/ocker私有仓库使用/" data-title="docker私有仓库使用 | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +128,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部">
+ <a href="/2017/05/05/redis_weather/" title="redis 作缓存">
   <strong>上一篇：</strong><br/>
   <span>
-  iframe跨域嵌套头部</span>
+  redis 作缓存</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+<a href="/2017/07/19/Query前端参数传递方案/"  title="jQuery前端参数传递方案">
  <strong>下一篇：</strong><br/> 
- <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
+ <span>jQuery前端参数传递方案
 </span>
 </a>
 </div>
@@ -169,7 +148,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/active_mq/" data-title="active mq安装 -ubuntu" data-url="http://zjy.com/2017/05/05/active_mq/"></div> 
+	<div class="ds-thread" data-thread-key="2017/07/19/ocker私有仓库使用/" data-title="docker私有仓库使用" data-url="http://zjy.com/2017/07/19/ocker私有仓库使用/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -187,7 +166,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#云环境-docker-私有仓库操作"><span class="toc-number">1.</span> <span class="toc-text">云环境 docker 私有仓库操作</span></a></li></ol>
  
   </div>
 

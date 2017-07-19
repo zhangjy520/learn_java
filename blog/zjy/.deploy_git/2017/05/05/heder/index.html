@@ -1,0 +1,537 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iframe跨域嵌套头部 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="需求  123不同域名，使用iframe，想互相获取html请查找 navigator.rar文件 实现思路12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849使用js listener 消息发送html代码。头部公共菜单使用方法：（原理是将平台的头部菜单代码作为消息跨域发">
+<meta name="keywords" content="js   跨域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iframe跨域嵌套头部">
+<meta property="og:url" content="http://zjy.com/2017/05/05/heder/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="需求  123不同域名，使用iframe，想互相获取html请查找 navigator.rar文件 实现思路12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849使用js listener 消息发送html代码。头部公共菜单使用方法：（原理是将平台的头部菜单代码作为消息跨域发">
+<meta property="og:updated_time" content="2017-07-19T10:40:28.610Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iframe跨域嵌套头部">
+<meta name="twitter:description" content="需求  123不同域名，使用iframe，想互相获取html请查找 navigator.rar文件 实现思路12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849使用js listener 消息发送html代码。头部公共菜单使用方法：（原理是将平台的头部菜单代码作为消息跨域发">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部" itemprop="url">iframe跨域嵌套头部</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished"> 发表于 2017-05-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现思路"><span class="toc-number">2.</span> <span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现代码如下："><span class="toc-number">3.</span> <span class="toc-text">实现代码如下：</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">不同域名，使用iframe，想互相获取html</div><div class="line"></div><div class="line">请查找 navigator.rar文件</div></pre></td></tr></table></figure>
+<h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">使用js listener 消息发送html代码。</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">头部公共菜单使用方法：</div><div class="line"></div><div class="line">（原理是将平台的头部菜单代码作为消息跨域发送到第三方应用）</div><div class="line"></div><div class="line">前提：</div><div class="line">	平台的头部菜单，使用的css，js ，png，jpg静态资源文件支持外链访问</div><div class="line">	例如：在第三方应用中 ,如下语句能访问到对应资源  </div><div class="line">		&lt;script src =&quot;www.pingtai.com/js&quot;&gt;</div><div class="line">		&lt;link src =&quot;www.pingtai.com/css&quot;&gt;</div><div class="line">		&lt;img src = &quot;www.pingtai.com/***.&quot;&gt;</div><div class="line">		</div><div class="line">	平台，第三方通过message.js插件来传递头部菜单代码</div><div class="line">		</div><div class="line"></div><div class="line">安装步骤：</div><div class="line"></div><div class="line">	切忌：平台用的logo等静态资源文件一定是外链能够访问的！否则代码同步到第三方应用，他的logo显示不出来</div><div class="line"></div><div class="line">	上面说到是将平台头部菜单作为消息跨域发送，那么就有一个发送者（平台），一个接收者（第三方应用）</div><div class="line">	</div><div class="line">	</div><div class="line">	1：作为平台的开发者：发送头部菜单代码：</div><div class="line"></div><div class="line">		&lt;script&gt;</div><div class="line">			 window.onload = function()&#123;</div><div class="line">				 var messenger = new Messenger(&apos;iframe1&apos;, &apos;header&apos;); // header是消息的key</div><div class="line">				 </div><div class="line">				 messenger.addTarget(window.parent, &apos;parent&apos;); </div><div class="line">					var msg = document.getElementById(&quot;header&quot;).innerHTML;</div><div class="line">					messenger.targets[&quot;parent&quot;].send(msg);</div><div class="line">				 &#125;</div><div class="line">	</div><div class="line">		&lt;/script&gt;</div><div class="line">		</div><div class="line">	2：作为第三方应用对接者</div><div class="line">	</div><div class="line">		2-1： 引用平台提供的css，js外链样式以及js </div><div class="line">		2-2:  页面引用iframe src为平台提供的头部菜单页面	</div><div class="line">			 &lt;iframe id=&quot;iframe&quot; src=&quot;../platform/header.html&quot; frameborder=&quot;0&quot; style=&quot;display:none&quot;&gt;&lt;/iframe&gt;</div><div class="line">			 </div><div class="line">		2-3 在页面添加头部菜单的div</div><div class="line">				&lt;div id=&quot;header&quot;&gt;</div><div class="line">				&lt;/div&gt; </div><div class="line">		2-4 接受消息，将消息（此消息是平台发送的头部菜单的代码）放到2-3建的header里面</div></pre></td></tr></table></figure>
+<h1 id="实现代码如下："><a href="#实现代码如下：" class="headerlink" title="实现代码如下："></a>实现代码如下：</h1><p>message.js 代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div></pre></td><td class="code"><pre><div class="line">window.Messenger = (function() &#123;</div><div class="line"></div><div class="line">    // 消息前缀, 建议使用自己的项目名, 避免多项目之间的冲突</div><div class="line">    // !注意 消息前缀应使用字符串类型</div><div class="line">    var prefix = &quot;koolearn&quot;,</div><div class="line">        supportPostMessage = &apos;postMessage&apos; in window,</div><div class="line">        lastHash = document.location.hash,</div><div class="line">        intervalId,</div><div class="line">        cacheId = 1,</div><div class="line">        extend = function() &#123;</div><div class="line">            var args = arguments,</div><div class="line">                o = args[0],</div><div class="line">                len = args.length,</div><div class="line">                curr;</div><div class="line">            for (var j = 1; j &lt; len; j++) &#123;</div><div class="line">                curr = args[j];</div><div class="line">                for (var i in curr) &#123;</div><div class="line">                    curr.hasOwnProperty(i) &amp;&amp; (o[i] = curr[i]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            return o;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * [Target description]</div><div class="line">     * @param &#123;object&#125; target Target 类, 消息对象</div><div class="line">     * @param &#123;string&#125; name   名字,iframe的id</div><div class="line">     * @param &#123;string&#125; prefix 前缀</div><div class="line">     */</div><div class="line">    function Target(target, name, prefix) &#123;</div><div class="line">        var errMsg = &apos;&apos;;</div><div class="line">        if (arguments.length &lt; 2) &#123;</div><div class="line">            errMsg = &apos;target error - target and name are both required&apos;;</div><div class="line">        &#125; else if (typeof target != &apos;object&apos;) &#123;</div><div class="line">            errMsg = &apos;target error - target itself must be window object&apos;;</div><div class="line">        &#125; else if (typeof name != &apos;string&apos;) &#123;</div><div class="line">            errMsg = &apos;target error - target name must be string type&apos;;</div><div class="line">        &#125;</div><div class="line">        if (errMsg) &#123;</div><div class="line">            throw new Error(errMsg);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        this.target = target;</div><div class="line">        this.name = name;</div><div class="line">        this.prefix = prefix;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 消息拼接</div><div class="line">     * @param  &#123;[string]&#125; msg</div><div class="line">     * @return &#123;[string]&#125;</div><div class="line">     */</div><div class="line">    Target.prototype.handleMsg = function(msg) &#123;</div><div class="line">        //prefix|name__Messenger__msg</div><div class="line">        return this.prefix + &apos;|&apos; + this.name + &apos;__Messenger__&apos; + msg;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 往 target 发送消息, 出于安全考虑, 发送消息会带上前缀</div><div class="line">     * @type &#123;[type]&#125;</div><div class="line">     */</div><div class="line">    Target.prototype.send = supportPostMessage ?</div><div class="line">        // IE8+ 以及现代浏览器支持</div><div class="line">        function(msg) &#123;</div><div class="line">            this.target.postMessage(this.handleMsg(msg), &apos;*&apos;);</div><div class="line">        &#125; :</div><div class="line">        // 兼容IE 6/7</div><div class="line">        function(msg, targetUrl) &#123;</div><div class="line">            targetUrl = (targetUrl || this.target.location || parent.location.href) + &apos;&apos;;</div><div class="line">            //修改hash</div><div class="line">            this.target.location = targetUrl.replace(/#.*$/, &apos;&apos;) + &apos;#&apos; + (+new Date) + (cacheId++) + &apos;&amp;&apos; + this.handleMsg(msg);</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 默认配置项，目前就一个</div><div class="line">     * @type &#123;Object&#125;</div><div class="line">     */</div><div class="line">    var defaultOpts = &#123;</div><div class="line">        delay: 200</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    // 信使类</div><div class="line">    // 创建Messenger实例时指定, 必须指定Messenger的名字, (可选)指定项目名, 以避免Mashup类应用中的冲突</div><div class="line">    // !注意: 父子页面中projectName必须保持一致, 否则无法匹配</div><div class="line">    function Messenger(messengerName, projectName) &#123;</div><div class="line">        this.targets = &#123;&#125;;</div><div class="line">        this.name = messengerName;</div><div class="line">        this.listenFunc = [];</div><div class="line">        this.prefix = projectName || prefix;</div><div class="line">        this.opts = extend(&#123;&#125;, defaultOpts);</div><div class="line">        this.initListen();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * set opts</div><div class="line">     * @param &#123;object&#125; opts</div><div class="line">     */</div><div class="line">    Messenger.prototype.setOpts = function(opts) &#123;</div><div class="line">        this.opts = extend(this.opts, opts || &#123;&#125;);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 添加一个消息对象</div><div class="line">     * @param &#123;object&#125; target</div><div class="line">     * @param &#123;string&#125; name</div><div class="line">     */</div><div class="line">    Messenger.prototype.addTarget = function(target, name) &#123;</div><div class="line">        this.targets[name] = new Target(target, name, this.prefix);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 移除一个消息对象</div><div class="line">     * @param  &#123;string&#125; name</div><div class="line">     * @return &#123;&#125;</div><div class="line">     */</div><div class="line">    Messenger.prototype.removeTarget = function(name) &#123;</div><div class="line">        delete this.targets[name];</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 初始化消息监听</div><div class="line">     * @return &#123;null&#125;</div><div class="line">     */</div><div class="line">    Messenger.prototype.initListen = function() &#123;</div><div class="line">        var self = this;</div><div class="line">        /**</div><div class="line">         * [generalCallback description]</div><div class="line">         * @param  &#123;string&#125; msg prefix|name__Messenger__msg</div><div class="line">         * @return &#123;[type]&#125;     [description]</div><div class="line">         */</div><div class="line">        var generalCallback = function(msg) &#123;</div><div class="line">            if (typeof msg == &apos;object&apos; &amp;&amp; msg.data) &#123;</div><div class="line">                msg = msg.data;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            var msgPairs = msg.split(&apos;__Messenger__&apos;);</div><div class="line">            var msg = msgPairs[1];</div><div class="line">            var pairs = msgPairs[0].split(&apos;|&apos;);</div><div class="line">            var prefix = pairs[0];</div><div class="line">            var name = pairs[1];</div><div class="line"></div><div class="line">            if (prefix + name !== self.prefix + self.name) &#123;</div><div class="line">                console.warn(&apos;error &apos;);</div><div class="line">                return;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            for (var i = 0, len = self.listenFunc.length; i &lt; len; i++) &#123;</div><div class="line">                self.listenFunc[i](msg);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        //高级浏览器</div><div class="line">        if (supportPostMessage) &#123;</div><div class="line">            if (&apos;addEventListener&apos; in document) &#123;</div><div class="line">                window.addEventListener(&apos;message&apos;, generalCallback, false);</div><div class="line">            &#125; else if (&apos;attachEvent&apos; in document) &#123;</div><div class="line">                window.attachEvent(&apos;onmessage&apos;, generalCallback);</div><div class="line">            &#125;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 兼容IE 6/7</div><div class="line">        intervalId &amp;&amp; clearInterval(intervalId);</div><div class="line">        intervalId = null;</div><div class="line">        intervalId = setInterval(function() &#123;</div><div class="line">            var hash = document.location.hash,</div><div class="line">                re = /^#?\d+&amp;/;</div><div class="line">            if (hash !== lastHash &amp;&amp; re.test(hash)) &#123;</div><div class="line">                lastHash = hash;</div><div class="line">                generalCallback(hash.replace(re, &apos;&apos;));</div><div class="line">            &#125;</div><div class="line">        &#125;, self.opts.delay);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 监听消息</div><div class="line">     * @param  &#123;Function&#125; callback</div><div class="line">     * @return &#123;[type]&#125;</div><div class="line">     */</div><div class="line">    Messenger.prototype.listen = function(callback) &#123;</div><div class="line">        var i = 0;</div><div class="line">        var len = this.listenFunc.length;</div><div class="line">        var cbIsExist = false;</div><div class="line">        for (; i &lt; len; i++) &#123;</div><div class="line">            if (this.listenFunc[i] == callback) &#123;</div><div class="line">                cbIsExist = true;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (!cbIsExist) &#123;</div><div class="line">            this.listenFunc.push(callback);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 注销监听</div><div class="line">     * @return &#123;[type]&#125; [description]</div><div class="line">     */</div><div class="line">    Messenger.prototype.clear = function() &#123;</div><div class="line">        this.listenFunc.length = 0;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 广播消息,给所有的消息对象发送消息</div><div class="line">     * @param  &#123;[type]&#125; msg [description]</div><div class="line">     * @return &#123;[type]&#125;     [description]</div><div class="line">     */</div><div class="line">    //低版本浏览器要求提供url 这里不行</div><div class="line">    Messenger.prototype.send = function(msg) &#123;</div><div class="line">        var targets = this.targets,</div><div class="line">            target;</div><div class="line">        for (target in targets) &#123;</div><div class="line">            if (targets.hasOwnProperty(target)) &#123;</div><div class="line">                targets[target].send(msg);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    return Messenger;</div><div class="line">&#125;());</div></pre></td></tr></table></figure></p>
+<p>平台发送html代码方</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head lang=&quot;en&quot;&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</div><div class="line">    &lt;title&gt;Html version | Angulr&lt;/title&gt;</div><div class="line">    &lt;meta name=&quot;description&quot; content=&quot;app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components&quot; /&gt;</div><div class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot; /&gt;</div><div class="line">    &lt;link href=&quot;css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;/&gt;</div><div class="line">    &lt;link href=&quot;css/top.css&quot; rel=&quot;stylesheet&quot;/&gt;</div><div class="line">    &lt;script src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div id=&quot;header&quot;&gt;</div><div class="line">&lt;nav class=&quot;navbar navbar-inverse navbar-static-top container-fluid fixed-top&quot; role=&quot;navigation&quot;&gt;</div><div class="line">    &lt;div class=&quot;navbar-header&quot;&gt;</div><div class="line">        &lt;a&gt;&lt;img src=&quot;C:/Users/Administrator/Desktop/navigator1/platform/images/logo1.png&quot;/&gt;&lt;/a&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;navbar&quot;&gt;</div><div class="line">        &lt;div  class=&quot;nav navbar-nav nav_nav hidden-sm top-title&quot; id=&quot;nav-nav&quot;&gt;</div><div class="line">            第三方应用名称</div><div class="line">        &lt;/div&gt;</div><div class="line">        &lt;ul class=&quot;nav navbar-nav navbar-right main-nav&quot;&gt;</div><div class="line">            &lt;li class=&quot;btn-group&quot;&gt;</div><div class="line">                &lt;a class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot;&gt;</div><div class="line">                    &lt;span class=&quot;glyphicon glyphicon-bell&quot; style=&quot;color: #fff;&quot;&gt;&lt;/span&gt;</div><div class="line">                &lt;/a&gt; </div><div class="line">                &lt;ul class=&quot;dropdown-menu&quot; style=&quot;margin-top: 9px;&quot;&gt;</div><div class="line"></div><div class="line">                    &lt;li&gt;</div><div class="line">                        &lt;a&gt;&amp;nbsp;应用1&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">                    &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;</div><div class="line">                    &lt;li&gt;</div><div class="line">                        &lt;a&gt;&amp;nbsp;应用2&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">					  &lt;li&gt;</div><div class="line">                        &lt;a&gt;&amp;nbsp;应用2&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">					  &lt;li&gt;</div><div class="line">                        &lt;a&gt;&amp;nbsp;应用2&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">                &lt;/ul&gt; </div><div class="line">            &lt;/li&gt;</div><div class="line"></div><div class="line">            &lt;!-- Single button --&gt;</div><div class="line">            &lt;li class=&quot;btn-group&quot;&gt;</div><div class="line">                &lt;a class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot;&gt;</div><div class="line">                    &lt;span style=&quot;color: #fff;&quot;&gt;仲玮&lt;/span&gt;</div><div class="line">					&lt;span class=&quot;caret&quot; style=&quot;border-top-color: #7793a7;&quot;&gt;&lt;/span&gt;</div><div class="line">                &lt;/a&gt;</div><div class="line"></div><div class="line">                &lt;!-- dropdown --&gt;</div><div class="line">                &lt;ul class=&quot;dropdown-menu&quot; style=&quot;margin-top: 9px;&quot;&gt;</div><div class="line"></div><div class="line">                    &lt;li&gt;</div><div class="line">                        &lt;a&gt;&amp;nbsp;个人中心&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">                    &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;</div><div class="line">                    &lt;li&gt;</div><div class="line">                        &lt;a&gt;&amp;nbsp;注销&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">                &lt;/ul&gt;</div><div class="line">                &lt;!-- / dropdown --&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line"></div><div class="line">&lt;/nav&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">&lt;script src=&quot;js/message.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script&gt;</div><div class="line"> window.onload = function()&#123;</div><div class="line">	 var messenger = new Messenger(&apos;iframe1&apos;, &apos;header&apos;); </div><div class="line">     </div><div class="line">     messenger.addTarget(window.parent, &apos;parent&apos;); </div><div class="line">		var msg = document.getElementById(&quot;header&quot;).innerHTML;</div><div class="line">		messenger.targets[&quot;parent&quot;].send(msg);</div><div class="line">	 &#125;</div><div class="line">	</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>第三方接收html代码端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;Title&lt;/title&gt;</div><div class="line">     &lt;link href=&quot;../platform/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;/&gt;</div><div class="line">     &lt;link href=&quot;../platform/css/top.css&quot; rel=&quot;stylesheet&quot;/&gt;</div><div class="line">     &lt;script src=&quot;../platform/js/jquery.js&quot;&gt;&lt;/script&gt;</div><div class="line">     &lt;script src=&quot;../platform/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;iframe id=&quot;iframe&quot; src=&quot;../platform/header.html&quot; frameborder=&quot;0&quot; style=&quot;display:none&quot;&gt;&lt;/iframe&gt;</div><div class="line"></div><div class="line">&lt;div id=&quot;header&quot;&gt;</div><div class="line">&lt;/div&gt; </div><div class="line"></div><div class="line">这个header div下面就是第三方应用自己的页面内容</div><div class="line"></div><div class="line"></div><div class="line">&lt;script src=&quot;../platform/js/message.js&quot;&gt;&lt;/script&gt;</div><div class="line">	&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">	var messenger = new Messenger(&apos;parent&apos;, &apos;header&apos;), </div><div class="line">            input = document.getElementById(&apos;message&apos;);</div><div class="line">            messenger.listen(function(msg) &#123; </div><div class="line">                document.getElementById(&apos;header&apos;).innerHTML=msg;</div><div class="line">            &#125;); </div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js-跨域/">js   跨域</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2017/05/05/heder/" data-title="iframe跨域嵌套头部 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/05/03/fileCount/" title="java 文件统计功能">
+  <strong>上一篇：</strong><br/>
+  <span>
+  java 文件统计功能</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/05/05/active_mq/"  title="active mq安装 -ubuntu">
+ <strong>下一篇：</strong><br/> 
+ <span>active mq安装 -ubuntu
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/05/05/heder/" data-title="iframe跨域嵌套头部" data-url="http://zjy.com/2017/05/05/heder/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现思路"><span class="toc-number">2.</span> <span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现代码如下："><span class="toc-number">3.</span> <span class="toc-text">实现代码如下：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zhangjy520" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zhangjy520" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

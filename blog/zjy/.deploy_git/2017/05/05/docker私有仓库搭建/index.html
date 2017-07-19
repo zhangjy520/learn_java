@@ -4,27 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>active mq安装 -ubuntu | zhang jian yu</title>
+    <title>docker私有库的搭建 | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
     
 
     
-    <meta name="description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="keywords" content="server,linux,ubuntu">
+    <meta name="description" content="准备 server1，server2  （其中server1作为私有库服务器，server2作为普通客户端） 在server1上1 下载 registry 1docker pull registry:latest 2 配置 /etc/default/docker  因为https需要证书密码等比较复杂，直接加 insecure-registry即可 12345678910111213# Docke">
+<meta name="keywords" content="docker  ubuntu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="active mq安装 -ubuntu">
-<meta property="og:url" content="http://zjy.com/2017/05/05/active_mq/index.html">
+<meta property="og:title" content="docker私有库的搭建">
+<meta property="og:url" content="http://zjy.com/2017/05/05/docker私有仓库搭建/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/user.png">
+<meta property="og:description" content="准备 server1，server2  （其中server1作为私有库服务器，server2作为普通客户端） 在server1上1 下载 registry 1docker pull registry:latest 2 配置 /etc/default/docker  因为https需要证书密码等比较复杂，直接加 insecure-registry即可 12345678910111213# Docke">
 <meta property="og:updated_time" content="2017-07-19T10:40:28.606Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="active mq安装 -ubuntu">
-<meta name="twitter:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="twitter:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
+<meta name="twitter:title" content="docker私有库的搭建">
+<meta name="twitter:description" content="准备 server1，server2  （其中server1作为私有库服务器，server2作为普通客户端） 在server1上1 下载 registry 1docker pull registry:latest 2 配置 /etc/default/docker  因为https需要证书密码等比较复杂，直接加 insecure-registry即可 12345678910111213# Docke">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
 
@@ -85,7 +82,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/active_mq/" title="active mq安装 -ubuntu" itemprop="url">active mq安装 -ubuntu</a>
+      <a href="/2017/05/05/docker私有仓库搭建/" title="docker私有库的搭建" itemprop="url">docker私有库的搭建</a>
   </h1>
   <p class="article-author">By
        
@@ -101,24 +98,29 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#准备"><span class="toc-number">1.</span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在server1上"><span class="toc-number">1.1.</span> <span class="toc-text">在server1上</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在server2（client）上"><span class="toc-number">1.2.</span> <span class="toc-text">在server2（client）上</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="1下载activemq"><a href="#1下载activemq" class="headerlink" title="1下载activemq"></a>1下载activemq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="2-解压"><a href="#2-解压" class="headerlink" title="2.解压"></a>2.解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar zxf apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="3-进入解压后的activemq-bin目录-启动mq"><a href="#3-进入解压后的activemq-bin目录-启动mq" class="headerlink" title="3.进入解压后的activemq/bin目录,启动mq"></a>3.进入解压后的activemq/bin目录,启动mq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./activemq start</div></pre></td></tr></table></figure>
-<h2 id="5-测试是否启动成功"><a href="#5-测试是否启动成功" class="headerlink" title="5.测试是否启动成功"></a>5.测试是否启动成功</h2><p>  现在本机telnet一下端口是否正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telnet 本机IP 8161</div></pre></td></tr></table></figure></p>
-<p> 再访问一下主页，一切正常！</p>
-<p><img src="/2017/05/05/active_mq/index.png" alt="logo"></p>
-<p>更新1.0：</p>
-<p>　　ubuntu上activemq和windows上不一样，默认登陆时不需要验证的，为了安全起见，建议修改下配置。</p>
-<h3 id="1-config文件夹下的jetty-xml，authenticate-值改成true"><a href="#1-config文件夹下的jetty-xml，authenticate-值改成true" class="headerlink" title="　　1.config文件夹下的jetty.xml，authenticate 值改成true"></a>　　1.config文件夹下的jetty.xml，authenticate 值改成true</h3><pre><code>2.config文件夹下的 jetty-realm.properties ，修改下用户和密码
-</code></pre><p><img src="/2017/05/05/active_mq/user.png" alt="logo"></p>
-<p>更新1.1：</p>
-<pre><code>## tcp长链接需要新增用户，/activemq/conf/activemq.xml   注意这个配置位置必须如下
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;persistenceAdapter&gt;</div><div class="line">        &lt;kahaDB directory=&quot;$&#123;activemq.base&#125;/data/kahadb&quot;/&gt;</div><div class="line">    &lt;/persistenceAdapter&gt;</div><div class="line">    </div><div class="line">     ==&lt;plugins&gt;</div><div class="line">         &lt;simpleAuthenticationPlugin&gt;</div><div class="line">             &lt;users&gt;</div><div class="line">                 &lt;authenticationUser username=&quot;lxsoft&quot; password=&quot;lxtest&quot; groups=&quot;users,admins&quot;/&gt;</div><div class="line">             &lt;/users&gt;</div><div class="line">         &lt;/simpleAuthenticationPlugin&gt;</div><div class="line">     &lt;/plugins&gt;==</div><div class="line">    </div><div class="line">      &lt;!--</div><div class="line">        The systemUsage controls the maximum amount of space the broker will </div><div class="line">        use before slowing down producers. For more information, see:</div><div class="line">        </div><div class="line">        http://activemq.apache.org/producer-flow-control.html</div><div class="line">         </div><div class="line">    &lt;systemUsage&gt;</div></pre></td></tr></table></figure>
-</code></pre>  
+		<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p> server1，server2  （其中server1作为私有库服务器，server2作为普通客户端）</p>
+<h2 id="在server1上"><a href="#在server1上" class="headerlink" title="在server1上"></a>在server1上</h2><p>1 下载 registry</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull registry:latest</div></pre></td></tr></table></figure>
+<p>2 配置 /etc/default/docker  因为https需要证书密码等比较复杂，直接加 insecure-registry即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># Docker Upstart and SysVinit configuration file</div><div class="line"></div><div class="line"># Customize location of Docker binary (especially for development testing).</div><div class="line">#DOCKER=&quot;/usr/local/bin/docker&quot;</div><div class="line"></div><div class="line"># Use DOCKER_OPTS to modify the daemon startup options.</div><div class="line">#DOCKER_OPTS=&quot;--dns 8.8.8.8 --dns 8.8.4.4&quot;</div><div class="line">DOCKER_OPTS=&quot;--insecure-registry 127.0.0.1:5000&quot;</div><div class="line"># If you need Docker to use an HTTP proxy, it can also be specified here.</div><div class="line">#export http_proxy=&quot;http://127.0.0.1:3128/&quot;</div><div class="line"></div><div class="line"># This is also a handy place to tweak where Docker&apos;s temporary files go.</div><div class="line">#export TMPDIR=&quot;/mnt/bigdrive/docker-tmp&quot;</div></pre></td></tr></table></figure>
+<p>3 启动registry</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker run --name registry -d -p 5000:5000 -v /home/docker_registry:/var/lib/registry --restart=always registry:latest</div></pre></td></tr></table></figure>
+<p>4 tag镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker tag redis server1:5000/redis</div></pre></td></tr></table></figure>
+<p>5 推送保存私有镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker push server1:5000/redis</div></pre></td></tr></table></figure></p>
+<p>5.1 查看推送到私有仓库的镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ docker search 10.10.105.71:5000/tonybai/busybox/</div><div class="line">Error response from daemon: Unexpected status code 404</div><div class="line">但通过v2版本的API，我们可以实现相同目的：</div><div class="line"></div><div class="line">$curl  http://10.10.105.71:5000/v2/_catalog</div><div class="line">&#123;&quot;repositories&quot;:[&quot;tonybai/busybox&quot;]&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="在server2（client）上"><a href="#在server2（client）上" class="headerlink" title="在server2（client）上"></a>在server2（client）上</h2><p>因为docker Registry中讲到， 如果采用insecure registry的模式，那么所有与Registry交互的主机上的Docker Daemon都要配置：–insecure-registry选项。除了这个模式还可以配置证书，在此不作说明</p>
+<p>1 配置 -insecure-registry(centos:/etc/sysconfig/docker   ubuntu:/etc/default/docker)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># Docker Upstart and SysVinit configuration file</div><div class="line"></div><div class="line"># Customize location of Docker binary (especially for development testing).</div><div class="line">#DOCKER=&quot;/usr/local/bin/docker&quot;</div><div class="line"></div><div class="line"># Use DOCKER_OPTS to modify the daemon startup options.</div><div class="line">#DOCKER_OPTS=&quot;--dns 8.8.8.8 --dns 8.8.4.4&quot;</div><div class="line">DOCKER_OPTS=&quot;--insecure-registry server1:5000&quot;</div><div class="line"># If you need Docker to use an HTTP proxy, it can also be specified here.</div><div class="line">#export http_proxy=&quot;http://127.0.0.1:3128/&quot;</div><div class="line"></div><div class="line"># This is also a handy place to tweak where Docker&apos;s temporary files go.</div><div class="line">#export TMPDIR=&quot;/mnt/bigdrive/docker-tmp&quot;</div></pre></td></tr></table></figure></p>
+<p>2 下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull server1:5000/redis</div></pre></td></tr></table></figure>
+<p>3 提交推送</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker tag redis server1:5000/redis</div><div class="line"></div><div class="line">docker push server1:5000/redis</div></pre></td></tr></table></figure>
+<p> 参考：<br> <a href="http://www.cnblogs.com/xcloudbiz/articles/5526262.html" target="_blank" rel="external">http://www.cnblogs.com/xcloudbiz/articles/5526262.html</a></p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -126,7 +128,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/server-linux-ubuntu/">server,linux,ubuntu</a>
+  <span></span> <a href="/tags/docker-ubuntu/">docker  ubuntu</a>
   </div>
 
 </div>
@@ -135,7 +137,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/active_mq/" data-title="active mq安装 -ubuntu | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/05/docker私有仓库搭建/" data-title="docker私有库的搭建 | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +151,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部">
+ <a href="/2017/05/05/mysql/" title="ubuntu14.04 安装配置mysql5.7">
   <strong>上一篇：</strong><br/>
   <span>
-  iframe跨域嵌套头部</span>
+  ubuntu14.04 安装配置mysql5.7</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+<a href="/2017/05/05/node_js_pa_chong/"  title="node js 爬虫">
  <strong>下一篇：</strong><br/> 
- <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
+ <span>node js 爬虫
 </span>
 </a>
 </div>
@@ -169,7 +171,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/active_mq/" data-title="active mq安装 -ubuntu" data-url="http://zjy.com/2017/05/05/active_mq/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/05/docker私有仓库搭建/" data-title="docker私有库的搭建" data-url="http://zjy.com/2017/05/05/docker私有仓库搭建/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -187,7 +189,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#准备"><span class="toc-number">1.</span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在server1上"><span class="toc-number">1.1.</span> <span class="toc-text">在server1上</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在server2（client）上"><span class="toc-number">1.2.</span> <span class="toc-text">在server2（client）上</span></a></li></ol></li></ol>
  
   </div>
 

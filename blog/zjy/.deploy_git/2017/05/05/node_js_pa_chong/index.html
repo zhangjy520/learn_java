@@ -4,27 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>active mq安装 -ubuntu | zhang jian yu</title>
+    <title>node js 爬虫 | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
     
 
     
-    <meta name="description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="keywords" content="server,linux,ubuntu">
+    <meta name="description" content="需求  1数据中心，使用 active mq，需要爬取队列列表信息到项目中 实现思路1使用node js爬虫实现 实现方式12345678910111213141516171819202122232425资源文件在：learn_java/tree/master/node_pa_chong1 安装node jswget http://nodejs.org/dist/v0.8.16/node-v0.8">
+<meta name="keywords" content="node js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="active mq安装 -ubuntu">
-<meta property="og:url" content="http://zjy.com/2017/05/05/active_mq/index.html">
+<meta property="og:title" content="node js 爬虫">
+<meta property="og:url" content="http://zjy.com/2017/05/05/node_js_pa_chong/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/user.png">
-<meta property="og:updated_time" content="2017-07-19T10:40:28.606Z">
+<meta property="og:description" content="需求  1数据中心，使用 active mq，需要爬取队列列表信息到项目中 实现思路1使用node js爬虫实现 实现方式12345678910111213141516171819202122232425资源文件在：learn_java/tree/master/node_pa_chong1 安装node jswget http://nodejs.org/dist/v0.8.16/node-v0.8">
+<meta property="og:updated_time" content="2017-07-19T10:40:28.614Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="active mq安装 -ubuntu">
-<meta name="twitter:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="twitter:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
+<meta name="twitter:title" content="node js 爬虫">
+<meta name="twitter:description" content="需求  1数据中心，使用 active mq，需要爬取队列列表信息到项目中 实现思路1使用node js爬虫实现 实现方式12345678910111213141516171819202122232425资源文件在：learn_java/tree/master/node_pa_chong1 安装node jswget http://nodejs.org/dist/v0.8.16/node-v0.8">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
 
@@ -85,7 +82,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/active_mq/" title="active mq安装 -ubuntu" itemprop="url">active mq安装 -ubuntu</a>
+      <a href="/2017/05/05/node_js_pa_chong/" title="node js 爬虫" itemprop="url">node js 爬虫</a>
   </h1>
   <p class="article-author">By
        
@@ -101,24 +98,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现思路"><span class="toc-number">2.</span> <span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现方式"><span class="toc-number">3.</span> <span class="toc-text">实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要的：-app-js-代码如下："><span class="toc-number">3.1.</span> <span class="toc-text">主要的： app.js 代码如下：</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="1下载activemq"><a href="#1下载activemq" class="headerlink" title="1下载activemq"></a>1下载activemq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="2-解压"><a href="#2-解压" class="headerlink" title="2.解压"></a>2.解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar zxf apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="3-进入解压后的activemq-bin目录-启动mq"><a href="#3-进入解压后的activemq-bin目录-启动mq" class="headerlink" title="3.进入解压后的activemq/bin目录,启动mq"></a>3.进入解压后的activemq/bin目录,启动mq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./activemq start</div></pre></td></tr></table></figure>
-<h2 id="5-测试是否启动成功"><a href="#5-测试是否启动成功" class="headerlink" title="5.测试是否启动成功"></a>5.测试是否启动成功</h2><p>  现在本机telnet一下端口是否正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telnet 本机IP 8161</div></pre></td></tr></table></figure></p>
-<p> 再访问一下主页，一切正常！</p>
-<p><img src="/2017/05/05/active_mq/index.png" alt="logo"></p>
-<p>更新1.0：</p>
-<p>　　ubuntu上activemq和windows上不一样，默认登陆时不需要验证的，为了安全起见，建议修改下配置。</p>
-<h3 id="1-config文件夹下的jetty-xml，authenticate-值改成true"><a href="#1-config文件夹下的jetty-xml，authenticate-值改成true" class="headerlink" title="　　1.config文件夹下的jetty.xml，authenticate 值改成true"></a>　　1.config文件夹下的jetty.xml，authenticate 值改成true</h3><pre><code>2.config文件夹下的 jetty-realm.properties ，修改下用户和密码
-</code></pre><p><img src="/2017/05/05/active_mq/user.png" alt="logo"></p>
-<p>更新1.1：</p>
-<pre><code>## tcp长链接需要新增用户，/activemq/conf/activemq.xml   注意这个配置位置必须如下
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;persistenceAdapter&gt;</div><div class="line">        &lt;kahaDB directory=&quot;$&#123;activemq.base&#125;/data/kahadb&quot;/&gt;</div><div class="line">    &lt;/persistenceAdapter&gt;</div><div class="line">    </div><div class="line">     ==&lt;plugins&gt;</div><div class="line">         &lt;simpleAuthenticationPlugin&gt;</div><div class="line">             &lt;users&gt;</div><div class="line">                 &lt;authenticationUser username=&quot;lxsoft&quot; password=&quot;lxtest&quot; groups=&quot;users,admins&quot;/&gt;</div><div class="line">             &lt;/users&gt;</div><div class="line">         &lt;/simpleAuthenticationPlugin&gt;</div><div class="line">     &lt;/plugins&gt;==</div><div class="line">    </div><div class="line">      &lt;!--</div><div class="line">        The systemUsage controls the maximum amount of space the broker will </div><div class="line">        use before slowing down producers. For more information, see:</div><div class="line">        </div><div class="line">        http://activemq.apache.org/producer-flow-control.html</div><div class="line">         </div><div class="line">    &lt;systemUsage&gt;</div></pre></td></tr></table></figure>
-</code></pre>  
+		<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">数据中心，使用 active mq，需要爬取队列列表信息到项目中</div></pre></td></tr></table></figure>
+<h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">使用node js爬虫实现</div></pre></td></tr></table></figure>
+<h1 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">资源文件在：learn_java/tree/master/node_pa_chong</div><div class="line"></div><div class="line">1 安装node js</div><div class="line">wget http://nodejs.org/dist/v0.8.16/node-v0.8.16.tar.gz </div><div class="line"></div><div class="line">tar zxvf node-v0.8.16.tar.gz</div><div class="line"> </div><div class="line">./configure </div><div class="line"> </div><div class="line">make &amp;&amp; make install</div><div class="line">   </div><div class="line">若需要升级nodejs版本</div><div class="line"></div><div class="line"> npm install -g n</div><div class="line"> n stable</div><div class="line"> n 0.10.26 //或者可以选择升级到指定版本</div><div class="line"> </div><div class="line"> </div><div class="line"> 启动nodejs爬虫</div><div class="line"> </div><div class="line"> forever npm -g install forever</div><div class="line"> </div><div class="line"> forever start app.js //后台启动</div><div class="line"> </div><div class="line"> node app.js //控制台启动</div></pre></td></tr></table></figure>
+<h2 id="主要的：-app-js-代码如下："><a href="#主要的：-app-js-代码如下：" class="headerlink" title="主要的： app.js 代码如下："></a>主要的： app.js 代码如下：</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line">var request = require(&apos;request&apos;);</div><div class="line">var parseString = require(&apos;xml2js&apos;).parseString;</div><div class="line">var jmsAdress = &apos;http://jira.lexisoft.cc:82/browse/KP-629&apos;;</div><div class="line">// var initAdress = &apos;http://114.215.29.139:10090/gkopen/rpc/init?tocken=2012335444456871128213845&amp;&amp;id=&apos;</div><div class="line"></div><div class="line">/</div><div class="line">app.get(&apos;/queue/json&apos;, function(req,res)&#123;</div><div class="line">   //这里的headers,针对需要爬区的页面不同，相当于账号信息等验证内容，右键浏览器审查元素可以得到，并不是每个网页都能爬区</div><div class="line">    request.get(jmsAdress,&#123;headers:&#123;&apos;Authorization&apos;:&apos;Basic YWRtaW46YWRtaW4=&apos;&#125;&#125;,function(error,response,body)&#123;</div><div class="line">      if (error) &#123;</div><div class="line">      return console.error(&apos;upload failed:&apos;, error);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    console.log(&apos;Upload successful!  Server responded with:&apos;, body);</div><div class="line">    parseString(body,function(error,data)&#123;</div><div class="line">      if (!error)&#123;</div><div class="line">      </div><div class="line">      //这里对爬取到的页面进行处理字符串过滤提取</div><div class="line">        var _data = JSON.stringify(data)</div><div class="line">        var __data = _data.replace(/\[/g,&apos;&apos;);</div><div class="line">        var ___data = __data.replace(/\]/g,&apos;&apos;);</div><div class="line">        var ____data = ___data.replace(&apos;&#123;&quot;queues&quot;:&#123;&quot;queue&quot;:&apos;,&apos;[&apos;);</div><div class="line">        var _____data = ____data.replace(&apos;&#125;&#125;&#125;&#125;&apos;,&apos;&#125;&#125;]&apos;);</div><div class="line">        var data = JSON.parse(_____data);</div><div class="line">       res.jsonp(data);</div><div class="line">     &#125;</div><div class="line">    &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line">var server = app.listen(11060, function () &#123;</div><div class="line"> console.log(&quot;启动成功 11060&quot;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -126,7 +113,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/server-linux-ubuntu/">server,linux,ubuntu</a>
+  <span></span> <a href="/tags/node-js/">node js</a>
   </div>
 
 </div>
@@ -135,7 +122,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/active_mq/" data-title="active mq安装 -ubuntu | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/05/node_js_pa_chong/" data-title="node js 爬虫 | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +136,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部">
+ <a href="/2017/05/05/docker私有仓库搭建/" title="docker私有库的搭建">
   <strong>上一篇：</strong><br/>
   <span>
-  iframe跨域嵌套头部</span>
+  docker私有库的搭建</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+<a href="/2017/05/05/timeDocker/"  title="docker 时区问题，迁移数据问题">
  <strong>下一篇：</strong><br/> 
- <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
+ <span>docker 时区问题，迁移数据问题
 </span>
 </a>
 </div>
@@ -169,7 +156,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/active_mq/" data-title="active mq安装 -ubuntu" data-url="http://zjy.com/2017/05/05/active_mq/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/05/node_js_pa_chong/" data-title="node js 爬虫" data-url="http://zjy.com/2017/05/05/node_js_pa_chong/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -187,7 +174,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现思路"><span class="toc-number">2.</span> <span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现方式"><span class="toc-number">3.</span> <span class="toc-text">实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要的：-app-js-代码如下："><span class="toc-number">3.1.</span> <span class="toc-text">主要的： app.js 代码如下：</span></a></li></ol></li></ol>
  
   </div>
 

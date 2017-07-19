@@ -4,27 +4,30 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>active mq安装 -ubuntu | zhang jian yu</title>
+    <title>docker 时区问题，迁移数据问题 | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
     
 
     
-    <meta name="description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="keywords" content="server,linux,ubuntu">
+    <meta name="description" content="问题112项目在使用docker部署的时候，发现docke容器里面的时区和服务器的时间相差8个小时。尽管使用 -v /etc/localtime:/etc/localtime 将服务器时间和容器挂载同步了，但是容器里的tomcat的时区仍然差8个小时。 说明12345 -v /etc/localtime:/etc/localtime    在启动的时候，使用这个命令，仅仅是将服务器和容器里系统的时">
+<meta name="keywords" content="docker  ubuntu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="active mq安装 -ubuntu">
-<meta property="og:url" content="http://zjy.com/2017/05/05/active_mq/index.html">
+<meta property="og:title" content="docker 时区问题，迁移数据问题">
+<meta property="og:url" content="http://zjy.com/2017/05/05/timeDocker/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
-<meta property="og:image" content="http://zjy.com/2017/05/05/active_mq/user.png">
-<meta property="og:updated_time" content="2017-07-19T10:40:28.606Z">
+<meta property="og:description" content="问题112项目在使用docker部署的时候，发现docke容器里面的时区和服务器的时间相差8个小时。尽管使用 -v /etc/localtime:/etc/localtime 将服务器时间和容器挂载同步了，但是容器里的tomcat的时区仍然差8个小时。 说明12345 -v /etc/localtime:/etc/localtime    在启动的时候，使用这个命令，仅仅是将服务器和容器里系统的时">
+<meta property="og:image" content="http://zjy.com/2017/05/05/timeDocker/1.png">
+<meta property="og:image" content="http://zjy.com/2017/05/05/timeDocker/2.png">
+<meta property="og:image" content="http://zjy.com/2017/05/05/timeDocker/3.png">
+<meta property="og:image" content="http://zjy.com/2017/05/05/timeDocker/4.png">
+<meta property="og:image" content="http://zjy.com/2017/05/05/timeDocker/5.png">
+<meta property="og:updated_time" content="2017-07-19T10:40:28.618Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="active mq安装 -ubuntu">
-<meta name="twitter:description" content="1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz 2.解压1tar zxf apache-activemq-5.6.0-bin.tar.gz 3.进入解压后的activemq/bin目录,启动mq1sudo ./activem">
-<meta name="twitter:image" content="http://zjy.com/2017/05/05/active_mq/index.png">
+<meta name="twitter:title" content="docker 时区问题，迁移数据问题">
+<meta name="twitter:description" content="问题112项目在使用docker部署的时候，发现docke容器里面的时区和服务器的时间相差8个小时。尽管使用 -v /etc/localtime:/etc/localtime 将服务器时间和容器挂载同步了，但是容器里的tomcat的时区仍然差8个小时。 说明12345 -v /etc/localtime:/etc/localtime    在启动的时候，使用这个命令，仅仅是将服务器和容器里系统的时">
+<meta name="twitter:image" content="http://zjy.com/2017/05/05/timeDocker/1.png">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
 
@@ -85,7 +88,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/active_mq/" title="active mq安装 -ubuntu" itemprop="url">active mq安装 -ubuntu</a>
+      <a href="/2017/05/05/timeDocker/" title="docker 时区问题，迁移数据问题" itemprop="url">docker 时区问题，迁移数据问题</a>
   </h1>
   <p class="article-author">By
        
@@ -101,24 +104,22 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题1"><span class="toc-number">1.</span> <span class="toc-text">问题1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#说明"><span class="toc-number">2.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决办法（超简单）"><span class="toc-number">3.</span> <span class="toc-text">解决办法（超简单）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-容器迁移"><span class="toc-number">4.</span> <span class="toc-text">docker 容器迁移</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决办法（超简单）-容器迁移"><span class="toc-number">4.1.</span> <span class="toc-text">解决办法（超简单） 容器迁移</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="1下载activemq"><a href="#1下载activemq" class="headerlink" title="1下载activemq"></a>1下载activemq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="2-解压"><a href="#2-解压" class="headerlink" title="2.解压"></a>2.解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar zxf apache-activemq-5.6.0-bin.tar.gz</div></pre></td></tr></table></figure>
-<h2 id="3-进入解压后的activemq-bin目录-启动mq"><a href="#3-进入解压后的activemq-bin目录-启动mq" class="headerlink" title="3.进入解压后的activemq/bin目录,启动mq"></a>3.进入解压后的activemq/bin目录,启动mq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./activemq start</div></pre></td></tr></table></figure>
-<h2 id="5-测试是否启动成功"><a href="#5-测试是否启动成功" class="headerlink" title="5.测试是否启动成功"></a>5.测试是否启动成功</h2><p>  现在本机telnet一下端口是否正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telnet 本机IP 8161</div></pre></td></tr></table></figure></p>
-<p> 再访问一下主页，一切正常！</p>
-<p><img src="/2017/05/05/active_mq/index.png" alt="logo"></p>
-<p>更新1.0：</p>
-<p>　　ubuntu上activemq和windows上不一样，默认登陆时不需要验证的，为了安全起见，建议修改下配置。</p>
-<h3 id="1-config文件夹下的jetty-xml，authenticate-值改成true"><a href="#1-config文件夹下的jetty-xml，authenticate-值改成true" class="headerlink" title="　　1.config文件夹下的jetty.xml，authenticate 值改成true"></a>　　1.config文件夹下的jetty.xml，authenticate 值改成true</h3><pre><code>2.config文件夹下的 jetty-realm.properties ，修改下用户和密码
-</code></pre><p><img src="/2017/05/05/active_mq/user.png" alt="logo"></p>
-<p>更新1.1：</p>
-<pre><code>## tcp长链接需要新增用户，/activemq/conf/activemq.xml   注意这个配置位置必须如下
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;persistenceAdapter&gt;</div><div class="line">        &lt;kahaDB directory=&quot;$&#123;activemq.base&#125;/data/kahadb&quot;/&gt;</div><div class="line">    &lt;/persistenceAdapter&gt;</div><div class="line">    </div><div class="line">     ==&lt;plugins&gt;</div><div class="line">         &lt;simpleAuthenticationPlugin&gt;</div><div class="line">             &lt;users&gt;</div><div class="line">                 &lt;authenticationUser username=&quot;lxsoft&quot; password=&quot;lxtest&quot; groups=&quot;users,admins&quot;/&gt;</div><div class="line">             &lt;/users&gt;</div><div class="line">         &lt;/simpleAuthenticationPlugin&gt;</div><div class="line">     &lt;/plugins&gt;==</div><div class="line">    </div><div class="line">      &lt;!--</div><div class="line">        The systemUsage controls the maximum amount of space the broker will </div><div class="line">        use before slowing down producers. For more information, see:</div><div class="line">        </div><div class="line">        http://activemq.apache.org/producer-flow-control.html</div><div class="line">         </div><div class="line">    &lt;systemUsage&gt;</div></pre></td></tr></table></figure>
-</code></pre>  
+		<h1 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">项目在使用docker部署的时候，发现docke容器里面的时区和服务器的时间相差8个小时。</div><div class="line">尽管使用 -v /etc/localtime:/etc/localtime 将服务器时间和容器挂载同步了，但是容器里的tomcat的时区仍然差8个小时。</div></pre></td></tr></table></figure>
+<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> -v /etc/localtime:/etc/localtime</div><div class="line">    在启动的时候，使用这个命令，仅仅是将服务器和容器里系统的时间挂载了，你可能进入到容器里面再执行</div><div class="line">“date” 命令看到，容器里面的时间的确是更改过来了，但是容器里面的tomcat运行的环境的日期，实际上仍未更改。</div><div class="line">    因为我们在pull获取这个tomcat镜像的时候，这个tomcat容器的时区已经固定了，所以我们唯一的办法是在编译这个tomcat镜像的时候，就将本地服务器的时间和这个镜像绑定起来。</div></pre></td></tr></table></figure>
+<h1 id="解决办法（超简单）"><a href="#解决办法（超简单）" class="headerlink" title="解决办法（超简单）"></a>解决办法（超简单）</h1><p>使用dockerFile编译镜像。 Dockerfile如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Pull base image  </div><div class="line">FROM tomcat:latest  </div><div class="line">ENV TZ=Asia/Shanghai</div><div class="line">RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt; /etc/timezone</div></pre></td></tr></table></figure></p>
+<p>执行如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">命令格式：</div><div class="line"></div><div class="line">      $docker build -t image_name Dockerfile_path</div><div class="line"></div><div class="line">$:docker build -t timetomcat/timetomcat .</div></pre></td></tr></table></figure></p>
+<p>然后后边启动容器的时候，使用编译的这个tomcat即可</p>
+<p>如图</p>
+<p><img src="/2017/05/05/timeDocker/1.png" alt="logo"></p>
+<h1 id="docker-容器迁移"><a href="#docker-容器迁移" class="headerlink" title="docker 容器迁移"></a>docker 容器迁移</h1><p>说明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">docker部署的服务器发生变化的时候，比如数据库，想部署到一个新的地址，这些数据迁移有很多办法：</div><div class="line"></div><div class="line">针对数据库：</div><div class="line">1  使用mysql 的主从复制备份，在项目运行期间，将mysql服务器备份到多个地址，具体请看地址：https://zhangjy520.github.io/</div><div class="line"></div><div class="line">2  使用启动mysql的时候，使用 -v 挂载 将本地的路径和容器路径绑定，然后迁移的时候将本地的路径复制到新服务器即可</div><div class="line">-v /home/mysql/master/data/db-conf:/etc/mysql/ -v /home/mysql/master/data/db-data:/var/lib/mysql</div><div class="line"></div><div class="line">3  导出mysql数据库呗，再导入到新的地址，比较low</div><div class="line"></div><div class="line">4  使用docker的容器迁移。这篇博客主要讲的是docker，这里我们主要讲讲如何使用docker迁移</div></pre></td></tr></table></figure></p>
+<h2 id="解决办法（超简单）-容器迁移"><a href="#解决办法（超简单）-容器迁移" class="headerlink" title="解决办法（超简单） 容器迁移"></a>解决办法（超简单） 容器迁移</h2><p>export  /  import<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">源服务器上执行</div><div class="line">1  docker export 83271b648212 &gt;time.tar    //导出容器，这里这个数字是容器id，会得到一个 tar压缩包</div><div class="line">	</div><div class="line">	解释：这个压缩包打开可以看到，其实是一个linux服务器的目录结构，这个命令将容器以及容器运行的环境打包了</div><div class="line"></div><div class="line">在目的服务器上执行</div><div class="line">2  cat time.tar | sudo docker import - time:v2  //导入容器，导入得到一个镜像，使用 带command /bin/bash  的docker run</div><div class="line">	即可得到之前的容器包括文件</div><div class="line">	</div><div class="line">	</div><div class="line">启动镜像</div><div class="line">3  sudo docker run -itd --name import_test -p 8087:8080  time:v2 /bin/bash</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/05/05/timeDocker/2.png" alt="logo"><br><img src="/2017/05/05/timeDocker/3.png" alt="logo"><br><img src="/2017/05/05/timeDocker/4.png" alt="logo"><br><img src="/2017/05/05/timeDocker/5.png" alt="logo"></p>
+<p>save    /    load</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1  	sudo docker save web &gt; web.tar</div><div class="line"></div><div class="line">2	sudo docker load &lt; web.tar</div></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -126,7 +127,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/server-linux-ubuntu/">server,linux,ubuntu</a>
+  <span></span> <a href="/tags/docker-ubuntu/">docker  ubuntu</a>
   </div>
 
 </div>
@@ -135,7 +136,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/active_mq/" data-title="active mq安装 -ubuntu | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/05/timeDocker/" data-title="docker 时区问题，迁移数据问题 | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +150,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部">
+ <a href="/2017/05/05/node_js_pa_chong/" title="node js 爬虫">
   <strong>上一篇：</strong><br/>
   <span>
-  iframe跨域嵌套头部</span>
+  node js 爬虫</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+<a href="/2017/05/05/redis_weather/"  title="redis 作缓存">
  <strong>下一篇：</strong><br/> 
- <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
+ <span>redis 作缓存
 </span>
 </a>
 </div>
@@ -169,7 +170,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/active_mq/" data-title="active mq安装 -ubuntu" data-url="http://zjy.com/2017/05/05/active_mq/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/05/timeDocker/" data-title="docker 时区问题，迁移数据问题" data-url="http://zjy.com/2017/05/05/timeDocker/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -187,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1下载activemq"><span class="toc-number">1.</span> <span class="toc-text">1下载activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-解压"><span class="toc-number">2.</span> <span class="toc-text">2.解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入解压后的activemq-bin目录-启动mq"><span class="toc-number">3.</span> <span class="toc-text">3.进入解压后的activemq/bin目录,启动mq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-测试是否启动成功"><span class="toc-number">4.</span> <span class="toc-text">5.测试是否启动成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-config文件夹下的jetty-xml，authenticate-值改成true"><span class="toc-number">4.1.</span> <span class="toc-text">　　1.config文件夹下的jetty.xml，authenticate 值改成true</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题1"><span class="toc-number">1.</span> <span class="toc-text">问题1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#说明"><span class="toc-number">2.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决办法（超简单）"><span class="toc-number">3.</span> <span class="toc-text">解决办法（超简单）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-容器迁移"><span class="toc-number">4.</span> <span class="toc-text">docker 容器迁移</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决办法（超简单）-容器迁移"><span class="toc-number">4.1.</span> <span class="toc-text">解决办法（超简单） 容器迁移</span></a></li></ol></li></ol>
  
   </div>
 
