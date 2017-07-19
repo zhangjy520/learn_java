@@ -1,7 +1,6 @@
----
-title: 服务器上的容器部署技术-docker
+title: docker-入门
+tags: 'server,linux,ubuntu'
 date: 2017-04-25 13:51:49
-tags: server,linux,ubuntu
 ---
 以下文章了解之后你可以在服务器上部署项目，本地不需要安装 tomcat，jdk，mysql等服务器，通过docker可以一键解决	
  

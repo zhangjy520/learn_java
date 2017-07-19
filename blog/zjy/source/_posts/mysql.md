@@ -1,9 +1,7 @@
----
 title: ubuntu14.04 安装配置mysql5.7
+tags: 'server,linux,ubuntu'
 date: 2017-05-05 13:51:49
-tags: server,linux,ubuntu
 ---
-
 # 服务器装mysql
  
 1  yum list installed |grep mysql

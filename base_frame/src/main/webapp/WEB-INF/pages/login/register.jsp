@@ -37,6 +37,9 @@
     <title>register</title>
 </head>
 <body>
+<h1>time:${time}</h1>
+<h1>date:${date}</h1>
+<h1>date1:${date1}</h1>
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">

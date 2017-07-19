@@ -26,7 +26,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,7 +40,13 @@ public class LoginController extends BasicController {
     UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String reg(HttpServletRequest request) {
+    public String reg(HttpServletRequest request,Model model) {
+        model.addAttribute("time",System.currentTimeMillis());
+        DateFormat format = new SimpleDateFormat();
+        System.out.println(format.format(new Date()));
+        System.out.println(format.format(System.currentTimeMillis()));
+        model.addAttribute("date",format.format(new Date()));
+        model.addAttribute("date1",format.format(System.currentTimeMillis()));
         return "login/register";
     }
 

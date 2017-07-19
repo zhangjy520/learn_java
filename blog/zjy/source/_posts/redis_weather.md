@@ -16,6 +16,32 @@ tags: java  redis
 ```
 
 
+# redis ubuntu安装启动
+```
+	wget http://download.redis.io/releases/redis-2.8.9.tar.gz
+	
+	tar xvfz redis-2.8.9.tar.gz
+	
+	cd redis-2.8.9
+	
+	sudo make	
+	
+	sudo make install
+	
+	sudo make test
+	
+	
+	启动 脚本文件
+	nohup  comman  &  后台启动，关闭终端不关闭
+	
+	nohup src/redis-server redis.conf &
+	
+	
+	
+
+```
+
+
 # 实现代码：
 ```
 
