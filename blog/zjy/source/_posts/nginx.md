@@ -1,9 +1,7 @@
----
 title: Nginx 安装 -ubuntu
+tags: 'server,linux,ubuntu'
 date: 2016-05-03 13:51:49
-tags: server,linux,ubuntu
 ---
-
 ## 1、Nginx简介
 Nginx是一个非常轻量级的HTTP服务器，发音为“engine X”，是一款轻量级的网页服务器、反向代理器以及电子邮件代理服务器。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。说到Web服务器，Apache服务器和IIS服务器是两大巨头；但是运行速度更快、更灵活的Nginx 正在迎头赶上。
 
@@ -42,9 +40,9 @@ Nginx是一个非常轻量级的HTTP服务器，发音为“engine X”，是一
 
 ![logo](nginx/5.png)
 
-## 3、Nginx的在线启动
+## 3、Nginx的在线启动/重启/停止
 ```
-sudo /etc/init.d/nginx start
+sudo /etc/init.d/nginx start/restart/stop
 ```
 如果你的机器同时安装了Apache，那上面的访问方式就不能使用了，而且nginx都可能启动不了，这是因为它们都是用了80这个端口。我们这里将nginx的端口修改为8080，修改nginx的配置文件nginx.conf，将一下这一行listen 80;修改为 listen 8080;然后就可以访问了，http://localhost:8080/ 。
 
@@ -145,5 +143,7 @@ server {
   }
 }
 
+报错 413 Request Entity Too Large（请求实体太大）
+由于代理，若项目导入的文件大小有限制，需要更改 nginx.conf 里面的 client_max_body_size 30M; 
 
 ---
