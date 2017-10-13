@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="spring_boot_demo" />
+        <module name="boot-demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="spring_boot_demo" target="1.5" />
+      <module name="boot-demo" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

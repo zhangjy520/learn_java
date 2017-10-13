@@ -1,3 +1,4 @@
+/*
 package com.servlet;
 
 import com.spreada.utils.chinese.ZHConverter;
@@ -51,7 +52,8 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
         singleHear();
-        /*String reg = "[^\u4e00-\u9fa5]";
+        */
+/*String reg = "[^\u4e00-\u9fa5]";
         readTxtFile("D:/1.txt","D:/2.txt");
 
 
@@ -75,7 +77,8 @@ public class Test {
                 out.close();
             }
 
-        }*/
+        }*//*
+
 
     }
 
@@ -100,3 +103,4 @@ public class Test {
     }
 
 }
+*/

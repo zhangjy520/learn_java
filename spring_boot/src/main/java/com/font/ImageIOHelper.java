@@ -1,3 +1,4 @@
+/*
 package com.font;
 
 import java.awt.image.BufferedImage;
@@ -18,12 +19,14 @@ import javax.imageio.stream.ImageOutputStream;
 import com.sun.media.imageio.plugins.tiff.TIFFImageWriteParam;
 
 public class ImageIOHelper {
-    /**
+    */
+/**
      * 图片文件转换为tif格式
      * @param imageFile 文件路径
      * @param imageFormat 文件扩展名
      * @return
-     */
+     *//*
+
     public static File createImage(File imageFile, String imageFormat) {
         File tempFile = null;
         try {
@@ -67,4 +70,4 @@ public class ImageIOHelper {
         return new File(strB.toString().replaceFirst("(?<=//.)(//w+)$", "tif"));
     }
 
-}
+}*/

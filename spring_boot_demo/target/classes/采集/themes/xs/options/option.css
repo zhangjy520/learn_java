@@ -1,0 +1,99 @@
+.rm_wrap{
+	width:660px;
+}
+.rm_section{
+	border:1px solid #ddd;
+	height:100%;
+	background:#fff;
+	margin-bottom:10px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px
+}
+.rm_opts label,.rm_opts small {	
+	line-height:24px;
+	width:280px;	
+	float:left
+}
+.rm_options input,.rm_opts select{
+	float:left;
+	padding:5px;
+	line-height:24px;
+	width:320px;	
+	}
+.rm_opts select{
+	
+	height:30px;
+	}
+.rm_select,.rm_text,.rm_select,.rm_textarea{
+	margin:5px;
+	padding:5px;
+	}
+.rm_input input:focus,.rm_input textarea:focus{
+	background:#f2f2f2;
+}
+.rm_input textarea{
+	width:320px;
+	height:175px;	
+	padding:5px;
+}
+.rm_title{	
+	cursor:pointer;	
+	padding:5px;
+	height:100%;
+	overflow:hidden;	
+}
+.rm_title h3{
+	cursor:pointer;	
+	margin:0;
+	font-weight:bold;
+	color:#232323;
+	float:left;
+	width:78%;
+	height:25px;
+	line-height:25px;	
+}
+.rm_title span.submit{
+	display:block;
+	float:right;
+	margin:0;
+	padding:0;
+	height:25px;
+	width:15%;		
+}
+.rm_title h3.inactive,.rm_title h3.active{
+	margin:5px 10px 0 2px;
+	padding-left:22px;
+	height:19px;
+	line-height:19px;
+	background:url(collapse.png) no-repeat 0 1px;
+	float:left
+}
+.rm_title h3.active{
+	background:url(collapse.png) no-repeat 0 -19px;
+}
+.clearfix{
+	clear:both
+}
+.rm_table th,.rm_table td{
+	border:1px solid #bbb;
+	padding:10px;
+	text-align:center
+}
+.rm_table th,.rm_table td.feature{
+	border-color:#888
+}
+.show_id{
+	width:150px;
+	margin-right:-500px;
+	position:fixed;
+	right:50%;
+	top:23%;
+	line-height:23px;
+	padding:10px;
+	list-style:square inside;
+	border:1px solid #ccc;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+}

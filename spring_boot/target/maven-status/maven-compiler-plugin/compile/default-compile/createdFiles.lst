@@ -1,0 +1,13 @@
+com\bean\GradeClassManage.class
+com\servlet\Application$1.class
+com\bean\CourseManage.class
+com\bean\Teacher.class
+com\servlet\Application$2.class
+com\bean\ZTable.class
+com\bean\Course.class
+com\bean\GradeClass.class
+com\servlet\Application.class
+com\util\JDBCUtil.class
+com\bean\TeacherManage.class
+com\bean\Room.class
+com\bean\Time.class

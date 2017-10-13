@@ -10,6 +10,10 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.util.JDBCUtil;
+import nettySDK.API.MessageHandler;
+import nettySDK.API.NettyBootStrap;
+import nettySDK.factory.ClientNettyBootStrapFactory;
+import nettySDK.factory.ServerNettyBootStrapFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -36,21 +40,44 @@ import java.util.Map;
 @Controller
 public class Application {
 
+    NettyBootStrap nettyBootStrap;
+    NettyBootStrap nettyBootStrapc;
+
+
+    @RequestMapping(value = "/server/init")
+    public void test1() throws Exception {
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa");
+        nettyBootStrap = ServerNettyBootStrapFactory.getNettyBootStrap(6666,true);
+        nettyBootStrap.connect();
+
+        nettyBootStrap.listenerMessage(new MessageHandler() {
+            @Override
+            public void onMessageReceive(Object o) {
+                System.out.println("有人来了" + o);
+            }
+        });
+    }
+    @RequestMapping(value = "/server/send")
+    public void test2() throws Exception {
+        nettyBootStrap.sendMessage("c","test");
+    }
+    @RequestMapping(value = "/client/init")
+    public void test3() throws Exception {
+        nettyBootStrapc  = ClientNettyBootStrapFactory.getNettyBootStrap("47.94.98.20",6666,true);
+        nettyBootStrapc.connect("c");
+        nettyBootStrapc.listenerMessage(new MessageHandler() {
+            public void onMessageReceive(Object message) {
+                System.out.println("服务器发来aaaa" + message);
+            }
+        });
+    }
+    @RequestMapping(value = "/client/send")
+    public void test4() throws Exception {
+            nettyBootStrapc.sendMessage("1234");
+    }
+
     @RequestMapping("/hello")
     public String test(){
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
         return "test.html";
     }
@@ -235,23 +262,7 @@ public class Application {
     }
     public static void main(String[] args) {
         SpringApplication.run(Application.class,args);
-       // System.out.println(dataTime());
-        /*int aaa = 123321;
-        String ccc = String.valueOf(aaa);
-        boolean flag = false;
-        for (int i = 0; i < ccc.length(); i++) {
-            if (ccc.charAt(i) == ccc.charAt(ccc.length()-i-1)){
-                flag = true;
-            }else {
-                flag = false;
-                break;
-            }
 
-        }
-        if (flag)
-            System.out.println("是");
-        else
-            System.out.println("否");*/
 
     }
 
