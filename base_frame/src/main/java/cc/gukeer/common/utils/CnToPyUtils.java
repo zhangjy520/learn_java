@@ -11,6 +11,10 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
  * Created by conn on 2016/8/26.
  */
 public class CnToPyUtils {
+
+    public static void main(String[] args) {
+        System.out.println(getPingYin("appinventor.ai_13115623.撒旦得到.Screen1"));
+    }
     //将汉字转换为全拼
     public static String getPingYin(String src) {
         char[] t1 = null;

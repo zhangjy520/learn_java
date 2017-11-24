@@ -103,5 +103,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
     <orderEntry type="library" name="Maven: org.directwebremoting:dwr:3.0.0-RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.7.Final" level="project" />
+    <orderEntry type="library" name="java-unrar-20120702-ds" level="project" />
   </component>
 </module>
