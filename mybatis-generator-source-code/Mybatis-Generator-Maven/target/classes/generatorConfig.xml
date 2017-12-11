@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE generatorConfiguration    
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"    
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 数据库驱动 -->
+	<classPathEntry location="D:\mysql-connector-java-5.1.9.jar" />
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+		<!-- <plugin type="cn.dulinan.mybatis.PaginationPlugin" />  -->
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/maventest" userId="root"
+			password="root">
+		</jdbcConnection>
+		<!-- <javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver> -->
+		<javaModelGenerator targetPackage="cn.xdf.wlyy.domain"
+			targetProject="cn.dulinan.ssm">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="cn.xdf.wlyy.mapper"
+			targetProject="cn.dulinan.ssm">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="cn.xdf.wlyy.dao" targetProject="cn.dulinan.ssm">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<table tableName="stud" domainObjectName="Stud"></table>
+<!-- 		<table tableName="user" domainObjectName="User"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table> -->
+	</context>
+</generatorConfiguration>  
