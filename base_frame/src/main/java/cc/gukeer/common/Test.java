@@ -1,7 +1,7 @@
 package cc.gukeer.common;
 
-import cc.gukeer.common.utils.RegUtil;
-import cc.gukeer.smartBoard.persistence.entity.Student;
+import cc.gukeer.common.utils.RegUtil; 
+import cc.gukeer.smartBoard.persistence.entity.Student; 
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -134,7 +134,7 @@ public class Test {
 
     public static int search(int i, int[] nums) {
         if (i < 0) { // 没有商家了，我们要开始销赃
-            return 0;
+            return 0; 
         }
         return Math.max(search(i - 1, nums), nums[i] + search(i - 2, nums));
     }
@@ -221,11 +221,91 @@ class Tes{
     }
 
     public Long getTime() {
-        return time;
+        return time; 
+        }
+        return Math.max(search(i - 1, nums), nums[i] + search(i - 2, nums));
+    }
+    public static void main(String args[]) throws Exception {
+        System.out.println(search(9,new int[]{1,2,3,4,5,6,7,8,9,10}));
+    }
+
+    public static void writeFile(String fileFullPath,String content) {
+        FileOutputStream fos = null;
+        try {
+            //true不覆盖已有内容
+            fos = new FileOutputStream(fileFullPath, true);
+            //写入
+            fos.write(content.getBytes());
+            // 写入一个换行
+            fos.write("\r\n".getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            if(fos != null){
+                try {
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static List<? extends Object> getListByGroup(List<? extends Object> list, String groupMethodName, String maxMethodName, Class obj) {
+        List<Object> result = new ArrayList<Object>();
+        try {
+            Map map = new HashMap();
+            Method methodGroup = obj.getMethod(groupMethodName);
+            Method methodMax = obj.getMethod(maxMethodName);
+
+            for (int i = 0; i < list.size(); i++) {
+                Object bean = list.get(i);
+                Object group = methodGroup.invoke(bean).toString();
+                String max = methodMax.invoke(bean).toString();
+
+                if (map.containsKey(group)) {
+                    if (i == 0) {
+                        map.put(group, bean);
+                    } else {
+                        String maxTemp = methodMax.invoke(map.get(group)).toString();
+                        if (max.compareTo(maxTemp) < 0)
+                            continue;
+                        else
+                            map.put(group, list.get(i));
+                    }
+                } else {
+                    map.put(group, bean);
+                }
+            }
+            for (Object key : map.keySet()) {
+                result.add(map.get(key));
+            }
+        } catch (Exception e) {
+            System.out.println("参与分组,聚合的字段值不能为空");
+            e.printStackTrace();
+        }
+        return result; 
     }
 
     public void setTime(Long time) {
         this.time = time;
     }
 }
+ 
+class Tes{
+    Long time;
 
+    public Tes(Long time) {
+        this.time = time;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
+    }
+} 

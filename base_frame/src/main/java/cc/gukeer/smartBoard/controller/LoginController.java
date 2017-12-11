@@ -67,11 +67,19 @@ public class LoginController extends BasicController {
     public void test3() throws Exception {
         nettyBootStrapc  = ClientNettyBootStrapFactory.getNettyBootStrap("127.0.0.1",10001,true);
         nettyBootStrapc.connect("test");
+<<<<<<< HEAD
       /*  nettyBootStrapc.listenerMessage(new MessageHandler() {
             public void onMessageReceive(Object message) {
                 System.out.println("服务器发来" + message);
             }
         });*/
+=======
+        nettyBootStrapc.listenerMessage(new MessageHandler() {
+            public void onMessageReceive(Object message) {
+                System.out.println("服务器发来" + message);
+            }
+        });
+>>>>>>> adb54afbceee83ca4e16c8d3112e2fb4a5e4d3a6
     }
     @RequestMapping(value = "/client/send")
     public void test4() throws Exception {
