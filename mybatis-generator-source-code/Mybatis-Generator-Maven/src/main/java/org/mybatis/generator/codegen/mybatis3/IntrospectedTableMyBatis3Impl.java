@@ -15,9 +15,6 @@
  */
 package org.mybatis.generator.codegen.mybatis3;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -38,6 +35,9 @@ import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -177,6 +177,12 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
     public List<GeneratedJavaFile> getGeneratedJavaFiles() {
         List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
 
+        String javaMergeable = context.getProperty("javaMergeable");
+        boolean mergeable = false;
+        if ("true".equalsIgnoreCase(javaMergeable)){
+            mergeable = true;
+        }
+
         for (AbstractJavaGenerator javaGenerator : javaModelGenerators) {
             List<CompilationUnit> compilationUnits = javaGenerator
                     .getCompilationUnits();
@@ -185,7 +191,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
                         context.getJavaModelGeneratorConfiguration()
                                 .getTargetProject(),
                                 context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                                context.getJavaFormatter());
+                                context.getJavaFormatter(),mergeable);
                 answer.add(gjf);
             }
         }
@@ -198,7 +204,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
                         context.getJavaClientGeneratorConfiguration()
                                 .getTargetProject(),
                                 context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                                context.getJavaFormatter());
+                                context.getJavaFormatter(),mergeable);
                 answer.add(gjf);
             }
         }
@@ -212,10 +218,21 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 
         if (xmlMapperGenerator != null) {
             Document document = xmlMapperGenerator.getDocument();
-            GeneratedXmlFile gxf = new GeneratedXmlFile(document,
+            /*GeneratedXmlFile gxf = new GeneratedXmlFile(document,
                 getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
                 context.getSqlMapGeneratorConfiguration().getTargetProject(),
-                true, context.getXmlFormatter());
+                true, context.getXmlFormatter());*/
+
+            String xmlMergeable = context.getProperty("xmlMergeable");
+            boolean mergeable = false;
+            if ("true".equalsIgnoreCase(xmlMergeable)){
+                mergeable = true;
+            }
+            GeneratedXmlFile gxf = new GeneratedXmlFile(document,
+                    getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
+                    context.getSqlMapGeneratorConfiguration().getTargetProject(),
+                    mergeable, context.getXmlFormatter());
+
             if (context.getPlugins().sqlMapGenerated(gxf, this)) {
                 answer.add(gxf);
             }

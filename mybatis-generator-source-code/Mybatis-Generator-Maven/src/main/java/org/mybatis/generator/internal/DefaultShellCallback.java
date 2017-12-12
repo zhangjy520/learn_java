@@ -15,13 +15,14 @@
  */
 package org.mybatis.generator.internal;
 
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
-import java.io.File;
-import java.util.StringTokenizer;
-
 import org.mybatis.generator.api.ShellCallback;
 import org.mybatis.generator.exception.ShellException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.StringTokenizer;
+
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 /**
  * @author Jeff Butler
@@ -86,7 +87,7 @@ public class DefaultShellCallback implements ShellCallback {
 
     public String mergeJavaFile(String newFileSource,
             String existingFileFullPath, String[] javadocTags, String fileEncoding)
-            throws ShellException {
-        throw new UnsupportedOperationException();
+            throws ShellException, FileNotFoundException {
+        return new JavaFileMergerJaxp().getNewJavaFile(newFileSource,existingFileFullPath);
     }
 }

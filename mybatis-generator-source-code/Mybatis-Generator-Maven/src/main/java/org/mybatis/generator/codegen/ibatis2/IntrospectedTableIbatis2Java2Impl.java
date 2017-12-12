@@ -15,9 +15,6 @@
  */
 package org.mybatis.generator.codegen.ibatis2;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -39,6 +36,9 @@ import org.mybatis.generator.codegen.ibatis2.model.RecordWithBLOBsGenerator;
 import org.mybatis.generator.codegen.ibatis2.sqlmap.SqlMapGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -146,6 +146,12 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
     public List<GeneratedJavaFile> getGeneratedJavaFiles() {
         List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
 
+        String javaMergeable = context.getProperty("javaMergeable");
+        boolean mergeable = false;
+        if ("true".equalsIgnoreCase(javaMergeable)){
+            mergeable = true;
+        }
+
         for (AbstractJavaGenerator javaGenerator : javaModelGenerators) {
             List<CompilationUnit> compilationUnits = javaGenerator
                     .getCompilationUnits();
@@ -154,7 +160,7 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
                         context.getJavaModelGeneratorConfiguration()
                                 .getTargetProject(),
                                 context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                                context.getJavaFormatter());
+                                context.getJavaFormatter(),mergeable);
                 answer.add(gjf);
             }
         }
@@ -167,7 +173,7 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
                         context.getJavaClientGeneratorConfiguration()
                                 .getTargetProject(),
                                 context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                                context.getJavaFormatter());
+                                context.getJavaFormatter(),mergeable);
                 answer.add(gjf);
             }
         }

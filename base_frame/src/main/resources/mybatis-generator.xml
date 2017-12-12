@@ -11,6 +11,8 @@
     <classPathEntry location="${drive.class.path}"/>
 
     <context id="MySQLTables" targetRuntime="MyBatis3">
+        <property name="xmlMergeable" value="true" />
+        <property name="javaMergeable" value="true" />
         <!-- 抑制警告 -->
         <property name="suppressTypeWarnings" value="true"/>
 

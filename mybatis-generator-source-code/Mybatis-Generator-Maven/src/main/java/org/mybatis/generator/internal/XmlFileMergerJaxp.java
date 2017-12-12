@@ -15,38 +15,27 @@
  */
 package org.mybatis.generator.internal;
 
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.sun.org.apache.xerces.internal.dom.DeferredTextImpl; 
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.config.MergeConstants;
 import org.mybatis.generator.exception.ShellException;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
+
 /**
  * This class handles the task of merging changes into an existing XML file.
- * 
+ *
  * @author Jeff Butler
  */
 public class XmlFileMergerJaxp {
@@ -72,13 +61,14 @@ public class XmlFileMergerJaxp {
         super();
     }
 
+ 
     public static String getMergedSource(GeneratedXmlFile generatedXmlFile,
-            File existingFile) throws ShellException {
+                                         File existingFile) throws ShellException {
 
         try {
             return getMergedSource(new InputSource(new StringReader(generatedXmlFile.getFormattedContent())),
-                new InputSource(new InputStreamReader(new FileInputStream(existingFile), "UTF-8")), //$NON-NLS-1$
-                existingFile.getName());
+                    new InputSource(new InputStreamReader(new FileInputStream(existingFile), "UTF-8")), //$NON-NLS-1$
+                    existingFile.getName());
         } catch (IOException e) {
             throw new ShellException(getString("Warning.13", //$NON-NLS-1$
                     existingFile.getName()), e);
@@ -90,9 +80,9 @@ public class XmlFileMergerJaxp {
                     existingFile.getName()), e);
         }
     }
-    
+
     public static String getMergedSource(InputSource newFile,
-            InputSource existingFile, String existingFileName) throws IOException, SAXException,
+                                         InputSource existingFile, String existingFileName) throws IOException, SAXException,
             ParserConfigurationException, ShellException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -104,6 +94,7 @@ public class XmlFileMergerJaxp {
         Document existingDocument = builder.parse(existingFile);
         Document newDocument = builder.parse(newFile);
 
+
         DocumentType newDocType = newDocument.getDoctype();
         DocumentType existingDocType = existingDocument.getDoctype();
 
@@ -114,7 +105,6 @@ public class XmlFileMergerJaxp {
 
         Element existingRootElement = existingDocument.getDocumentElement();
         Element newRootElement = newDocument.getDocumentElement();
-
         // reconcile the root element attributes -
         // take all attributes from the new element and add to the existing
         // element
@@ -125,16 +115,42 @@ public class XmlFileMergerJaxp {
         for (int i = attributeCount - 1; i >= 0; i--) {
             Node node = attributes.item(i);
             existingRootElement.removeAttribute(node.getNodeName());
+
+            System.out.println(node.getNodeName());
         }
 
         // add attributes from the new root node to the old root node
         attributes = newRootElement.getAttributes();
+
         attributeCount = attributes.getLength();
         for (int i = 0; i < attributeCount; i++) {
             Node node = attributes.item(i);
             existingRootElement.setAttribute(node.getNodeName(), node
                     .getNodeValue());
         }
+
+        //鑾峰彇鏂扮敓鎴愮殑鎵�湁xml锛屾墍鏈塭lement鐨刬d鍒楄〃锛屽垹闄や箣鍓嶅悓鍚嶇殑缁撶偣
+        NodeList newMethods = newRootElement.getChildNodes();
+        List<String> methods = new ArrayList<String>();
+        for (int i = 0; i < newMethods.getLength(); i++) {
+            Node node = newMethods.item(i);
+            try {
+                if (node instanceof DeferredTextImpl) {
+                    continue;
+                }
+                Element ele = (Element) node;
+                methods.add(ele.getAttribute("id"));
+            } catch (Exception e) {
+                //#text鑺傜偣杞崲浼氬紓甯�
+                continue;
+            }
+            if (i == newMethods.getLength() - 1) {
+                if (isWhiteSpace(node)) {
+                    break;
+                }
+            }
+        }
+
 
         // remove the old generated elements and any
         // white space before the old nodes
@@ -143,10 +159,10 @@ public class XmlFileMergerJaxp {
         int length = children.getLength();
         for (int i = 0; i < length; i++) {
             Node node = children.item(i);
-            if (isGeneratedNode(node)) {
+            if (isGeneratedNode(node, methods)) {
                 nodesToDelete.add(node);
             } else if (isWhiteSpace(node)
-                    && isGeneratedNode(children.item(i + 1))) {
+                    && isGeneratedNode(children.item(i + 1), methods)) {
                 nodesToDelete.add(node);
             }
         }
@@ -186,12 +202,16 @@ public class XmlFileMergerJaxp {
         return s;
     }
 
-    private static boolean isGeneratedNode(Node node) {
+    private static boolean isGeneratedNode(Node node, List<String> methods) {
         boolean rc = false;
 
         if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             String id = element.getAttribute("id"); //$NON-NLS-1$
+            if (methods.contains(id)) {
+                return true;
+            }
+
             if (id != null) {
                 for (String prefix : MergeConstants.OLD_XML_ELEMENT_PREFIXES) {
                     if (id.startsWith(prefix)) {

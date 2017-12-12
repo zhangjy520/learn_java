@@ -24,6 +24,7 @@ public class GeneratedJavaFile extends GeneratedFile {
     private CompilationUnit compilationUnit;
     private String fileEncoding;
     private JavaFormatter javaFormatter;
+    private boolean isMergeable;
 
     /**
      * Default constructor
@@ -31,17 +32,18 @@ public class GeneratedJavaFile extends GeneratedFile {
     public GeneratedJavaFile(CompilationUnit compilationUnit,
             String targetProject,
             String fileEncoding,
-            JavaFormatter javaFormatter) {
+            JavaFormatter javaFormatter,boolean isMergeable) {
         super(targetProject);
         this.compilationUnit = compilationUnit;
         this.fileEncoding = fileEncoding;
         this.javaFormatter = javaFormatter;
+        this.isMergeable = isMergeable;
     }
 
     public GeneratedJavaFile(CompilationUnit compilationUnit,
             String targetProject,
-            JavaFormatter javaFormatter) {
-        this(compilationUnit, targetProject, null, javaFormatter);
+            JavaFormatter javaFormatter,boolean isMergeable) {
+        this(compilationUnit, targetProject, null, javaFormatter,isMergeable);
     }
     
     @Override
@@ -77,7 +79,7 @@ public class GeneratedJavaFile extends GeneratedFile {
      */
     @Override
     public boolean isMergeable() {
-        return true;
+        return isMergeable;
     }
 
     public String getFileEncoding() {

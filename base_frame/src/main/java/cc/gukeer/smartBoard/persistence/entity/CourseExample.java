@@ -1,13 +1,26 @@
+/**
+ * 
+ * Title. <br>
+ * Description.
+ * <p>
+ * Copyright: Copyright (c) 2017年12月12日 16:51:10
+ * <p>2016-3-21
+ * Company: gukeer
+ * <p>
+ * Author: lxsoft
+ * <p>
+ * Version: 1.0
+ * <p>
+ */
 package cc.gukeer.smartBoard.persistence.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseExample {
+
     protected String orderByClause;
-
     protected boolean distinct;
-
     protected List<Criteria> oredCriteria;
 
     public CourseExample() {
@@ -64,6 +77,7 @@ public class CourseExample {
     }
 
     protected abstract static class GeneratedCriteria {
+
         protected List<Criterion> criteria;
 
         protected GeneratedCriteria() {
@@ -354,63 +368,123 @@ public class CourseExample {
             return (Criteria) this;
         }
 
-        public Criteria andSidIsNull() {
-            addCriterion("sid is null");
+        public Criteria andAaaaIsNull() {
+            addCriterion("aaaa is null");
             return (Criteria) this;
         }
 
-        public Criteria andSidIsNotNull() {
-            addCriterion("sid is not null");
+        public Criteria andAaaaIsNotNull() {
+            addCriterion("aaaa is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSidEqualTo(Integer value) {
-            addCriterion("sid =", value, "sid");
+        public Criteria andAaaaEqualTo(Long value) {
+            addCriterion("aaaa =", value, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidNotEqualTo(Integer value) {
-            addCriterion("sid <>", value, "sid");
+        public Criteria andAaaaNotEqualTo(Long value) {
+            addCriterion("aaaa <>", value, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidGreaterThan(Integer value) {
-            addCriterion("sid >", value, "sid");
+        public Criteria andAaaaGreaterThan(Long value) {
+            addCriterion("aaaa >", value, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sid >=", value, "sid");
+        public Criteria andAaaaGreaterThanOrEqualTo(Long value) {
+            addCriterion("aaaa >=", value, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidLessThan(Integer value) {
-            addCriterion("sid <", value, "sid");
+        public Criteria andAaaaLessThan(Long value) {
+            addCriterion("aaaa <", value, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidLessThanOrEqualTo(Integer value) {
-            addCriterion("sid <=", value, "sid");
+        public Criteria andAaaaLessThanOrEqualTo(Long value) {
+            addCriterion("aaaa <=", value, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidIn(List<Integer> values) {
-            addCriterion("sid in", values, "sid");
+        public Criteria andAaaaIn(List<Long> values) {
+            addCriterion("aaaa in", values, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidNotIn(List<Integer> values) {
-            addCriterion("sid not in", values, "sid");
+        public Criteria andAaaaNotIn(List<Long> values) {
+            addCriterion("aaaa not in", values, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidBetween(Integer value1, Integer value2) {
-            addCriterion("sid between", value1, value2, "sid");
+        public Criteria andAaaaBetween(Long value1, Long value2) {
+            addCriterion("aaaa between", value1, value2, "aaaa");
             return (Criteria) this;
         }
 
-        public Criteria andSidNotBetween(Integer value1, Integer value2) {
-            addCriterion("sid not between", value1, value2, "sid");
+        public Criteria andAaaaNotBetween(Long value1, Long value2) {
+            addCriterion("aaaa not between", value1, value2, "aaaa");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddIsNull() {
+            addCriterion("ddddd is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddIsNotNull() {
+            addCriterion("ddddd is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddEqualTo(Long value) {
+            addCriterion("ddddd =", value, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddNotEqualTo(Long value) {
+            addCriterion("ddddd <>", value, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddGreaterThan(Long value) {
+            addCriterion("ddddd >", value, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddGreaterThanOrEqualTo(Long value) {
+            addCriterion("ddddd >=", value, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddLessThan(Long value) {
+            addCriterion("ddddd <", value, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddLessThanOrEqualTo(Long value) {
+            addCriterion("ddddd <=", value, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddIn(List<Long> values) {
+            addCriterion("ddddd in", values, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddNotIn(List<Long> values) {
+            addCriterion("ddddd not in", values, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddBetween(Long value1, Long value2) {
+            addCriterion("ddddd between", value1, value2, "ddddd");
+            return (Criteria) this;
+        }
+
+        public Criteria andDddddNotBetween(Long value1, Long value2) {
+            addCriterion("ddddd not between", value1, value2, "ddddd");
             return (Criteria) this;
         }
 
@@ -422,26 +496,21 @@ public class CourseExample {
 
     public static class Criteria extends GeneratedCriteria {
 
+
         protected Criteria() {
             super();
         }
     }
 
     public static class Criterion {
+
         private String condition;
-
         private Object value;
-
         private Object secondValue;
-
         private boolean noValue;
-
         private boolean singleValue;
-
         private boolean betweenValue;
-
         private boolean listValue;
-
         private String typeHandler;
 
         public String getCondition() {

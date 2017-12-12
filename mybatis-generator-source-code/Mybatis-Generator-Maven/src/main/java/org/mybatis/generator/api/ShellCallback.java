@@ -15,9 +15,10 @@
  */
 package org.mybatis.generator.api;
 
-import java.io.File;
-
 import org.mybatis.generator.exception.ShellException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * This interface defines methods that a shell should support to enable
@@ -103,7 +104,7 @@ public interface ShellCallback {
      *             exception message to the list of warnings automatically.
      */
     String mergeJavaFile(String newFileSource, String existingFileFullPath,
-            String[] javadocTags, String fileEncoding) throws ShellException;
+            String[] javadocTags, String fileEncoding) throws ShellException, FileNotFoundException;
 
     /**
      * After all files are saved to the file system, this method is called
