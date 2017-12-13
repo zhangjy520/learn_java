@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class CourseExample {
 
-	protected boolean distinct;
-
 	protected String orderByClause;
 
 	protected List<Criteria> oredCriteria;
+
+	protected boolean distinct;
 
 	public void setOrderByClause(String orderByClause) {
 	    this.orderByClause = orderByClause;
@@ -422,6 +422,76 @@ public class CourseExample {
 	        return (Criteria) this;
 	    }
 	
+	    public Criteria andAsdssssssssssIsNull() {
+	        addCriterion("asdssssssssss is null");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssIsNotNull() {
+	        addCriterion("asdssssssssss is not null");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssEqualTo(String value) {
+	        addCriterion("asdssssssssss =", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssNotEqualTo(String value) {
+	        addCriterion("asdssssssssss <>", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssGreaterThan(String value) {
+	        addCriterion("asdssssssssss >", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssGreaterThanOrEqualTo(String value) {
+	        addCriterion("asdssssssssss >=", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssLessThan(String value) {
+	        addCriterion("asdssssssssss <", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssLessThanOrEqualTo(String value) {
+	        addCriterion("asdssssssssss <=", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssLike(String value) {
+	        addCriterion("asdssssssssss like", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssNotLike(String value) {
+	        addCriterion("asdssssssssss not like", value, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssIn(List<String> values) {
+	        addCriterion("asdssssssssss in", values, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssNotIn(List<String> values) {
+	        addCriterion("asdssssssssss not in", values, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssBetween(String value1, String value2) {
+	        addCriterion("asdssssssssss between", value1, value2, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssNotBetween(String value1, String value2) {
+	        addCriterion("asdssssssssss not between", value1, value2, "asdssssssssss");
+	        return (Criteria) this;
+	    }
+	
 	    public Criteria andNameLikeInsensitive(String value) {
 	        addCriterion("upper(name) like", value.toUpperCase(), "name");
 	        return (Criteria) this;
@@ -429,6 +499,11 @@ public class CourseExample {
 	
 	    public Criteria andDdddLikeInsensitive(String value) {
 	        addCriterion("upper(dddd) like", value.toUpperCase(), "dddd");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andAsdssssssssssLikeInsensitive(String value) {
+	        addCriterion("upper(asdssssssssss) like", value.toUpperCase(), "asdssssssssss");
 	        return (Criteria) this;
 	    }
 	}	public static class Criteria extends GeneratedCriteria {

@@ -27,5 +27,7 @@ public interface CourseMapper {
 
 	int updateByPrimaryKey(Course record);
 
+	int abvs(CourseExample example);
+
 
 }

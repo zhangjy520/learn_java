@@ -115,8 +115,6 @@ public class XmlFileMergerJaxp {
         for (int i = attributeCount - 1; i >= 0; i--) {
             Node node = attributes.item(i);
             existingRootElement.removeAttribute(node.getNodeName());
-
-            System.out.println(node.getNodeName());
         }
 
         // add attributes from the new root node to the old root node

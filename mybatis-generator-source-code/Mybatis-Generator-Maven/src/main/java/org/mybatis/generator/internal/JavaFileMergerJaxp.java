@@ -48,6 +48,7 @@ public class JavaFileMergerJaxp {
 
     public String mergerFile(CompilationUnit newCompilationUnit, CompilationUnit existingCompilationUnit) {
 
+        System.out.println("合并java代码");
         StringBuilder sb = new StringBuilder(newCompilationUnit.getPackageDeclaration().get().toString());
         newCompilationUnit.removePackageDeclaration();
 
@@ -98,7 +99,7 @@ public class JavaFileMergerJaxp {
                 newLine(sb);
             }
 
-            List<String> methodList = new ArrayList<>();
+            List<String> methodList = new ArrayList<String>();
             for (MethodDeclaration m : methods) {
                 methodList.add(m.getName().toString());
             }
