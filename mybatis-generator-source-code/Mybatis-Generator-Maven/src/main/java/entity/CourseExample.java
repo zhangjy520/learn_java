@@ -352,128 +352,158 @@ public class CourseExample {
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaIsNull() {
-	        addCriterion("aaaa is null");
+	    public Criteria andDdddIsNull() {
+	        addCriterion("dddd is null");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaIsNotNull() {
-	        addCriterion("aaaa is not null");
+	    public Criteria andDdddIsNotNull() {
+	        addCriterion("dddd is not null");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaEqualTo(Long value) {
-	        addCriterion("aaaa =", value, "aaaa");
+	    public Criteria andDdddEqualTo(String value) {
+	        addCriterion("dddd =", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaNotEqualTo(Long value) {
-	        addCriterion("aaaa <>", value, "aaaa");
+	    public Criteria andDdddNotEqualTo(String value) {
+	        addCriterion("dddd <>", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaGreaterThan(Long value) {
-	        addCriterion("aaaa >", value, "aaaa");
+	    public Criteria andDdddGreaterThan(String value) {
+	        addCriterion("dddd >", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaGreaterThanOrEqualTo(Long value) {
-	        addCriterion("aaaa >=", value, "aaaa");
+	    public Criteria andDdddGreaterThanOrEqualTo(String value) {
+	        addCriterion("dddd >=", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaLessThan(Long value) {
-	        addCriterion("aaaa <", value, "aaaa");
+	    public Criteria andDdddLessThan(String value) {
+	        addCriterion("dddd <", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaLessThanOrEqualTo(Long value) {
-	        addCriterion("aaaa <=", value, "aaaa");
+	    public Criteria andDdddLessThanOrEqualTo(String value) {
+	        addCriterion("dddd <=", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaIn(List<Long> values) {
-	        addCriterion("aaaa in", values, "aaaa");
+	    public Criteria andDdddLike(String value) {
+	        addCriterion("dddd like", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaNotIn(List<Long> values) {
-	        addCriterion("aaaa not in", values, "aaaa");
+	    public Criteria andDdddNotLike(String value) {
+	        addCriterion("dddd not like", value, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaBetween(Long value1, Long value2) {
-	        addCriterion("aaaa between", value1, value2, "aaaa");
+	    public Criteria andDdddIn(List<String> values) {
+	        addCriterion("dddd in", values, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAaaaNotBetween(Long value1, Long value2) {
-	        addCriterion("aaaa not between", value1, value2, "aaaa");
+	    public Criteria andDdddNotIn(List<String> values) {
+	        addCriterion("dddd not in", values, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddIsNull() {
-	        addCriterion("ddddd is null");
+	    public Criteria andDdddBetween(String value1, String value2) {
+	        addCriterion("dddd between", value1, value2, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddIsNotNull() {
-	        addCriterion("ddddd is not null");
+	    public Criteria andDdddNotBetween(String value1, String value2) {
+	        addCriterion("dddd not between", value1, value2, "dddd");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddEqualTo(Long value) {
-	        addCriterion("ddddd =", value, "ddddd");
+	    public Criteria andDccccccIsNull() {
+	        addCriterion("dcccccc is null");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddNotEqualTo(Long value) {
-	        addCriterion("ddddd <>", value, "ddddd");
+	    public Criteria andDccccccIsNotNull() {
+	        addCriterion("dcccccc is not null");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddGreaterThan(Long value) {
-	        addCriterion("ddddd >", value, "ddddd");
+	    public Criteria andDccccccEqualTo(String value) {
+	        addCriterion("dcccccc =", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddGreaterThanOrEqualTo(Long value) {
-	        addCriterion("ddddd >=", value, "ddddd");
+	    public Criteria andDccccccNotEqualTo(String value) {
+	        addCriterion("dcccccc <>", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddLessThan(Long value) {
-	        addCriterion("ddddd <", value, "ddddd");
+	    public Criteria andDccccccGreaterThan(String value) {
+	        addCriterion("dcccccc >", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddLessThanOrEqualTo(Long value) {
-	        addCriterion("ddddd <=", value, "ddddd");
+	    public Criteria andDccccccGreaterThanOrEqualTo(String value) {
+	        addCriterion("dcccccc >=", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddIn(List<Long> values) {
-	        addCriterion("ddddd in", values, "ddddd");
+	    public Criteria andDccccccLessThan(String value) {
+	        addCriterion("dcccccc <", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddNotIn(List<Long> values) {
-	        addCriterion("ddddd not in", values, "ddddd");
+	    public Criteria andDccccccLessThanOrEqualTo(String value) {
+	        addCriterion("dcccccc <=", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddBetween(Long value1, Long value2) {
-	        addCriterion("ddddd between", value1, value2, "ddddd");
+	    public Criteria andDccccccLike(String value) {
+	        addCriterion("dcccccc like", value, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andDddddNotBetween(Long value1, Long value2) {
-	        addCriterion("ddddd not between", value1, value2, "ddddd");
+	    public Criteria andDccccccNotLike(String value) {
+	        addCriterion("dcccccc not like", value, "dcccccc");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andDccccccIn(List<String> values) {
+	        addCriterion("dcccccc in", values, "dcccccc");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andDccccccNotIn(List<String> values) {
+	        addCriterion("dcccccc not in", values, "dcccccc");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andDccccccBetween(String value1, String value2) {
+	        addCriterion("dcccccc between", value1, value2, "dcccccc");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andDccccccNotBetween(String value1, String value2) {
+	        addCriterion("dcccccc not between", value1, value2, "dcccccc");
 	        return (Criteria) this;
 	    }
 	
 	    public Criteria andNameLikeInsensitive(String value) {
 	        addCriterion("upper(name) like", value.toUpperCase(), "name");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andDdddLikeInsensitive(String value) {
+	        addCriterion("upper(dddd) like", value.toUpperCase(), "dddd");
+	        return (Criteria) this;
+	    }
+	
+	    public Criteria andDccccccLikeInsensitive(String value) {
+	        addCriterion("upper(dcccccc) like", value.toUpperCase(), "dcccccc");
 	        return (Criteria) this;
 	    }
 	}	public static class Criteria extends GeneratedCriteria {

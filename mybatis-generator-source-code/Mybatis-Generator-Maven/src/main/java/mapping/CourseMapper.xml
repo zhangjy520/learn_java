@@ -6,8 +6,8 @@
         <result column="cid" jdbcType="INTEGER" property="cid" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="time" jdbcType="INTEGER" property="time" />
-        <result column="aaaa" jdbcType="BIGINT" property="aaaa" />
-        <result column="ddddd" jdbcType="BIGINT" property="ddddd" />
+        <result column="dddd" jdbcType="VARCHAR" property="dddd" />
+        <result column="dcccccc" jdbcType="VARCHAR" property="dcccccc" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -68,7 +68,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, cid, name, time, aaaa, ddddd
+        id, cid, name, time, dddd, dcccccc
     </sql>
     <select id="selectByExample" parameterType="entity.CourseExample" resultMap="BaseResultMap">
         select
@@ -103,9 +103,11 @@
     </delete>
     <insert id="insert" parameterType="entity.Course">
         insert into t_course (id, cid, name, 
-            time, aaaa, ddddd)
+            time, dddd, dcccccc
+            )
         values (#{id,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-            #{time,jdbcType=INTEGER}, #{aaaa,jdbcType=BIGINT}, #{ddddd,jdbcType=BIGINT})
+            #{time,jdbcType=INTEGER}, #{dddd,jdbcType=VARCHAR}, #{dcccccc,jdbcType=VARCHAR}
+            )
     </insert>
     <insert id="insertSelective" parameterType="entity.Course">
         insert into t_course
@@ -122,11 +124,11 @@
             <if test="time != null">
                 time,
             </if>
-            <if test="aaaa != null">
-                aaaa,
+            <if test="dddd != null">
+                dddd,
             </if>
-            <if test="ddddd != null">
-                ddddd,
+            <if test="dcccccc != null">
+                dcccccc,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -142,11 +144,11 @@
             <if test="time != null">
                 #{time,jdbcType=INTEGER},
             </if>
-            <if test="aaaa != null">
-                #{aaaa,jdbcType=BIGINT},
+            <if test="dddd != null">
+                #{dddd,jdbcType=VARCHAR},
             </if>
-            <if test="ddddd != null">
-                #{ddddd,jdbcType=BIGINT},
+            <if test="dcccccc != null">
+                #{dcccccc,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -165,11 +167,11 @@
             <if test="record.time != null">
                 time = #{record.time,jdbcType=INTEGER},
             </if>
-            <if test="record.aaaa != null">
-                aaaa = #{record.aaaa,jdbcType=BIGINT},
+            <if test="record.dddd != null">
+                dddd = #{record.dddd,jdbcType=VARCHAR},
             </if>
-            <if test="record.ddddd != null">
-                ddddd = #{record.ddddd,jdbcType=BIGINT},
+            <if test="record.dcccccc != null">
+                dcccccc = #{record.dcccccc,jdbcType=VARCHAR},
             </if>
         </set>
         <if test="_parameter != null">
@@ -182,8 +184,8 @@
             cid = #{record.cid,jdbcType=INTEGER},
             name = #{record.name,jdbcType=VARCHAR},
             time = #{record.time,jdbcType=INTEGER},
-            aaaa = #{record.aaaa,jdbcType=BIGINT},
-            ddddd = #{record.ddddd,jdbcType=BIGINT}
+            dddd = #{record.dddd,jdbcType=VARCHAR},
+            dcccccc = #{record.dcccccc,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -200,11 +202,11 @@
             <if test="time != null">
                 time = #{time,jdbcType=INTEGER},
             </if>
-            <if test="aaaa != null">
-                aaaa = #{aaaa,jdbcType=BIGINT},
+            <if test="dddd != null">
+                dddd = #{dddd,jdbcType=VARCHAR},
             </if>
-            <if test="ddddd != null">
-                ddddd = #{ddddd,jdbcType=BIGINT},
+            <if test="dcccccc != null">
+                dcccccc = #{dcccccc,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -214,8 +216,8 @@
         set cid = #{cid,jdbcType=INTEGER},
             name = #{name,jdbcType=VARCHAR},
             time = #{time,jdbcType=INTEGER},
-            aaaa = #{aaaa,jdbcType=BIGINT},
-            ddddd = #{ddddd,jdbcType=BIGINT}
+            dddd = #{dddd,jdbcType=VARCHAR},
+            dcccccc = #{dcccccc,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

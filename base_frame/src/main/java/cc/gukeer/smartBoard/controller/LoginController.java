@@ -1,3 +1,4 @@
+/*
 package cc.gukeer.smartBoard.controller;
 
 import cc.gukeer.common.controller.BasicController;
@@ -68,11 +69,13 @@ public class LoginController extends BasicController {
         nettyBootStrapc  = ClientNettyBootStrapFactory.getNettyBootStrap("127.0.0.1",10001,true);
         nettyBootStrapc.connect("test");
 <<<<<<< HEAD
-      /*  nettyBootStrapc.listenerMessage(new MessageHandler() {
+      */
+/*  nettyBootStrapc.listenerMessage(new MessageHandler() {
             public void onMessageReceive(Object message) {
                 System.out.println("服务器发来" + message);
             }
-        });*/
+        });*//*
+
 =======
         nettyBootStrapc.listenerMessage(new MessageHandler() {
             public void onMessageReceive(Object message) {
@@ -221,3 +224,4 @@ public class LoginController extends BasicController {
         WriteStreamAppendUtil.method3(ConfigHelper.getValueByKey("file.path"), content);
     }
 }
+*/

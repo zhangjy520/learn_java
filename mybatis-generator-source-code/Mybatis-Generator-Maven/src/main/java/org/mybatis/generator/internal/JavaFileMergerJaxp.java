@@ -99,7 +99,7 @@ public class JavaFileMergerJaxp {
             }
 
             List<String> methodList = new ArrayList<>();
-            for (MethodDeclaration m : existingMethods) {
+            for (MethodDeclaration m : methods) {
                 methodList.add(m.getName().toString());
             }
             methodList.add("toString");

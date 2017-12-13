@@ -151,7 +151,6 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
         if ("true".equalsIgnoreCase(javaMergeable)){
             mergeable = true;
         }
-
         for (AbstractJavaGenerator javaGenerator : javaModelGenerators) {
             List<CompilationUnit> compilationUnits = javaGenerator
                     .getCompilationUnits();
