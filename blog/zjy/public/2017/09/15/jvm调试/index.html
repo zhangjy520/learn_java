@@ -1,0 +1,684 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>jvm调试- tomcat假死-优化tomcat配置 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="查看某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程链接情">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jvm调试- tomcat假死-优化tomcat配置">
+<meta property="og:url" content="http://zjy.com/2017/09/15/jvm调试/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="查看某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程链接情">
+<meta property="og:updated_time" content="2017-09-22T07:37:18.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jvm调试- tomcat假死-优化tomcat配置">
+<meta name="twitter:description" content="查看某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程链接情">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/09/15/jvm调试/" title="jvm调试- tomcat假死-优化tomcat配置" itemprop="url">jvm调试- tomcat假死-优化tomcat配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-09-15T08:34:00.000Z" itemprop="datePublished"> 发表于 2017-09-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看某id相关的子线程"><span class="toc-number">1.</span> <span class="toc-text">查看某id相关的子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-jvm线程情况"><span class="toc-number">2.</span> <span class="toc-text">查看 jvm线程情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看tcp-ip-线程链接情况"><span class="toc-number">3.</span> <span class="toc-text">查看tcp ip 线程链接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除docker某个镜像的相关容器"><span class="toc-number">4.</span> <span class="toc-text">删除docker某个镜像的相关容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析一下-server-xml（以下是修改后的server-xml）"><span class="toc-number">5.1.</span> <span class="toc-text">分析一下 server.xml（以下是修改后的server.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对tomcat简单分析"><span class="toc-number">5.2.</span> <span class="toc-text">对tomcat简单分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat线程配置"><span class="toc-number">5.3.</span> <span class="toc-text">tomcat线程配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><span class="toc-number">5.3.1.</span> <span class="toc-text">Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="查看某id相关的子线程"><a href="#查看某id相关的子线程" class="headerlink" title="查看某id相关的子线程"></a>查看某id相关的子线程</h2><pre><code>ps -Lf 29295|wc -l
+</code></pre><h2 id="查看-jvm线程情况"><a href="#查看-jvm线程情况" class="headerlink" title="查看 jvm线程情况"></a>查看 jvm线程情况</h2><pre><code>jstack pid 
+jstack pid &gt;1.txt (输出到文件)
+</code></pre><p>通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。  </p>
+<h2 id="查看tcp-ip-线程链接情况"><a href="#查看tcp-ip-线程链接情况" class="headerlink" title="查看tcp ip 线程链接情况"></a>查看tcp ip 线程链接情况</h2><p>netstat -n | awk ‘/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}’ </p>
+<h2 id="删除docker某个镜像的相关容器"><a href="#删除docker某个镜像的相关容器" class="headerlink" title="删除docker某个镜像的相关容器"></a>删除docker某个镜像的相关容器</h2><pre><code>sudo docker ps -a | awk &apos;{ print $1,$2 }&apos; | grep  这里是镜像的名称/或者id| awk &apos;{print $1 }&apos; | xargs -I {} sudo docker rm {}
+</code></pre><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>线上tomcat总是假死：所谓假死，就是tomcat进程并没有关闭，并且也没有异常日志，一切看似正常，但是tomcat就是访问不到，不是找不到地址，而是响应超时超时超时!
+通过 
+ps -ef|grep tomcat
+ps -Lf pid|wc -l 
+查看到tomcat的当前正在访问的子线程数量大于 server.xml里配置的最大线程数量。这才导致了项目访问不到，因为前面有线程一直在等待，并没有关闭，tomcat不会为新来的链接分配资源，导致新来的客户端访问得不到响应，才是超时。试想如果tomcat真的挂了，也不会是超时，而是地址错误等提示了。
+</code></pre><h3 id="分析一下-server-xml（以下是修改后的server-xml）"><a href="#分析一下-server-xml（以下是修改后的server-xml）" class="headerlink" title="分析一下 server.xml（以下是修改后的server.xml）"></a>分析一下 server.xml（以下是修改后的server.xml）</h3><pre><code>&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt; 
+&lt;Server port=&quot;8003&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+  &lt;Listener className=&quot;org.apache.catalina.startup.VersionLoggerListener&quot; /&gt; 
+  &lt;Listener className=&quot;org.apache.catalina.core.AprLifecycleListener&quot; SSLEngine=&quot;on&quot; /&gt; 
+  &lt;Listener className=&quot;org.apache.catalina.core.JasperListener&quot; /&gt; 
+  &lt;Listener className=&quot;org.apache.catalina.core.JreMemoryLeakPreventionListener&quot; /&gt;
+  &lt;Listener className=&quot;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&quot; /&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.ThreadLocalLeakPreventionListener&quot; /&gt;
+
+  &lt;GlobalNamingResources&gt; 
+    &lt;Resource name=&quot;UserDatabase&quot; auth=&quot;Container&quot;
+              type=&quot;org.apache.catalina.UserDatabase&quot;
+              description=&quot;User database that can be updated and saved&quot;
+              factory=&quot;org.apache.catalina.users.MemoryUserDatabaseFactory&quot;
+              pathname=&quot;conf/tomcat-users.xml&quot; /&gt;
+  &lt;/GlobalNamingResources&gt; 
+  &lt;Service name=&quot;Catalina&quot;&gt; 
+
+  // 这个节点是打开tomcat线程池，接下来的connector里面应用它
+      &lt;Executor name=&quot;tomcatThreadPool&quot; namePrefix=&quot;catalina-exec-&quot;  
+      maxThreads=&quot;1000&quot; minSpareThreads=&quot;50&quot; maxIdleTime=&quot;600000&quot;/&gt; 
+
+//这里主要除了应用executor，还得注意一下protocol
+    &lt;Connector port=&quot;10003&quot; connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; maxThreads=&quot;3000&quot; acceptCount=&quot;3000&quot; protocol=&quot;org.apache.coyote.http11.Http11NioProtocol&quot; executor=&quot;tomcatThreadPool&quot; /&gt;
+
+    &lt;Connector port=&quot;8030&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
+
+
+    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot;&gt;
+
+
+      &lt;Realm className=&quot;org.apache.catalina.realm.LockOutRealm&quot;&gt;
+
+        &lt;Realm className=&quot;org.apache.catalina.realm.UserDatabaseRealm&quot;
+               resourceName=&quot;UserDatabase&quot;/&gt;
+      &lt;/Realm&gt;
+
+      &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;
+            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+
+        &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;
+               prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot;
+               pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;
+
+      &lt;/Host&gt;
+    &lt;/Engine&gt;
+  &lt;/Service&gt;
+&lt;/Server&gt;
+</code></pre><h3 id="对tomcat简单分析"><a href="#对tomcat简单分析" class="headerlink" title="对tomcat简单分析"></a>对tomcat简单分析</h3><h3 id="tomcat线程配置"><a href="#tomcat线程配置" class="headerlink" title="tomcat线程配置"></a>tomcat线程配置</h3><p>1 打开/conf/server.xml文件，在Connector之前配置一个线程池：</p>
+<pre><code>&lt;Executor name=&quot;tomcatThreadPool&quot;   
+    namePrefix=&quot;tomcatThreadPool-&quot;   
+    maxThreads=&quot;1000&quot;   
+    maxIdleTime=&quot;300000&quot;  
+    minSpareThreads=&quot;200&quot;/&gt;  
+
+
+重要参数说明：
+    name：共享线程池的名字。这是Connector为了共享线程池要引用的名字，该名字必须唯一。默认值：None；
+
+    namePrefix:在JVM上，每个运行线程都可以有一个name 字符串。这一属性为线程池中每个线程的name字符串设置了一个前缀，Tomcat将把线程号追加到这一前缀的后面。默认值：tomcat-exec-；
+
+    maxThreads：该线程池可以容纳的最大线程数。默认值：200；
+
+    maxIdleTime：在Tomcat关闭一个空闲线程之前，允许空闲线程持续的时间(以毫秒为单位)。只有当前活跃的线程数大于minSpareThread的值，才会关闭空闲线程。默认值：60000(一分钟)。
+
+    minSpareThreads：Tomcat应该始终打开的最小不活跃线程数。默认值：25。
+</code></pre><p>2：配置Connector</p>
+<pre><code>&lt;Connector executor=&quot;tomcatThreadPool&quot;  
+           port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;  
+               connectionTimeout=&quot;20000&quot;  
+               redirectPort=&quot;8443&quot;   
+           minProcessors=&quot;5&quot;  
+           maxProcessors=&quot;75&quot;  
+           acceptCount=&quot;1000&quot;/&gt;  
+
+
+重要参数说明：
+      executor：表示使用该参数值对应的线程池；
+
+      minProcessors：服务器启动时创建的处理请求的线程数；
+
+      maxProcessors：最大可以创建的处理请求的线程数；
+
+      acceptCount：指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理。
+</code></pre><h4 id="Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><a href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr" class="headerlink" title="Tomcat Connector(连接器)有三种运行模式：bio   nio    apr"></a>Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</h4><p> 1 、bio(blocking I/O)</p>
+<pre><code> 配置方式：protocol=&quot;HTTP/1.1&quot;
+
+即阻塞式I/O操作，表示Tomcat使用的是传统的Java I/O操作(即java.io包及其子包)。是基于JAVA的HTTP/1.1连接器，Tomcat7以下版本在默认情况下是以bio模式运行的。一般而言，bio模式是三种运行模式中性能最低的一种。我们可以通过Tomcat Manager来查看服务器的当前状态。（Tomcat7 或以下，在 Linux 系统中默认使用这种方式）
+
+一个线程处理一个请求，缺点：并发量高时，线程数较多，浪费资源
+</code></pre><p>2、nio(new I/O)</p>
+<pre><code>配置方式：protocol=&quot;org.apache.coyote.http11.Http11NioProtocol&quot;
+是Java SE 1.4及后续版本提供的一种新的I/O操作方式(即java.nio包及其子包)。Java nio是一个基于缓冲区、并能提供非阻塞I/O操作的Java API，因此nio也被看成是non-blocking I/O的缩写。它拥有比传统I/O操作(bio)更好的并发运行性能。要让Tomcat以nio模式来运行只需要在Tomcat安装目录/conf/server.xml 中将对应的中protocol的属性值改为 org.apache.coyote.http11.Http11NioProtocol即可
+利用 Java 的异步请求 IO 处理，可以通过少量的线程处理大量的请求
+注意： Tomcat8 以上版本在 Linux 系统中，默认使用的就是NIO模式，不需要额外修改 ，Tomcat7必须修改Connector配置来启动
+</code></pre><p>3、apr(Apache Portable Runtime/Apache可移植运行时) （ 安装配置过程相对复杂）</p>
+<pre><code> Tomcat将以JNI的形式调用Apache HTTP服务器的核心动态链接库来处理文件读取或网络传输操作，从而大大地提高Tomcat对静态文件的处理性能。Tomcat apr也是在Tomcat上运行高并发应用的首选模式。从操作系统级别来解决异步的IO问题
+
+ APR是使用原生C语言编写的非堵塞I/O，利用了操作系统的网络连接功能，速度很快。 
+ 但是需先安装apr和native，若直接启动就支持apr，能大幅度提升性能，不亚于魔兽开局爆高科技兵种，威力强大
+ Tomcat apr的配置需要以下三个组件的支持：
+
+1 APR library
+
+2 JNI wrappers for APR used by Tomcat(libtcnative)[简单地说，就是自带的tomcat-native]
+
+3 OpenSSL libraries 
+
+ 与配置nio运行模式一样，也需要将对应Connector的protocol属性值改为 org.apache.coyote.http11.Http11AprProtocol
+
+ server.xml 文件中的配置
+
+     &lt;Connector port=&quot;8080&quot; protocol=&quot;org.apache.coyote.http11.Http11AprProtocol&quot;
+     URIEncoding=&quot;UTF-8&quot;
+     maxConnections=&quot;10000&quot;
+     maxThreads=&quot;2000&quot;
+     acceptCount=&quot;2000&quot;
+     minSpareThreads=&quot;100&quot;
+     compression=&quot;on&quot;
+     compressionMinSize=&quot;2048&quot;
+     compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plain&quot;
+     enableLookups=&quot;false&quot;
+     disableUploadTimeout=&quot;true&quot;
+     connectionTimeout=&quot;20000&quot;
+     redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>   3.1<br>        配置之前首先安装APR以及与 Tomcat-native 整合（之前先安装依赖）<br>      APR及APR依赖的下载</p>
+<pre><code>APR下载：http://apr.apache.org/download.cgi
+</code></pre><p>①安装apr</p>
+<pre><code>1 在目录/opt/apr/apr-1.5.2 下执行
+ ./configure --prefix=/usr/local/apr
+
+2 make
+
+3 make install
+</code></pre><p>② 安装 apr-iconv</p>
+<pre><code> 1  /opt/apr/apr-iconv-1.2.1
+   ./configure --prefix=/usr/local/apr-iconv --with-apr=/usr/local/apr
+
+2 make
+
+3 make install
+</code></pre><p>③ 安装apr-util</p>
+<pre><code>1 ./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr --with-apr-iconv=/usr/local/apr-iconv/bin/apriconv
+
+2 make
+
+3 make install
+</code></pre><p> ④安装tomcat-native </p>
+<pre><code> 不需要下载，tomcat自带 在bin下面 tomcat-native.tar.gz这个文件
+
+1 tar -zxvf tomcat-native.tar.gz
+2 cd tomcat-native-1.1.33-src/jni/native
+3 ./configure --with-apr = /usr/local/apr
+4 make
+5 make install
+</code></pre><p> ⑤ 配置APR的环境变量</p>
+<pre><code>vim /opt/tomcat7/bin/catalina.sh
+
+编辑添加如下内容
+
+以下内容粘在开头（表示一启动就执行）
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2017/09/15/jvm调试/" data-title="jvm调试- tomcat假死-优化tomcat配置 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/08/18/docker内存满了/" title="docker内存满了">
+  <strong>上一篇：</strong><br/>
+  <span>
+  docker内存满了</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/09/15/jvm调试/" data-title="jvm调试- tomcat假死-优化tomcat配置" data-url="http://zjy.com/2017/09/15/jvm调试/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看某id相关的子线程"><span class="toc-number">1.</span> <span class="toc-text">查看某id相关的子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-jvm线程情况"><span class="toc-number">2.</span> <span class="toc-text">查看 jvm线程情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看tcp-ip-线程链接情况"><span class="toc-number">3.</span> <span class="toc-text">查看tcp ip 线程链接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除docker某个镜像的相关容器"><span class="toc-number">4.</span> <span class="toc-text">删除docker某个镜像的相关容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析一下-server-xml（以下是修改后的server-xml）"><span class="toc-number">5.1.</span> <span class="toc-text">分析一下 server.xml（以下是修改后的server.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对tomcat简单分析"><span class="toc-number">5.2.</span> <span class="toc-text">对tomcat简单分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat线程配置"><span class="toc-number">5.3.</span> <span class="toc-text">tomcat线程配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><span class="toc-number">5.3.1.</span> <span class="toc-text">Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
