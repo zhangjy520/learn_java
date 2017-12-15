@@ -7,7 +7,7 @@
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="time" jdbcType="INTEGER" property="time" />
         <result column="dddd" jdbcType="VARCHAR" property="dddd" />
-        <result column="asdssssssssss" jdbcType="VARCHAR" property="asdssssssssss" />
+        <result column="s" jdbcType="VARCHAR" property="s" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -68,7 +68,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, cid, name, time, dddd, asdssssssssss
+        id, cid, name, time, dddd, s
     </sql>
     <select id="selectByExample" parameterType="cc.gukeer.smartBoard.persistence.entity.CourseExample" resultMap="BaseResultMap">
         select
@@ -103,11 +103,9 @@
     </delete>
     <insert id="insert" parameterType="cc.gukeer.smartBoard.persistence.entity.Course">
         insert into t_course (id, cid, name, 
-            time, dddd, asdssssssssss
-            )
+            time, dddd, s)
         values (#{id,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-            #{time,jdbcType=INTEGER}, #{dddd,jdbcType=VARCHAR}, #{asdssssssssss,jdbcType=VARCHAR}
-            )
+            #{time,jdbcType=INTEGER}, #{dddd,jdbcType=VARCHAR}, #{s,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="cc.gukeer.smartBoard.persistence.entity.Course">
         insert into t_course
@@ -127,8 +125,8 @@
             <if test="dddd != null">
                 dddd,
             </if>
-            <if test="asdssssssssss != null">
-                asdssssssssss,
+            <if test="s != null">
+                s,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -147,8 +145,8 @@
             <if test="dddd != null">
                 #{dddd,jdbcType=VARCHAR},
             </if>
-            <if test="asdssssssssss != null">
-                #{asdssssssssss,jdbcType=VARCHAR},
+            <if test="s != null">
+                #{s,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -170,8 +168,8 @@
             <if test="record.dddd != null">
                 dddd = #{record.dddd,jdbcType=VARCHAR},
             </if>
-            <if test="record.asdssssssssss != null">
-                asdssssssssss = #{record.asdssssssssss,jdbcType=VARCHAR},
+            <if test="record.s != null">
+                s = #{record.s,jdbcType=VARCHAR},
             </if>
         </set>
         <if test="_parameter != null">
@@ -185,7 +183,7 @@
             name = #{record.name,jdbcType=VARCHAR},
             time = #{record.time,jdbcType=INTEGER},
             dddd = #{record.dddd,jdbcType=VARCHAR},
-            asdssssssssss = #{record.asdssssssssss,jdbcType=VARCHAR}
+            s = #{record.s,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -205,8 +203,8 @@
             <if test="dddd != null">
                 dddd = #{dddd,jdbcType=VARCHAR},
             </if>
-            <if test="asdssssssssss != null">
-                asdssssssssss = #{asdssssssssss,jdbcType=VARCHAR},
+            <if test="s != null">
+                s = #{s,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -217,10 +215,10 @@
             name = #{name,jdbcType=VARCHAR},
             time = #{time,jdbcType=INTEGER},
             dddd = #{dddd,jdbcType=VARCHAR},
-            asdssssssssss = #{asdssssssssss,jdbcType=VARCHAR}
+            s = #{s,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="ccccc" parameterType="cc.gukeer.smartBoard.persistence.entity.Course">
+    <update id="dddsss" parameterType="cc.gukeer.smartBoard.persistence.entity.Course">
         update t_course
         set cid = #{cid,jdbcType=INTEGER},
         name = #{name,jdbcType=VARCHAR},

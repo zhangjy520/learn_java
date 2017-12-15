@@ -12,6 +12,7 @@
 
     <context id="MySQLTables" targetRuntime="MyBatis3">
 
+        <!--ss-->
         <property name="xmlMergeable" value="true" />
         <property name="javaMergeable" value="true" />
         <!-- 抑制警告 -->

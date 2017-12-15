@@ -12,6 +12,8 @@ public class Course implements Serializable {
 
 	private String name;
 
+	private String s;
+
 	private Integer cid;
 
 	private String asdssssssssss;
@@ -60,12 +62,12 @@ public class Course implements Serializable {
 	    this.dddd = dddd == null ? null : dddd.trim();
 	}
 
-	public String getAsdssssssssss() {
-	    return asdssssssssss;
+	public String getS() {
+	    return s;
 	}
 
-	public void setAsdssssssssss(String asdssssssssss) {
-	    this.asdssssssssss = asdssssssssss == null ? null : asdssssssssss.trim();
+	public void setS(String s) {
+	    this.s = s == null ? null : s.trim();
 	}
 
 	@Override
@@ -80,7 +82,7 @@ public class Course implements Serializable {
 	        return false;
 	    }
 	    Course other = (Course) that;
-	    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId())) && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid())) && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName())) && (this.getTime() == null ? other.getTime() == null : this.getTime().equals(other.getTime())) && (this.getDddd() == null ? other.getDddd() == null : this.getDddd().equals(other.getDddd())) && (this.getAsdssssssssss() == null ? other.getAsdssssssssss() == null : this.getAsdssssssssss().equals(other.getAsdssssssssss()));
+	    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId())) && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid())) && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName())) && (this.getTime() == null ? other.getTime() == null : this.getTime().equals(other.getTime())) && (this.getDddd() == null ? other.getDddd() == null : this.getDddd().equals(other.getDddd())) && (this.getS() == null ? other.getS() == null : this.getS().equals(other.getS()));
 	}
 
 	@Override
@@ -92,12 +94,14 @@ public class Course implements Serializable {
 	    result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
 	    result = prime * result + ((getTime() == null) ? 0 : getTime().hashCode());
 	    result = prime * result + ((getDddd() == null) ? 0 : getDddd().hashCode());
-	    result = prime * result + ((getAsdssssssssss() == null) ? 0 : getAsdssssssssss().hashCode());
+	    result = prime * result + ((getS() == null) ? 0 : getS().hashCode());
 	    return result;
 	}
 
 	@Override
 	public String toString() {
+		CourseExample a = new CourseExample();
+		CourseExample.Criteria c = a.createCriteria();
 	    StringBuilder sb = new StringBuilder();
 	    sb.append(getClass().getSimpleName());
 	    sb.append(" [");
@@ -107,10 +111,18 @@ public class Course implements Serializable {
 	    sb.append(", name=").append(name);
 	    sb.append(", time=").append(time);
 	    sb.append(", dddd=").append(dddd);
-	    sb.append(", asdssssssssss=").append(asdssssssssss);
+	    sb.append(", s=").append(s);
 	    sb.append(", serialVersionUID=").append(serialVersionUID);
 	    sb.append("]");
 	    return sb.toString();
+	}
+
+	public String getAsdssssssssss() {
+	    return asdssssssssss;
+	}
+
+	public void setAsdssssssssss(String asdssssssssss) {
+	    this.asdssssssssss = asdssssssssss == null ? null : asdssssssssss.trim();
 	}
 
 	public String getDcccccc() {

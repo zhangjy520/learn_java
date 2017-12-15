@@ -422,73 +422,73 @@ public class CourseExample {
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssIsNull() {
-	        addCriterion("asdssssssssss is null");
+	    public Criteria andSIsNull() {
+	        addCriterion("s is null");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssIsNotNull() {
-	        addCriterion("asdssssssssss is not null");
+	    public Criteria andSIsNotNull() {
+	        addCriterion("s is not null");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssEqualTo(String value) {
-	        addCriterion("asdssssssssss =", value, "asdssssssssss");
+	    public Criteria andSEqualTo(String value) {
+	        addCriterion("s =", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssNotEqualTo(String value) {
-	        addCriterion("asdssssssssss <>", value, "asdssssssssss");
+	    public Criteria andSNotEqualTo(String value) {
+	        addCriterion("s <>", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssGreaterThan(String value) {
-	        addCriterion("asdssssssssss >", value, "asdssssssssss");
+	    public Criteria andSGreaterThan(String value) {
+	        addCriterion("s >", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssGreaterThanOrEqualTo(String value) {
-	        addCriterion("asdssssssssss >=", value, "asdssssssssss");
+	    public Criteria andSGreaterThanOrEqualTo(String value) {
+	        addCriterion("s >=", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssLessThan(String value) {
-	        addCriterion("asdssssssssss <", value, "asdssssssssss");
+	    public Criteria andSLessThan(String value) {
+	        addCriterion("s <", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssLessThanOrEqualTo(String value) {
-	        addCriterion("asdssssssssss <=", value, "asdssssssssss");
+	    public Criteria andSLessThanOrEqualTo(String value) {
+	        addCriterion("s <=", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssLike(String value) {
-	        addCriterion("asdssssssssss like", value, "asdssssssssss");
+	    public Criteria andSLike(String value) {
+	        addCriterion("s like", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssNotLike(String value) {
-	        addCriterion("asdssssssssss not like", value, "asdssssssssss");
+	    public Criteria andSNotLike(String value) {
+	        addCriterion("s not like", value, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssIn(List<String> values) {
-	        addCriterion("asdssssssssss in", values, "asdssssssssss");
+	    public Criteria andSIn(List<String> values) {
+	        addCriterion("s in", values, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssNotIn(List<String> values) {
-	        addCriterion("asdssssssssss not in", values, "asdssssssssss");
+	    public Criteria andSNotIn(List<String> values) {
+	        addCriterion("s not in", values, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssBetween(String value1, String value2) {
-	        addCriterion("asdssssssssss between", value1, value2, "asdssssssssss");
+	    public Criteria andSBetween(String value1, String value2) {
+	        addCriterion("s between", value1, value2, "s");
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssNotBetween(String value1, String value2) {
-	        addCriterion("asdssssssssss not between", value1, value2, "asdssssssssss");
+	    public Criteria andSNotBetween(String value1, String value2) {
+	        addCriterion("s not between", value1, value2, "s");
 	        return (Criteria) this;
 	    }
 	
@@ -502,8 +502,8 @@ public class CourseExample {
 	        return (Criteria) this;
 	    }
 	
-	    public Criteria andAsdssssssssssLikeInsensitive(String value) {
-	        addCriterion("upper(asdssssssssss) like", value.toUpperCase(), "asdssssssssss");
+	    public Criteria andSLikeInsensitive(String value) {
+	        addCriterion("upper(s) like", value.toUpperCase(), "s");
 	        return (Criteria) this;
 	    }
 	}	public static class Criteria extends GeneratedCriteria {

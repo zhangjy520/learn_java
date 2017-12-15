@@ -139,7 +139,7 @@ public class XmlFileMergerJaxp {
                 Element ele = (Element) node;
                 methods.add(ele.getAttribute("id"));
             } catch (Exception e) {
-                //#text鑺傜偣杞崲浼氬紓甯�
+                //#text节点转换会异常
                 continue;
             }
             if (i == newMethods.getLength() - 1) {
