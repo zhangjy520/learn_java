@@ -1,10 +1,10 @@
 title: jvm调试- tomcat假死-优化tomcat配置
 author: zjy
-tags: []
-categories: []
+tags: [a]
+categories: [a]
 date: 2017-09-15 16:34:00
 ---
-## 查看某id相关的子线程
+## 查看111某id相关的子线程
 	ps -Lf 29295|wc -l
    
 ## 查看 jvm线程情况
