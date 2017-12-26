@@ -1,3 +1,4 @@
+/*
 package cc.gukeer.smartBoard.controller;
 
 import cc.gukeer.common.controller.BasicController;
@@ -10,6 +11,10 @@ import cc.gukeer.common.utils.util.WriteStreamAppendUtil;
 import cc.gukeer.smartBoard.common.UserRoleType;
 import cc.gukeer.smartBoard.persistence.entity.User;
 import cc.gukeer.smartBoard.service.UserService;
+import nettySDK.API.MessageHandler;
+import nettySDK.API.NettyBootStrap;
+import nettySDK.factory.ClientNettyBootStrapFactory;
+import nettySDK.factory.ServerNettyBootStrapFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -38,6 +43,51 @@ public class LoginController extends BasicController {
 
     @Autowired
     UserService userService;
+
+    NettyBootStrap nettyBootStrap;
+    NettyBootStrap nettyBootStrapc;
+
+
+    @RequestMapping(value = "/server/init")
+    public void test1() throws Exception {
+        nettyBootStrap = ServerNettyBootStrapFactory.getNettyBootStrap(10001,true);
+        nettyBootStrap.connect();
+
+        nettyBootStrap.listenerMessage(new MessageHandler() {
+            @Override
+            public void onMessageReceive(Object o) {
+                System.out.println("有人来了" + o);
+            }
+        });
+    }
+    @RequestMapping(value = "/server/send")
+    public void test2() throws Exception {
+        nettyBootStrap.sendMessage("test\r\n");
+    }
+    @RequestMapping(value = "/client/init")
+    public void test3() throws Exception {
+        nettyBootStrapc  = ClientNettyBootStrapFactory.getNettyBootStrap("127.0.0.1",10001,true);
+        nettyBootStrapc.connect("test");
+<<<<<<< HEAD
+      */
+/*  nettyBootStrapc.listenerMessage(new MessageHandler() {
+            public void onMessageReceive(Object message) {
+                System.out.println("服务器发来" + message);
+            }
+        });*//*
+
+=======
+        nettyBootStrapc.listenerMessage(new MessageHandler() {
+            public void onMessageReceive(Object message) {
+                System.out.println("服务器发来" + message);
+            }
+        });
+>>>>>>> adb54afbceee83ca4e16c8d3112e2fb4a5e4d3a6
+    }
+    @RequestMapping(value = "/client/send")
+    public void test4() throws Exception {
+        nettyBootStrapc.sendMessage("1234");
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String reg(HttpServletRequest request,Model model) {
@@ -174,3 +224,4 @@ public class LoginController extends BasicController {
         WriteStreamAppendUtil.method3(ConfigHelper.getValueByKey("file.path"), content);
     }
 }
+*/

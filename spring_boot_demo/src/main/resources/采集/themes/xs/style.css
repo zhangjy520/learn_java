@@ -1,0 +1,342 @@
+/*  
+
+Theme Name: DanXs
+Theme URI: http://ituibar.com/single-novel-wordpress-theme-danxs-release-can-free-download/
+Description: This is my theme for the only Novel site.
+Version: 1.0
+Author: Era
+Author URI: http://ituibar.com/
+
+*/
+
+body {
+	background: #fbf7f0 url(img/topbg_read.jpg) repeat-x;
+	color: #000;
+	font: 14px/1.65 "Microsoft Yahei",Tahoma,Arial,SimSun,"Hiragino Sans GB",PMingLiu,Verdana,sans-serif;	
+	}
+h2,h1{
+	font-size:36px;
+	text-align:center;
+	margin:0 5px 0 0;
+	display:inline;
+	}
+.header{
+	background:url(img/foot_dian.gif) repeat-x 0 bottom;
+	overflow:hidden;
+	height:100%;
+	padding:15px 0;
+	text-align:center;
+	}
+h2.novelinfo{
+	font-size:16px;
+	display:block;
+	text-align:center;
+	padding:5px 20px;
+	}
+h2.novelinfo:first-letter{
+	font-size:2em;
+	}
+h3{	
+	padding:0 8px;	
+	margin:0 0 5px 0; 
+	overflow: hidden;
+	font-size:15px;	
+	height: 34px;
+	line-height: 32px;
+	text-align:center;
+	}
+a {
+	color:#004267;
+	text-decoration: none;
+	}
+a:hover {
+	color:#ff6600;
+	}
+#content{
+	margin:10px auto;
+	height:100%;
+	}
+.post{
+	margin:5px 5px 20px 5px;	
+	}
+.post h2,.post h1{
+	margin:20px 5px 5px 0;
+	padding:10px;
+	font-size:26px;
+	text-align: center;
+	color: #DA1A27;
+	font-weight: 400;
+	font-family: "隶书";
+	}
+.setfont a{
+	display:inline-block;
+	margin:5px 10px 5px 5px;
+	color:blue;	
+	}
+.entry{
+	padding:0 5px;
+	margin:10px 0 20px 0;
+	text-align: center;
+	}
+.entry p{
+	font-size: 16px;
+	line-height:1.8;
+	font-family: "宋体";
+	text-indent: 2em;
+	margin: 14px 0;
+	text-align: left;
+	}
+.left{
+	float:left;
+	}
+.right{
+	float:right;
+	}
+/** footer**/
+.footer{
+	background:url(img/foot_dian.gif) repeat-x 0 5px;	
+	overflow:auto;
+	height:100%;
+	padding:15px 0;
+	}
+h4{
+	margin:-0 5px 0 0;
+	float:left;
+	font-size:14px;
+	}
+ul.link{	
+	margin:0 0 0 5px;	
+	text-align:justify;
+	}
+ul.link li{	
+	padding:0 5px 0 0;
+	margin:0 0 0 5px;
+	display:inline;
+	}
+ul.link a{
+	display:inline-block;
+	font-size:14px;	
+	padding:0 0 0 5px;
+	margin-bottom:5px;
+	}
+.copyright{
+	text-align:center;
+	clear:both;
+	}
+/**返回顶部**/
+.backToTop {
+	display: none;
+	position: fixed;
+	_position: absolute;
+	left: 50%;
+	bottom: 60px;
+	_bottom: "auto";
+	cursor: pointer;
+	margin-left:482px;
+	}
+a.backToTop span{
+	display:block;
+	background:url(img/top.png) no-repeat right top;	
+	width: 40px;
+	height:37px;	
+	}
+/**布局**/
+.cat_box{
+	font-size:13px;	
+	height:100%;
+	margin-bottom:1px;	
+	padding-bottom:5px;
+	overflow:hidden;
+	font-size:14px;
+	}
+.shadow{
+	height:7px;
+	background:url(img/shadow.gif) no-repeat center top;
+	overflow:hidden;
+	}
+.cat_box a:hover{
+	color:#ff7f24;
+	}
+.cat_post{
+	padding:0 5px;
+	margin-bottom:0px;
+	line-height:30px;
+	}
+.cat_post li{
+	list-style: none;
+	float:left;
+	padding:5px 0 0 12px;
+	margin: 0;
+	height:30px;
+	width: 290px;
+	overflow:hidden;
+	border-bottom: 1px dashed #ddd;	
+	}
+/*Default style for WP-PageNavi */
+.pagenavi {
+	text-align:center;
+	margin-bottom: 15px;
+	}
+.pagenavi a{
+	display:inline-block;
+	background:#4D525D;
+	border-radius:3px;
+	width:64px;
+	height:24px;
+	color:#E8ECF1;
+	font-size:12px;
+	line-height:24px;
+	margin:0 10px 0 5px;
+	padding-bottom:2px;
+	vertical-align:middle;
+	}
+.pagenavi a:hover{
+	text-decoration:underline;
+	}
+/**评论**/
+.jcpl{
+	text-align: center;
+	color: red;
+	margin-bottom: 5px;
+	font-size: 16px;
+}
+.comments-template{
+	margin: 20px -2px 0 0;  
+	margin-bottom:5px;
+	border-right:1px solid #ddd;
+	}
+ol,li{
+	list-style:none;
+	margin: 0;
+	}
+.author_box p{
+	margin-bottom: 8px;
+	margin-left:46px;
+}
+.comments-template ul{
+	margin:0;
+	}
+.comments-template .comment{
+	position:relative;	
+	}
+.comments-template  .children .comment{
+	margin-left:8px;
+	}
+.thread-odd{
+	background:#f7f7f7;
+	border-bottom:1px solid #ddd; 
+	}
+.thread-even{
+	background:#fff;
+	border-bottom:1px solid #ddd; 
+	}
+.comments-template h3 span{
+	color:#555;
+	}
+.comment-author{
+	padding-top:5px;	
+	}
+.floor{	
+	color: #333;	
+}
+.datetime{
+	color:#B2B2B2;}
+.reply{
+	float:right;
+}
+.comment-body .reply a{
+	padding-left: 20px;
+	font-size:14px;
+	}
+.reply a:hover{
+	text-decoration: underline;
+}
+#comment-author-info input{	
+	margin:2px 5px 3px 0;
+	width:165px;
+	height: 24px;
+	padding:1px 5px 1px;
+	line-height:20px;
+	border:1px solid #aaa;
+	}
+.smile{
+	margin: 5px 5px 5px 0;
+}
+#commentform textarea{
+	width:420px;
+	height:130px;
+	padding:5px;	
+	border:1px solid #aaa;
+	}
+#commentform p{
+	margin-bottom: 5px;
+}
+input#submit {	
+	height:38px ;
+	width: 100px ;
+	cursor:pointer ;
+	font-size:14px;
+	font-weight: 600;
+	margin: 5px 10px 5px 0 ;	
+	}
+.cancel-comment-reply{	
+	line-height: 38px;
+	margin-top: 5px;
+}
+a#cancel-comment-reply-link{
+	padding: 5px;
+	border:1px solid #0196E3;
+	font-size: 14px;
+	color:#0196E3;
+}
+.comment_mail_notify {
+	border: 1px solid #ccc;	
+	margin: 5px 0 5px 0 !important;
+	padding: 0 5px 0 5px;
+}
+#comments{
+	font-weight:400;
+	border-bottom: 1px solid #ddd;
+	overflow: visible;
+	text-align:left;	
+	}
+#comments span{
+	display: inline-block;
+	border-color:#CCCCCC #CCCCCC #fbf7f0;
+	border-style:solid;
+	border-width: 1px 1px 2px;
+	margin: -2px 0 0 15px;
+	padding: 0 5px 2px 5px;
+	background: #fbf7f0;
+}
+/*评论分页*/
+.paginate_comments{
+	background: #eef4ff;
+	padding:0px 15px;
+	margin-bottom:5px;
+	border-bottom: 1px solid #D7D7D7;
+	border-left: 1px solid #D7D7D7;
+	text-align:center;
+	}
+.paginate_comments .current,.paginate_comments a{
+	display: inline-block;
+	padding: 3px 8px;
+	background: #fff;
+	height:18px;
+	line-height: 18px;
+	}
+.paginate_comments .current{
+	border: 1px solid #D7D7D7;	
+	border-top: none;
+	border-bottom: 1px solid red;
+}
+a.page-numbers:hover{
+	border: 1px solid #D7D7D7;	
+	border-top: none;
+	border-bottom: 1px solid red;
+}
+/*评论右侧广告*/
+.commentad{
+	margin: 20px auto 0;
+	text-align: center;
+}

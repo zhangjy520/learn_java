@@ -11,7 +11,7 @@ public class ImportRing {
     private Integer ringNumber;
     private String ringMac;
 
-    @ExcelField(title = "手环编号", align = 2, sort = 1, groups = {1, 2},isnull=1)
+    @ExcelField(title = "手环编号", align = 2, sort = 2, groups = {1, 2},isnull=1)
     public Integer getRingNumber() {
         return ringNumber;
     }
