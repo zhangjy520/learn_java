@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>ubuntu14.04 安装配置mysql5.7 | zhang jian yu</title>
+    <title>ubuntu14.04  - mysql5.7 | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
     
 
     
-    <meta name="description" content="服务器装mysql1  yum list installed |grep mysql2  wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm3  yum localinstall mysql-community-release-el6-5.noarch.rpm4  yum repolist all|grep mysql5">
+    <meta name="description" content="服务器装mysql1：更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 2：安装mysql-serverapt-get install mysql-server 3 修改远程访问限制：3.1 修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 3.2">
 <meta name="keywords" content="server,linux,ubuntu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ubuntu14.04 安装配置mysql5.7">
+<meta property="og:title" content="ubuntu14.04  - mysql5.7">
 <meta property="og:url" content="http://zjy.com/2017/05/05/mysql/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="服务器装mysql1  yum list installed |grep mysql2  wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm3  yum localinstall mysql-community-release-el6-5.noarch.rpm4  yum repolist all|grep mysql5">
+<meta property="og:description" content="服务器装mysql1：更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 2：安装mysql-serverapt-get install mysql-server 3 修改远程访问限制：3.1 修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 3.2">
 <meta property="og:image" content="http://zjy.com/2017/05/05/mysql/1.png">
 <meta property="og:image" content="http://zjy.com/2017/05/05/mysql/2.png">
-<meta property="og:updated_time" content="2017-07-19T10:40:28.610Z">
+<meta property="og:updated_time" content="2017-09-27T07:15:36.434Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ubuntu14.04 安装配置mysql5.7">
-<meta name="twitter:description" content="服务器装mysql1  yum list installed |grep mysql2  wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm3  yum localinstall mysql-community-release-el6-5.noarch.rpm4  yum repolist all|grep mysql5">
+<meta name="twitter:title" content="ubuntu14.04  - mysql5.7">
+<meta name="twitter:description" content="服务器装mysql1：更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 2：安装mysql-serverapt-get install mysql-server 3 修改远程访问限制：3.1 修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 3.2">
 <meta name="twitter:image" content="http://zjy.com/2017/05/05/mysql/1.png">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
@@ -85,7 +85,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/mysql/" title="ubuntu14.04 安装配置mysql5.7" itemprop="url">ubuntu14.04 安装配置mysql5.7</a>
+      <a href="/2017/05/05/mysql/" title="ubuntu14.04  - mysql5.7" itemprop="url">ubuntu14.04  - mysql5.7</a>
   </h1>
   <p class="article-author">By
        
@@ -101,11 +101,42 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1：更新服务器"><span class="toc-number">1.0.1.</span> <span class="toc-text">1：更新服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2：安装mysql-server"><span class="toc-number">1.0.2.</span> <span class="toc-text">2：安装mysql-server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-修改远程访问限制："><span class="toc-number">1.0.3.</span> <span class="toc-text">3 修改远程访问限制：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-修改bind—address"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">3.1 修改bind—address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-修改host"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">3.2 修改host</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关命令"><span class="toc-number">2.</span> <span class="toc-text">相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apt安装列表"><span class="toc-number">2.1.</span> <span class="toc-text">查看apt安装列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载异常"><span class="toc-number">2.3.</span> <span class="toc-text">卸载异常</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="服务器装mysql"><a href="#服务器装mysql" class="headerlink" title="服务器装mysql"></a>服务器装mysql</h1><p>1  yum list installed |grep mysql<br>2  wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm<br>3  yum localinstall mysql-community-release-el6-5.noarch.rpm<br>4  yum repolist all|grep mysql<br>5  yum-config-manager –disable mysql55-community<br>6  yum-config-manager –disable mysql56-community<br>7  yum-config-manager –enable mysql57-community-dmr</p>
+		<h1 id="服务器装mysql"><a href="#服务器装mysql" class="headerlink" title="服务器装mysql"></a>服务器装mysql</h1><h3 id="1：更新服务器"><a href="#1：更新服务器" class="headerlink" title="1：更新服务器"></a>1：更新服务器</h3><pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade
+</code></pre><h3 id="2：安装mysql-server"><a href="#2：安装mysql-server" class="headerlink" title="2：安装mysql-server"></a>2：安装mysql-server</h3><pre><code>apt-get install mysql-server
+</code></pre><h3 id="3-修改远程访问限制："><a href="#3-修改远程访问限制：" class="headerlink" title="3 修改远程访问限制："></a>3 修改远程访问限制：</h3><h4 id="3-1-修改bind—address"><a href="#3-1-修改bind—address" class="headerlink" title="3.1 修改bind—address"></a>3.1 修改bind—address</h4><pre><code>在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉
+</code></pre><h4 id="3-2-修改host"><a href="#3-2-修改host" class="headerlink" title="3.2 修改host"></a>3.2 修改host</h4><pre><code>mysql -u root -p;
+update mysql.user set host =&quot;%&quot; where user=&quot;root&quot;;
+flush privileges;
+service mysql restart;
+</code></pre><h1 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h1><h2 id="查看apt安装列表"><a href="#查看apt安装列表" class="headerlink" title="查看apt安装列表"></a>查看apt安装列表</h2><pre><code>dpkg  -l
+</code></pre><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><pre><code>apt-get purge / apt-get –purge remove 
+删除已安装包（不保留配置文件)。 
+如软件包a，依赖软件包b，则执行该命令会删除a，而且不保留配置文件
+apt-get autoremove 
+删除为了满足依赖而安装的，但现在不再需要的软件包（包括已安装包），保留配置文件。
+apt-get remove 
+删除已安装的软件包（保留配置文件），不会删除依赖软件包，且保留配置文件。
+apt-get autoclean 
+APT的底层包是dpkg, 而dpkg 安装Package时, 会将 *.deb 放在 /var/cache/apt/archives/中，apt-get autoclean 只会删除 /var/cache/apt/archives/ 已经过期的deb。
+apt-get clean 
+使用 apt-get clean 会将 /var/cache/apt/archives/ 的 所有 deb 删掉，可以理解为 rm /var/cache/apt/archives/*.deb。
+</code></pre><h2 id="卸载异常"><a href="#卸载异常" class="headerlink" title="卸载异常"></a>卸载异常</h2><pre><code>subprocess pre-removal script returned error exit status... 
+处理方法如下：
+    subprocess new pre-removal script returned error exit status 127 有时候也会提示 subprocess new pre-removal script returned error exit status 126
+
+我们反复测试得到结果：只要删除deb文件在cydia上的登记信息，该软件就等于不存在，那剩下的问题就迎刃而解了。不光是这个kuaidial，其他类似的问题应该也可以如法炮制。
+
+实际操作是：
+1） 首先用ifile 进入根目录下的application， 删除有问题的app，这里是kuaidial.app
+2） 进入 /var/lib/dpkg/info  找到相关文件，这里是&quot;reyo.phone.kuaidial&quot;删除
+3） 返回cydia，到manage里的package中，卸载问题软件（其实就是形式主义，为了删除显示是错误信息而已）
+4） 安装可用的该软件版本。
+</code></pre><p>——————————————————通用——————————————————-</p>
+<p>1  yum list installed |grep mysql<br>2  wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm<br>3  yum localinstall mysql-community-release-el6-5.noarch.rpm<br>4  yum repolist all|grep mysql<br>5  yum-config-manager –disable mysql55-community<br>6  yum-config-manager –disable mysql56-community<br>7  yum-config-manager –enable mysql57-community-dmr</p>
 <p><img src="/2017/05/05/mysql/1.png" alt="logo"><br><img src="/2017/05/05/mysql/2.png" alt="logo"></p>
   
 	</div>
@@ -124,7 +155,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/mysql/" data-title="ubuntu14.04 安装配置mysql5.7 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/05/mysql/" data-title="ubuntu14.04  - mysql5.7 | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -138,18 +169,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/jdk/" title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+ <a href="/2017/05/05/timeDocker/" title="docker 时区问题，迁移数据问题">
   <strong>上一篇：</strong><br/>
   <span>
-  ubuntu14.04 安装配置JDK1.7，更换openjdk</span>
+  docker 时区问题，迁移数据问题</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/heder/"  title="iframe跨域嵌套头部">
+<a href="/2017/05/05/node_js_pa_chong/"  title="node js 爬虫">
  <strong>下一篇：</strong><br/> 
- <span>iframe跨域嵌套头部
+ <span>node js 爬虫
 </span>
 </a>
 </div>
@@ -158,7 +189,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/mysql/" data-title="ubuntu14.04 安装配置mysql5.7" data-url="http://zjy.com/2017/05/05/mysql/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/05/mysql/" data-title="ubuntu14.04  - mysql5.7" data-url="http://zjy.com/2017/05/05/mysql/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -176,7 +207,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1：更新服务器"><span class="toc-number">1.0.1.</span> <span class="toc-text">1：更新服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2：安装mysql-server"><span class="toc-number">1.0.2.</span> <span class="toc-text">2：安装mysql-server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-修改远程访问限制："><span class="toc-number">1.0.3.</span> <span class="toc-text">3 修改远程访问限制：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-修改bind—address"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">3.1 修改bind—address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-修改host"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">3.2 修改host</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关命令"><span class="toc-number">2.</span> <span class="toc-text">相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apt安装列表"><span class="toc-number">2.1.</span> <span class="toc-text">查看apt安装列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载异常"><span class="toc-number">2.3.</span> <span class="toc-text">卸载异常</span></a></li></ol></li></ol>
  
   </div>
 
@@ -188,6 +219,17 @@
 
 
   
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/a/" title="a">a<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
 
   
 <div class="tagslist">
@@ -211,6 +253,10 @@
 			
 		
 			
+				<li><a href="/tags/a/" title="a">a<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
 			
 		
@@ -228,7 +274,7 @@
         
           <li>
             
-            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            	<a href="http://blog.csdn.net/zjy1211079133?ref=toolbar" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
             
           </li>
         
