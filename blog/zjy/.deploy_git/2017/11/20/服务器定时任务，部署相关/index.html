@@ -1,0 +1,672 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>mysql数据库灾备方案——chapter01（定时任务全备份） | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="介绍几个常用的命令修改文件的修改时间touch -m -d &amp;quot;2000-01-01 10:10:10&amp;quot; ubuntugege.txt 转换文件的格式（如果执行脚本报 \n 等错误，是文件格式问题）          报如下错误是格式问题     $&amp;apos;\r&amp;apos;: command not found     ./incres_mysql.sh: line 8: $">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql数据库灾备方案——chapter01（定时任务全备份）">
+<meta property="og:url" content="http://zjy.com/2017/11/20/服务器定时任务，部署相关/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="介绍几个常用的命令修改文件的修改时间touch -m -d &amp;quot;2000-01-01 10:10:10&amp;quot; ubuntugege.txt 转换文件的格式（如果执行脚本报 \n 等错误，是文件格式问题）          报如下错误是格式问题     $&amp;apos;\r&amp;apos;: command not found     ./incres_mysql.sh: line 8: $">
+<meta property="og:updated_time" content="2017-11-20T10:26:24.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql数据库灾备方案——chapter01（定时任务全备份）">
+<meta name="twitter:description" content="介绍几个常用的命令修改文件的修改时间touch -m -d &amp;quot;2000-01-01 10:10:10&amp;quot; ubuntugege.txt 转换文件的格式（如果执行脚本报 \n 等错误，是文件格式问题）          报如下错误是格式问题     $&amp;apos;\r&amp;apos;: command not found     ./incres_mysql.sh: line 8: $">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/11/20/服务器定时任务，部署相关/" title="mysql数据库灾备方案——chapter01（定时任务全备份）" itemprop="url">mysql数据库灾备方案——chapter01（定时任务全备份）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-20T05:59:49.000Z" itemprop="datePublished"> 发表于 2017-11-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍几个常用的命令"><span class="toc-number">1.</span> <span class="toc-text">介绍几个常用的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件的修改时间"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">修改文件的修改时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#转换文件的格式"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">转换文件的格式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#命令简介："><span class="toc-number">1.0.0.2.0.1.</span> <span class="toc-text">命令简介：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查找修改日期前n天的文件列表"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">查找修改日期前n天的文件列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查找到并删除文件"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">查找到并删除文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下面介绍数据库脚本文件"><span class="toc-number">1.1.</span> <span class="toc-text">下面介绍数据库脚本文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下面介绍定时任务"><span class="toc-number">1.2.</span> <span class="toc-text">下面介绍定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装启动"><span class="toc-number">1.2.1.</span> <span class="toc-text">安装启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载"><span class="toc-number">1.2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加一个定时任务"><span class="toc-number">1.2.3.</span> <span class="toc-text">添加一个定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装了smtp服务器的，如下编辑"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">安装了smtp服务器的，如下编辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#未安装smtp服务器的，可以输出到某个日志文件"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">未安装smtp服务器的，可以输出到某个日志文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看定时任务列表"><span class="toc-number">1.2.4.</span> <span class="toc-text">查看定时任务列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除定时任务："><span class="toc-number">1.2.5.</span> <span class="toc-text">删除定时任务：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最后总结一下操作"><span class="toc-number">2.</span> <span class="toc-text">最后总结一下操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ps"><span class="toc-number">2.1.</span> <span class="toc-text">ps</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="介绍几个常用的命令"><a href="#介绍几个常用的命令" class="headerlink" title="介绍几个常用的命令"></a>介绍几个常用的命令</h1><h4 id="修改文件的修改时间"><a href="#修改文件的修改时间" class="headerlink" title="修改文件的修改时间"></a>修改文件的修改时间</h4><pre><code>touch -m -d &quot;2000-01-01 10:10:10&quot; ubuntugege.txt
+</code></pre><h4 id="转换文件的格式"><a href="#转换文件的格式" class="headerlink" title="转换文件的格式"></a>转换文件的格式</h4><pre><code>（如果执行脚本报 \n 等错误，是文件格式问题）    
+     报如下错误是格式问题
+    $&apos;\r&apos;: command not found
+    ./incres_mysql.sh: line 8: $&apos;\r&apos;: command not found
+</code></pre><h6 id="命令简介："><a href="#命令简介：" class="headerlink" title="命令简介："></a>命令简介：</h6><pre><code>参考：https://www.cnblogs.com/kerrycode/archive/2015/12/26/5077969.html
+
+    dos2unix是将Windows格式文件转换为Unix、Linux格式的实用命令。Windows格式文件的换行符为\r\n ,而Unix&amp;Linux文件的换行符为\n. dos2unix命令其实就是将文件中的\r\n 转换为\n。
+    而unix2dos则是和dos2unix互为孪生的一个命令，它是将Linux&amp;Unix格式文件转换为Windows格式文件的命令。
+
+    :dos2unix filename1 filename2 filename3
+</code></pre><h4 id="查找修改日期前n天的文件列表"><a href="#查找修改日期前n天的文件列表" class="headerlink" title="查找修改日期前n天的文件列表"></a>查找修改日期前n天的文件列表</h4><pre><code>例如查找：/home/back/mysql目录下所有后缀.sql.gz的修改日期在14天以前的文件
+:$(which find) /home/backup/mysql/*.sql.gz -mtime +14
+</code></pre><h4 id="查找到并删除文件"><a href="#查找到并删除文件" class="headerlink" title="查找到并删除文件"></a>查找到并删除文件</h4><pre><code>:$(which find) /home/backup/mysql/*.sql.gz -mtime +14 -exec rm {} +
+</code></pre><h2 id="下面介绍数据库脚本文件"><a href="#下面介绍数据库脚本文件" class="headerlink" title="下面介绍数据库脚本文件"></a>下面介绍数据库脚本文件</h2><pre><code>mysql_backup.sh
+
+    #使用sqldump 遍历mysql所有非系统数据库列表，并且执行导出sql操作
+    #保存了sql文件之后，检查备份目录下创建时间较早的文件进行删除操作 
+
+   #!/bin/bash
+
+   # BEGIN CONFIGURATION =================修改mysql链接信息===========================
+
+   BACKUP_DIR=&quot;/home/backup&quot;  # The directory in which you want backups placed 备份路径
+   KEEP_MYSQL=&quot;14&quot; # How many days worth of mysql dumps to keep 早于当前日期的天数
+
+   MYSQL_HOST=&quot;127.0.0.1&quot;
+   MYSQL_USER=&quot;root&quot;
+   MYSQL_PASS=&quot;123&quot;
+   MYSQL_BACKUP_DIR=&quot;$BACKUP_DIR/mysql/&quot;
+
+   # You probably won&apos;t have to change these
+   THE_DATE=&quot;$(date &apos;+%Y-%m-%d&apos;)&quot;
+
+   MYSQL_PATH=&quot;$(which mysql)&quot;
+   MYSQLDUMP_PATH=&quot;$(which mysqldump)&quot;
+   FIND_PATH=&quot;$(which find)&quot;
+   TAR_PATH=&quot;$(which tar)&quot;
+   RSYNC_PATH=&quot;$(which rsync)&quot;
+
+   # END CONFIGURATION ============================================================
+
+
+
+   # Announce the backup time
+   echo &quot;Backup Started: $(date)&quot;
+
+   # Create the backup dirs if they don&apos;t exist
+   if [[ ! -d $BACKUP_DIR ]]
+     then
+     mkdir -p &quot;$BACKUP_DIR&quot;
+   fi
+   if [[ ! -d $MYSQL_BACKUP_DIR ]]
+     then
+     mkdir -p &quot;$MYSQL_BACKUP_DIR&quot;
+   fi
+
+   # Get a list of mysql databases and dump them one by one
+   echo &quot;------------------------------------&quot;
+   ALL_DBS=($($MYSQL_PATH -h $MYSQL_HOST -u$MYSQL_USER -p$MYSQL_PASS -Bse &apos;show databases&apos;))
+   SYSTEM_DBS=(&quot;information_schema&quot; &quot;mysql&quot; &quot;performance_schema&quot; &quot;test&quot;)
+   DBS=()
+
+   for i in &quot;${ALL_DBS[@]}&quot;; do
+     skip=
+     for j in &quot;${SYSTEM_DBS[@]}&quot;; do
+       [[ $i == $j ]] &amp;&amp; { skip=1; break; }
+     done
+     [[ -n $skip ]] || DBS+=(&quot;$i&quot;)
+   done
+
+   for db in &quot;${DBS[@]}&quot;; do
+     echo &quot;Dumping: $db...&quot;
+     $MYSQLDUMP_PATH --opt --skip-add-locks -h $MYSQL_HOST -u$MYSQL_USER -p$MYSQL_PASS $db | gzip &gt; $MYSQL_BACKUP_DIR$db\_$THE_DATE.sql.gz
+   done
+
+   # Delete old dumps
+   echo &quot;------------------------------------&quot;
+   echo &quot;Deleting old backups...&quot;
+   # List dumps to be deleted to stdout (for report)
+   $FIND_PATH $MYSQL_BACKUP_DIR*.sql.gz -mtime +$KEEP_MYSQL
+   # Delete dumps older than specified number of days
+   $FIND_PATH $MYSQL_BACKUP_DIR*.sql.gz -mtime +$KEEP_MYSQL -exec rm {} +
+
+
+   # Announce the completion time
+   echo &quot;------------------------------------&quot;
+   echo &quot;Backup Completed: $(date)&quot;
+</code></pre><h2 id="下面介绍定时任务"><a href="#下面介绍定时任务" class="headerlink" title="下面介绍定时任务"></a>下面介绍定时任务</h2><p>参考：<a href="https://www.cnblogs.com/michaelzhao10/p/4875719.html" target="_blank" rel="external">https://www.cnblogs.com/michaelzhao10/p/4875719.html</a></p>
+<h3 id="安装启动"><a href="#安装启动" class="headerlink" title="安装启动"></a>安装启动</h3><pre><code>apt-get install cron
+service cron status/stop/start
+</code></pre><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><pre><code>apt-get安装记录，软件列表  
+  dpkg  -l
+
+卸载：
+apt-get purge / apt-get –purge remove 
+删除已安装包（不保留配置文件)。 
+如软件包a，依赖软件包b，则执行该命令会删除a，而且不保留配置文件
+apt-get autoremove 
+删除为了满足依赖而安装的，但现在不再需要的软件包（包括已安装包），保留配置文件。
+apt-get remove 
+删除已安装的软件包（保留配置文件），不会删除依赖软件包，且保留配置文件。
+apt-get autoclean 
+APT的底层包是dpkg, 而dpkg 安装Package时, 会将 *.deb 放在 /var/cache/apt/archives/中，apt-get autoclean 只会删除 /var/cache/apt/archives/ 已经过期的deb。
+apt-get clean 
+使用 apt-get clean 会将 /var/cache/apt/archives/ 的 所有 deb 删掉，可以理解为 rm /var/cache/apt/archives/*.deb。
+</code></pre><h3 id="添加一个定时任务"><a href="#添加一个定时任务" class="headerlink" title="添加一个定时任务"></a>添加一个定时任务</h3><pre><code>（默认是将定时任务执行日志邮件发送到邮箱，如果没有安装smtp服务器，可以指定定时任务的执行日志输出到某个文件）
+crontab –e
+# 在打开的编辑器里写下你要执行的脚本例如：（每天五点运行backup.sh）
+</code></pre><h4 id="安装了smtp服务器的，如下编辑"><a href="#安装了smtp服务器的，如下编辑" class="headerlink" title="安装了smtp服务器的，如下编辑"></a>安装了smtp服务器的，如下编辑</h4><pre><code>#shell脚本环境
+SHELL=/bin/bash
+#path执行命令的路径
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+#邮件发送给1211079133@qq.com
+MAILTO=1211079133@qq.com
+#home是脚本执行时候的主目录（建议脚本执行写全路径）
+HOME=/ 
+#上面是发送邮件以及环境的配置，下面是脚本列表。。。
+0 5 * * * /root/bin/mysql_backup.sh
+</code></pre><h4 id="未安装smtp服务器的，可以输出到某个日志文件"><a href="#未安装smtp服务器的，可以输出到某个日志文件" class="headerlink" title="未安装smtp服务器的，可以输出到某个日志文件"></a>未安装smtp服务器的，可以输出到某个日志文件</h4><pre><code>#每分钟执行这个脚本，并且执行日志输出到这个mysqlback.log路径
+*/1 * * * * /home/task_script/mysql_back_up.sh &gt;/home/backup/mysqlback.log&gt;&amp;1 &amp;
+</code></pre><h3 id="查看定时任务列表"><a href="#查看定时任务列表" class="headerlink" title="查看定时任务列表"></a>查看定时任务列表</h3><pre><code>#查看用户username的定时任务
+crontab -u username -l 
+</code></pre><h3 id="删除定时任务："><a href="#删除定时任务：" class="headerlink" title="删除定时任务："></a>删除定时任务：</h3><pre><code>直接 crontab -e 将对应脚本给注释掉即可。
+</code></pre><h1 id="最后总结一下操作"><a href="#最后总结一下操作" class="headerlink" title="最后总结一下操作"></a>最后总结一下操作</h1><pre><code>1.新建定时任务
+    crontab -e
+2.加入以下内容（因为测试想看效果，频率是每分钟，具体频率设置请自行百度）
+ */1 * * * * /home/task_script/mysql_back_up.sh &gt;/home/backup/mysqlback.log&gt;&amp;1 &amp;
+</code></pre><h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><pre><code>每五分钟执行  */5 * * * *
+
+每小时执行     0 * * * *
+
+每天执行        0 0 * * *
+
+每周执行       0 0 * * 0
+
+每月执行        0 0 1 * *
+
+每年执行       0 0 1 1 *
+</code></pre><p>下篇文章介绍利用二进制文件，增量备份</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2017/11/20/服务器定时任务，部署相关/" data-title="mysql数据库灾备方案——chapter01（定时任务全备份） | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/09/15/jvm调试/" title="jvm调试- tomcat假死-优化tomcat配置">
+  <strong>上一篇：</strong><br/>
+  <span>
+  jvm调试- tomcat假死-优化tomcat配置</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/11/21/mysql数据库灾备方案——chapter02（全备-增量）/"  title="mysql数据库灾备方案——chapter02（全备+增量）">
+ <strong>下一篇：</strong><br/> 
+ <span>mysql数据库灾备方案——chapter02（全备+增量）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/11/20/服务器定时任务，部署相关/" data-title="mysql数据库灾备方案——chapter01（定时任务全备份）" data-url="http://zjy.com/2017/11/20/服务器定时任务，部署相关/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍几个常用的命令"><span class="toc-number">1.</span> <span class="toc-text">介绍几个常用的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件的修改时间"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">修改文件的修改时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#转换文件的格式"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">转换文件的格式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#命令简介："><span class="toc-number">1.0.0.2.0.1.</span> <span class="toc-text">命令简介：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查找修改日期前n天的文件列表"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">查找修改日期前n天的文件列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查找到并删除文件"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">查找到并删除文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下面介绍数据库脚本文件"><span class="toc-number">1.1.</span> <span class="toc-text">下面介绍数据库脚本文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下面介绍定时任务"><span class="toc-number">1.2.</span> <span class="toc-text">下面介绍定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装启动"><span class="toc-number">1.2.1.</span> <span class="toc-text">安装启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载"><span class="toc-number">1.2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加一个定时任务"><span class="toc-number">1.2.3.</span> <span class="toc-text">添加一个定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装了smtp服务器的，如下编辑"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">安装了smtp服务器的，如下编辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#未安装smtp服务器的，可以输出到某个日志文件"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">未安装smtp服务器的，可以输出到某个日志文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看定时任务列表"><span class="toc-number">1.2.4.</span> <span class="toc-text">查看定时任务列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除定时任务："><span class="toc-number">1.2.5.</span> <span class="toc-text">删除定时任务：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最后总结一下操作"><span class="toc-number">2.</span> <span class="toc-text">最后总结一下操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ps"><span class="toc-number">2.1.</span> <span class="toc-text">ps</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/a/" title="a">a<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/a/" title="a">a<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/zjy1211079133?ref=toolbar" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

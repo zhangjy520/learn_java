@@ -34,3 +34,9 @@ npm install hexo-generator-search --save
 npm install hexo-generator-tag --save
 npm install hexo-deployer-git --save
 npm install hexo-generator-sitemap --save
+
+
+
+hexo g 生成到public
+hexo d 部署到520
+hexo server 本地启动

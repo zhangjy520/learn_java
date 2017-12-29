@@ -11,17 +11,17 @@
     
 
     
-    <meta name="description" content="查看某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程链接情">
-<meta name="keywords">
+    <meta name="description" content="查看111某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程">
+<meta name="keywords" content="a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jvm调试- tomcat假死-优化tomcat配置">
 <meta property="og:url" content="http://zjy.com/2017/09/15/jvm调试/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="查看某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程链接情">
-<meta property="og:updated_time" content="2017-09-22T07:37:18.537Z">
+<meta property="og:description" content="查看111某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程">
+<meta property="og:updated_time" content="2017-12-26T03:02:56.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm调试- tomcat假死-优化tomcat配置">
-<meta name="twitter:description" content="查看某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程链接情">
+<meta name="twitter:description" content="查看111某id相关的子线程ps -Lf 29295|wc -l 查看 jvm线程情况jstack pid  jstack pid &amp;gt;1.txt (输出到文件) 通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。   查看tcp ip 线程">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
 
@@ -98,15 +98,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看某id相关的子线程"><span class="toc-number">1.</span> <span class="toc-text">查看某id相关的子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-jvm线程情况"><span class="toc-number">2.</span> <span class="toc-text">查看 jvm线程情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看tcp-ip-线程链接情况"><span class="toc-number">3.</span> <span class="toc-text">查看tcp ip 线程链接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除docker某个镜像的相关容器"><span class="toc-number">4.</span> <span class="toc-text">删除docker某个镜像的相关容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析一下-server-xml（以下是修改后的server-xml）"><span class="toc-number">5.1.</span> <span class="toc-text">分析一下 server.xml（以下是修改后的server.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对tomcat简单分析"><span class="toc-number">5.2.</span> <span class="toc-text">对tomcat简单分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat线程配置"><span class="toc-number">5.3.</span> <span class="toc-text">tomcat线程配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><span class="toc-number">5.3.1.</span> <span class="toc-text">Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看111某id相关的子线程"><span class="toc-number">1.</span> <span class="toc-text">查看111某id相关的子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-jvm线程情况"><span class="toc-number">2.</span> <span class="toc-text">查看 jvm线程情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看tcp-ip-线程链接情况"><span class="toc-number">3.</span> <span class="toc-text">查看tcp ip 线程链接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除docker某个镜像的相关容器"><span class="toc-number">4.</span> <span class="toc-text">删除docker某个镜像的相关容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析一下-server-xml（以下是修改后的server-xml）"><span class="toc-number">5.1.</span> <span class="toc-text">分析一下 server.xml（以下是修改后的server.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对tomcat简单分析"><span class="toc-number">5.2.</span> <span class="toc-text">对tomcat简单分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat线程配置"><span class="toc-number">5.3.</span> <span class="toc-text">tomcat线程配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><span class="toc-number">5.3.1.</span> <span class="toc-text">Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="查看某id相关的子线程"><a href="#查看某id相关的子线程" class="headerlink" title="查看某id相关的子线程"></a>查看某id相关的子线程</h2><pre><code>ps -Lf 29295|wc -l
+		<h2 id="查看111某id相关的子线程"><a href="#查看111某id相关的子线程" class="headerlink" title="查看111某id相关的子线程"></a>查看111某id相关的子线程</h2><pre><code>ps -Lf 29295|wc -l
 </code></pre><h2 id="查看-jvm线程情况"><a href="#查看-jvm线程情况" class="headerlink" title="查看 jvm线程情况"></a>查看 jvm线程情况</h2><pre><code>jstack pid 
 jstack pid &gt;1.txt (输出到文件)
 </code></pre><p>通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题，对异常链接没有显示释放关闭等操作，才导致一旦出错，这个线程就一直不释放，线程数量一直增加。  </p>
-<h2 id="查看tcp-ip-线程链接情况"><a href="#查看tcp-ip-线程链接情况" class="headerlink" title="查看tcp ip 线程链接情况"></a>查看tcp ip 线程链接情况</h2><p>netstat -n | awk ‘/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}’ </p>
+<h2 id="查看tcp-ip-线程链接情况"><a href="#查看tcp-ip-线程链接情况" class="headerlink" title="查看tcp ip 线程链接情况"></a>查看tcp ip 线程链接情况</h2><p>netstat -np | grep tcp<br>统计<br>netstat -n | awk ‘/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}’ </p>
 <h2 id="删除docker某个镜像的相关容器"><a href="#删除docker某个镜像的相关容器" class="headerlink" title="删除docker某个镜像的相关容器"></a>删除docker某个镜像的相关容器</h2><pre><code>sudo docker ps -a | awk &apos;{ print $1,$2 }&apos; | grep  这里是镜像的名称/或者id| awk &apos;{print $1 }&apos; | xargs -I {} sudo docker rm {}
 </code></pre><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>线上tomcat总是假死：所谓假死，就是tomcat进程并没有关闭，并且也没有异常日志，一切看似正常，但是tomcat就是访问不到，不是找不到地址，而是响应超时超时超时!
 通过 
@@ -282,6 +282,16 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/a/">a</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/a/">a</a>
+  </div>
 
 </div>
 
@@ -311,6 +321,14 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
 </div>
 
 
+<div class="next">
+<a href="/2017/11/20/服务器定时任务，部署相关/"  title="mysql数据库灾备方案——chapter01（定时任务全备份）">
+ <strong>下一篇：</strong><br/> 
+ <span>mysql数据库灾备方案——chapter01（定时任务全备份）
+</span>
+</a>
+</div>
+
 </nav>
 
 	
@@ -333,7 +351,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看某id相关的子线程"><span class="toc-number">1.</span> <span class="toc-text">查看某id相关的子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-jvm线程情况"><span class="toc-number">2.</span> <span class="toc-text">查看 jvm线程情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看tcp-ip-线程链接情况"><span class="toc-number">3.</span> <span class="toc-text">查看tcp ip 线程链接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除docker某个镜像的相关容器"><span class="toc-number">4.</span> <span class="toc-text">删除docker某个镜像的相关容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析一下-server-xml（以下是修改后的server-xml）"><span class="toc-number">5.1.</span> <span class="toc-text">分析一下 server.xml（以下是修改后的server.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对tomcat简单分析"><span class="toc-number">5.2.</span> <span class="toc-text">对tomcat简单分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat线程配置"><span class="toc-number">5.3.</span> <span class="toc-text">tomcat线程配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><span class="toc-number">5.3.1.</span> <span class="toc-text">Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看111某id相关的子线程"><span class="toc-number">1.</span> <span class="toc-text">查看111某id相关的子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-jvm线程情况"><span class="toc-number">2.</span> <span class="toc-text">查看 jvm线程情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看tcp-ip-线程链接情况"><span class="toc-number">3.</span> <span class="toc-text">查看tcp ip 线程链接情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除docker某个镜像的相关容器"><span class="toc-number">4.</span> <span class="toc-text">删除docker某个镜像的相关容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析一下-server-xml（以下是修改后的server-xml）"><span class="toc-number">5.1.</span> <span class="toc-text">分析一下 server.xml（以下是修改后的server.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对tomcat简单分析"><span class="toc-number">5.2.</span> <span class="toc-text">对tomcat简单分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat线程配置"><span class="toc-number">5.3.</span> <span class="toc-text">tomcat线程配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat-Connector-连接器-有三种运行模式：bio-nio-apr"><span class="toc-number">5.3.1.</span> <span class="toc-text">Tomcat Connector(连接器)有三种运行模式：bio   nio    apr</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -345,6 +363,17 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
 
 
   
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/a/" title="a">a<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
 
   
 <div class="tagslist">
@@ -368,6 +397,10 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
 			
 		
 			
+				<li><a href="/tags/a/" title="a">a<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
 			
 		
@@ -385,7 +418,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib export LD_LIBRARY_PATH
         
           <li>
             
-            	<a href="http://blog.csdn.net/" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            	<a href="http://blog.csdn.net/zjy1211079133?ref=toolbar" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
             
           </li>
         
