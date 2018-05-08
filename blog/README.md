@@ -40,3 +40,6 @@ npm install hexo-generator-sitemap --save
 hexo g 生成到public
 hexo d 部署到520
 hexo server 本地启动
+
+
+# 如果配置域名访问404，需要在githu.io那个库和index.html同级的目录添加 CNAME文件，文件内容是 域名
