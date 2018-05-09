@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>java 文件统计功能 | zhang jian yu</title>
+    <title>递归统计（spring bean扫描也用的这种模式） | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
@@ -14,13 +14,13 @@
     <meta name="description" content="刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求 原理：参数  项目路径，需要统计的文件后缀名的集合  递归遍历项目路径下的所有文件直到找不到文件为止！ 核心方法： new File(path).listFiles();   获取这个路径下的文件数组  File[]  遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List 里面去。如果是文件夹继续递">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java 文件统计功能">
+<meta property="og:title" content="递归统计（spring bean扫描也用的这种模式）">
 <meta property="og:url" content="http://zjy.com/2017/05/03/fileCount/index.html">
 <meta property="og:site_name" content="zhang jian yu">
 <meta property="og:description" content="刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求 原理：参数  项目路径，需要统计的文件后缀名的集合  递归遍历项目路径下的所有文件直到找不到文件为止！ 核心方法： new File(path).listFiles();   获取这个路径下的文件数组  File[]  遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List 里面去。如果是文件夹继续递">
-<meta property="og:updated_time" content="2017-07-19T10:40:28.606Z">
+<meta property="og:updated_time" content="2018-03-02T08:55:59.256Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java 文件统计功能">
+<meta name="twitter:title" content="递归统计（spring bean扫描也用的这种模式）">
 <meta name="twitter:description" content="刚开始项目经理需要==统计项目代码行数==，所以写了这个类用来实现这个需求 原理：参数  项目路径，需要统计的文件后缀名的集合  递归遍历项目路径下的所有文件直到找不到文件为止！ 核心方法： new File(path).listFiles();   获取这个路径下的文件数组  File[]  遍历这个文件数组，如果是文件并且符合后缀名集合，加入到 全局变量 List 里面去。如果是文件夹继续递">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
@@ -82,7 +82,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/03/fileCount/" title="java 文件统计功能" itemprop="url">java 文件统计功能</a>
+      <a href="/2017/05/03/fileCount/" title="递归统计（spring bean扫描也用的这种模式）" itemprop="url">递归统计（spring bean扫描也用的这种模式）</a>
   </h1>
   <p class="article-author">By
        
@@ -130,7 +130,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/03/fileCount/" data-title="java 文件统计功能 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/03/fileCount/" data-title="递归统计（spring bean扫描也用的这种模式） | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -144,18 +144,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/25/data_hub/" title="data_hub 数据同步">
+ <a href="/2017/04/25/first/" title="docker-入门">
   <strong>上一篇：</strong><br/>
   <span>
-  data_hub 数据同步</span>
+  docker-入门</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/docker私有仓库搭建/"  title="docker私有库的搭建">
+<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
  <strong>下一篇：</strong><br/> 
- <span>docker私有库的搭建
+ <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
 </span>
 </a>
 </div>
@@ -164,7 +164,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/03/fileCount/" data-title="java 文件统计功能" data-url="http://zjy.com/2017/05/03/fileCount/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/03/fileCount/" data-title="递归统计（spring bean扫描也用的这种模式）" data-url="http://zjy.com/2017/05/03/fileCount/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -318,7 +318,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2018 
 		
 		<a href="/about" target="_blank" title="zjy">zjy</a>
 		

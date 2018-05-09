@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>redis 作缓存 | zhang jian yu</title>
+    <title>缓存策略-减少访问次数 | zhang jian yu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjy">
@@ -14,13 +14,13 @@
     <meta name="description" content="需求  1天气接口，调用限制4000次每天，用户请求次数过多会造成次数上限，使用redis缓存过滤请求 实现思路1用户调用----查redis中是否有该城市天气数据存在，若不存在，调用接口并存到redis里面，有效期2小时，若存在2小时的天气信息，返回 redis ubuntu安装启动1234567891011121314151617wget http://download.redis.io/re">
 <meta name="keywords" content="java  redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="redis 作缓存">
+<meta property="og:title" content="缓存策略-减少访问次数">
 <meta property="og:url" content="http://zjy.com/2017/05/05/redis_weather/index.html">
 <meta property="og:site_name" content="zhang jian yu">
 <meta property="og:description" content="需求  1天气接口，调用限制4000次每天，用户请求次数过多会造成次数上限，使用redis缓存过滤请求 实现思路1用户调用----查redis中是否有该城市天气数据存在，若不存在，调用接口并存到redis里面，有效期2小时，若存在2小时的天气信息，返回 redis ubuntu安装启动1234567891011121314151617wget http://download.redis.io/re">
-<meta property="og:updated_time" content="2017-07-19T10:40:28.614Z">
+<meta property="og:updated_time" content="2018-03-02T08:54:26.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="redis 作缓存">
+<meta name="twitter:title" content="缓存策略-减少访问次数">
 <meta name="twitter:description" content="需求  1天气接口，调用限制4000次每天，用户请求次数过多会造成次数上限，使用redis缓存过滤请求 实现思路1用户调用----查redis中是否有该城市天气数据存在，若不存在，调用接口并存到redis里面，有效期2小时，若存在2小时的天气信息，返回 redis ubuntu安装启动1234567891011121314151617wget http://download.redis.io/re">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
@@ -82,7 +82,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/05/05/redis_weather/" title="redis 作缓存" itemprop="url">redis 作缓存</a>
+      <a href="/2017/05/05/redis_weather/" title="缓存策略-减少访问次数" itemprop="url">缓存策略-减少访问次数</a>
   </h1>
   <p class="article-author">By
        
@@ -122,7 +122,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjy.com/2017/05/05/redis_weather/" data-title="redis 作缓存 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  <div data-url="http://zjy.com/2017/05/05/redis_weather/" data-title="缓存策略-减少访问次数 | zhang jian yu" data-tsina="22" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -136,18 +136,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/node_js_pa_chong/" title="node js 爬虫">
+ <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部">
   <strong>上一篇：</strong><br/>
   <span>
-  node js 爬虫</span>
+  iframe跨域嵌套头部</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/jdk/"  title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+<a href="/2017/05/05/active_mq/"  title="active mq安装 -ubuntu">
  <strong>下一篇：</strong><br/> 
- <span>ubuntu14.04 安装配置JDK1.7，更换openjdk
+ <span>active mq安装 -ubuntu
 </span>
 </a>
 </div>
@@ -156,7 +156,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/05/05/redis_weather/" data-title="redis 作缓存" data-url="http://zjy.com/2017/05/05/redis_weather/"></div> 
+	<div class="ds-thread" data-thread-key="2017/05/05/redis_weather/" data-title="缓存策略-减少访问次数" data-url="http://zjy.com/2017/05/05/redis_weather/"></div> 
 	<div id="uyan_frame"></div> 
 </section>
 
@@ -310,7 +310,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2017 
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2018 
 		
 		<a href="/about" target="_blank" title="zjy">zjy</a>
 		
