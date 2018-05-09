@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="需求：删除定义的路径下的所有文件+文件夹代码如下配置文件 reload.txt内容如下D:\jar\com\jbns D:\jar\org 批处理文件 package.bat内容如下@echo off &amp;amp; setlocal enabledelayedexpansion set i=0 for /f &amp;quot;eol=/delims=&amp;quot; %%b in (%cd%\reload.t">
+    <meta name="description" content="title: 批处理脚本初识author: zjydate: 2018-05-08 16:05:52 tags:需求：删除定义的路径下的所有文件+文件夹代码如下配置文件 reload.txt内容如下D:\jar\com\jbns D:\jar\org 批处理文件 package.bat内容如下@echo off &amp;amp; setlocal enabledelayedexpansion set i">
 <meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="批处理脚本初识">
 <meta property="og:url" content="http://zjy.com/2018/05/08/批处理脚本初识/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="需求：删除定义的路径下的所有文件+文件夹代码如下配置文件 reload.txt内容如下D:\jar\com\jbns D:\jar\org 批处理文件 package.bat内容如下@echo off &amp;amp; setlocal enabledelayedexpansion set i=0 for /f &amp;quot;eol=/delims=&amp;quot; %%b in (%cd%\reload.t">
+<meta property="og:description" content="title: 批处理脚本初识author: zjydate: 2018-05-08 16:05:52 tags:需求：删除定义的路径下的所有文件+文件夹代码如下配置文件 reload.txt内容如下D:\jar\com\jbns D:\jar\org 批处理文件 package.bat内容如下@echo off &amp;amp; setlocal enabledelayedexpansion set i">
 <meta property="og:image" content="http://zjy.com/2018/05/08/批处理脚本初识/jiegou.png">
-<meta property="og:updated_time" content="2018-05-09T01:41:15.472Z">
+<meta property="og:updated_time" content="2018-05-09T02:02:07.019Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="批处理脚本初识">
-<meta name="twitter:description" content="需求：删除定义的路径下的所有文件+文件夹代码如下配置文件 reload.txt内容如下D:\jar\com\jbns D:\jar\org 批处理文件 package.bat内容如下@echo off &amp;amp; setlocal enabledelayedexpansion set i=0 for /f &amp;quot;eol=/delims=&amp;quot; %%b in (%cd%\reload.t">
+<meta name="twitter:description" content="title: 批处理脚本初识author: zjydate: 2018-05-08 16:05:52 tags:需求：删除定义的路径下的所有文件+文件夹代码如下配置文件 reload.txt内容如下D:\jar\com\jbns D:\jar\org 批处理文件 package.bat内容如下@echo off &amp;amp; setlocal enabledelayedexpansion set i">
 <meta name="twitter:image" content="http://zjy.com/2018/05/08/批处理脚本初识/jiegou.png">
 <meta name="twitter:creator" content="@22">
 <link rel="publisher" href="22">
@@ -100,11 +100,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求：删除定义的路径下的所有文件-文件夹"><span class="toc-number">1.</span> <span class="toc-text">需求：删除定义的路径下的所有文件+文件夹</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码如下"><span class="toc-number">2.</span> <span class="toc-text">代码如下</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件-reload-txt内容如下"><span class="toc-number">2.1.</span> <span class="toc-text">配置文件 reload.txt内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批处理文件-package-bat内容如下"><span class="toc-number">2.2.</span> <span class="toc-text">批处理文件 package.bat内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释"><span class="toc-number">2.3.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目文件结构"><span class="toc-number">2.4.</span> <span class="toc-text">项目文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#最后附上pom-xml内容"><span class="toc-number">2.4.1.</span> <span class="toc-text">最后附上pom.xml内容</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags"><span class="toc-number">1.</span> <span class="toc-text">tags:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#需求：删除定义的路径下的所有文件-文件夹"><span class="toc-number"></span> <span class="toc-text">需求：删除定义的路径下的所有文件+文件夹</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码如下"><span class="toc-number"></span> <span class="toc-text">代码如下</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件-reload-txt内容如下"><span class="toc-number">1.</span> <span class="toc-text">配置文件 reload.txt内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批处理文件-package-bat内容如下"><span class="toc-number">2.</span> <span class="toc-text">批处理文件 package.bat内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释"><span class="toc-number">3.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目文件结构"><span class="toc-number">4.</span> <span class="toc-text">项目文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#最后附上pom-xml内容"><span class="toc-number">4.1.</span> <span class="toc-text">最后附上pom.xml内容</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="需求：删除定义的路径下的所有文件-文件夹"><a href="#需求：删除定义的路径下的所有文件-文件夹" class="headerlink" title="需求：删除定义的路径下的所有文件+文件夹"></a>需求：删除定义的路径下的所有文件+文件夹</h1><h1 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h1><h2 id="配置文件-reload-txt内容如下"><a href="#配置文件-reload-txt内容如下" class="headerlink" title="配置文件 reload.txt内容如下"></a>配置文件 reload.txt内容如下</h2><pre><code>D:\jar\com\jbns
+		<p>title: 批处理脚本初识<br>author: zjy<br>date: 2018-05-08 16:05:52</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><h1 id="需求：删除定义的路径下的所有文件-文件夹"><a href="#需求：删除定义的路径下的所有文件-文件夹" class="headerlink" title="需求：删除定义的路径下的所有文件+文件夹"></a>需求：删除定义的路径下的所有文件+文件夹</h1><h1 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h1><h2 id="配置文件-reload-txt内容如下"><a href="#配置文件-reload-txt内容如下" class="headerlink" title="配置文件 reload.txt内容如下"></a>配置文件 reload.txt内容如下</h2><pre><code>D:\jar\com\jbns
 D:\jar\org
 </code></pre><h2 id="批处理文件-package-bat内容如下"><a href="#批处理文件-package-bat内容如下" class="headerlink" title="批处理文件 package.bat内容如下"></a>批处理文件 package.bat内容如下</h2><pre><code>@echo off &amp; setlocal enabledelayedexpansion
 set i=0
@@ -1073,6 +1074,14 @@ mvn clean package &amp; pause
 </div>
 
 
+<div class="next">
+<a href="/2018/05/09/怎样为我的博客添加图片/"  title="怎样为我的博客添加图片">
+ <strong>下一篇：</strong><br/> 
+ <span>怎样为我的博客添加图片
+</span>
+</a>
+</div>
+
 </nav>
 
 	
@@ -1095,7 +1104,7 @@ mvn clean package &amp; pause
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求：删除定义的路径下的所有文件-文件夹"><span class="toc-number">1.</span> <span class="toc-text">需求：删除定义的路径下的所有文件+文件夹</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码如下"><span class="toc-number">2.</span> <span class="toc-text">代码如下</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件-reload-txt内容如下"><span class="toc-number">2.1.</span> <span class="toc-text">配置文件 reload.txt内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批处理文件-package-bat内容如下"><span class="toc-number">2.2.</span> <span class="toc-text">批处理文件 package.bat内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释"><span class="toc-number">2.3.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目文件结构"><span class="toc-number">2.4.</span> <span class="toc-text">项目文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#最后附上pom-xml内容"><span class="toc-number">2.4.1.</span> <span class="toc-text">最后附上pom.xml内容</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags"><span class="toc-number">1.</span> <span class="toc-text">tags:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#需求：删除定义的路径下的所有文件-文件夹"><span class="toc-number"></span> <span class="toc-text">需求：删除定义的路径下的所有文件+文件夹</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码如下"><span class="toc-number"></span> <span class="toc-text">代码如下</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件-reload-txt内容如下"><span class="toc-number">1.</span> <span class="toc-text">配置文件 reload.txt内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批处理文件-package-bat内容如下"><span class="toc-number">2.</span> <span class="toc-text">批处理文件 package.bat内容如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释"><span class="toc-number">3.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目文件结构"><span class="toc-number">4.</span> <span class="toc-text">项目文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#最后附上pom-xml内容"><span class="toc-number">4.1.</span> <span class="toc-text">最后附上pom.xml内容</span></a></li></ol></li></ol>
  
   </div>
 

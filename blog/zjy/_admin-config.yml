@@ -1,0 +1,6 @@
+options:
+  lineNumbers: true
+  overwriteImages: true
+  imagePath: /paste
+editor:
+  lineNumbers: true

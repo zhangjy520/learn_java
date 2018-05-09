@@ -66,3 +66,10 @@ date: 2017-05-05 13:51:49
 
 ![logo](mysql/1.png)
 ![logo](mysql/2.png)
+
+
+
+
+# ps 最简单安装如图
+
+![logo](mysql/3.png)
