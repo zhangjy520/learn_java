@@ -2,7 +2,7 @@
 menu:
   首页: /
   分类: /archives
-  关于: /about
+ # 关于: /about
 ## you can create `tags` and `categories` folders in `../source`.
 ## And create a `index.md` file in each of them.
 ## set `front-matter`as
@@ -57,19 +57,19 @@ creative_commons: none
 #### Author information
 author:
   intro_line1:  "夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道"    ## your introduction on the bottom of the page
-  intro_line2:  "This is my blog,believe it or not."  ## the 2nd line
+  intro_line2:  "i dont believe love story"  ## the 2nd line
   weibo: 5604035838     ## e.g. wuchong1014 or 5604035838 for http://weibo.com/5604035838
   weibo_verifier: b3593ceb    ## 微博秀的验证码
-  tsina:   22   ## 用于微博秀和微博分享
-  douban:   22  ## e.g. wuchong1014 or your id for https://www.douban.com/people/wuchong1014
+#  tsina:   22   ## 用于微博秀和微博分享
+#  douban:   22  ## e.g. wuchong1014 or your id for https://www.douban.com/people/wuchong1014
   zhihu:    zhang-san-feng-17-14  ## e.g. jark  for http://www.zhihu.com/people/jark
-  email:   22   ## e.g. imjark@gmail.com
+  email:   1211079133@qq.com   ## e.g. imjark@gmail.com
   twitter: 22   ## e.g. jarkwu for https://twitter.com/jarkwu
-##  github:   zhangjy520  ## e.g. wuchong for https://github.com/wuchong
-  facebook: 22  ## e.g. imjark for https://facebook.com/imjark
-  linkedin: 22  ## e.g. wuchong1014 for https://www.linkedin.com/in/wuchong1014
-  google_plus: 22   ## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!
-  stackoverflow: 22 ## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark
+  github:   zhangjy520  ## e.g. wuchong for https://github.com/wuchong
+#  facebook: 22  ## e.g. imjark for https://facebook.com/imjark
+#  linkedin: 22  ## e.g. wuchong1014 for https://www.linkedin.com/in/wuchong1014
+#  google_plus: 22   ## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!
+#  stackoverflow: 22 ## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark
 ## if you set them, the corresponding  share button will show on the footer
 
 #### Toc
