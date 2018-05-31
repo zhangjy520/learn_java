@@ -166,3 +166,62 @@ pom文件添加如下依赖
 
 
 ![logo](mybatis-plus代码生成步骤/1.png)
+
+
+
+# ps:集成spring-mvc的时候需要注意的地方
+
+## pom文件这两个依赖删除掉，否则会冲突
+	 <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        
+        <!--删除上面两个依赖，用下面这个依赖代替 -->
+         <!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>2.1.9</version>
+        </dependency>
+        
+## spirng-mybatis.xml配置,下面是局部配置，你自己的项目只需要把sqlSessionFactory 这个bean的class给换一下就行了，之前可能是：org.mybatis.spring.SqlSessionFactoryBean，把这个换成com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean
+            <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <!-- scan xml file -->
+            <property name="mapperLocations" value="classpath:cc/ligu/**/persistence/mapping/*.xml"></property>
+            <property name="typeAliasesPackage" value="cc.ligu.**.persistence.entity"/>
+            <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+            <property name="globalConfig" ref="globalConfig" />
+            <property name="plugins">
+                <array>
+                    <!-- 分页插件配置 -->
+                    <bean id="paginationInterceptor"
+                          class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+                        <property name="dialectType" value="mysql" />
+                    </bean>
+                    <bean id="performanceInterceptor"
+                          class="com.baomidou.mybatisplus.plugins.PerformanceInterceptor" >
+                        <!-- 超过自动停止运行，有助于发现问题。 -->
+                        <property name="maxTime" value="100" />
+                        <!--SQL是否格式化 默认false-->
+                        <property name="format" value="true" />
+                    </bean>
+                </array>
+            </property>
+        </bean>
+
+        <bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+            <property name="idType" value="2" />
+            <property name="dbColumnUnderline" value="true" />
+            <property name="dbType" value="mysql"/>
+        </bean>

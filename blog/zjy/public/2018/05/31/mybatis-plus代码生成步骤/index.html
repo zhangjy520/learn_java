@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="zhang jian yu">
 <meta property="og:description" content="1 pom文件pom文件添加如下依赖 &amp;lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&amp;gt;     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;         &amp;lt;artifactId&amp;gt;mybat">
 <meta property="og:image" content="http://zjy.com/2018/05/31/mybatis-plus代码生成步骤/1.png">
-<meta property="og:updated_time" content="2018-05-31T06:36:25.667Z">
+<meta property="og:updated_time" content="2018-05-31T07:54:29.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mybatis-plus代码生成步骤">
 <meta name="twitter:description" content="1 pom文件pom文件添加如下依赖 &amp;lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&amp;gt;     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;         &amp;lt;artifactId&amp;gt;mybat">
@@ -97,7 +97,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-pom文件"><span class="toc-number">1.</span> <span class="toc-text">1 pom文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置文件-mybatis-plus-properties"><span class="toc-number">2.</span> <span class="toc-text">2 配置文件 mybatis-plus.properties</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-生成入口-MyBatisPlusGenerator-java"><span class="toc-number">3.</span> <span class="toc-text">3 生成入口 MyBatisPlusGenerator.java</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4效果图"><span class="toc-number">4.</span> <span class="toc-text">4效果图</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-pom文件"><span class="toc-number">1.</span> <span class="toc-text">1 pom文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置文件-mybatis-plus-properties"><span class="toc-number">2.</span> <span class="toc-text">2 配置文件 mybatis-plus.properties</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-生成入口-MyBatisPlusGenerator-java"><span class="toc-number">3.</span> <span class="toc-text">3 生成入口 MyBatisPlusGenerator.java</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4效果图"><span class="toc-number">4.</span> <span class="toc-text">4效果图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps-集成spring-mvc的时候需要注意的地方"><span class="toc-number">5.</span> <span class="toc-text">ps:集成spring-mvc的时候需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pom文件这两个依赖删除掉，否则会冲突"><span class="toc-number">5.1.</span> <span class="toc-text">pom文件这两个依赖删除掉，否则会冲突</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spirng-mybatis-xml配置-下面是局部配置，你自己的项目只需要把sqlSessionFactory-这个bean的class给换一下就行了，之前可能是：org-mybatis-spring-SqlSessionFactoryBean，把这个换成com-baomidou-mybatisplus-spring-MybatisSqlSessionFactoryBean"><span class="toc-number">5.2.</span> <span class="toc-text">spirng-mybatis.xml配置,下面是局部配置，你自己的项目只需要把sqlSessionFactory 这个bean的class给换一下就行了，之前可能是：org.mybatis.spring.SqlSessionFactoryBean，把这个换成com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -249,7 +249,58 @@ jdbc.password=test
 
   }
 </code></pre><h1 id="4效果图"><a href="#4效果图" class="headerlink" title="4效果图"></a>4效果图</h1><p><img src="/2018/05/31/mybatis-plus代码生成步骤/1.png" alt="logo"></p>
-  
+<h1 id="ps-集成spring-mvc的时候需要注意的地方"><a href="#ps-集成spring-mvc的时候需要注意的地方" class="headerlink" title="ps:集成spring-mvc的时候需要注意的地方"></a>ps:集成spring-mvc的时候需要注意的地方</h1><h2 id="pom文件这两个依赖删除掉，否则会冲突"><a href="#pom文件这两个依赖删除掉，否则会冲突" class="headerlink" title="pom文件这两个依赖删除掉，否则会冲突"></a>pom文件这两个依赖删除掉，否则会冲突</h2><pre><code>&lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --&gt;
+   &lt;dependency&gt;
+       &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+       &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+       &lt;version&gt;3.4.1&lt;/version&gt;
+   &lt;/dependency&gt;
+
+   &lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring --&gt;
+   &lt;dependency&gt;
+       &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+       &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+       &lt;version&gt;1.3.0&lt;/version&gt;
+   &lt;/dependency&gt;
+
+   &lt;!--删除上面两个依赖，用下面这个依赖代替 --&gt;
+    &lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&gt;
+   &lt;dependency&gt;
+       &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+       &lt;artifactId&gt;mybatis-plus&lt;/artifactId&gt;
+       &lt;version&gt;2.1.9&lt;/version&gt;
+   &lt;/dependency&gt;
+</code></pre><h2 id="spirng-mybatis-xml配置-下面是局部配置，你自己的项目只需要把sqlSessionFactory-这个bean的class给换一下就行了，之前可能是：org-mybatis-spring-SqlSessionFactoryBean，把这个换成com-baomidou-mybatisplus-spring-MybatisSqlSessionFactoryBean"><a href="#spirng-mybatis-xml配置-下面是局部配置，你自己的项目只需要把sqlSessionFactory-这个bean的class给换一下就行了，之前可能是：org-mybatis-spring-SqlSessionFactoryBean，把这个换成com-baomidou-mybatisplus-spring-MybatisSqlSessionFactoryBean" class="headerlink" title="spirng-mybatis.xml配置,下面是局部配置，你自己的项目只需要把sqlSessionFactory 这个bean的class给换一下就行了，之前可能是：org.mybatis.spring.SqlSessionFactoryBean，把这个换成com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean"></a>spirng-mybatis.xml配置,下面是局部配置，你自己的项目只需要把sqlSessionFactory 这个bean的class给换一下就行了，之前可能是：org.mybatis.spring.SqlSessionFactoryBean，把这个换成com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean</h2><pre><code>    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean&quot;&gt;
+    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+    &lt;!-- scan xml file --&gt;
+    &lt;property name=&quot;mapperLocations&quot; value=&quot;classpath:cc/ligu/**/persistence/mapping/*.xml&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;cc.ligu.**.persistence.entity&quot;/&gt;
+    &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis-config.xml&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;globalConfig&quot; ref=&quot;globalConfig&quot; /&gt;
+    &lt;property name=&quot;plugins&quot;&gt;
+        &lt;array&gt;
+            &lt;!-- 分页插件配置 --&gt;
+            &lt;bean id=&quot;paginationInterceptor&quot;
+                  class=&quot;com.baomidou.mybatisplus.plugins.PaginationInterceptor&quot;&gt;
+                &lt;property name=&quot;dialectType&quot; value=&quot;mysql&quot; /&gt;
+            &lt;/bean&gt;
+            &lt;bean id=&quot;performanceInterceptor&quot;
+                  class=&quot;com.baomidou.mybatisplus.plugins.PerformanceInterceptor&quot; &gt;
+                &lt;!-- 超过自动停止运行，有助于发现问题。 --&gt;
+                &lt;property name=&quot;maxTime&quot; value=&quot;100&quot; /&gt;
+                &lt;!--SQL是否格式化 默认false--&gt;
+                &lt;property name=&quot;format&quot; value=&quot;true&quot; /&gt;
+            &lt;/bean&gt;
+        &lt;/array&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;globalConfig&quot; class=&quot;com.baomidou.mybatisplus.entity.GlobalConfiguration&quot;&gt;
+    &lt;property name=&quot;idType&quot; value=&quot;2&quot; /&gt;
+    &lt;property name=&quot;dbColumnUnderline&quot; value=&quot;true&quot; /&gt;
+    &lt;property name=&quot;dbType&quot; value=&quot;mysql&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -305,7 +356,7 @@ jdbc.password=test
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-pom文件"><span class="toc-number">1.</span> <span class="toc-text">1 pom文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置文件-mybatis-plus-properties"><span class="toc-number">2.</span> <span class="toc-text">2 配置文件 mybatis-plus.properties</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-生成入口-MyBatisPlusGenerator-java"><span class="toc-number">3.</span> <span class="toc-text">3 生成入口 MyBatisPlusGenerator.java</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4效果图"><span class="toc-number">4.</span> <span class="toc-text">4效果图</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-pom文件"><span class="toc-number">1.</span> <span class="toc-text">1 pom文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置文件-mybatis-plus-properties"><span class="toc-number">2.</span> <span class="toc-text">2 配置文件 mybatis-plus.properties</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-生成入口-MyBatisPlusGenerator-java"><span class="toc-number">3.</span> <span class="toc-text">3 生成入口 MyBatisPlusGenerator.java</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4效果图"><span class="toc-number">4.</span> <span class="toc-text">4效果图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps-集成spring-mvc的时候需要注意的地方"><span class="toc-number">5.</span> <span class="toc-text">ps:集成spring-mvc的时候需要注意的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pom文件这两个依赖删除掉，否则会冲突"><span class="toc-number">5.1.</span> <span class="toc-text">pom文件这两个依赖删除掉，否则会冲突</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spirng-mybatis-xml配置-下面是局部配置，你自己的项目只需要把sqlSessionFactory-这个bean的class给换一下就行了，之前可能是：org-mybatis-spring-SqlSessionFactoryBean，把这个换成com-baomidou-mybatisplus-spring-MybatisSqlSessionFactoryBean"><span class="toc-number">5.2.</span> <span class="toc-text">spirng-mybatis.xml配置,下面是局部配置，你自己的项目只需要把sqlSessionFactory 这个bean的class给换一下就行了，之前可能是：org.mybatis.spring.SqlSessionFactoryBean，把这个换成com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean</span></a></li></ol></li></ol>
  
   </div>
 
