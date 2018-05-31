@@ -12,7 +12,7 @@ menu:
 
 #### 控件
 widgets: 
-- github-card
+#- github-card
 - category
 - tag
 - links
@@ -65,7 +65,7 @@ author:
   zhihu:    zhang-san-feng-17-14  ## e.g. jark  for http://www.zhihu.com/people/jark
   email:   1211079133@qq.com   ## e.g. imjark@gmail.com
   twitter: 22   ## e.g. jarkwu for https://twitter.com/jarkwu
-  github:   zhangjy520  ## e.g. wuchong for https://github.com/wuchong
+ # github:   zhangjy520  ## e.g. wuchong for https://github.com/wuchong
 #  facebook: 22  ## e.g. imjark for https://facebook.com/imjark
 #  linkedin: 22  ## e.g. wuchong1014 for https://www.linkedin.com/in/wuchong1014
 #  google_plus: 22   ## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!
