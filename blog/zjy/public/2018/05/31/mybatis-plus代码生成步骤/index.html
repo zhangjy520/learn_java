@@ -1,0 +1,674 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>mybatis-plus代码生成步骤 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="1 pom文件pom文件添加如下依赖 &amp;lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&amp;gt;     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;         &amp;lt;artifactId&amp;gt;mybat">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis-plus代码生成步骤">
+<meta property="og:url" content="http://zjy.com/2018/05/31/mybatis-plus代码生成步骤/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="1 pom文件pom文件添加如下依赖 &amp;lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&amp;gt;     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;         &amp;lt;artifactId&amp;gt;mybat">
+<meta property="og:image" content="http://zjy.com/2018/05/31/mybatis-plus代码生成步骤/1.png">
+<meta property="og:updated_time" content="2018-05-31T06:36:25.667Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mybatis-plus代码生成步骤">
+<meta name="twitter:description" content="1 pom文件pom文件添加如下依赖 &amp;lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&amp;gt;     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;         &amp;lt;artifactId&amp;gt;mybat">
+<meta name="twitter:image" content="http://zjy.com/2018/05/31/mybatis-plus代码生成步骤/1.png">
+<meta name="twitter:creator" content="@22">
+<link rel="publisher" href="22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/31/mybatis-plus代码生成步骤/" title="mybatis-plus代码生成步骤" itemprop="url">mybatis-plus代码生成步骤</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/22?rel=author" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-31T05:58:24.000Z" itemprop="datePublished"> 发表于 2018-05-31</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-pom文件"><span class="toc-number">1.</span> <span class="toc-text">1 pom文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置文件-mybatis-plus-properties"><span class="toc-number">2.</span> <span class="toc-text">2 配置文件 mybatis-plus.properties</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-生成入口-MyBatisPlusGenerator-java"><span class="toc-number">3.</span> <span class="toc-text">3 生成入口 MyBatisPlusGenerator.java</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4效果图"><span class="toc-number">4.</span> <span class="toc-text">4效果图</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="1-pom文件"><a href="#1-pom文件" class="headerlink" title="1 pom文件"></a>1 pom文件</h1><p>pom文件添加如下依赖</p>
+<pre><code>&lt;!-- https://mvnreository.com/artifact/com.baomidou/mybatis-plus --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-plus&lt;/artifactId&gt;
+        &lt;version&gt;2.1.9&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre><h1 id="2-配置文件-mybatis-plus-properties"><a href="#2-配置文件-mybatis-plus-properties" class="headerlink" title="2 配置文件 mybatis-plus.properties"></a>2 配置文件 mybatis-plus.properties</h1><pre><code>#此处为本项目src所在路径（代码生成器输出路径）
+outputDir=D:\\zjywork\\ligu\\src\\main\\java
+
+#下面为各个代码生成的包路径
+entity.path=cc.ligu.test.persistence.entity
+mapper.path=cc.ligu.test.persistence.dao
+xml.path=cc.ligu.test.persistence.mapping
+service.path=cc.ligu.test.service
+serviceImpl.path=cc.ligu.test.service.impl
+controller.path=cc.ligu.test.controller
+
+#各个文件生成的文件名格式(例如：mapper.配置成:DTO%sMapper,就会生成：DTOUserMapper.java这样。%s是必要配置)
+mapper.name=%sMapper
+xml.name=%sMapper
+service.name=%sService
+serviceImpl.name=%sServiceImpl
+controller.name=%sController
+
+#数据库表名(此处如果为空，则默认读取数据库的所有表名，)
+tableName=doc_question,doc_source
+
+#代码生成的注释的作者
+author=zjy
+
+#数据库参数
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://127.0.0.1:3308/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=false
+jdbc.userName=root
+jdbc.password=test
+</code></pre><h1 id="3-生成入口-MyBatisPlusGenerator-java"><a href="#3-生成入口-MyBatisPlusGenerator-java" class="headerlink" title="3 生成入口 MyBatisPlusGenerator.java"></a>3 生成入口 MyBatisPlusGenerator.java</h1><pre><code>package cc.ligu.mvc.common;
+
+  import java.io.InputStream;
+  import java.util.HashMap;
+  import java.util.Map;
+  import java.util.Properties;
+
+  import com.baomidou.mybatisplus.generator.AutoGenerator;
+  import com.baomidou.mybatisplus.generator.InjectionConfig;
+  import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+  import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+  import com.baomidou.mybatisplus.generator.config.PackageConfig;
+  import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+  import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
+  import com.baomidou.mybatisplus.generator.config.converts.OracleTypeConvert;
+  import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
+  import com.baomidou.mybatisplus.generator.config.rules.DbType;
+  import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+  import org.springframework.core.io.ClassPathResource;
+
+  /**
+   * mybatis-plus代码生成器(用于生成entity)&lt;br&gt;
+   */
+  public class MyBatisPlusGenerator {
+
+      public static Properties getProperties(String path) {
+          Properties prop = null;
+          InputStream inStream = null;
+          try {
+              prop = new Properties();
+              inStream = new ClassPathResource(path).getInputStream();
+              prop.load(inStream);
+              inStream.close();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+          return prop;
+      }
+
+      public static void main(String[] args) {
+          Properties properties = getProperties(&quot;mybatis-plus.properties&quot;);
+          AutoGenerator mpg = new AutoGenerator();
+
+          // 全局配置
+          GlobalConfig gc = new GlobalConfig();
+          gc.setOutputDir(properties.getProperty(&quot;outputDir&quot;));// 自己的java目录
+          gc.setFileOverride(true);// 是否覆盖
+          gc.setActiveRecord(true);
+          gc.setEnableCache(false);// XML 二级缓存
+          gc.setBaseResultMap(true);// XML ResultMap
+          gc.setBaseColumnList(false);// XML columList
+          gc.setAuthor(properties.getProperty(&quot;author&quot;));
+          gc .setMapperName(properties.getProperty(&quot;mapper.name&quot;))
+                  .setXmlName(properties.getProperty(&quot;xml.name&quot;))
+                  .setServiceName(properties.getProperty(&quot;service.name&quot;))
+                  .setServiceImplName(properties.getProperty(&quot;serviceImpl.name&quot;))
+                  .setControllerName(properties.getProperty(&quot;controller.name&quot;));
+          mpg.setGlobalConfig(gc);
+
+          // 数据源配置
+          DataSourceConfig dsc = new DataSourceConfig();
+          dsc.setDbType(DbType.MYSQL);
+          dsc.setTypeConvert(new MySqlTypeConvert() {
+              // 自定义数据库表字段类型转换【可选】
+              @Override
+              public DbColumnType processTypeConvert(String fieldType) {
+                  return super.processTypeConvert(fieldType);
+              }
+          });
+          /**数据库配置这块可以自己手写读取配置文件里的配置项，为了省事我直接copy**/
+          dsc.setDriverName(properties.getProperty(&quot;jdbc.driver&quot;));
+          dsc.setUsername(properties.getProperty(&quot;jdbc.userName&quot;));
+          dsc.setPassword(properties.getProperty(&quot;jdbc.password&quot;));
+          dsc.setUrl(properties.getProperty(&quot;jdbc.url&quot;));
+          mpg.setDataSource(dsc);
+
+          // 策略配置
+          StrategyConfig strategy = new StrategyConfig();
+          // strategy.setTablePrefix(new String[]{&quot;_&quot;});// 此处修改为表前缀
+          strategy.setNaming(NamingStrategy.underline_to_camel).setInclude(properties.getProperty(&quot;tableName&quot;).split(&quot;,&quot;));// 表名生成策略
+          mpg.setStrategy(strategy);
+          // 包配置
+          PackageConfig pc = new PackageConfig();
+          pc.setParent(null);
+          pc.setEntity(properties.getProperty(&quot;entity.path&quot;));
+          pc.setMapper(properties.getProperty(&quot;mapper.path&quot;));
+          pc.setXml(properties.getProperty(&quot;xml.path&quot;));
+          pc.setService(properties.getProperty(&quot;service.path&quot;));
+          pc.setServiceImpl(properties.getProperty(&quot;serviceImpl.path&quot;));
+          pc.setController(properties.getProperty(&quot;controller.path&quot;));
+          mpg.setPackageInfo(pc);
+
+          // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
+          InjectionConfig cfg = new InjectionConfig() {
+              @Override
+              public void initMap() {
+                  Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+                  map.put(&quot;abc&quot;, this.getConfig().getGlobalConfig().getAuthor() + &quot;-mp&quot;);
+                  this.setMap(map);
+              }
+          };
+          mpg.setCfg(cfg);
+
+          // 执行生成
+          mpg.execute();
+
+          // 打印注入设置
+          System.err.println(mpg.getCfg().getMap().get(&quot;abc&quot;));
+      }
+
+  }
+</code></pre><h1 id="4效果图"><a href="#4效果图" class="headerlink" title="4效果图"></a>4效果图</h1><p><img src="/2018/05/31/mybatis-plus代码生成步骤/1.png" alt="logo"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2018/05/31/mybatis-plus代码生成步骤/" data-title="mybatis-plus代码生成步骤 | zhang jian yu" data-tsina="22" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/05/30/java导入文件视频文件并使用nginx做静态资源代理/" title="java导入文件视频文件并使用nginx做静态资源代理">
+  <strong>上一篇：</strong><br/>
+  <span>
+  java导入文件视频文件并使用nginx做静态资源代理</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/05/31/mybatis-plus代码生成步骤/" data-title="mybatis-plus代码生成步骤" data-url="http://zjy.com/2018/05/31/mybatis-plus代码生成步骤/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-pom文件"><span class="toc-number">1.</span> <span class="toc-text">1 pom文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-配置文件-mybatis-plus-properties"><span class="toc-number">2.</span> <span class="toc-text">2 配置文件 mybatis-plus.properties</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-生成入口-MyBatisPlusGenerator-java"><span class="toc-number">3.</span> <span class="toc-text">3 生成入口 MyBatisPlusGenerator.java</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4效果图"><span class="toc-number">4.</span> <span class="toc-text">4效果图</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/a/" title="a">a<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/a/" title="a">a<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/zjy1211079133?ref=toolbar" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=22&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		<a href="http://stackoverflow.com/users/22" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/22" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/22" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/22" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/22?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:22" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2018 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
