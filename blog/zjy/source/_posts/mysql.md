@@ -4,22 +4,21 @@ date: 2017-05-05 13:51:49
 ---
 # 服务器装mysql
 
-### 1：更新服务器  
+### 更新服务器  
 	sudo apt-get update && sudo apt-get upgrade
 
-### 2：安装mysql-server 
+### 安装mysql-server 
 	
     apt-get install mysql-server
 
-### 3 修改远程访问限制：
- #### 3.1 修改bind—address
+### 修改远程访问限制：
+ #### 修改bind—address
     	在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉
- #### 3.2 修改host
+ #### 修改host
  		mysql -u root -p;
          update mysql.user set host ="%" where user="root";
          flush privileges;
          service mysql restart;
-
 
 
 # 相关命令
@@ -69,7 +68,40 @@ date: 2017-05-05 13:51:49
 
 
 
-
 # ps 最简单安装如图
 
 ![logo](mysql/3.png)
+
+
+
+
+
+# centos安装5.7mysql
+
+## 下载
+	wget http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.16-1.el7.x86_64.rpm-bundle.tar
+
+## 然后解压
+
+     [root@linux_node_1 src]# tar -xvf mysql-5.7.16-1.el7.x86_64.rpm-bundle.tar 
+      mysql-community-libs-compat-5.7.16-1.el7.x86_64.rpm
+      mysql-community-devel-5.7.16-1.el7.x86_64.rpm
+      mysql-community-minimal-debuginfo-5.7.16-1.el7.x86_64.rpm
+      mysql-community-libs-5.7.16-1.el7.x86_64.rpm
+      mysql-community-common-5.7.16-1.el7.x86_64.rpm
+      mysql-community-embedded-compat-5.7.16-1.el7.x86_64.rpm
+      mysql-community-test-5.7.16-1.el7.x86_64.rpm
+      mysql-community-embedded-devel-5.7.16-1.el7.x86_64.rpm
+      mysql-community-server-minimal-5.7.16-1.el7.x86_64.rpm
+      mysql-community-server-5.7.16-1.el7.x86_64.rpm
+      mysql-community-client-5.7.16-1.el7.x86_64.rpm
+      mysql-community-embedded-5.7.16-1.el7.x86_64.rpm
+## 安装
+    依次执行（几个包有依赖关系，所以执行有先后）下面命令安装
+    [root@centos-linux ~]# rpm -ivh mysql-community-common-5.7.16-1.el7.x86_64.rpm 
+    [root@centos-linux ~]# rpm -ivh mysql-community-libs-5.7.16-1.el7.x86_64.rpm
+    [root@centos-linux ~]# rpm -ivh mysql-community-client-5.7.16-1.el7.x86_64.rpm 
+    [root@centos-linux ~]# rpm -ivh mysql-community-server-5.7.16-1.el7.x86_64.rpm
+    
+## 启动  
+	service mysqld start

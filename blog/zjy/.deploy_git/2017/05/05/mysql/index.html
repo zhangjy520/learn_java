@@ -11,20 +11,20 @@
     
 
     
-    <meta name="description" content="服务器装mysql1：更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 2：安装mysql-serverapt-get install mysql-server 3 修改远程访问限制：3.1 修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 3.2">
+    <meta name="description" content="服务器装mysql更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 安装mysql-serverapt-get install mysql-server 修改远程访问限制：修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 修改hostmysql -">
 <meta name="keywords" content="server,linux,ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ubuntu14.04  - mysql5.7">
 <meta property="og:url" content="http://zjy.com/2017/05/05/mysql/index.html">
 <meta property="og:site_name" content="zhang jian yu">
-<meta property="og:description" content="服务器装mysql1：更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 2：安装mysql-serverapt-get install mysql-server 3 修改远程访问限制：3.1 修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 3.2">
+<meta property="og:description" content="服务器装mysql更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 安装mysql-serverapt-get install mysql-server 修改远程访问限制：修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 修改hostmysql -">
 <meta property="og:image" content="http://zjy.com/2017/05/05/mysql/1.png">
 <meta property="og:image" content="http://zjy.com/2017/05/05/mysql/2.png">
 <meta property="og:image" content="http://zjy.com/2017/05/05/mysql/3.png">
-<meta property="og:updated_time" content="2018-05-09T02:27:56.082Z">
+<meta property="og:updated_time" content="2018-06-05T01:53:37.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu14.04  - mysql5.7">
-<meta name="twitter:description" content="服务器装mysql1：更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 2：安装mysql-serverapt-get install mysql-server 3 修改远程访问限制：3.1 修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 3.2">
+<meta name="twitter:description" content="服务器装mysql更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade 安装mysql-serverapt-get install mysql-server 修改远程访问限制：修改bind—address在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉 修改hostmysql -">
 <meta name="twitter:image" content="http://zjy.com/2017/05/05/mysql/1.png">
 <meta name="twitter:creator" content="@22">
 
@@ -99,14 +99,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1：更新服务器"><span class="toc-number">1.0.1.</span> <span class="toc-text">1：更新服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2：安装mysql-server"><span class="toc-number">1.0.2.</span> <span class="toc-text">2：安装mysql-server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-修改远程访问限制："><span class="toc-number">1.0.3.</span> <span class="toc-text">3 修改远程访问限制：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-修改bind—address"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">3.1 修改bind—address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-修改host"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">3.2 修改host</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关命令"><span class="toc-number">2.</span> <span class="toc-text">相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apt安装列表"><span class="toc-number">2.1.</span> <span class="toc-text">查看apt安装列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载异常"><span class="toc-number">2.3.</span> <span class="toc-text">卸载异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps-最简单安装如图"><span class="toc-number">3.</span> <span class="toc-text">ps 最简单安装如图</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新服务器"><span class="toc-number">1.0.1.</span> <span class="toc-text">更新服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装mysql-server"><span class="toc-number">1.0.2.</span> <span class="toc-text">安装mysql-server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改远程访问限制："><span class="toc-number">1.0.3.</span> <span class="toc-text">修改远程访问限制：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改bind—address"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">修改bind—address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改host"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">修改host</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关命令"><span class="toc-number">2.</span> <span class="toc-text">相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apt安装列表"><span class="toc-number">2.1.</span> <span class="toc-text">查看apt安装列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载异常"><span class="toc-number">2.3.</span> <span class="toc-text">卸载异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps-最简单安装如图"><span class="toc-number">3.</span> <span class="toc-text">ps 最简单安装如图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#centos安装5-7mysql"><span class="toc-number">4.</span> <span class="toc-text">centos安装5.7mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-number">4.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#然后解压"><span class="toc-number">4.2.</span> <span class="toc-text">然后解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.3.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">4.4.</span> <span class="toc-text">启动</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="服务器装mysql"><a href="#服务器装mysql" class="headerlink" title="服务器装mysql"></a>服务器装mysql</h1><h3 id="1：更新服务器"><a href="#1：更新服务器" class="headerlink" title="1：更新服务器"></a>1：更新服务器</h3><pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade
-</code></pre><h3 id="2：安装mysql-server"><a href="#2：安装mysql-server" class="headerlink" title="2：安装mysql-server"></a>2：安装mysql-server</h3><pre><code>apt-get install mysql-server
-</code></pre><h3 id="3-修改远程访问限制："><a href="#3-修改远程访问限制：" class="headerlink" title="3 修改远程访问限制："></a>3 修改远程访问限制：</h3><h4 id="3-1-修改bind—address"><a href="#3-1-修改bind—address" class="headerlink" title="3.1 修改bind—address"></a>3.1 修改bind—address</h4><pre><code>在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉
-</code></pre><h4 id="3-2-修改host"><a href="#3-2-修改host" class="headerlink" title="3.2 修改host"></a>3.2 修改host</h4><pre><code>mysql -u root -p;
+		<h1 id="服务器装mysql"><a href="#服务器装mysql" class="headerlink" title="服务器装mysql"></a>服务器装mysql</h1><h3 id="更新服务器"><a href="#更新服务器" class="headerlink" title="更新服务器"></a>更新服务器</h3><pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade
+</code></pre><h3 id="安装mysql-server"><a href="#安装mysql-server" class="headerlink" title="安装mysql-server"></a>安装mysql-server</h3><pre><code>apt-get install mysql-server
+</code></pre><h3 id="修改远程访问限制："><a href="#修改远程访问限制：" class="headerlink" title="修改远程访问限制："></a>修改远程访问限制：</h3><h4 id="修改bind—address"><a href="#修改bind—address" class="headerlink" title="修改bind—address"></a>修改bind—address</h4><pre><code>在 /etc/mysql/mysql.conf.d 目录下某个文件有 bind-address属性 ，注释掉
+</code></pre><h4 id="修改host"><a href="#修改host" class="headerlink" title="修改host"></a>修改host</h4><pre><code>mysql -u root -p;
 update mysql.user set host =&quot;%&quot; where user=&quot;root&quot;;
 flush privileges;
 service mysql restart;
@@ -137,7 +137,27 @@ apt-get clean
 <p>1  yum list installed |grep mysql<br>2  wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm<br>3  yum localinstall mysql-community-release-el6-5.noarch.rpm<br>4  yum repolist all|grep mysql<br>5  yum-config-manager –disable mysql55-community<br>6  yum-config-manager –disable mysql56-community<br>7  yum-config-manager –enable mysql57-community-dmr</p>
 <p><img src="/2017/05/05/mysql/1.png" alt="logo"><br><img src="/2017/05/05/mysql/2.png" alt="logo"></p>
 <h1 id="ps-最简单安装如图"><a href="#ps-最简单安装如图" class="headerlink" title="ps 最简单安装如图"></a>ps 最简单安装如图</h1><p><img src="/2017/05/05/mysql/3.png" alt="logo"></p>
-  
+<h1 id="centos安装5-7mysql"><a href="#centos安装5-7mysql" class="headerlink" title="centos安装5.7mysql"></a>centos安装5.7mysql</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.16-1.el7.x86_64.rpm-bundle.tar
+</code></pre><h2 id="然后解压"><a href="#然后解压" class="headerlink" title="然后解压"></a>然后解压</h2><pre><code>[root@linux_node_1 src]# tar -xvf mysql-5.7.16-1.el7.x86_64.rpm-bundle.tar 
+ mysql-community-libs-compat-5.7.16-1.el7.x86_64.rpm
+ mysql-community-devel-5.7.16-1.el7.x86_64.rpm
+ mysql-community-minimal-debuginfo-5.7.16-1.el7.x86_64.rpm
+ mysql-community-libs-5.7.16-1.el7.x86_64.rpm
+ mysql-community-common-5.7.16-1.el7.x86_64.rpm
+ mysql-community-embedded-compat-5.7.16-1.el7.x86_64.rpm
+ mysql-community-test-5.7.16-1.el7.x86_64.rpm
+ mysql-community-embedded-devel-5.7.16-1.el7.x86_64.rpm
+ mysql-community-server-minimal-5.7.16-1.el7.x86_64.rpm
+ mysql-community-server-5.7.16-1.el7.x86_64.rpm
+ mysql-community-client-5.7.16-1.el7.x86_64.rpm
+ mysql-community-embedded-5.7.16-1.el7.x86_64.rpm
+</code></pre><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>依次执行（几个包有依赖关系，所以执行有先后）下面命令安装
+[root@centos-linux ~]# rpm -ivh mysql-community-common-5.7.16-1.el7.x86_64.rpm 
+[root@centos-linux ~]# rpm -ivh mysql-community-libs-5.7.16-1.el7.x86_64.rpm
+[root@centos-linux ~]# rpm -ivh mysql-community-client-5.7.16-1.el7.x86_64.rpm 
+[root@centos-linux ~]# rpm -ivh mysql-community-server-5.7.16-1.el7.x86_64.rpm
+</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code>service mysqld start
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -168,18 +188,18 @@ apt-get clean
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/05/05/jdk/" title="ubuntu14.04 安装配置JDK1.7，更换openjdk">
+ <a href="/2017/05/03/fileCount/" title="递归统计（spring bean扫描也用的这种模式）">
   <strong>上一篇：</strong><br/>
   <span>
-  ubuntu14.04 安装配置JDK1.7，更换openjdk</span>
+  递归统计（spring bean扫描也用的这种模式）</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/05/05/node_js_pa_chong/"  title="node js 爬虫">
+<a href="/2017/05/05/heder/"  title="iframe跨域嵌套头部">
  <strong>下一篇：</strong><br/> 
- <span>node js 爬虫
+ <span>iframe跨域嵌套头部
 </span>
 </a>
 </div>
@@ -206,7 +226,7 @@ apt-get clean
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1：更新服务器"><span class="toc-number">1.0.1.</span> <span class="toc-text">1：更新服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2：安装mysql-server"><span class="toc-number">1.0.2.</span> <span class="toc-text">2：安装mysql-server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-修改远程访问限制："><span class="toc-number">1.0.3.</span> <span class="toc-text">3 修改远程访问限制：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-修改bind—address"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">3.1 修改bind—address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-修改host"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">3.2 修改host</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关命令"><span class="toc-number">2.</span> <span class="toc-text">相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apt安装列表"><span class="toc-number">2.1.</span> <span class="toc-text">查看apt安装列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载异常"><span class="toc-number">2.3.</span> <span class="toc-text">卸载异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps-最简单安装如图"><span class="toc-number">3.</span> <span class="toc-text">ps 最简单安装如图</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器装mysql"><span class="toc-number">1.</span> <span class="toc-text">服务器装mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新服务器"><span class="toc-number">1.0.1.</span> <span class="toc-text">更新服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装mysql-server"><span class="toc-number">1.0.2.</span> <span class="toc-text">安装mysql-server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改远程访问限制："><span class="toc-number">1.0.3.</span> <span class="toc-text">修改远程访问限制：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改bind—address"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">修改bind—address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改host"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">修改host</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关命令"><span class="toc-number">2.</span> <span class="toc-text">相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apt安装列表"><span class="toc-number">2.1.</span> <span class="toc-text">查看apt安装列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">2.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载异常"><span class="toc-number">2.3.</span> <span class="toc-text">卸载异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps-最简单安装如图"><span class="toc-number">3.</span> <span class="toc-text">ps 最简单安装如图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#centos安装5-7mysql"><span class="toc-number">4.</span> <span class="toc-text">centos安装5.7mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-number">4.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#然后解压"><span class="toc-number">4.2.</span> <span class="toc-text">然后解压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.3.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">4.4.</span> <span class="toc-text">启动</span></a></li></ol></li></ol>
  
   </div>
 
