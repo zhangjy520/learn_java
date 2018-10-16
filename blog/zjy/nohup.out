@@ -894,3 +894,134 @@ Error: listen EADDRINUSE 0.0.0.0:4000
     at process._tickCallback (internal/process/next_tick.js:104:9)
 INFO  Start processing
 INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
+INFO  Start processing
+update link as:-->/2017/05/05/active_mq/index.png
+update link as:-->/2017/05/05/active_mq/user.png
+update link as:-->/2017/05/05/active_mq/index.png
+update link as:-->/2017/05/05/active_mq/user.png
+update link as:-->/2017/04/25/first/images/tom.png
+update link as:-->/2017/04/25/first/images/tom.png
+update link as:-->/2018/08/14/http升级https协议-tomcat-nginx/pasted-2.png
+update link as:-->/2018/08/14/http升级https协议-tomcat-nginx/pasted-3.png
+update link as:-->/2018/08/14/http升级https协议-tomcat-nginx/pasted-2.png
+update link as:-->/2018/08/14/http升级https协议-tomcat-nginx/pasted-3.png
+update link as:-->/2017/12/15/mybatis-generator-源码浅析与修改/images/mybatis_mapper.png
+update link as:-->/2017/12/15/mybatis-generator-源码浅析与修改/images/mybatis_mapper.png
+update link as:-->/2018/05/31/mybatis-plus代码生成步骤/1.png
+update link as:-->/2018/05/31/mybatis-plus代码生成步骤/1.png
+update link as:-->/2017/05/05/mysql/1.png
+update link as:-->/2017/05/05/mysql/2.png
+update link as:-->/2017/05/05/mysql/3.png
+update link as:-->/2017/05/05/mysql/1.png
+update link as:-->/2017/05/05/mysql/2.png
+update link as:-->/2017/05/05/mysql/3.png
+update link as:-->/2016/05/03/nginx/1.png
+update link as:-->/2016/05/03/nginx/2.png
+update link as:-->/2016/05/03/nginx/3.png
+update link as:-->/2016/05/03/nginx/4.png
+update link as:-->/2016/05/03/nginx/5.png
+update link as:-->/2016/05/03/nginx/6.png
+update link as:-->/2016/05/03/nginx/7.png
+update link as:-->/2016/05/03/nginx/1.png
+update link as:-->/2016/05/03/nginx/2.png
+update link as:-->/2016/05/03/nginx/3.png
+update link as:-->/2016/05/03/nginx/4.png
+update link as:-->/2016/05/03/nginx/5.png
+update link as:-->/2016/05/03/nginx/6.png
+update link as:-->/2016/05/03/nginx/7.png
+update link as:-->/2016/05/03/state_design_pattern/1.png
+update link as:-->/2016/05/03/state_design_pattern/2.png
+update link as:-->/2016/05/03/state_design_pattern/3.png
+update link as:-->/2016/05/03/state_design_pattern/4.png
+update link as:-->/2016/05/03/state_design_pattern/1.png
+update link as:-->/2016/05/03/state_design_pattern/2.png
+update link as:-->/2016/05/03/state_design_pattern/3.png
+update link as:-->/2016/05/03/state_design_pattern/4.png
+update link as:-->/2017/05/05/timeDocker/1.png
+update link as:-->/2017/05/05/timeDocker/2.png
+update link as:-->/2017/05/05/timeDocker/3.png
+update link as:-->/2017/05/05/timeDocker/4.png
+update link as:-->/2017/05/05/timeDocker/5.png
+update link as:-->/2017/05/05/timeDocker/1.png
+update link as:-->/2017/05/05/timeDocker/2.png
+update link as:-->/2017/05/05/timeDocker/3.png
+update link as:-->/2017/05/05/timeDocker/4.png
+update link as:-->/2017/05/05/timeDocker/5.png
+update link as:-->/2018/03/19/异构数据库同步方案1-触发器/pasted-1.png
+update link as:-->/2018/03/19/异构数据库同步方案1-触发器/pasted-1.png
+update link as:-->/2018/05/09/怎样为我的博客添加图片/1.png
+update link as:-->/2018/05/09/怎样为我的博客添加图片/1.png
+update link as:-->/2018/05/08/批处理脚本初识/jiegou.png
+update link as:-->/2018/05/08/批处理脚本初识/jiegou.png
+INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
+INFO  Start processing
+INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
+TypeError: The header content contains invalid characters
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:360:11)
+    at /home/git_hub/learn_java/blog/zjy/node_modules/hexo-server/lib/middlewares/route.js:27:11
+    at call (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:239:7)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:183:5)
+    at /home/git_hub/learn_java/blog/zjy/node_modules/hexo-server/lib/middlewares/header.js:9:5
+    at call (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:239:7)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:183:5)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at Function.handle (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:186:3)
+    at Server.app (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:51:37)
+TypeError: The header content contains invalid characters
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:360:11)
+    at /home/git_hub/learn_java/blog/zjy/node_modules/hexo-server/lib/middlewares/route.js:27:11
+    at call (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:239:7)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:183:5)
+    at /home/git_hub/learn_java/blog/zjy/node_modules/hexo-server/lib/middlewares/header.js:9:5
+    at call (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:239:7)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:183:5)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at Function.handle (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:186:3)
+    at Server.app (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:51:37)
+TypeError: The header content contains invalid characters
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:360:11)
+    at /home/git_hub/learn_java/blog/zjy/node_modules/hexo-server/lib/middlewares/route.js:27:11
+    at call (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:239:7)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:183:5)
+    at /home/git_hub/learn_java/blog/zjy/node_modules/hexo-server/lib/middlewares/header.js:9:5
+    at call (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:239:7)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:183:5)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at next (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:161:14)
+    at Function.handle (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:186:3)
+    at Server.app (/home/git_hub/learn_java/blog/zjy/node_modules/connect/index.js:51:37)
