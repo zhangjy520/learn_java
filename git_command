@@ -6,3 +6,4 @@ git remote -v
 
 git log //查看提交历史
 git reset --hard commitId  //重置到某次提交
+sss
