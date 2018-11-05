@@ -6,3 +6,9 @@ git remote -v
 
 git log //查看提交历史
 git reset --hard commitId  //重置到某次提交
+
+
+No refs in common and none specified; doing nothing.
+//如果出现以上提示,更新，提交，需使用如下命令
+git push origin master
+git pull origin master
