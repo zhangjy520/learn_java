@@ -1,0 +1,901 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MP4文件缓冲 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content=". . . . . . . . . . . . . . . . . . .                                              情景描述后台上传mp4文件到服务器，通过nginx代理静态资源MP4把访问地址参数提供给app。app用户反应，视频无法加载。或者加载过慢。（在chrome，firefox,360等众多浏览器直接访问mp4访问地址都是秒播） mp4文">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MP4文件缓冲">
+<meta property="og:url" content="http://zjy.com/2018/11/08/MP4文件缓冲/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content=". . . . . . . . . . . . . . . . . . .                                              情景描述后台上传mp4文件到服务器，通过nginx代理静态资源MP4把访问地址参数提供给app。app用户反应，视频无法加载。或者加载过慢。（在chrome，firefox,360等众多浏览器直接访问mp4访问地址都是秒播） mp4文">
+<meta property="og:image" content="http://zjy.com/paste/pasted-12.png">
+<meta property="og:image" content="http://zjy.com/paste/pasted-13.png">
+<meta property="og:image" content="http://zjy.com/paste/xiaoguo.gif">
+<meta property="og:image" content="http://zjy.com/paste/pasted-10.png">
+<meta property="og:updated_time" content="2018-11-08T11:06:24.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MP4文件缓冲">
+<meta name="twitter:description" content=". . . . . . . . . . . . . . . . . . .                                              情景描述后台上传mp4文件到服务器，通过nginx代理静态资源MP4把访问地址参数提供给app。app用户反应，视频无法加载。或者加载过慢。（在chrome，firefox,360等众多浏览器直接访问mp4访问地址都是秒播） mp4文">
+<meta name="twitter:image" content="http://zjy.com/paste/pasted-12.png">
+<meta name="twitter:creator" content="@22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/08/MP4文件缓冲/" title="MP4文件缓冲" itemprop="url">MP4文件缓冲</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-08T09:36:43.000Z" itemprop="datePublished"> 发表于 2018-11-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#情景描述"><span class="toc-number">1.</span> <span class="toc-text">情景描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mp4文件格式"><span class="toc-number">2.</span> <span class="toc-text">mp4文件格式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#加载快慢的原因是（元数据模块的顺序和使用的访问方式）"><span class="toc-number">3.</span> <span class="toc-text">加载快慢的原因是（元数据模块的顺序和使用的访问方式）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！"><span class="toc-number">3.1.</span> <span class="toc-text">综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决办法："><span class="toc-number">4.</span> <span class="toc-text">解决办法：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#效果"><span class="toc-number">5.</span> <span class="toc-text">效果</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.                                             
+</code></pre><h1 id="情景描述"><a href="#情景描述" class="headerlink" title="情景描述"></a>情景描述</h1><pre><code>后台上传mp4文件到服务器，通过nginx代理静态资源MP4把访问地址参数提供给app。app用户反应，视频无法加载。或者加载过慢。（在chrome，firefox,360等众多浏览器直接访问mp4访问地址都是秒播）
+</code></pre><h1 id="mp4文件格式"><a href="#mp4文件格式" class="headerlink" title="mp4文件格式"></a>mp4文件格式</h1><pre><code>moov对于MP4来说，就是目录，它是包含着mp4的元数据。moov模块存放着如下信息
+   1 视频包括编码等级、分辨率、色域、码率、帧率、位深、时长等等……
+   2 音频又包括声道、采样率等音频特有属性
+
+mdat:媒体数据容器。存放mp4大内容的地方。
+</code></pre><h1 id="加载快慢的原因是（元数据模块的顺序和使用的访问方式）"><a href="#加载快慢的原因是（元数据模块的顺序和使用的访问方式）" class="headerlink" title="加载快慢的原因是（元数据模块的顺序和使用的访问方式）"></a>加载快慢的原因是（元数据模块的顺序和使用的访问方式）</h1><pre><code>1 秒播：chrome，firefox,360 很智能，如果读取MP4文件，发现moov box不在文件前部，会直接读取MP4的文件尾部，加载moov box
+2 卡顿：Flash如果读取MP4文件，发现moov box不在文件前部，不会直接读取MP4的文件尾部去寻找moov box，所以Flash要等文件全部下载完，取到文件尾部的moov头，才可以正常播放。
+3 流媒体服务器，即使moov在文件尾部 也会先发moov头出去给CDN或用户，相当于CDN回源，或者用户回源请求到的MP4，已经是moov头在文件头部的了，虽然 这个时候 源站存储的还是moov头在文件尾部的MP4。
+</code></pre><h2 id="综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！"><a href="#综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！" class="headerlink" title="综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！"></a>综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！</h2><h1 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h1><pre><code>知道了mp4播放的原理，我们只要保证。moov在mdat前面解析就行了。ps：修改mp4文件大模块的顺序，是不会影响这个文件整体效果的。
+
+方法1：部署流媒体服务器，给安卓提供流媒体的播放地址。不再采用http地址访问MP4。（成本高，复杂，不考虑）
+方法2：修改mp4文件的模块顺序。（修改mp4模块顺序的代码，可百度，nice）
+方法3：安卓端修改解析mp4的顺序，先解析moov模块。（不懂安卓，不考虑）
+</code></pre><p>附：修改mp4文件模块的代码(百度不到我也不会选择这个办法对吧 <a href="https://blog.csdn.net/lzh838330255/article/details/53286430" target="_blank" rel="external">https://blog.csdn.net/lzh838330255/article/details/53286430</a>)</p>
+<pre><code>package cc.ligu.mvc.common;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.channels.FileChannel;
+
+public class QtFastStart {
+    public static boolean sDEBUG = false;
+
+    private static void safeClose(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                printe(e, &quot;Failed to close file: &quot;);
+            }
+        }
+    }
+
+    /* package */
+    static long uint32ToLong(int int32) {
+        return int32 &amp; 0x00000000ffffffffL;
+    }
+
+    /**
+     * Ensures passed uint32 value in long can be represented as Java int.
+     */
+    /* package */
+    static int uint32ToInt(int uint32) throws UnsupportedFileException {
+        if (uint32 &lt; 0) {
+            throw new UnsupportedFileException(&quot;uint32 value is too large&quot;);
+        }
+        return uint32;
+    }
+
+    /**
+     * Ensures passed uint32 value in long can be represented as Java int.
+     */
+    /* package */
+    static int uint32ToInt(long uint32) throws UnsupportedFileException {
+        if (uint32 &gt; Integer.MAX_VALUE || uint32 &lt; 0) {
+            throw new UnsupportedFileException(&quot;uint32 value is too large&quot;);
+        }
+        return (int) uint32;
+    }
+
+    /**
+     * Ensures passed uint64 value can be represented as Java long.
+     */
+    /* package */
+    static long uint64ToLong(long uint64) throws UnsupportedFileException {
+        if (uint64 &lt; 0) throw new UnsupportedFileException(&quot;uint64 value is too large&quot;);
+        return uint64;
+    }
+
+    private static int fourCcToInt(byte[] byteArray) {
+        return ByteBuffer.wrap(byteArray).order(ByteOrder.BIG_ENDIAN).getInt();
+    }
+
+    private static void printf(String format, Object... args) {
+        if (sDEBUG) System.err.println(&quot;QtFastStart: &quot; + String.format(format, args));
+    }
+
+    private static void printe(Throwable e, String format, Object... args) {
+        printf(format, args);
+        if (sDEBUG) e.printStackTrace();
+    }
+
+    private static boolean readAndFill(FileChannel infile, ByteBuffer buffer) throws IOException {
+        buffer.clear();
+        int size = infile.read(buffer);
+        buffer.flip();
+        return size == buffer.capacity();
+    }
+
+    private static boolean readAndFill(FileChannel infile, ByteBuffer buffer, long position) throws IOException {
+        buffer.clear();
+        int size = infile.read(buffer, position);
+        buffer.flip();
+        return size == buffer.capacity();
+    }
+
+    /* top level atoms */
+    private static final int FREE_ATOM = fourCcToInt(new byte[]{&apos;f&apos;, &apos;r&apos;, &apos;e&apos;, &apos;e&apos;});
+    private static final int JUNK_ATOM = fourCcToInt(new byte[]{&apos;j&apos;, &apos;u&apos;, &apos;n&apos;, &apos;k&apos;});
+    private static final int MDAT_ATOM = fourCcToInt(new byte[]{&apos;m&apos;, &apos;d&apos;, &apos;a&apos;, &apos;t&apos;});
+    private static final int MOOV_ATOM = fourCcToInt(new byte[]{&apos;m&apos;, &apos;o&apos;, &apos;o&apos;, &apos;v&apos;});
+    private static final int PNOT_ATOM = fourCcToInt(new byte[]{&apos;p&apos;, &apos;n&apos;, &apos;o&apos;, &apos;t&apos;});
+    private static final int SKIP_ATOM = fourCcToInt(new byte[]{&apos;s&apos;, &apos;k&apos;, &apos;i&apos;, &apos;p&apos;});
+    private static final int WIDE_ATOM = fourCcToInt(new byte[]{&apos;w&apos;, &apos;i&apos;, &apos;d&apos;, &apos;e&apos;});
+    private static final int PICT_ATOM = fourCcToInt(new byte[]{&apos;P&apos;, &apos;I&apos;, &apos;C&apos;, &apos;T&apos;});
+    private static final int FTYP_ATOM = fourCcToInt(new byte[]{&apos;f&apos;, &apos;t&apos;, &apos;y&apos;, &apos;p&apos;});
+    private static final int UUID_ATOM = fourCcToInt(new byte[]{&apos;u&apos;, &apos;u&apos;, &apos;i&apos;, &apos;d&apos;});
+
+    private static final int CMOV_ATOM = fourCcToInt(new byte[]{&apos;c&apos;, &apos;m&apos;, &apos;o&apos;, &apos;v&apos;});
+    private static final int STCO_ATOM = fourCcToInt(new byte[]{&apos;s&apos;, &apos;t&apos;, &apos;c&apos;, &apos;o&apos;});
+    private static final int CO64_ATOM = fourCcToInt(new byte[]{&apos;c&apos;, &apos;o&apos;, &apos;6&apos;, &apos;4&apos;});
+
+    private static final int ATOM_PREAMBLE_SIZE = 8;
+
+    public static boolean fastStart(InputStream in, FileOutputStream out) throws IOException, MalformedFileException, UnsupportedFileException {
+        boolean ret = false;
+        FileInputStream inStream = (FileInputStream) in;
+        FileChannel infile = null;
+        FileChannel outfile= null;
+        try {
+            infile = inStream.getChannel();
+            outfile = out.getChannel();
+            return ret = fastStartImpl(infile, outfile);
+        } finally {
+            if (!ret) {
+                infile.transferTo(0, infile.size(), outfile);//当转换不成功时（正常是因文件小），直接copy.
+//                out.delete();
+            }else{
+//                in.delete();
+            }
+            safeClose(inStream);
+            safeClose(out);
+        }
+    }
+    /**
+     * @param in  Input file.
+     * @param out Output file.
+     * @return false if input file is already fast start.
+     * @throws IOException
+     */
+    public static boolean fastStart(String in, String out) throws IOException, MalformedFileException, UnsupportedFileException {
+        boolean ret = false;
+        FileInputStream inStream = null;
+        FileOutputStream outStream = null;
+        FileChannel infile = null;
+        FileChannel outfile= null;
+        try {
+            inStream = new FileInputStream(in);
+            infile = inStream.getChannel();
+            outStream = new FileOutputStream(out);
+            outfile = outStream.getChannel();
+            return ret = fastStartImpl(infile, outfile);
+        } finally {
+            if (!ret) {
+                infile.transferTo(0, infile.size(), outfile);//当转换不成功时（正常是因文件小），直接copy.
+//                out.delete();
+            }else{
+//                in.delete();
+            }
+            safeClose(inStream);
+            safeClose(outStream);
+        }
+    }
+
+    private static boolean fastStartImpl(FileChannel infile, FileChannel outfile) throws IOException, MalformedFileException, UnsupportedFileException {
+        ByteBuffer atomBytes = ByteBuffer.allocate(ATOM_PREAMBLE_SIZE).order(ByteOrder.BIG_ENDIAN);
+        int atomType = 0;
+        long atomSize = 0; // uint64_t
+        long lastOffset;
+        ByteBuffer moovAtom;
+        ByteBuffer ftypAtom = null;
+        // uint64_t, but assuming it is in int32 range. It is reasonable as int max is around 2GB. Such large moov is unlikely, yet unallocatable :).
+        int moovAtomSize;
+        long startOffset = 0;
+        System.out.println(&quot;QtFastStart------&quot;+&quot;开始&quot;);
+        // traverse through the atoms in the file to make sure that &apos;moov&apos; is at the end
+        while (readAndFill(infile, atomBytes)) {
+            atomSize = uint32ToLong(atomBytes.getInt()); // uint32
+            atomType = atomBytes.getInt(); // representing uint32_t in signed int
+
+            // keep ftyp atom
+            if (atomType == FTYP_ATOM) {
+                int ftypAtomSize = uint32ToInt(atomSize); // XXX: assume in range of int32_t
+                ftypAtom = ByteBuffer.allocate(ftypAtomSize).order(ByteOrder.BIG_ENDIAN);
+                atomBytes.rewind();
+                ftypAtom.put(atomBytes);
+                if (infile.read(ftypAtom) &lt; ftypAtomSize - ATOM_PREAMBLE_SIZE) break;
+                ftypAtom.flip();
+                startOffset = infile.position(); // after ftyp atom
+                System.out.println(&quot;QtFastStart---FTYP_ATOM---atomType:&quot;+atomType);
+                System.out.println(&quot;QtFastStart---FTYP_ATOM---atomType:&quot;+String.valueOf(infile.position()));
+            } else {
+//                System.out.println(&quot;QtFastStart------atomType:&quot;+atomType);
+                if (atomSize == 1) {
+                    /* 64-bit special case */
+                    atomBytes.clear();
+                    if (!readAndFill(infile, atomBytes)) break;
+                    atomSize = uint64ToLong(atomBytes.getLong()); // XXX: assume in range of int64_t
+                    infile.position(infile.position() + atomSize - ATOM_PREAMBLE_SIZE * 2); // seek
+                    System.out.println(&quot;QtFastStart--atomSize == 1----atomType:&quot;+atomType);
+                } else {
+                    infile.position(infile.position() + atomSize - ATOM_PREAMBLE_SIZE); // seek
+                    System.out.println(&quot;QtFastStart--else----atomType:&quot;+atomType);
+                    System.out.println(&quot;QtFastStart--else----atomType:&quot;+String.valueOf(infile.position() + atomSize - ATOM_PREAMBLE_SIZE));
+                }
+            }
+            if (sDEBUG) printf(&quot;%c%c%c%c %10d %d&quot;,
+                    (atomType &gt;&gt; 24) &amp; 255,
+                    (atomType &gt;&gt; 16) &amp; 255,
+                    (atomType &gt;&gt; 8) &amp; 255,
+                    (atomType &gt;&gt; 0) &amp; 255,
+                    infile.position() - atomSize,
+                    atomSize);
+            if ((atomType != FREE_ATOM)
+                    &amp;&amp; (atomType != JUNK_ATOM)
+                    &amp;&amp; (atomType != MDAT_ATOM)
+                    &amp;&amp; (atomType != MOOV_ATOM)
+                    &amp;&amp; (atomType != PNOT_ATOM)
+                    &amp;&amp; (atomType != SKIP_ATOM)
+                    &amp;&amp; (atomType != WIDE_ATOM)
+                    &amp;&amp; (atomType != PICT_ATOM)
+                    &amp;&amp; (atomType != UUID_ATOM)
+                    &amp;&amp; (atomType != FTYP_ATOM)) {
+                printf(&quot;encountered non-QT top-level atom (is this a QuickTime file?)&quot;);
+                break;
+            }
+
+        /* The atom header is 8 (or 16 bytes), if the atom size (which
+         * includes these 8 or 16 bytes) is less than that, we won&apos;t be
+         * able to continue scanning sensibly after this atom, so break. */
+            if (atomSize &lt; 8)
+                break;
+        }
+        System.out.println(&quot;QtFastStart------&quot;+&quot;第一循环结束atomType:&quot;+atomType);
+        if (atomType != MOOV_ATOM) {
+            printf(&quot;last atom in file was not a moov atom&quot;);
+            return false;
+        }
+        // moov atom was, in fact, the last atom in the chunk; load the whole moov atom
+
+        // atomSize is uint64, but for moov uint32 should be stored.
+        // XXX: assuming moov atomSize &lt;= max vaue of int32
+        moovAtomSize = uint32ToInt(atomSize);
+        lastOffset = infile.size() - moovAtomSize; // NOTE: assuming no extra data after moov, as qt-faststart.c
+        moovAtom = ByteBuffer.allocate(moovAtomSize).order(ByteOrder.BIG_ENDIAN);
+        if (!readAndFill(infile, moovAtom, lastOffset)) {
+            throw new MalformedFileException(&quot;failed to read moov atom&quot;);
+        }
+
+        // this utility does not support compressed atoms yet, so disqualify files with compressed QT atoms
+        if (moovAtom.getInt(12) == CMOV_ATOM) {
+            throw new UnsupportedFileException(&quot;this utility does not support compressed moov atoms yet&quot;);
+        }
+
+        // crawl through the moov chunk in search of stco or co64 atoms
+        while (moovAtom.remaining() &gt;= 8) {
+            int atomHead = moovAtom.position();
+            atomType = moovAtom.getInt(atomHead + 4); // representing uint32_t in signed int
+            if (!(atomType == STCO_ATOM || atomType == CO64_ATOM)) {
+                moovAtom.position(moovAtom.position() + 1);
+                continue;
+            }
+            atomSize = uint32ToLong(moovAtom.getInt(atomHead)); // uint32
+            if (atomSize &gt; moovAtom.remaining()) {
+                throw new MalformedFileException(&quot;bad atom size&quot;);
+            }
+            moovAtom.position(atomHead + 12); // skip size (4 bytes), type (4 bytes), version (1 byte) and flags (3 bytes)
+            if (moovAtom.remaining() &lt; 4) {
+                throw new MalformedFileException(&quot;malformed atom&quot;);
+            }
+            // uint32_t, but assuming moovAtomSize is in int32 range, so this will be in int32 range
+            int offsetCount = uint32ToInt(moovAtom.getInt());
+            if (atomType == STCO_ATOM) {
+                printf(&quot;patching stco atom...&quot;);
+                if (moovAtom.remaining() &lt; offsetCount * 4) {
+                    throw new MalformedFileException(&quot;bad atom size/element count&quot;);
+                }
+                for (int i = 0; i &lt; offsetCount; i++) {
+                    int currentOffset = moovAtom.getInt(moovAtom.position());
+                    int newOffset = currentOffset + moovAtomSize; // calculate uint32 in int, bitwise addition
+                    // current 0xffffffff =&gt; new 0x00000000 (actual &gt;= 0x0000000100000000L)
+                    if (currentOffset &lt; 0 &amp;&amp; newOffset &gt;= 0) {
+                        throw new UnsupportedFileException(&quot;This is bug in original qt-faststart.c: &quot;
+                                + &quot;stco atom should be extended to co64 atom as new offset value overflows uint32, &quot;
+                                + &quot;but is not implemented.&quot;);
+                    }
+                    moovAtom.putInt(newOffset);
+                }
+            } else if (atomType == CO64_ATOM) {
+                printf(&quot;patching co64 atom...&quot;);
+                if (moovAtom.remaining() &lt; offsetCount * 8) {
+                    throw new MalformedFileException(&quot;bad atom size/element count&quot;);
+                }
+                for (int i = 0; i &lt; offsetCount; i++) {
+                    long currentOffset = moovAtom.getLong(moovAtom.position());
+                    moovAtom.putLong(currentOffset + moovAtomSize); // calculate uint64 in long, bitwise addition
+                }
+            }
+        }
+        infile.position(startOffset); // seek after ftyp atom
+
+        if (ftypAtom != null) {
+            // dump the same ftyp atom
+            printf(&quot;writing ftyp atom...&quot;);
+            ftypAtom.rewind();
+            outfile.write(ftypAtom);
+        }
+
+        // dump the new moov atom
+        printf(&quot;writing moov atom...&quot;);
+        moovAtom.rewind();
+        outfile.write(moovAtom);
+
+        // copy the remainder of the infile, from offset 0 -&gt; (lastOffset - startOffset) - 1
+        printf(&quot;copying rest of file...&quot;);
+        infile.transferTo(startOffset, lastOffset - startOffset, outfile);
+        System.out.println(&quot;QtFastStart------&quot;+&quot;处理完成&quot;);
+        return true;
+    }
+
+    public static class QtFastStartException extends Exception {
+        private QtFastStartException(String detailMessage) {
+            super(detailMessage);
+        }
+    }
+
+    public static class MalformedFileException extends QtFastStartException {
+        private MalformedFileException(String detailMessage) {
+            super(detailMessage);
+        }
+    }
+
+    public static class UnsupportedFileException extends QtFastStartException {
+        private UnsupportedFileException(String detailMessage) {
+            super(detailMessage);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        try {
+            String path = &quot;C:\\Users\\shenyy\\Desktop\\待转换视频\\1540710345332.mp4&quot;;
+            InputStream in = new FileInputStream(path);
+            FileOutputStream out = new FileOutputStream(path+&quot;_&quot;);
+            boolean success = QtFastStart.fastStart(in, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MalformedFileException e) {
+            e.printStackTrace();
+        } catch (UnsupportedFileException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</code></pre><p>附：视频转换前后的模块顺序对比 1前。2后</p>
+<p>1 <img src="/paste/pasted-12.png" alt="upload successful"></p>
+<p>2 <img src="/paste/pasted-13.png" alt="upload successful"><br>很明显，同一个文件，模块顺序变了，使用flash播放，moov在前的明显秒播。</p>
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p><img src="/paste/xiaoguo.gif" alt="upload successful"></p>
+<p>附 mp4文件详细格式<br><img src="/paste/pasted-10.png" alt="upload successful"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2018/11/08/MP4文件缓冲/" data-title="MP4文件缓冲 | zhang jian yu" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/05/项目优化/" title="项目优化">
+  <strong>上一篇：</strong><br/>
+  <span>
+  项目优化</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/15/算法解析-转载蓝桥/"  title="算法解析-转载蓝桥">
+ <strong>下一篇：</strong><br/> 
+ <span>算法解析-转载蓝桥
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/08/MP4文件缓冲/" data-title="MP4文件缓冲" data-url="http://zjy.com/2018/11/08/MP4文件缓冲/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#情景描述"><span class="toc-number">1.</span> <span class="toc-text">情景描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mp4文件格式"><span class="toc-number">2.</span> <span class="toc-text">mp4文件格式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#加载快慢的原因是（元数据模块的顺序和使用的访问方式）"><span class="toc-number">3.</span> <span class="toc-text">加载快慢的原因是（元数据模块的顺序和使用的访问方式）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！"><span class="toc-number">3.1.</span> <span class="toc-text">综上所述：所以，如果安卓采用和flash一样的机制来顺序解析mp4文件，如果mp4文件的moov模块在mdat后面。那么就会造成卡顿！！！</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决办法："><span class="toc-number">4.</span> <span class="toc-text">解决办法：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#效果"><span class="toc-number">5.</span> <span class="toc-text">效果</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/a/" title="a">a<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/a/" title="a">a<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/zjy1211079133?ref=toolbar" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=undefined&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			i dont believe love story</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:1211079133@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2018 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
