@@ -72,5 +72,5 @@ theme: concise2
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:zhangjy520/zhangjy520.github.io.git
+  repo: https://github.com/zhangjy520/zhangjy520.github.io.git
   branch: master

@@ -1,0 +1,615 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>项目优化 | zhang jian yu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjy">
+    
+
+    
+    <meta name="description" content="需求调整业务逻辑优化定位卡顿节点，卡顿的sql语句数据库优化Mysql数据库的优化技术         a: 表的设计合理化(符合3NF)         b: 添加适当索引(index) [四种: 普通索引、主键索引、唯一索引unique、全文索引]         c: 分表技术(水平分割、垂直分割)         d: 读写[写: update/delete/add]分离">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目优化">
+<meta property="og:url" content="http://zjy.com/2018/11/05/项目优化/index.html">
+<meta property="og:site_name" content="zhang jian yu">
+<meta property="og:description" content="需求调整业务逻辑优化定位卡顿节点，卡顿的sql语句数据库优化Mysql数据库的优化技术         a: 表的设计合理化(符合3NF)         b: 添加适当索引(index) [四种: 普通索引、主键索引、唯一索引unique、全文索引]         c: 分表技术(水平分割、垂直分割)         d: 读写[写: update/delete/add]分离">
+<meta property="og:image" content="http://zjy.com/paste/pasted-8.png">
+<meta property="og:image" content="http://zjy.com/paste/pasted-9.png">
+<meta property="og:updated_time" content="2018-11-05T09:08:44.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="项目优化">
+<meta name="twitter:description" content="需求调整业务逻辑优化定位卡顿节点，卡顿的sql语句数据库优化Mysql数据库的优化技术         a: 表的设计合理化(符合3NF)         b: 添加适当索引(index) [四种: 普通索引、主键索引、唯一索引unique、全文索引]         c: 分表技术(水平分割、垂直分割)         d: 读写[写: update/delete/add]分离">
+<meta name="twitter:image" content="http://zjy.com/paste/pasted-8.png">
+<meta name="twitter:creator" content="@22">
+
+    
+    <link rel="alternative" href="/atom.xml" title="zhang jian yu" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="zhang jian yu" title="zhang jian yu"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="zhang jian yu">zhang jian yu</a></h1>
+				<h2 class="blog-motto">夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/05/项目优化/" title="项目优化" itemprop="url">项目优化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjy" target="_blank" itemprop="author">zjy</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-05T07:38:51.000Z" itemprop="datePublished"> 发表于 2018-11-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求调整"><span class="toc-number">1.</span> <span class="toc-text">需求调整</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#业务逻辑优化"><span class="toc-number">2.</span> <span class="toc-text">业务逻辑优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#定位卡顿节点，卡顿的sql语句"><span class="toc-number">3.</span> <span class="toc-text">定位卡顿节点，卡顿的sql语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库优化"><span class="toc-number">3.1.</span> <span class="toc-text">数据库优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优化表设计，符合3NF规范"><span class="toc-number">3.1.1.</span> <span class="toc-text">优化表设计，符合3NF规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加适当索引"><span class="toc-number">3.1.2.</span> <span class="toc-text">添加适当索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#索引优缺点"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">索引优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引分类"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">索引分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引失效情况"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">索引失效情况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读写分离"><span class="toc-number">3.1.3.</span> <span class="toc-text">读写分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分库分表-水平分割、垂直分割"><span class="toc-number">3.1.4.</span> <span class="toc-text">分库分表(水平分割、垂直分割)</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="需求调整"><a href="#需求调整" class="headerlink" title="需求调整"></a>需求调整</h1><h1 id="业务逻辑优化"><a href="#业务逻辑优化" class="headerlink" title="业务逻辑优化"></a>业务逻辑优化</h1><h1 id="定位卡顿节点，卡顿的sql语句"><a href="#定位卡顿节点，卡顿的sql语句" class="headerlink" title="定位卡顿节点，卡顿的sql语句"></a>定位卡顿节点，卡顿的sql语句</h1><h2 id="数据库优化"><a href="#数据库优化" class="headerlink" title="数据库优化"></a>数据库优化</h2><pre><code>Mysql数据库的优化技术
+        a: 表的设计合理化(符合3NF)
+        b: 添加适当索引(index) [四种: 普通索引、主键索引、唯一索引unique、全文索引]
+        c: 分表技术(水平分割、垂直分割)
+        d: 读写[写: update/delete/add]分离
+        e: 存储过程 [模块化编程，可以提高速度]
+        f: 对mysql配置优化 [配置最大并发数my.ini, 调整缓存大小 ]
+        g: mysql服务器硬件升级
+        h: 定时的去清除不需要的数据,定时进行碎片整理(MyISAM)
+</code></pre><h3 id="优化表设计，符合3NF规范"><a href="#优化表设计，符合3NF规范" class="headerlink" title="优化表设计，符合3NF规范"></a>优化表设计，符合3NF规范</h3><pre><code>1NF: 即表的列的具有原子性,不可再分解，即列的信息，不能分解, 只有数据库是关系型数据库(mysql/oracle/db2/informix/sysbase/sql server)，就自动的满足1NF
+2NF: 表中的记录是唯一的, 就满足2NF, 通常我们设计一个主键来实现
+3NF: 即表中不要有冗余数据, 就是说，表的信息，如果能够被推导出来，就不应该单独的设计一个字段来存放. 
+反3NF : 如果推导的过程比较复杂，譬如需要多表联查，效率低下，还不如设计冗余字段，增加效率。这个看实际情况来设计
+
+  ps:
+  关系型数据库: mysql/oracle/db2/informix/sysbase/sql server
+  非关系型数据库: (特点: 面向对象或者集合)
+  NoSql数据库: MongoDB(特点是面向文档)
+</code></pre><h3 id="添加适当索引"><a href="#添加适当索引" class="headerlink" title="添加适当索引"></a>添加适当索引</h3><h4 id="索引优缺点"><a href="#索引优缺点" class="headerlink" title="索引优缺点"></a>索引优缺点</h4><pre><code> 优点：
+    1、所有的MySql列类型(字段类型)都可以被索引，也就是可以给任意字段设置索引
+    2、大大加快数据的查询速度
+ 缺点：
+    1、创建索引和维护索引要耗费时间，并且随着数据量的增加所耗费的时间也会增加
+    2、索引也需要占空间，我们知道数据表中的数据也会有最大上线设置的，如果我们有大量的索引，索引文件可能会比数据文件更快达到上线值 
+    3、当对表中的数据进行增加、删除、修改时，索引也需要动态的维护，降低了数据的维护速度。
+
+使用原则：
+    通过上面说的优点和缺点，我们应该可以知道，并不是每个字段度设置索引就好，也不是索引越多越好，而是需要自己合理的使用。
+    1、对经常更新的表就避免对其进行过多的索引，对经常用于查询的字段应该创建索引，
+    2、数据量小的表最好不要使用索引，因为由于数据较少，可能查询全部数据花费的时间比遍历索引的时间还要短，索引就可能不会产生优化效果。
+    3、在一同值少的列上(字段上)不要建立索引，比如在学生表的&quot;性别&quot;字段上只有男，女两个不同值。相反的，在一个字段上不同值较多可是建立索引。
+</code></pre><h4 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h4><pre><code>  注意：索引是在存储引擎中实现的，也就是说不同的存储引擎，会使用不同的索引
+          MyISAM和InnoDB存储引擎：只支持BTREE索引， 也就是说默认使用BTREE，不能够更换
+          MEMORY/HEAP存储引擎：支持HASH和BTREE索引
+     1、索引我们分为四类来讲 单列索引(普通索引，唯一索引，主键索引)、组合索引、全文索引、空间索引、
+        1.1、单列索引：一个索引只包含单个列，但一个表中可以有多个单列索引。 这里不要搞混淆了。
+           1.1.1、普通索引：
+               MySQL中基本索引类型，没有什么限制，允许在定义索引的列中插入重复值和空值，纯粹为了查询数据更快一点。
+           1.1.2、唯一索引：
+                索引列中的值必须是唯一的，但是允许为空值，
+           1.1.3、主键索引：
+                是一种特殊的唯一索引，不允许有空值。
+        1.2、组合索引
+             在表中的多个字段组合上创建的索引，只有在查询条件中使用了这些字段的左边字段时，索引才会被使用，使用组合索引时遵循最左前缀集合。这个如果还不明白，等后面举例讲解时在细说　
+        1.3、全文索引
+             全文索引，只有在MyISAM引擎上才能使用，只能在CHAR,VARCHAR,TEXT类型字段上使用全文索引，介绍了要求，说说什么是全文索引，就是在一堆文
+             字中，通过其中的某个关键字等，就能找到该字段所属的记录行，比如有&quot;你是个大煞笔，二货 ...&quot; 通过
+             大煞笔，可能就可以找到该条记录。这里说的是可能，因为全文索引的使用涉及了很多细节，我们只需要知道这个大概意思，如果感兴趣进一步深入使用它，
+             那么看下面测试该索引时，会给出一个博文，供大家参考。
+        1.4、空间索引
+             空间索引是对空间数据类型的字段建立的索引，MySQL中的空间数据类型有四种，GEOMETRY、POINT、LINESTRING、POLYGON。
+             在创建空间索引时，使用SPATIAL关键字。
+             要求，引擎为MyISAM，创建空间索引的列，必须将其声明为NOT NULL。具体细节看下面　　　
+
+ps:具体创建索引方法请谷歌。。我也记不清
+</code></pre><h4 id="索引失效情况"><a href="#索引失效情况" class="headerlink" title="索引失效情况"></a>索引失效情况</h4><p>导致索引失效的一些情况</p>
+<pre><code>1．隐式转换导致索引失效.这一点应当引起重视.也是开发中经常会犯的错误.
+  由于表的字段tu_mdn定义为varchar2(20),但在查询时把该字段作为number类型以where条件传给Oracle,这样会导致索引失效.
+  错误的例子：select * from test where tu_mdn=13333333333;
+  正确的例子：select * from test where tu_mdn=&apos;13333333333&apos;;
+2. 对索引列进行运算导致索引失效,我所指的对索引列进行运算包括(+，-，*，/，! 等)
+  错误的例子：select * from test where id-1=9;
+  正确的例子：select * from test where id=10;
+3. 使用Oracle内部函数导致索引失效.对于这样情况应当创建基于函数的索引.
+  错误的例子：select * from test where round(id)=10; 说明，此时id的索引已经不起作用了
+  正确的例子：首先建立函数索引，create index test_id_fbi_idx on test(round(id));然后 select * from test where round(id)=10; 这时函数索引起作用了
+4. 以下使用会使索引失效，应避免使用；
+  a. 使用 &lt;&gt; 、not in 、not exist、!=
+  b. like &quot;%_&quot; 百分号在前（可采用在建立索引时用reverse(columnName)这种方法处理）
+  c. 单独引用复合索引里非第一位置的索引列.应总是使用索引的第一个列，如果索引是建立在多个列上, 只有在它的第一个列被where子句引用时，优化器才会选择使用该索引。
+  d. 字符型字段为数字时在where条件里不添加引号.
+  e. 当变量采用的是times变量，而表的字段采用的是date变量时.或相反情况。
+5. 不要将空的变量值直接与比较运算符（符号）比较。
+如果变量可能为空，应使用 IS NULL 或 IS NOT NULL 进行比较，或者使用 ISNULL 函数。
+6. 不要在 SQL 代码中使用双引号。
+因为字符常量使用单引号。如果没有必要限定对象名称，可以使用（非 ANSI SQL 标准）括号将名称括起来。
+7. 将索引所在表空间和数据所在表空间分别设于不同的磁盘chunk上，有助于提高索引查询的效率。
+8. Oracle默认使用的基于代价的SQL优化器（CBO）非常依赖于统计信息，一旦统计信息不正常，会导致数据库查询时不使用索引或使用错误的索引。
+一般来说，Oracle的自动任务里面会包含更新统计信息的语句，但如果表数据发生了比较大的变化（超过20%）,可以考虑立即手动更新统计信息，例如：analyze table abc compute statistics，但注意，更新   统计信息比较耗费系统资源，建议在系统空闲时执行。
+9. Oracle在进行一次查询时，一般对一个表只会使用一个索引.
+  因此，有时候过多的索引可能导致Oracle使用错误的索引，降低查询效率。例如某表有索引1（Policyno）和索引2（classcode），如果查询条件为policyno = ‘xx’ and classcode = ‘xx’，则系统有可能会使用索   引2，相较于使用索引1，查询效率明显降低。
+10. 优先且尽可能使用分区索引。
+</code></pre><h3 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h3><pre><code>让主数据库（master）处理事务性增、改、删操作（INSERT、UPDATE、DELETE），而从数据库（slave）处理SELECT查询操作。
+读写分离，解决的是，数据库的写入，影响了查询的效率
+
+读写分离实现：
+1 代码内部逻辑实现
+    代码内部判断insert ，select等语句，进行路由分类转发
+2 通过中间件实现
+    mysql_proxy  Atlas  Amoeba
+
+主从:AB
+</code></pre><p> mysql_proxy 原理图<br><img src="/paste/pasted-8.png" alt="upload successful"><br><img src="/paste/pasted-9.png" alt="upload successful"></p>
+<h3 id="分库分表-水平分割、垂直分割"><a href="#分库分表-水平分割、垂直分割" class="headerlink" title="分库分表(水平分割、垂直分割)"></a>分库分表(水平分割、垂直分割)</h3><pre><code>先读写分离，不能解决问题再分库分表
+垂直分割：按业务将不同表分布到不同库。垂直切分是指按照业务将表进行分类，分布到不同的数据库上面，这样也就将数据或者说压力分担到不同的库上面
+水平分割：同一个表拆到不同的数据库中
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjy.com/2018/11/05/项目优化/" data-title="项目优化 | zhang jian yu" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/01/好的文章收藏—转载的/" title="好的文章收藏—转载的">
+  <strong>上一篇：</strong><br/>
+  <span>
+  好的文章收藏—转载的</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/08/MP4文件缓冲/"  title="MP4文件缓冲">
+ <strong>下一篇：</strong><br/> 
+ <span>MP4文件缓冲
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/05/项目优化/" data-title="项目优化" data-url="http://zjy.com/2018/11/05/项目优化/"></div> 
+	<div id="uyan_frame"></div> 
+</section>
+
+
+<section id="comments" class="comment">
+<div id="uyan_frame"></div> 
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="/js/uyan.js">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需求调整"><span class="toc-number">1.</span> <span class="toc-text">需求调整</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#业务逻辑优化"><span class="toc-number">2.</span> <span class="toc-text">业务逻辑优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#定位卡顿节点，卡顿的sql语句"><span class="toc-number">3.</span> <span class="toc-text">定位卡顿节点，卡顿的sql语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库优化"><span class="toc-number">3.1.</span> <span class="toc-text">数据库优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优化表设计，符合3NF规范"><span class="toc-number">3.1.1.</span> <span class="toc-text">优化表设计，符合3NF规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加适当索引"><span class="toc-number">3.1.2.</span> <span class="toc-text">添加适当索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#索引优缺点"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">索引优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引分类"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">索引分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引失效情况"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">索引失效情况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读写分离"><span class="toc-number">3.1.3.</span> <span class="toc-text">读写分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分库分表-水平分割、垂直分割"><span class="toc-number">3.1.4.</span> <span class="toc-text">分库分表(水平分割、垂直分割)</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/a/" title="a">a<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/server-linux-ubuntu/" title="server,linux,ubuntu">server,linux,ubuntu<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-ubuntu/" title="docker  ubuntu">docker  ubuntu<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js-跨域/" title="js   跨域">js   跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/a/" title="a">a<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/node-js/" title="node js">node js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java-redis/" title="java  redis">java  redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/zjy1211079133?ref=toolbar" target="_blank" title="一个面向程序员交流分享的新一代社区">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/" target="_blank" title="">baidu</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="//widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=undefined&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 夏虫笃时不语冰，井蛙拘虚不语海，曲士束教不语道 <br/>
+			i dont believe love story</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5604035838" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		<a href="https://twitter.com/22" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-san-feng-17-14" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:1211079133@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://www.baidu.com" target="_blank" title="zjy">zjy</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">zjy</a> © 2018 
+		
+		<a href="/about" target="_blank" title="zjy">zjy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"skyao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '/js/uyan.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'skyao';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
