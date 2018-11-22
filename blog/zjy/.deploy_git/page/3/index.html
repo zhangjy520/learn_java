@@ -76,6 +76,29 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
+    <a href="/2017/09/15/jvm调试/" title="jvm调试- tomcat假死-优化tomcat配置" itemprop="url">
+  
+    <h1 itemprop="name">jvm调试- tomcat假死-优化tomcat配置</h1>
+    
+     
+           <p itemprop="description" >查看111某id相关的子线程ps -Lf 29295|wc -l
+查看 jvm线程情况jstack pid 
+jstack pid &amp;gt;1.txt (输出到文件)
+通过以上命令，发现，大多数线程处于  time_wating状态的线程占了 90%  .分析发现是程序代码有问题</p>
+        
+    
+    <time datetime="2017-09-15T08:34:00.000Z" itemprop="datePublished">2017-09-15</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
     <a href="/2017/08/18/docker内存满了/" title="docker内存满了" itemprop="url">
   
     <h1 itemprop="name">docker内存满了</h1>
@@ -137,14 +160,33 @@ cookie1234567891011121314151617181</p>
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2017/05/05/mysql/" title="ubuntu14.04  - mysql5.7" itemprop="url">
+    <a href="/2017/05/05/jdk/" title="ubuntu14.04 安装配置JDK1.7，更换openjdk" itemprop="url">
   
-    <h1 itemprop="name">ubuntu14.04  - mysql5.7</h1>
+    <h1 itemprop="name">ubuntu14.04 安装配置JDK1.7，更换openjdk</h1>
     
      
-           <p itemprop="description" >服务器装mysql更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade
-安装mysql-serverapt-get install mysql-server
-修改远程访问限制：修改bind—address在 /etc/m</p>
+           <p itemprop="description" >ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gz1234	http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html`</p>
+        
+    
+    <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished">2017-05-05</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部" itemprop="url">
+  
+    <h1 itemprop="name">iframe跨域嵌套头部</h1>
+    
+     
+           <p itemprop="description" >需求  123不同域名，使用iframe，想互相获取html请查找 navigator.rar文件
+实现思路12345678910111213141516171819202122232425262728293031323334353637383940414243444546474</p>
         
     
     <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished">2017-05-05</time>
@@ -181,13 +223,14 @@ cookie1234567891011121314151617181</p>
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2017/05/05/active_mq/" title="active mq安装 -ubuntu" itemprop="url">
+    <a href="/2017/05/05/mysql/" title="ubuntu14.04  - mysql5.7" itemprop="url">
   
-    <h1 itemprop="name">active mq安装 -ubuntu</h1>
+    <h1 itemprop="name">ubuntu14.04  - mysql5.7</h1>
     
      
-           <p itemprop="description" >1下载activemq1wget http://archive.apache.org/dist/activemq/apache-activemq/5.6.0/apache-activemq-5.6.0-bin.tar.gz
-2.解压1tar zxf apache-activemq</p>
+           <p itemprop="description" >服务器装mysql更新服务器sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade
+安装mysql-serverapt-get install mysql-server
+修改远程访问限制：修改bind—address在 /etc/m</p>
         
     
     <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished">2017-05-05</time>
@@ -224,54 +267,15 @@ redis ubuntu安</p>
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2017/05/05/jdk/" title="ubuntu14.04 安装配置JDK1.7，更换openjdk" itemprop="url">
+    <a href="/2017/05/05/docker私有仓库搭建/" title="docker私有库的搭建" itemprop="url">
   
-    <h1 itemprop="name">ubuntu14.04 安装配置JDK1.7，更换openjdk</h1>
+    <h1 itemprop="name">docker私有库的搭建</h1>
     
      
-           <p itemprop="description" >ubuntu14.04 安装配置JDK1.71,下载jdk-7u45-linux-x64.tar.gz1234	http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html`</p>
-        
-    
-    <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished">2017-05-05</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/05/05/timeDocker/" title="docker 时区问题，迁移数据问题" itemprop="url">
-  
-    <h1 itemprop="name">docker 时区问题，迁移数据问题</h1>
-    
-     
-           <p itemprop="description" >问题112项目在使用docker部署的时候，发现docke容器里面的时区和服务器的时间相差8个小时。尽管使用 -v /etc/localtime:/etc/localtime 将服务器时间和容器挂载同步了，但是容器里的tomcat的时区仍然差8个小时。
-说明12345 -v /e</p>
-        
-    
-    <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished">2017-05-05</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/05/05/heder/" title="iframe跨域嵌套头部" itemprop="url">
-  
-    <h1 itemprop="name">iframe跨域嵌套头部</h1>
-    
-     
-           <p itemprop="description" >需求  123不同域名，使用iframe，想互相获取html请查找 navigator.rar文件
-实现思路12345678910111213141516171819202122232425262728293031323334353637383940414243444546474</p>
+           <p itemprop="description" >准备 server1，server2  （其中server1作为私有库服务器，server2作为普通客户端）
+在server1上1 下载 registry
+1docker pull registry:latest
+2 配置 /etc/default/docker  因为https</p>
         
     
     <time datetime="2017-05-05T05:51:49.000Z" itemprop="datePublished">2017-05-05</time>
