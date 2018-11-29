@@ -1,0 +1,17 @@
+1. Maven
+<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-all</artifactId>
+    <version>4.1.16.Final</version>
+</dependency>
+
+2. gradle
+// https://mvnrepository.com/artifact/io.netty/netty-all
+compile group: 'io.netty', name: 'netty-all', version: '4.1.16.Final'
+
+3. 客户端写10秒一次，服务器监控读12秒一次。 客户端重连，10秒一次。
+
+4. 打包
+    1). 编译项目，拷贝target/classes/com 到任意地方
+    2). 执行命令：jar cvf netty-sdk-1.0.0.jar com/
