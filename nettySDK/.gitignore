@@ -1,0 +1,9 @@
+/target/
+/classes/
+/.idea/
+/.settings/
+/src/main/resources/db.properties
+nettySDK.iml
+.gitgnore
+.DS_Store
+*/.DS_Store

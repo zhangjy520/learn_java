@@ -19,6 +19,7 @@ public class ClientNettyTest {
             @Override
             public void onMessageReceive(Object message) {
                // todo ...
+                System.out.println(message);
             }
         });
     }
