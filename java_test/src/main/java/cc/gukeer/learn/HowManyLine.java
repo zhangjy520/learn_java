@@ -1,6 +1,6 @@
 package cc.gukeer.learn;
 
-import com.alibaba.fastjson.JSON; 
+import com.alibaba.fastjson.JSON;
 import com.sun.org.apache.xerces.internal.dom.DeferredTextImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
