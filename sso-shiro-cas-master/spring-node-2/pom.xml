@@ -9,7 +9,7 @@
   	<spring.version>4.0.5.RELEASE</spring.version>
   	<slf4j.version>1.7.7</slf4j.version>
   	<jackson.version>1.9.13</jackson.version>
-  	<shiro.version>1.2.3</shiro.version>
+  	<shiro.version>1.6.0</shiro.version>
   	<!-- 下面这些定义的属性在mybatis-generator.xml文件中引用 -->
 	<classPathEntry.location>D:/maven/repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar</classPathEntry.location>
 	<jdbc.driverClass>com.mysql.jdbc.Driver</jdbc.driverClass>
